@@ -1,0 +1,60 @@
+# lint — 规则 PR 质量门禁 (社区规则集的守门人)
+#
+# 校验链: 引擎 (发布面 log-skimmer master) × 语料 (corpus 仓) × 本仓规则
+#   1. 加载合法性: 引擎加载全部规则 (单条违例整集拒载, exit 2)
+#   2. L0 全量断言 (PR 侧): FN=0 / FP率≤2% / 零块=0 / 边界违例=0
+#   3. 压缩率双测: base rules (master) vs PR rules — 同引擎同语料, 纯规则变量归因,
+#      退化 >2% 判红 (与引擎仓 gate 同一判定语义, 编排对称: 那边变引擎这边变规则)
+# 降级: 发布面仓为空 (首次 publish 前) 时显式 skip 并说明 — 不假绿 (日志可见)。
+name: lint
+on:
+  pull_request:
+  push: {branches: [master]}
+  workflow_dispatch:
+permissions: {contents: read}
+concurrency: {group: lint-${{ github.ref }}, cancel-in-progress: true}
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4 # 本仓规则 (PR merge ref)
+      - uses: actions/checkout@v4
+        with: {repository: luochen1990/log-skimmer, path: engine-repo}
+      - name: 发布面可用性探测 (首次 publish 前显式降级)
+        id: engine
+        run: |
+          if [ -f engine-repo/engine/Cargo.toml ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::发布面仓 (luochen1990/log-skimmer) 尚未同步引擎 — 校验跳过, 首次 publish 后自动生效"
+          fi
+      - uses: actions/checkout@v4
+        if: steps.engine.outputs.ready == 'true'
+        with: {repository: luochen1990/log-skimmer-corpus, path: corpus, fetch-depth: 1}
+      - uses: dtolnay/rust-toolchain@stable
+        if: steps.engine.outputs.ready == 'true'
+      - uses: Swatinem/rust-cache@v2
+        if: steps.engine.outputs.ready == 'true'
+        with: {workspaces: "engine-repo"}
+      - name: build engine
+        if: steps.engine.outputs.ready == 'true'
+        run: cargo build --release -p log-skimmer
+        working-directory: engine-repo
+      - name: base rules (master of this repo)
+        if: steps.engine.outputs.ready == 'true'
+        run: git fetch --depth 1 origin master && git worktree add --detach ../rules-base origin/master
+      - name: L0 双测 (PR rules vs base rules × 同引擎同语料)
+        if: steps.engine.outputs.ready == 'true'
+        env:
+          GITHUB_API_TOKEN: ${{ secrets.API_TOKEN }} # corpus 仓 public, 匿名也可 clone; token 提速限额 (可选配置)
+        run: |
+          set -euo pipefail
+          E=engine-repo B=engine-repo/target/release/log-skimmer
+          # 语料工作副本已在 corpus/ (clone); 规则不在场断言 + 双轮 collect
+          n=$(find . -name '*.yaml' -not -path './.github/*' -not -name '_template.yaml' | wc -l)
+          [ "$n" -ge 25 ] || { echo "规则数异常 ($n <25), 疑拉取失败"; exit 1; }
+          RULES_DIR="$PWD" CORPUS_DIR="$PWD/corpus" LOG_SKIMMER_BIN="$PWD/$B" bash "$E/scripts/l0-collect.sh" > /tmp/s-pr.jsonl
+          RULES_DIR="$PWD/../rules-base" CORPUS_DIR="$PWD/corpus" LOG_SKIMMER_BIN="$PWD/$B" bash "$E/scripts/l0-collect.sh" > /tmp/s-base.jsonl
+          bash "$E/scripts/l0-gate.sh" /tmp/s-base.jsonl < /tmp/s-pr.jsonl
