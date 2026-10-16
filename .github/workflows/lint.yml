@@ -45,16 +45,13 @@ jobs:
       - name: base rules (master of this repo)
         if: steps.engine.outputs.ready == 'true'
         run: git fetch --depth 1 origin master && git worktree add --detach ../rules-base origin/master
-      - name: L0 双测 (PR rules vs base rules × 同引擎同语料)
+      - name: L0 双测 (PR rules vs base rules × 同引擎同语料; 引擎 l0 子命令)
         if: steps.engine.outputs.ready == 'true'
-        env:
-          GITHUB_API_TOKEN: ${{ secrets.API_TOKEN }} # corpus 仓 public, 匿名也可 clone; token 提速限额 (可选配置)
         run: |
           set -euo pipefail
-          E=engine-repo B=engine-repo/target/release/log-skimmer
-          # 语料工作副本已在 corpus/ (clone); 规则不在场断言 + 双轮 collect
+          B=engine-repo/target/release/log-skimmer
           n=$(find . -name '*.yaml' -not -path './.github/*' -not -name '_template.yaml' | wc -l)
           [ "$n" -ge 25 ] || { echo "规则数异常 ($n <25), 疑拉取失败"; exit 1; }
-          RULES_DIR="$PWD" CORPUS_DIR="$PWD/corpus" LOG_SKIMMER_BIN="$PWD/$B" bash "$E/scripts/l0-collect.sh" > /tmp/s-pr.jsonl
-          RULES_DIR="$PWD/../rules-base" CORPUS_DIR="$PWD/corpus" LOG_SKIMMER_BIN="$PWD/$B" bash "$E/scripts/l0-collect.sh" > /tmp/s-base.jsonl
-          bash "$E/scripts/l0-gate.sh" /tmp/s-base.jsonl < /tmp/s-pr.jsonl
+          "$B" l0 --corpus "$PWD/corpus" --rules "$PWD" --emit-summary > /tmp/s-pr.json
+          "$B" l0 --corpus "$PWD/corpus" --rules "$PWD/../rules-base" --emit-summary > /tmp/s-base.json
+          "$B" l0 --corpus "$PWD/corpus" --rules "$PWD" --base /tmp/s-base.json
