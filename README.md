@@ -41,7 +41,7 @@ intent 三值与 category 十值的详细判定基准不在本文重复 — 见 
 
 ## 4. 贡献流程
 
-1. 复制 `_template.yaml` 起步, 存为 `<tool-id>/<rule-id>.yaml`。
+1. 复制 `.github/_template.yaml` 起步, 存为 `<tool-id>/<rule-id>.yaml` (模板在 `.github/` 隐藏路径, 引擎加载跳过 — 不进生产规则集)。
 2. 头注释写样例溯源: `# samples: <repo>/<run>-<job>, ...` (样本来自 [log-skimmer-corpus](https://github.com/luochen1990/log-skimmer-corpus) 公开语料仓; 头注释是规则↔样本的人工溯源线索)。建议同时写 why 叙事 (锚/扩展正则的匹配依据与宿主前缀容忍考虑), 参考示例: [nix/nix-eval-error-tree.yaml](nix/nix-eval-error-tree.yaml), [bun/bun-error-json.yaml](bun/bun-error-json.yaml)。
 3. 提 PR — CI 自动校验: 规则加载合法性 + 全语料回测 (FN=0 / FP率≤2% / 零块=0) + 压缩率 master-vs-PR 双测对比 (引擎与语料在双测中同侧, 纯规则变量归因, 退化 >2% 判红)。
 4. 规则语法错误 (regex 编译失败/枚举越界/字段约束违例) 在 CI 加载阶段即拦下; 单条规则违例会导致整个规则集拒绝加载, 提交前建议本地跑引擎仓的 `just ci-merge` 验证。
