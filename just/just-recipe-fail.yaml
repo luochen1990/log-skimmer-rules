@@ -1,4 +1,4 @@
-# samples: lc-studio/nixos/19371-24992, 19089-24707
+# samples: private corpus (not redistributed)
 # just recipe 失败双形态: exit code (error: recipe `x` failed ... with exit code N)
 # 与 signal 终止 (... by signal N)。行内匹配 (容忍轮询回显/时间戳前缀)。
 id: just-recipe-fail

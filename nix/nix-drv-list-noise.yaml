@@ -1,4 +1,4 @@
-# samples: lc-studio/nixos/19089-24707, 18114-23732
+# samples: private corpus (not redistributed)
 # nix drv 清单噪音: these N derivations will be built: 锚 + 后续 store path 列表行;
 # building '...' 行与 derivation evaluated/checking 回显行同属构建过程噪音。
 id: nix-drv-list-noise

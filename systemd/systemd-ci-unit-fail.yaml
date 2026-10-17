@@ -1,4 +1,4 @@
-# samples: lc-studio/nixos/19089-24707, 19294-24912, 18276-23894
+# samples: private corpus (not redistributed)
 # CI 沙箱 unit 失败三连回显: Main process exited / Failed with result / Failed to start
 # (systemd journal 转录形态, 编排层信号, 与具体检查工具无关)。
 id: systemd-ci-unit-fail
