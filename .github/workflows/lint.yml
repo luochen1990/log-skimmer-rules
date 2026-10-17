@@ -23,6 +23,8 @@ jobs:
       - uses: actions/checkout@v4 # 本仓规则 (PR merge ref; 显式 path — 规则目录必须精确,
         #  不可用 $PWD 根: 同 workspace 的 engine-repo/corpus 子 clone 会被 --rules 递归扫入)
         with: {path: rules-pr}
+      - uses: actions/checkout@v4
+        with: {repository: luochen1990/log-skimmer, path: engine-repo}
       - name: 发布面可用性探测 (首次 publish 前显式降级)
         id: engine
         run: |
@@ -32,8 +34,6 @@ jobs:
             echo "ready=false" >> "$GITHUB_OUTPUT"
             echo "::notice::发布面仓 (luochen1990/log-skimmer) 尚未同步引擎 — 校验跳过, 首次 publish 后自动生效"
           fi
-      - uses: actions/checkout@v4
-        with: {repository: luochen1990/log-skimmer, path: engine-repo}
       - uses: actions/checkout@v4
         if: steps.engine.outputs.ready == 'true'
         with: {repository: luochen1990/log-skimmer-corpus, path: corpus, fetch-depth: 1}
