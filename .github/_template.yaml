@@ -8,7 +8,7 @@
 #   规则, 不会被自动发现); 模板语法漂移同样由副本的 PR CI 加载校验兜底。
 # 语义细节 (intent 三值/category 判定/状态机公理) SSOT 在引擎仓 spec:
 #   https://github.com/luochen1990/log-skimmer/blob/master/docs/rule-format.md
-# 贡献流程见 ../README.md。
+# 贡献流程见 ../README.md。复制填写后务必按 README 贡献流程做本地命中验证。
 # ─────────────────────────────────────────────────────────────────────
 # 溯源约定 (spec §5): 头注释标注来源样本, 供人工回溯规则依据:
 # samples: <owner>/<repo>/<run_id>-<job_id>, <owner>/<repo>/<run_id>-<job_id>
