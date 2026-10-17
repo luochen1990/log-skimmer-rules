@@ -1,6 +1,9 @@
 # lint — 规则 PR 质量门禁 (社区规则集的守门人)
 #
 # 校验链: 引擎 (发布面 log-skimmer master) × 语料 (corpus 仓) × 本仓规则
+#   0. 结构断言 (纯 shell, 不依赖引擎构建, 前置快速失败): 目录名一致性 (tool 字段 ==
+#      所在目录名, folksonomy 存在即定义的机器强制) + README 工具清单守护 (宣称集合
+#      == 目录实况; 清点自动化, 杜绝人工数数漂移)
 #   1. 加载合法性: 引擎加载全部规则 (单条违例整集拒载, exit 2)
 #   2. L0 全量断言 (PR 侧): FN=0 / FP率≤2% / 零块=0 / 边界违例=0
 #   3. 压缩率双测: base rules (master) vs PR rules — 同引擎同语料, 纯规则变量归因,
@@ -34,6 +37,63 @@ jobs:
             echo "ready=false" >> "$GITHUB_OUTPUT"
             echo "::notice::发布面仓 (luochen1990/log-skimmer) 尚未同步引擎 — 校验跳过, 首次 publish 后自动生效"
           fi
+      - name: "结构断言: 目录名一致性 (tool 字段 == 所在目录名)"
+        if: steps.engine.outputs.ready == 'true'
+        # folksonomy "存在即定义" 的机器强制: 引擎加载校验只覆盖 id 以 tool 为前缀,
+        # 目录名与 tool 的对应链路由本断言补全 (含 <tool-id>/<rule-id>.yaml 单层布局
+        # 强制)。取值不用 yq — runner 未预装, 顶层标量 sed 提取在本格式族内无歧义
+        # (schema 由引擎加载校验兜底, 模板在 .github/ 隐藏路径不入列)。
+        run: |
+          set -euo pipefail
+          fail=0
+          while IFS= read -r f; do
+            rel=${f#rules-pr/}
+            case $rel in
+              */*/*) echo "::error file=$f::布局违例: 规则须为 <tool-id>/<rule-id>.yaml 单层布局"; fail=1 ;;
+              */*)
+                dir=${rel%%/*}
+                tool=$(sed -n 's/^tool:[[:space:]]*//p' "$f" | head -1)
+                tool=${tool%%#*}
+                tool=$(printf '%s' "$tool" | sed -e "s/^[[:space:]]*//" -e "s/[[:space:]]*$//" -e "s/^['\"]//" -e "s/['\"]$//")
+                if [ "$tool" != "$dir" ]; then
+                  echo "::error file=$f::tool 字段 '$tool' != 所在目录 '$dir'"
+                  fail=1
+                fi
+                ;;
+              *) echo "::error file=$f::布局违例: 规则须位于 <tool-id>/ 目录下"; fail=1 ;;
+            esac
+          done < <(find rules-pr -name '*.yaml' -not -name '_template.yaml' -not -path '*/.github/*')
+          [ "$fail" -eq 0 ] || { echo "目录名一致性/布局断言存在违例 (见上)"; exit 1; }
+          echo "目录名一致性: 通过 (tool 字段全部 == 所在目录名)"
+      - name: "结构断言: README 工具清单守护 (宣称集合 == 目录实况)"
+        if: steps.engine.outputs.ready == 'true'
+        # README "当前覆盖 N 个工具: ..." 行与 rules-pr/ 目录列表对账: 集合相等
+        # (顺序无关) + N 与基数一致 — 规则数不设断言 (每 PR 自然变化, 由 L0 计数
+        # 步的下限护栏兜底), 工具清单是唯一人工维护且需守护的数字。
+        run: |
+          set -euo pipefail
+          readme=rules-pr/README.md
+          line=$(grep -m1 '当前覆盖 [0-9]* 个工具:' "$readme" || true)
+          if [ -z "$line" ]; then
+            echo "::error file=$readme::缺少 '当前覆盖 N 个工具: ...' 清单行 — 工具清单由本断言守护, 须与规则目录实况一致"
+            exit 1
+          fi
+          n=$(printf '%s' "$line" | sed -n 's/.*当前覆盖 \([0-9]*\) 个工具:.*/\1/p')
+          claimed=$(printf '%s' "$line" | sed -e 's/.*个工具:[[:space:]]*//' -e 's/。.*//' | tr -d ' ' | tr ',' '\n' | sed '/^$/d' | sort)
+          actual=$(ls -d rules-pr/*/ | sed -e 's|^rules-pr/||' -e 's|/$||' | sort)
+          ok=1
+          if [ "$claimed" != "$actual" ]; then
+            echo "::error file=$readme::README 工具清单 (<) 与规则目录实况 (>) 不一致:"
+            diff <(printf '%s\n' "$claimed") <(printf '%s\n' "$actual") || true
+            ok=0
+          fi
+          cnt=$(printf '%s\n' "$actual" | grep -c .)
+          if [ "$n" != "$cnt" ]; then
+            echo "::error file=$readme::README 宣称工具数 N=$n != 目录实况 $cnt"
+            ok=0
+          fi
+          [ "$ok" -eq 1 ] || exit 1
+          echo "README 工具清单: 与目录实况一致 ($n 个工具)"
       - uses: actions/checkout@v4
         if: steps.engine.outputs.ready == 'true'
         with: {repository: luochen1990/log-skimmer-corpus, path: corpus, fetch-depth: 1}
