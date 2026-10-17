@@ -20,9 +20,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4 # 本仓规则 (PR merge ref)
-      - uses: actions/checkout@v4
-        with: {repository: luochen1990/log-skimmer, path: engine-repo}
+      - uses: actions/checkout@v4 # 本仓规则 (PR merge ref; 显式 path — 规则目录必须精确,
+        #  不可用 $PWD 根: 同 workspace 的 engine-repo/corpus 子 clone 会被 --rules 递归扫入)
+        with: {path: rules-pr}
       - name: 发布面可用性探测 (首次 publish 前显式降级)
         id: engine
         run: |
@@ -32,6 +32,9 @@ jobs:
             echo "ready=false" >> "$GITHUB_OUTPUT"
             echo "::notice::发布面仓 (luochen1990/log-skimmer) 尚未同步引擎 — 校验跳过, 首次 publish 后自动生效"
           fi
+      - uses: actions/checkout@v4
+        if: steps.engine.outputs.ready == 'true'
+        with: {repository: luochen1990/log-skimmer, path: engine-repo}
       - uses: actions/checkout@v4
         if: steps.engine.outputs.ready == 'true'
         with: {repository: luochen1990/log-skimmer-corpus, path: corpus, fetch-depth: 1}
@@ -46,14 +49,14 @@ jobs:
         working-directory: engine-repo
       - name: base rules (master of this repo)
         if: steps.engine.outputs.ready == 'true'
-        run: git fetch --depth 1 origin master && git worktree add --detach ../rules-base origin/master
+        run: cd rules-pr && git fetch --depth 1 origin master && git worktree add --detach ../rules-base origin/master
       - name: L0 双测 (PR rules vs base rules × 同引擎同语料; 引擎 l0 子命令)
         if: steps.engine.outputs.ready == 'true'
         run: |
           set -euo pipefail
           B=engine-repo/target/release/log-skimmer
-          n=$(find . -name '*.yaml' -not -path './.github/*' -not -name '_template.yaml' | wc -l)
+          n=$(find rules-pr -name '*.yaml' -not -name '_template.yaml' | wc -l)
           [ "$n" -ge 25 ] || { echo "规则数异常 ($n <25), 疑拉取失败"; exit 1; }
-          "$B" l0 --corpus "$PWD/corpus" --rules "$PWD" --emit-summary > /tmp/s-pr.json
-          "$B" l0 --corpus "$PWD/corpus" --rules "$PWD/../rules-base" --emit-summary > /tmp/s-base.json
-          "$B" l0 --corpus "$PWD/corpus" --rules "$PWD" --base /tmp/s-base.json
+          "$B" l0 --corpus corpus --rules rules-pr --emit-summary > /tmp/s-pr.json
+          "$B" l0 --corpus corpus --rules ../rules-base --emit-summary > /tmp/s-base.json
+          "$B" l0 --corpus corpus --rules rules-pr --base /tmp/s-base.json
