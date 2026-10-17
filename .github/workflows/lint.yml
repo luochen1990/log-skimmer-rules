@@ -12,7 +12,9 @@ on:
   push: {branches: [master]}
   workflow_dispatch:
 permissions: {contents: read}
-concurrency: {group: lint-${{ github.ref }}, cancel-in-progress: true}
+concurrency:
+  group: lint-${{ github.ref }} # block 形式: flow mapping 内 ${{}} 的花括号是 YAML 特殊字符, 秒挂根源
+  cancel-in-progress: true
 jobs:
   lint:
     runs-on: ubuntu-latest
