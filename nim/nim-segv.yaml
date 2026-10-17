@@ -1,4 +1,4 @@
-# samples: lc-studio/nixos/19089-24707, 18114-23732
+# samples: private corpus (not redistributed)
 # Nim 运行时段错误 (本仓 P1 双红灯事故形态): SIGSEGV 单行强签名, 全文仅出现于崩溃点。
 id: nim-segv
 title: Nim SIGSEGV 崩溃

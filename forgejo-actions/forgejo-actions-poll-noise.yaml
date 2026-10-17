@@ -1,4 +1,4 @@
-# samples: lc-studio/nixos/19089-24707, 19294-24912
+# samples: private corpus (not redistributed)
 # CI 轮询回显噪音: 进度占位/静默提示/槽位等待重试 — 海量且零信息量。
 id: forgejo-actions-poll-noise
 title: Forgejo CI 轮询回显噪音
