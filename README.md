@@ -48,4 +48,4 @@ intent 三值与 category 十值的详细判定基准不在本文重复 — 见 
 
 ## License
 
-Apache-2.0 (规则集与文档, 见 [LICENSE](LICENSE))。
+本仓规则与文档以 CC0 1.0 发布 (见 [LICENSE](LICENSE)) — 无版权保留, 可自由复用与再分发。
