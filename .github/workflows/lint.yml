@@ -48,7 +48,11 @@ jobs:
         working-directory: engine-repo
       - name: base rules (master of this repo)
         if: steps.engine.outputs.ready == 'true'
-        run: cd rules-pr && git fetch --depth 1 origin master && git worktree add --detach ../rules-base origin/master
+        # 路径基准不变量: 相对路径一律以 step 默认 cwd ($GITHUB_WORKSPACE) 锚定。
+        # worktree 经 -C 在 rules-pr 内建 ../rules-base → 落 $GITHUB_WORKSPACE/rules-base,
+        # 与 L0 步 --rules rules-base 同基准 (曾因 cd 后 ../ 分叉, base 指向不存在目录
+        # 被引擎静默当空规则集 → 恒 100% 压缩伪 regression; 引擎已加硬拒绝防线)。
+        run: git -C rules-pr fetch --depth 1 origin master && git -C rules-pr worktree add --detach ../rules-base origin/master
       - name: L0 双测 (PR rules vs base rules × 同引擎同语料; 引擎 l0 子命令)
         if: steps.engine.outputs.ready == 'true'
         run: |
