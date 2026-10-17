@@ -33,7 +33,6 @@ jobs:
             echo "::notice::发布面仓 (luochen1990/log-skimmer) 尚未同步引擎 — 校验跳过, 首次 publish 后自动生效"
           fi
       - uses: actions/checkout@v4
-        if: steps.engine.outputs.ready == 'true'
         with: {repository: luochen1990/log-skimmer, path: engine-repo}
       - uses: actions/checkout@v4
         if: steps.engine.outputs.ready == 'true'
