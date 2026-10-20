@@ -4,7 +4,6 @@
 id: forgejo-actions-job-failed
 title: Forgejo runner 失败尾部信号 (安全网)
 tool: forgejo-actions
-scope: global
 category: infra
 confidence: high
 patterns:

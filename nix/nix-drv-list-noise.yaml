@@ -4,7 +4,6 @@
 id: nix-drv-list-noise
 title: nix 构建清单与回显噪音
 tool: nix
-scope: global
 kind: noise
 patterns:
   - regex: 'these \d+ derivations will be built:'

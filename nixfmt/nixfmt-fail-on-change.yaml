@@ -4,7 +4,6 @@
 id: nixfmt-fail-on-change
 title: 'nixfmt 格式检查失败 (Error: unexpected changes detected)'
 tool: nixfmt
-scope: global
 category: fmt
 confidence: high
 context: {before: 2, after: 0}

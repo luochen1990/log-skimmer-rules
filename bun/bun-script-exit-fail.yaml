@@ -4,7 +4,6 @@
 id: bun-script-exit-fail
 title: 'bun run 脚本退出失败 (error: script ... exited with code N)'
 tool: bun
-scope: global
 category: unknown
 confidence: high
 patterns:

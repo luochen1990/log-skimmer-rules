@@ -4,7 +4,6 @@
 id: bun-error-json
 title: 'bun 进程 JSON 形态未捕获错误 (Error: { ... })'
 tool: bun
-scope: global
 category: unknown
 confidence: medium
 patterns:

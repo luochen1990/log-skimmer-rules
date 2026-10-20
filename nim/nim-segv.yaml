@@ -3,7 +3,6 @@
 id: nim-segv
 title: Nim SIGSEGV 崩溃
 tool: nim
-scope: global
 category: infra
 confidence: high
 patterns:

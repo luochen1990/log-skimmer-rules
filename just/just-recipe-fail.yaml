@@ -4,7 +4,6 @@
 id: just-recipe-fail
 title: 'just recipe 失败 (exit code / signal)'
 tool: just
-scope: global
 category: build
 confidence: high
 patterns:

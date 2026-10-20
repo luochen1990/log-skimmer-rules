@@ -5,7 +5,6 @@
 id: github-actions-runner-version-info
 title: GHA runner 版本信息 (成功侧安全网)
 tool: github-actions
-scope: global
 category: infra
 confidence: high
 intent: info

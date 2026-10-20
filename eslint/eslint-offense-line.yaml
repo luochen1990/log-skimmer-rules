@@ -5,7 +5,6 @@
 id: eslint-offense-line
 title: eslint 违规行 (path:line:col  rule  message 紧凑格式)
 tool: eslint
-scope: global
 category: lint
 confidence: high
 patterns:
