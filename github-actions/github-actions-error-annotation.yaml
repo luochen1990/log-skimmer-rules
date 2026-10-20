@@ -4,7 +4,6 @@
 id: github-actions-error-annotation
 title: GH Actions 错误注解行 (##[error] 失败标记安全网)
 tool: github-actions
-scope: global
 category: unknown
 confidence: high
 patterns:

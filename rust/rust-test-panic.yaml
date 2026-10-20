@@ -8,7 +8,6 @@
 id: rust-test-panic
 title: Rust 运行时 panic (thread panicked at)
 tool: rust
-scope: global
 category: test
 confidence: high
 intent: warning

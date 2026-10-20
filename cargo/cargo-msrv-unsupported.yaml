@@ -4,7 +4,6 @@
 id: cargo-msrv-unsupported
 title: cargo MSRV 不满足 (rustc X is not supported by the following package)
 tool: cargo
-scope: global
 category: build
 confidence: high
 patterns:

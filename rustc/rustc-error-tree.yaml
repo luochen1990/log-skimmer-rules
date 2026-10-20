@@ -5,7 +5,6 @@
 id: rustc-error-tree
 title: rustc 编译错误树 (error[Exxxx] 锚 + 位置/gutter/note/help 结构扩展)
 tool: rustc
-scope: global
 category: typecheck
 confidence: high
 patterns:

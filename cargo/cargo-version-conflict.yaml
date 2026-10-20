@@ -5,7 +5,6 @@
 id: cargo-version-conflict
 title: cargo 版本/feature 解析冲突树 (failed to select a version for)
 tool: cargo
-scope: global
 category: deps
 confidence: high
 patterns:

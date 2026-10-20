@@ -5,7 +5,6 @@
 id: bun-test-fail
 title: bun test 失败用例行 ((fail) name [duration])
 tool: bun
-scope: global
 category: test
 confidence: high
 context: {before: 0, after: 3}

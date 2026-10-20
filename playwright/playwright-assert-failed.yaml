@@ -4,7 +4,6 @@
 id: playwright-assert-failed
 title: 'playwright 断言失败 (4 缩进 Error: 详情块)'
 tool: playwright
-scope: global
 category: test
 confidence: high
 context: {before: 0, after: 6}

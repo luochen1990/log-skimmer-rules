@@ -4,7 +4,6 @@
 id: rust-libtest-failed
 title: libtest 单测失败行 (test ... FAILED)
 tool: rust
-scope: global
 category: test
 confidence: high
 patterns:

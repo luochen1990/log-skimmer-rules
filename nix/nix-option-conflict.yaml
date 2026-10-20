@@ -4,7 +4,6 @@
 id: nix-option-conflict
 title: nix option 冲突定义错误
 tool: nix
-scope: global
 category: config
 confidence: high
 patterns:

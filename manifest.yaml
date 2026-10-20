@@ -1,0 +1,3 @@
+# 规则集 manifest (spec §1.M): 本仓规则已迁移 format_version 2 形态 (scope/repo 字段退役);
+# v1 引擎装载本集将被拒载并提示升级 — 引擎 >= FORMAT_VERSION 2 照常装载。
+format_version: 2

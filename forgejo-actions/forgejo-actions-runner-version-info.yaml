@@ -4,7 +4,6 @@
 id: forgejo-actions-runner-version-info
 title: Forgejo runner 版本信息
 tool: forgejo-actions
-scope: global
 category: infra
 confidence: high
 intent: info

@@ -18,8 +18,7 @@ CI 日志提取规则集 — 描述「各类工具的失败证据长什么样」
 | id | 必填 | — | 规则唯一标识, `<tool-id>-<语义名>`, 须以 tool 值为前缀 |
 | title | 必填 | — | 一句话人类可读描述 |
 | tool | 必填 | — | 工具维度, 与目录名一致 |
-| scope | 必填 | — | `global` 或 `repo`, 规则是否仅作用于单一仓库 |
-| repo | 条件必填 | null | scope 为 repo 时必填, `host/owner/repo` 完整形态; global 时必须为 null |
+| 生效范围 | — | — | 由**存储位置**唯一决定 (spec §1.S): 本仓规则 = 全局层; 项目特异规则住项目仓 `<repo>/.log-skimmer/rules/`。scope/repo 字段已退役, 勿写 |
 | patterns | 必填 | — | 状态机 pattern 链 (≥1 项), `patterns[0]` 为锚, 是开块的唯一途径 |
 | kind | 必填 | — | `signal` 提取信号片段; `noise` 标记噪音行 (覆盖行从输出中剔除) |
 | intent | 选填 | failure | `failure` / `warning` / `info`, 命中对成败判定意味着什么 |

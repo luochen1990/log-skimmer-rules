@@ -4,7 +4,6 @@
 id: treefmt-fail-on-change
 title: treefmt 格式不幂等 (--fail-on-change)
 tool: treefmt
-scope: global
 category: fmt
 confidence: high
 context:
