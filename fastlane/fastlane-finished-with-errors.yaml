@@ -1,0 +1,16 @@
+# samples: fastlane/fastlane/39131167114-117687563053 (ubuntu 24.04 Xcode Ruby 3.2)
+# 锚: fastlane lane 执行收尾 `[HH:MM:SS]: fastlane finished with errors` —
+# fastlane 时间戳前缀 `[HH:MM:SS]: ` + 措辞是双签名 (红色 ANSI 包裹, 锚容忍)。
+# 与成功收尾 `fastlane finished successfully` 正交。
+id: fastlane-finished-with-errors
+title: 'fastlane 收尾失败 ([HH:MM:SS]: fastlane finished with errors)'
+tool: fastlane
+category: build
+confidence: high
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*\[[0-9]{2}:[0-9]{2}:[0-9]{2}\]: (?:\x1b\[[0-9;]*m)*fastlane finished with errors'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

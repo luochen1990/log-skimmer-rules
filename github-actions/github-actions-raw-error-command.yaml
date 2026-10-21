@@ -1,0 +1,20 @@
+# samples: nvim-telescope/telescope.nvim/33289337193-99198089726 (stylua)
+# 安全网加宽 (诊断 §5, 与 github-actions-error-annotation 同族): 原生工作流命令
+# `::error::<msg>` 未被 runner 识别 — runner 只把行首 (宿主时间戳后) 的 ::error::
+# 转成 ##[error] 注解; 上一步彩色输出末尾未换行时, ANSI reset 等色码前缀挂在
+# ::error:: 之前使其逃逸识别, 以原文落日志, ##[error] 永不出现 (本样本即此形态,
+# 锚容忍 0..N 个 ANSI 序列)。FP 面极窄: 行首紧跟 (可含 ANSI) ::error:: 的行
+# 全语料仅本失败样本命中; PowerShell 脚本源码里的 Write-Host "::error::..."
+# 因行首有 Write-Host 等文本不在锚面内。
+id: github-actions-raw-error-command
+title: 'GH Actions 原生 ::error:: 工作流命令 (含 ANSI 前缀逃逸形态, 安全网)'
+tool: github-actions
+category: unknown
+confidence: high
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*::error::'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

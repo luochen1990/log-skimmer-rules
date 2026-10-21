@@ -1,0 +1,17 @@
+# samples: laravel/framework/39377154561-118477762443, laravel/framework/39202873460-117899384537, symfony/symfony/39390467343-118520477185
+# 锚: PHPUnit 结果横幅 `FAILURES!` / `ERRORS!` (行尾 $ 收紧, 整行就是横幅);
+# WARNINGS! 不入锚 (failOnWarning=false 时告警横幅可在 success job 出现, FP 面)。
+# context.after=1 把 `Tests: N, Assertions: M, Failures: K...` 汇总行带进输出。
+id: phpunit-failures-banner
+title: 'PHPUnit 结果横幅 (FAILURES! / ERRORS!)'
+tool: phpunit
+category: test
+confidence: high
+context: {before: 0, after: 1}
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*(?:FAILURES|ERRORS)!\r?$'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

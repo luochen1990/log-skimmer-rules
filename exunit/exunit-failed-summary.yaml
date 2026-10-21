@@ -1,0 +1,17 @@
+# samples: phoenixframework/phoenix/39403059582-118562250107 (mix test), elixir-lang/elixir/39293570407-118200187810, phoenixframework/phoenix/37462096766-112263932974 (installer test)
+# 锚: mix test 运行收尾 `Failed: N test(s)` — 仅失败非零时打印 (elixir-lang
+# 形态带红色 ANSI 包裹, 锚分段容忍); context.before=2 带 `Result: N/M passed`
+# 统计行。与 ruby dots 汇总等跨栈形态正交 (措辞签名)。
+id: exunit-failed-summary
+title: 'mix test 失败汇总 (Failed: N test)'
+tool: exunit
+category: test
+confidence: high
+context: {before: 2, after: 0}
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*Failed: [0-9]+ tests?(?:\x1b\[[0-9;]*m)*\r?$'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

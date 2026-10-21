@@ -1,0 +1,17 @@
+# samples: nvim-telescope/telescope.nvim/38230441746-114748305210 (unit tests windows)
+# 锚: plenary.nvim 测试条目失败标记 `Fail\t||\t<test 名>` — 红 ANSI 包 `Fail`
+# (裸词, Success 条目是 `Success\t||`) + TAB-管道结构是 plenary 表格签名;
+# context.after=3 带随后的断言细节 (`Expected objects to be...` / Passed in 表)。
+id: plenary-test-fail
+title: 'plenary 测试失败条目 (Fail || <test 名>)'
+tool: plenary
+category: test
+confidence: high
+context: {before: 0, after: 3}
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*Fail(?:\x1b\[[0-9;]*m)*\t\|\|\t'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

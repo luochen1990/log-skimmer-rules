@@ -1,0 +1,16 @@
+# samples: composer/composer/39496988325-118884484709 (PHPStan 7.4), composer/composer/39495983394-118881023283, symfony/symfony/39467978697-118784279004
+# 锚: PHPStan 运行收尾 ` [ERROR] Found N errors` — 方括号风格 + 措辞双签名;
+# 与成功收尾 ` [OK] No errors` 正交 (success 样本零命中)。
+# category: PHPStan 是独立静态类型检查器, 与 mypy 同族 → typecheck。
+id: phpstan-found-errors
+title: 'PHPStan 失败汇总 ([ERROR] Found N errors)'
+tool: phpstan
+category: typecheck
+confidence: high
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)* ?\[ERROR\] Found [0-9]+ errors'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

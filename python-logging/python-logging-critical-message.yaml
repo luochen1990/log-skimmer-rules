@@ -1,0 +1,24 @@
+# samples: phpstan/phpstan/39434422708-118667559649 (Check for broken links), phpstan/phpstan/39478938543-118822123367, phpstan/phpstan/39483898548-118839238414
+# 锚: python logging 默认格式 `%(levelname)s:%(name)s:%(message)s` 的 CRITICAL 级行
+# `CRITICAL:<logger.name>:<message>` — 紧跟冒号的 dotted logger 限定名 (首字符
+# 允许下划线, `__main__` 实测形态) 是结构签名。
+# FN 闭环 (诊断 §3): broken-links 爬虫 (deadseeker) 在 docker 内发现死链后以
+# `CRITICAL:__main__:::error ::Found some broken links!` 收尾并退出非零, 无
+# ##[error] 注解 — 此收尾行是该 job 族的单行失败判词。
+# 取舍记录: 同格式的 ERROR:<logger>: 行 (deadseeker 逐死链刷屏, 单样本 1000+ 行)
+# 曾入规则集, 因逐行提取使 phpstan 仓压缩率双测退化 >2% (l0 门禁红线) 而退役 —
+# CRITICAL 收尾行以 3 行总量等效闭环 (每失败样本恰 1 行, 全语料 3 行零 FP);
+# ERROR 级行留给未来引擎支持「级联截断」(每规则首 N fragment) 时再引入。
+# 多因混合 (死链/超时/HTTP 状态) → category unknown (宁缺勿错)。
+id: python-logging-critical-message
+title: 'python-logging CRITICAL 行 (CRITICAL:<logger>: 默认格式)'
+tool: python-logging
+category: unknown
+confidence: high
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?CRITICAL:[a-zA-Z_][a-zA-Z0-9_.]*:'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

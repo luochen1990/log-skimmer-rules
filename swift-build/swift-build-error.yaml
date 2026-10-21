@@ -1,0 +1,18 @@
+# samples: vapor/vapor/39233474673-117996812921 (unit tests musl), swiftlang/swift-syntax/39357947946-118417040953
+# 锚: swift 构建驱动失败行 — 主体词限定 SwiftCompile / emit-module / frontend
+# (swift driver 已知子命令族) 或收尾 `error: Build failed` (措辞精确匹配)。
+# 主体词枚举是防跨工具误吸的关键: 泛化 `error: .* failed with exit code` 会吸进
+# just 的 `Recipe X failed`、nix 的 `builder for ... failed`、zig 的
+# `the following build command failed` (语料实测)。
+id: swift-build-error
+title: 'swift 构建驱动失败 (error: SwiftCompile/emit-module ... / Build failed)'
+tool: swift-build
+category: build
+confidence: high
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*error: ((?:SwiftCompile|emit-module|frontend) \S.* failed with (?:a nonzero )?exit code|Build failed\r?$)'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

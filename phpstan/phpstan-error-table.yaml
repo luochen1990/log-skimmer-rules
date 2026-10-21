@@ -1,0 +1,22 @@
+# samples: composer/composer/39496988325-118884484709 (PHPStan 7.4), composer/composer/39495983394-118881023283
+# 锚: PHPStan 逐文件错误表头 `  Line   src/.../File.php` — `Line` 列头 + php 路径
+# 是表格结构签名; 扩展: 行号行 `  222  msg` + 缩进续行 (贪心), 表尾分隔线
+# ` ------ `(单空格起) 与空行闭块。
+# 定位粒度补充: 收尾汇总见 phpstan-found-errors; 注解在场时文件/行细节在
+# ##[error] 注解里, 本规则给注解缺席场景 (非 action 化的本地/phpstan-src 输出)
+# 的逐文件定位。
+id: phpstan-error-table
+title: 'PHPStan 逐文件错误表 (  Line   src/.../File.php)'
+tool: phpstan
+category: typecheck
+confidence: medium
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)* +Line +\S+\.php'
+  - regex: '^ +[0-9]+ +\S'
+  - regex: '^ {2,}\S'
+    loop: true
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

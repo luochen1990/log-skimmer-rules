@@ -1,0 +1,17 @@
+# samples: erlang/otp/39464433334-118775193287 (Create SBOM)
+# 锚: escript 崩溃头 `escript: exception <type>: <reason>` — escript 运行器把
+# 未捕获异常打到 stdout 的固定前缀; 随后的 `in call from` 调用栈 (MFA 链) 由
+# context.after=3 带前几帧。
+id: escript-exception
+title: 'escript 崩溃 (escript: exception ...)'
+tool: escript
+category: unknown
+confidence: medium
+context: {before: 0, after: 3}
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?escript: exception '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0
