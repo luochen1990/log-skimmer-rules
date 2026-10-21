@@ -67,6 +67,17 @@ def pct: ((. * 100 | round) / 100 | tostring) + "%";
     ["无豁免样本 — 语料全量入断言 (sidecar 未启用 gate_exempt)。"][]
   end),
 
+  # ---- 规则健康档案 (短段 + 链接; 完整浏览面 = reports 分支 rules-health.md) ----
+  (if ($s.diagnostic_coverage // null) != null then
+    ([($s.per_rule_health // {}) | to_entries[] | select(.value.grade == "restating")] | length) as $n_rest |
+    ([($s.per_rule_health // {}) | to_entries[] | select(.value.grade == "diagnostic")] | length) as $n_diag |
+    ([($s.per_rule_health // {}) | to_entries[] | select(.value.grade == "boundary")] | length) as $n_bnd |
+    (["", "## 规则健康档案", "",
+      "- 诊断覆盖率: \($s.diagnostic_coverage.covered)/\($s.diagnostic_coverage.total) = \($s.diagnostic_coverage.pct)% (含 ≥1 非 restating 失败块的失败族样本 — FN 保证有块, 覆盖保证块由内容决定)",
+      "- 分级: restating \($n_rest) (结论复述安全网) / diagnostic \($n_diag) (内容决定, 计覆盖) / boundary \($n_bnd) (断裂带, 人工审)",
+      "- 完整健康表 (PPV/Wilson/lift/spec/intent 核对): [reports 分支 rules-health.md](https://github.com/luochen1990/log-skimmer-rules/blob/reports/rules-health.md)"])[]
+  else empty end),
+
   # ---- 逐仓分解 (折叠大表) ----
   "", "<details>",
   "<summary>逐仓分解 (\(($s.per_repo_breakdown // {}) | length) 仓) — 样本/豁免/FN/FP/零块/压缩率</summary>",
