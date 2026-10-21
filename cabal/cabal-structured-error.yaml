@@ -1,0 +1,23 @@
+# samples: haskell/cabal/39521726012-118968266826, haskell/cabal/39348168469-118387142016, haskell/haskell-language-server/39476330432-118813201488, haskell/haskell-language-server/39191160143-117864106802, haskell/cabal/39144143826-117724435998 (+9 同形态样本)
+# 锚: cabal-install 结构化错误头 `Error: [Cabal-<code>]` — `[Cabal-N]` 码段是 cabal 独有签名,
+# 与 stack 的 `[S-N]` 词法面不相交。实测码: 7107 (依赖解析失败, 首细节 `Could not resolve
+# dependencies:` + `[__N] trying/rejecting/skipping:` 回跳链) / 7125 (构建失败, 首细节 `Failed to
+# (`Could not resolve dependencies:` 等 col-0 行)。扩展 = `[^\s0-9#]` 首字符约束: 非-TS 回溯路径
+# 不可能吃进时间戳行 (行首恒为数字), TS-only 空白行闭块; `#` 排除平台注解/分组行 (`##[error]`)
+# 被吞入错误块。跨空白的续段 (7107 回跳链内分段) 不追 — 锚行码段+首段已携带根因; 以数字开头的
+# 细节行 (罕见) 同样闭块。category: 多因混合 (7107=deps / 7125=build), 按打标纪律宁缺勿错 → unknown。
+id: cabal-structured-error
+title: 'cabal 结构化错误头 (Error: [Cabal-xxxx] + 细节链)'
+tool: cabal
+category: unknown
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Error: \[Cabal-[0-9]+\]'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\s*[^\s0-9#]'
+    loop: true
+kind: signal
+attribution:
+  contributor: lc (agent-drafted, opencode/GLM)
+  generated-by: { harness: opencode, model: glm-5.3 }
+  adapter-version: p3-wave1

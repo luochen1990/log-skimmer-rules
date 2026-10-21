@@ -1,0 +1,22 @@
+# samples: commercialhaskell/stack/39519482191-118959532324, commercialhaskell/stack/39518840150-118957450604, commercialhaskell/stack/39519482264-118959532391, commercialhaskell/stack/39518840146-118957450449, commercialhaskell/stack/39516142041-118948634956
+# 锚: stack 结构化错误头 `Error: [S-<code>]` — `[S-N]` 码段是 stack 独有签名 (与 cabal `[Cabal-N]`
+# 词法面不相交)。实测码: S-6374 (构建失败, 细节 7 空格缩进: `While building ... using:` / `Process
+# exited with code: ExitFailure 1`) / S-242 (Cabal 文件解析失败, 细节缩进+col-0 混排)。扩展 =
+# `[^\s0-9#]` 首字符约束 (时间戳行/空白行闭块, `##[error]` 注解行不吞入); S-242 细节内空白行后
+# 不追 (锚行码段+首段携带根因)。category: 多因混合 (S-6374=build / S-242=config), 按打标纪律 →
+# unknown。
+id: stack-structured-error
+title: 'stack 结构化错误头 (Error: [S-xxxx] + 缩进细节)'
+tool: stack
+category: unknown
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Error: \[S-[0-9]+\]'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\s*[^\s0-9#]'
+    loop: true
+kind: signal
+attribution:
+  contributor: lc (agent-drafted, opencode/GLM)
+  generated-by: { harness: opencode, model: glm-5.3 }
+  adapter-version: p3-wave1
