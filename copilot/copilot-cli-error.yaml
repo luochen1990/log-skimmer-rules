@@ -1,0 +1,19 @@
+# samples: dotnet/aspnetcore/39533856089-119005795713, dotnet/aspnetcore/39359567952-118422282994, dotnet/aspnetcore/39190826141-117863011425, dotnet/aspnetcore/39090464097-117565909125, dotnet/aspnetcore/38995301047-117286412387 (+1: 38841036075)
+# 锚: GitHub Copilot CLI 探活错误 (col-0 `Error: ` 头)。实测两形态: `Error: Model "<model>" does
+# not support <capability> configuration` (模型不支持请求的推理配置) 与 `Error: No authentication
+# information found.` (PAT 失效)。归因依据: 样本中该行由 `timeout 30 copilot --prompt ...` 探活
+# 步骤产出, 是 PAT 校验失败 (annotation `N PAT(s) invalid`) 的根因证据。行本身无工具标记, 归因靠
+# 上下文 → confidence medium; category: AI-CLI 配置拒绝, 枚举无适配值 → unknown。
+id: copilot-cli-error
+title: 'Copilot CLI 探活错误 (Error: Model ... does not support / No authentication information found)'
+tool: copilot
+category: unknown
+intent: failure
+confidence: medium
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Error: (Model "[^"]+" does not support |No authentication information found)'
+kind: signal
+attribution:
+  contributor: lc (agent-drafted, opencode/GLM)
+  generated-by: { harness: opencode, model: glm-5.3 }
+  adapter-version: p3-wave1
