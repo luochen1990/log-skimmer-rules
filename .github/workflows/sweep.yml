@@ -1,0 +1,124 @@
+# sweep — master 常驻防腐扫描 (weekly): 时点间漂移哨兵, 与 lint.yml 分工互补
+#
+# 分工 (PR 时点回归 vs 时点间漂移防腐):
+#   lint  = PR 时点回归: merge 前校验 — 规则加载 + 全语料断言 + master-vs-PR
+#           压缩率双测 (同引擎同语料, 纯规则变量归因), 回答「这个 PR 是否让现状变差」;
+#   sweep = master 常驻防腐: 每周一次 master 规则集 × 最新语料全量报告, 并与上次
+#           成功 run 对比, 回答「两次 PR 的间隙里, 世界 (语料周滚动/上游日志形态
+#           演化/引擎演进) 是否让 master 规则集悄悄退化」— PR 时点门禁天然盲区。
+#
+# 对比语义 (不自写对比逻辑): 上次成功 run 的 l0 summary artifact 作为 --base 传给
+#   引擎, 判定全走引擎内置口径 (FN=0 / FP率≤2% / 零块=0 / 边界违例=0 断言族 +
+#   compression_compare 逐仓压缩率相对退化 >2% 判红)。红 = 上周→本周的退化信号,
+#   归因面是 规则集/引擎/语料 三者时点差的聚合 (语料每周滚动, 同 repo 内容亦变),
+#   需人工分诊 — 详见 job summary 与 l0-summary artifact。
+#
+# 首跑合法首态: 本 workflow 首次运行 (或上次 artifact 超出保留期) 取不到基线 →
+#   notice 跳过对比, 仍出全量报告 + 断言族判定 (引擎单测模式) — 不因「无基线」红。
+#   基线查询失败 (sweep.yml 未上 master 时 gh 报 404 / API 瞬态) 同理降级为
+#   warning + 单测模式; 基线在场而下载失败才红。
+#   基线恒取「最近一次成功 run」(红 run 的 artifact 仅作诊断, 不作基线 — 防
+#   红→红对比把退化漂移成新常态)。
+#
+# 时段: 语料仓 refresh = 周一 20:00 UTC (124 仓抓取 45-115min, 最晚 ~23:00 落地),
+#   sweep 取周二 03:00 UTC — 错开 refresh 窗口且留 4h+ 余量, 每周扫的恒是本周新语料。
+name: sweep
+on:
+  schedule: [{cron: "0 3 * * 2"}]
+  workflow_dispatch:
+permissions:
+  contents: read # 三仓 checkout
+  actions: read # gh run list / gh run download — 取上次成功 run 的 summary artifact
+concurrency:
+  group: sweep
+  cancel-in-progress: false # weekly 哨兵不抢跑: 重叠则排队, 后到的扫到更新的语料
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4 # 扫描对象: 本仓 master 规则集 (显式 path — 引擎 --rules
+        # 递归装载, 同 workspace 的 engine/corpus 子 clone 不得被扫入, 同 lint.yml 注释)
+        with: {path: rules}
+      - uses: actions/checkout@v4 # 发布面引擎 master — sweep 时点的最新引擎 (漂移面之一)
+        with: {repository: luochen1990/log-skimmer, path: engine-repo}
+      - uses: actions/checkout@v4 # 语料仓: orphan 单提交强推历史 — fetch-depth 1 每次
+        # fresh clone (无本地缓存累积, 无 pull 分叉问题, 天然对齐强推语义)
+        with: {repository: luochen1990/log-skimmer-corpus, path: corpus, fetch-depth: 1}
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2 # ~/.cargo registry + target 跨周缓存, 构建分钟级
+        with: {workspaces: "engine-repo"}
+      - name: build engine
+        run: cargo build --release -p log-skimmer
+        working-directory: engine-repo
+      - name: 取上次成功 run 的 summary artifact (退化对比基线)
+        id: prev
+        env: {GH_TOKEN: "${{ github.token }}"} # flow scalar 内 ${{}} 须引号 (YAML 花括号)
+        run: |
+          set -euo pipefail
+          # 查询失败容忍 (warning + 单测模式, 断言族照常): sweep.yml 未上 master 时
+          # gh 对 --workflow 按名解析报 HTTP 404 (PR 分支 dispatch 实测), 瞬态 API
+          # 失败同类 — 基线缺失不该让哨兵误报红; 基线在场而下载失败才红 (下一行起)。
+          if ! runs=$(gh run list --workflow sweep.yml --branch master --status success --limit 1 --json databaseId 2>&1); then
+            echo "::warning::查询上次成功 run 失败: $runs — 跳过对比 (断言族照常)"
+            echo "have=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          run_id=$(printf '%s' "$runs" | jq -rn '.[0].databaseId // empty')
+          if [ -z "$run_id" ]; then
+            echo "::notice::无上次成功 run 的 l0-summary artifact (首跑/保留期外) — 跳过对比 (合法首态), 断言族判定与全量报告照常"
+            echo "have=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          gh run download "$run_id" --name l0-summary --dir prev
+          mv prev/summary.json prev-summary.json
+          echo "have=true" >> "$GITHUB_OUTPUT"
+          echo "对比基线: $GITHUB_SERVER_URL/${{ github.repository }}/actions/runs/$run_id"
+      - name: L0 全量报告 (--emit-summary; artifact 素材, 采集层失败则本步硬红)
+        id: report
+        run: |
+          set -euo pipefail
+          engine-repo/target/release/log-skimmer l0 \
+            --corpus corpus --rules rules --emit-summary > summary.json
+          echo "样本 $(jq -r .structural.samples_total summary.json) 对 (豁免 $(jq -r .structural.samples_exempt summary.json)) — summary.json 已生成"
+      - name: L0 判定 (断言族 + base 退化对比; rc 记录不中断 — 报告与 artifact 恒产出)
+        id: gate
+        run: |
+          set -uo pipefail
+          base=()
+          if [ "${{ steps.prev.outputs.have }}" = "true" ]; then base=(--base prev-summary.json); fi
+          set +e
+          engine-repo/target/release/log-skimmer l0 \
+            --corpus corpus --rules rules "${base[@]}" > verdict.json
+          rc=$?
+          set -e
+          echo "rc=$rc" >> "$GITHUB_OUTPUT"
+          exit 0 # 红/绿统一由末步落地; 本步中断会吞掉报告与 artifact (红 run 更需要它们)
+      - name: 渲染 job summary (gated/exempt 双组 + 逐仓分解 + 规则×仓矩阵, 大表折叠)
+        if: always() && steps.report.outcome == 'success'
+        run: |
+          set -euo pipefail
+          [ -s verdict.json ] || echo '{"verdict":"unavailable"}' > verdict.json # gate 步意外崩溃兜底
+          {
+            echo "# sweep — L0 全量报告"
+            echo
+            echo "- 引擎 @ \`$(git -C engine-repo rev-parse --short HEAD)\` · 规则 @ \`$(git -C rules rev-parse --short HEAD)\` · 语料 @ \`$(git -C corpus rev-parse --short HEAD)\`"
+            echo
+          } >> "$GITHUB_STEP_SUMMARY"
+          jq -rn -f rules/.github/scripts/summary-md.jq --slurpfile s summary.json --slurpfile v verdict.json >> "$GITHUB_STEP_SUMMARY"
+      - name: 上传 l0-summary artifact (完整 JSON; 下次 sweep 的 --base 基线)
+        if: always() && steps.report.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: l0-summary
+          path: |
+            summary.json
+            verdict.json
+      - name: gate 结果落地 (断言违例/退化 → 红)
+        if: always()
+        run: |
+          rc=${{ steps.gate.outputs.rc || '1' }} # gate 未跑成 (report 已硬红) 视为 1, 不吞红
+          if [ "$rc" -ne 0 ]; then
+            echo "::error::l0 判定未通过 (rc=$rc, 语义: 1=断言违例或退化 / 2=语料或规则非法) — 违例清单与逐仓分解见 job summary, 原始数据见 l0-summary artifact"
+          fi
+          exit "$rc"
