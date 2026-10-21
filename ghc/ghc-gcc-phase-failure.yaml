@@ -1,0 +1,21 @@
+# samples: haskell/haskell-language-server/39534286083-119007258443, commercialhaskell/stack/39519482191-118959532324, haskell/cabal/39144143826-117724435998, haskell/cabal/39144143778-117724435762 (+9 同形态样本: hls caching / stack macos 系列)
+# 锚: GHC 外部工具调用相位失败签名 `` `gcc' failed in phase `<Phase>'. `` — 反引号引用形态是
+# GHC 独有词法面, 与 gcc/clang 自身 `error:` 词法面不相交。不写 `^` 锚定 (spec §2 锚定惯例):
+# 证据恒嵌行中/带宿主前缀的三个实测变体 —— `ghc-9.10.3: `gcc' failed in phase `Linker'.` (stack
+# 直调)、裸 `` `gcc' failed in phase `` (cabal 错误链)、`While handling `gcc' failed in phase` (cabal
+# 7125 错误链渲染)。单行即完整证据 (相位名 + Exit code); HasCallStack backtrace 为 GHC 内部栈,
+# 无诊断价值不扩展。macOS 大多数场景底层 clang linker 错误行由 gcc-clang-driver-error/ld-linker-error
+# 另行命中, 本规则标记「失败的工具是 GHC 构建」这一归因层。
+id: ghc-gcc-phase-failure
+title: 'GHC 相位失败行 (`gcc'' failed in phase `Phase''. (Exit code: N))'
+tool: ghc
+category: build
+intent: failure
+confidence: high
+patterns:
+  - regex: '\x60gcc\x27 failed in phase \x60'
+kind: signal
+attribution:
+  contributor: lc (agent-drafted, opencode/GLM)
+  generated-by: { harness: opencode, model: glm-5.3 }
+  adapter-version: p3-wave1
