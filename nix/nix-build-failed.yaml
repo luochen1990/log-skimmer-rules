@@ -1,0 +1,17 @@
+# samples: LnL7/nix-darwin/39526610092-118982637604, LnL7/nix-darwin/34966407807-104371798438, LnL7/nix-darwin/34418330053-102688067013
+# nix 构建失败族 (nix build / nix-build 的 realisation 失败, 非求值错误): 锚为三种行内
+# error 形态 — ① `builder for '...drv' failed with exit code N;` (根因 drv, 后随 7 缩进的
+# "last N log lines:" 构建器日志摘录, > 前缀行 + "For full logs, run 'nix log ...'" 收尾);
+# ② `N dependencies of derivation '...drv' failed to build` (依赖级联回传, 可重复多行);
+# ③ `build of '...' failed` (终局汇总, drv 清单可极长)。与 nix-eval-error-tree (裸 error:
+# 锚的求值树, category=config) 互补 — 本族是 build 域, 求值已成功、构建期失败。
+id: nix-build-failed
+title: nix 构建失败 (builder 失败 + 依赖级联)
+tool: nix
+category: build
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?error: (builder for ''/nix/store/\S+\.drv'' failed with exit code [0-9]+;?|[0-9]+ dependencies of derivation ''/nix/store/\S+\.drv'' failed to build|build of ''.+'' failed)$'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(\s{7,}\S.*)?$'
+    loop: true
+kind: signal

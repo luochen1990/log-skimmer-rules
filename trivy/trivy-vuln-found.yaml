@@ -1,0 +1,18 @@
+# samples: gin-gonic/gin/39525525484-118979119032, gin-gonic/gin/39442202680-118694686703
+# trivy 漏洞扫描发现 (table 输出): 锚为 per-target 汇总行 `Total: N (SEVERITY: n, ...)`
+# (N>=1 — 零发现的 target 不产该节), context.before: 2 回带 `go.mod (gomod)` 目标头与
+# `====` 下划线 — 即失败签名 (哪个 target 有几枚什么等级的漏洞); CVE 详情表同块紧随,
+# 消费方按坐标 read_around 展开, 不整表捕获 (索引+摘要, 防压缩率退化)。注意 trivy 以
+# --exit-code 1 门禁运行时该表即失败证据; 扫描报告被重定向到 artifact 的用法 (如 kafka
+# scan_jvm) 日志中无表, 不在本规则射程内 (平台注解兜底)。
+id: trivy-vuln-found
+title: trivy 扫描发现漏洞 (Total 汇总行)
+tool: trivy
+category: security
+confidence: high
+context:
+  before: 2
+  after: 0
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Total: [1-9][0-9]* \((CRITICAL|HIGH|MEDIUM|LOW|UNKNOWN)[^)]*\)$'
+kind: signal
