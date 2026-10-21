@@ -1,0 +1,16 @@
+# samples: vuejs/core/39527648729-118985971966, honojs/hono/37464610017-112272396418
+# vitest 通过用例的 ✓ 行 (绿 `[32m✓[39m` 或暗黄嵌套 `[33m[2m✓[22m[39m`) — 被失败文件 ❯ 片段的
+# after-context 带入输出 (vue e2e 实测: ❯ 片段尾部 5 行嵌套通过用例), 剔除以保失败证据聚焦。
+# ✓ 后随 vitest 式重置 (`[22m`/`[39m`) 与 mocha 式 ✓ (`✓[0m`, TS 仓实测) 相区分 — 噪音跨剥无消费者
+# 影响, 区分纯为工具归因诚实。
+id: vitest-pass-noise
+title: vitest 通过用例行 (✓ name dur, 含暗黄嵌套形态)
+tool: vitest
+confidence: low
+patterns:
+  - regex: '(?:\x1b\[[0-9;]*m)+✓(?:\x1b\[(22|39)m)'
+kind: noise
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

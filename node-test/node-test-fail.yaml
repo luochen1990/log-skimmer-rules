@@ -1,0 +1,21 @@
+# samples: withastro/astro/39252499883-118061339316, withastro/astro/39509653173-118927945587
+# node:test (node 内建 test runner, spec reporter) 失败证据: 红色 `✖` (U+2716) 前缀行 —
+# ① 运行列表中的逐用例失败行 `✖ <name> (dur)`;
+# ② 汇总分节头 `✖ failing tests:` 及其下重放的失败用例行。
+# 通过用例是绿色 `✔` (U+2714), 与 ✖ 字符级不相交; ✖ 前恒有红色前景 `\x1b[31m` (node:test 版式;
+# stan 静态分析的洋红 `✖ Ignore` 形态被排除, stack 失败样本实测误吸), 容忍 turbo 任务标签前缀
+# (`astro:test: `) 与 ANSI 色码; vitest/jest/mocha 均不用 ✖ (vitest 用 ×U+00D7), 不相交。
+# context.after=4 带出汇总节的 AssertionError 首段。
+id: node-test-fail
+title: 'node:test 失败用例行 (红✖ name (dur) / ✖ failing tests: 分节头)'
+tool: node-test
+category: test
+confidence: medium
+context: {before: 0, after: 4}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*(?:\S+: )?(?:\x1b\[[0-9;]*m|[ ])*\x1b\[31m✖ '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

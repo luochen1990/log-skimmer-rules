@@ -1,0 +1,18 @@
+# samples: eslint/eslint/37487000067-112349519907
+# mocha 失败汇总行 `  N failing` (N≥1; 行尾锚定防误吞散文) — 编号明细头 `  N) name` 形态是跨框架
+# 通用约定 (minitest `N) Error:` puma 实测 166 行 / brew `N) brew shellenv...` 实测), 作为锚会大面积
+# 跨剥非 JS 栈日志 (l0 双测门禁红驱动收紧), 不入锚; 编号明细由 after-context 自然带回。
+# 通过侧 `N passing` 与 minitest `N failures, M errors` (puma/brew 实测) 均不相交。
+id: mocha-test-fail
+title: 'mocha 失败汇总行 (N failing, N≥1)'
+tool: mocha
+category: test
+confidence: high
+context: {before: 0, after: 6}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*\s*[1-9][0-9]* failing(?:\x1b\[[0-9;]*m)*$'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

@@ -1,0 +1,16 @@
+# samples: sveltejs/svelte/38669257972-116208220995, vuejs/core/39527648729-118985971966, honojs/hono/37456235545-112244434930, tailwindlabs/tailwindcss/39277337688-118145016778
+# vitest 运行汇总行 `Test Files  N failed | M passed (K)` / `Tests  N failed | ...` —
+# 冒号缺失是 vitest 与 jest 汇总的区分点 (jest 为 `Tests:       N failed`, 带冒号);
+# 要求 failed 计数 ≥1: 全绿运行打印 `Test Files  X passed (Y)` 不含 failed, 天然零 FP。
+id: vitest-run-summary
+title: vitest 运行汇总行 (Test Files / Tests  N failed)
+tool: vitest
+category: test
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*\s*(Test Files|Tests) (?:\x1b\[[0-9;]*m|[ ])*[1-9][0-9]* failed'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0
