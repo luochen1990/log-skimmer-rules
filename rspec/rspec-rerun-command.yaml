@@ -1,0 +1,17 @@
+# samples: rubocop/rubocop/38947895623-117131566177, rubocop/rubocop/38948799907-117134632574, fastlane/fastlane/39131167114-117687563053
+# 锚: rspec 重跑命令行 `rspec ./spec/path.rb[:line|[ids]] # <test 名>` —
+# "Failed examples" 段的逐失败定位行, ` # ` 尾缀 (test 名复述) 是与裸命令行
+# `rspec ./spec` (group 回显, 无 # 尾缀) 的区分签名; 容忍前导空格
+# (fastlane 并行 worker 输出缩进 2 格)。
+id: rspec-rerun-command
+title: 'rspec 失败重跑命令行 (rspec ./spec/x.rb:NN # 名)'
+tool: rspec
+category: test
+confidence: high
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)* *rspec \./\S+ # '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

@@ -1,0 +1,17 @@
+# samples: vapor/vapor/39277912867-118147321868 (package-traits)
+# 锚: swift-testing 失败条目 `✘ Test "..." recorded an issue at File.swift:L:C: msg`
+# 与 `✘ Test "..." failed after N.N seconds with N issue.` — ✘ 前缀是结果标记
+# (✔ passed / ◇ started / ━ known issue 正交; known issue 是预期失败形态,
+# 不入失败规则 — ━ 不在锚内)。
+id: swift-testing-test-failed
+title: 'swift-testing 失败条目 (✘ Test "..." recorded an issue / failed after)'
+tool: swift-testing
+category: test
+confidence: high
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*✘ Test ".*" (?:recorded an issue|failed after)'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

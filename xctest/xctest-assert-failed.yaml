@@ -1,0 +1,17 @@
+# samples: vapor/vapor/39284171307-118165296698 (test-parallel), Alamofire/Alamofire/36652923475-109691555100 (macOS Xcode)
+# 锚: XCTest 运行期断言诊断 `path.swift:L: error: TestClass.testMethod : ...` —
+# 单坐标 (无列号) + `Class.method :` 限定段是与 swiftc 编译诊断
+# (`path.swift:L:C: error:`, 双坐标, swiftc-compile-error 覆盖) 的结构区分;
+# 断言名 (XCTAssert*) 跟在 ` : ` 之后不入锚 (措辞可变, 结构不变)。
+id: xctest-assert-failed
+title: 'XCTest 断言诊断 (File.swift:L: error: Class.test : ...)'
+tool: xctest
+category: test
+confidence: high
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*\S+\.swift:[0-9]+: error: [A-Za-z_][A-Za-z0-9_]*\.[A-Za-z_][A-Za-z0-9_]* : '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

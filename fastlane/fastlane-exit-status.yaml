@@ -1,0 +1,16 @@
+# samples: fastlane/fastlane/39131167114-117687563053 (ubuntu 24.04 Xcode Ruby 3.2)
+# 锚: fastlane sh action 失败行 `[!] Exit status of command '<cmd>' was N instead of 0.`
+# — fastlane 签名标记 `[!]` + 结构化措辞; 单行块, 相邻的 ruby dots/rspec 输出
+# 由各自规则覆盖。
+id: fastlane-exit-status
+title: 'fastlane 命令退出码失败 ([!] Exit status of command ...)'
+tool: fastlane
+category: build
+confidence: high
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*\[!\] Exit status of command ''.+'' was [0-9]+ instead of 0'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

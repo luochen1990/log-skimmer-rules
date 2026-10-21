@@ -1,0 +1,18 @@
+# samples: laravel/framework/39377154561-118477762443 (PHP 8.3 PHPUnit 12.5.8), sebastianbergmann/phpunit/38523291692-115718285881 (End-to-End windows)
+# 锚: PHPUnit 断言失败措辞 `Failed asserting ...` — PHPUnit 结构签名, 跨大版本稳定
+# (laravel 12.x 与 phpunit e2e 同形)。锚不落在 `N) Class::method` 条目行上
+# (PR #11 教训: `N) ` 跨栈同形, mocha 标题可含 ::); context.before=3 把
+# `N) <Class::test>` 条目头与断言前消息带进输出。
+id: phpunit-failed-asserting
+title: 'PHPUnit 断言失败 (Failed asserting ...)'
+tool: phpunit
+category: test
+confidence: high
+context: {before: 3, after: 2}
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Failed asserting'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

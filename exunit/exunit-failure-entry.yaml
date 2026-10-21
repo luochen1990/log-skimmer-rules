@@ -1,0 +1,20 @@
+# samples: phoenixframework/phoenix/39403059582-118562250107 (mix test), elixir-lang/elixir/39293570407-118200187810 (Ubuntu OTP29), phoenixframework/phoenix/37630434030-112822959282
+# 锚: ExUnit 失败条目头 `  N) test <描述>` — 字面 `test ` 关键字是与 rspec
+# (`  N) <name>` 任意标题) 及 minitest (`  N) Failure:` 关键字) 的宿主语境限定
+# (PR #11 教训)。扩展: 5+ 空格缩进块贪心 (Assertion/code/left/right/stacktrace,
+# ANSI 色码包行的 ESC 非空白自匹配), 空行闭块 — 条目间 "The following output
+# was logged" 的空行间隔自然截断。
+id: exunit-failure-entry
+title: 'ExUnit 失败条目 (  N) test <描述> + 断言细节)'
+tool: exunit
+category: test
+confidence: high
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)* {2}[0-9]+\) test \S'
+  - regex: '^ {5,}\S'
+    loop: true
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

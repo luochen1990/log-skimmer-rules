@@ -1,0 +1,18 @@
+# samples: zigtools/zls/39306715332-118245564454 (build windows), zigtools/zls/39129574279-117681799762
+# 锚: zig build 运行器失败行 `error: the following build command exited with
+# code N:` (zls 形态) / `... failed with exit code N:` (neovim 形态) —
+# `the following build command` 措辞是 zig 结构签名; context.after=2 带随后的
+# 实际构建命令行 (定位复现入口)。泛化行首 `error: ` 不取 (跨工具误吸面)。
+id: zig-build-command-failed
+title: 'zig build 失败 (error: the following build command exited with code N:)'
+tool: zig
+category: build
+confidence: high
+context: {before: 0, after: 2}
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*error: the following build command (?:exited with code|failed with exit code) [0-9]+:'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

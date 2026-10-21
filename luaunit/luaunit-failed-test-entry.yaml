@@ -1,0 +1,17 @@
+# samples: luarocks/luarocks/37374715884-111980292552 (WindowsTest), neovim/neovim/39354801369-118407030881 (macos functionaltest)
+# 锚: luaunit 失败条目 ` FAILED <path>.lua:NNN: <test 名>` (luarocks 纯文本) /
+# `FAILED  <reset> <path>.lua @ NNN: <名>` (neovim ANSI 包裹, 行列号置 @ 后) —
+# `.lua` 路径 + (`:NNN`|` @ NNN`) 定位段是结构签名, 与 dart/flutter 等其它
+# `FAILED` 措辞族正交。仅匹配 FAILED 单测条目行 (SKIPPED/PASSED 正交)。
+id: luaunit-failed-test-entry
+title: 'luaunit 失败条目 (FAILED path.lua:NNN: <test 名>)'
+tool: luaunit
+category: test
+confidence: high
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)* ?FAILED {1,2}(?:\x1b\[[0-9;]*m)* ?(?:\x1b\[[0-9;]*m)*\S*\.lua(?:\x1b\[[0-9;]*m)*(?: @ |:)(?:\x1b\[[0-9;]*m)*[0-9]+(?:\x1b\[[0-9;]*m)*: '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

@@ -1,0 +1,23 @@
+# samples: rubocop/rubocop/38947895623-117131566177 (Spec ubuntu), rubocop/rubocop/38948799907-117134632574 (Prism), Homebrew/brew/39275227649-118137668739 (tests online)
+# 锚: rspec 失败条目内的断言源行 `Failure/Error: <expr>` — rspec 3 结构签名。
+# 缩进两态并存: rubocop (test-queue 包装) 缩进 5 空格, Homebrew 无缩进, 锚容忍
+# 任意前导空格 (与 mocha 的 `N) title` 条目形态正交 — 见 PR #11 教训, 锚不落在
+# `N)` 形态上)。扩展各取一行: 断言详情行 (expected/got) + 回溯首帧 (spec 定位);
+# 回迹不贪心 — 框架帧噪音为主, 且高失败量 job (Homebrew 单样本 78 失败)
+# 全回迹吞行会推高压缩率 (l0 双测 >2% 红线实测); context 不取 — `  N) <test 名>`
+# 条目头 ×2 行在高失败量 job 同样推高清单 (测试名经 ##[error] 注解与
+# rspec-rerun-command 双通道在场, 不损失可达性)。
+id: rspec-failure-error
+title: 'rspec 失败断言源行 (Failure/Error:)'
+tool: rspec
+category: test
+confidence: high
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)* *Failure/Error:'
+  - regex: '^\s+\S'
+  - regex: '^\s*# '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

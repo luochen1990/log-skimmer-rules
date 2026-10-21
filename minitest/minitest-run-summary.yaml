@@ -1,0 +1,16 @@
+# samples: puma/puma/38812018591-116687420882 (truffleruby), puma/puma/38838902320-116774790113
+# 锚: minitest 运行汇总 `N runs, M assertions, K failures, J errors, L skips` —
+# 锚仅匹配 K≥1 (failures 段非零起始); errors>0 而 failures=0 的形态由
+# `0 failures, [1-9]J` 分支覆盖。0 失败的成功汇总不命中 (success 样本零 FP)。
+id: minitest-run-summary
+title: 'minitest 失败汇总行 (N runs, M assertions, K failures...)'
+tool: minitest
+category: test
+confidence: medium
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?[0-9]+ runs, [0-9]+ assertions, (?:[1-9][0-9]* failures?(?:\r?$|\r?, [0-9]+ errors)|0 failures, [1-9][0-9]* errors)'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0
