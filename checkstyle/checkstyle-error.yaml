@@ -1,0 +1,17 @@
+# samples: spring-projects/spring-boot/39147946714-117735522265
+# 锚: checkstyle 经 gradle ant logger 输出的违例行 `[ant:checkstyle] [ERROR] path.java:LINE: msg [RuleId]` —
+#   前缀 `[ant:checkstyle]` 是工具特异锚 (与 maven 的裸 `[ERROR]` 海隔离, 零误撞面);
+# 单行块 — 同一失败 job 内违例行密集相邻由 A5 自然合并, `> Task ...:checkstyleMain FAILED` 坐标由 gradle-task-failed 提供。
+# 仅 1 个语料 job 覆盖 (spring-boot header 检查), confidence 降为 medium; 非 ant 宿主的裸 checkstyle 形态语料未采样, 不写。
+id: checkstyle-error
+title: 'checkstyle 违例行 ([ant:checkstyle] [ERROR] path.java:NN)'
+tool: checkstyle
+category: lint
+confidence: medium
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\[ant:checkstyle\] \[ERROR\] \S+\.java:[0-9]+: '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

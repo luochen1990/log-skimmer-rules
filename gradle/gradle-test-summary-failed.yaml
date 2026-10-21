@@ -1,0 +1,18 @@
+# samples: square/okhttp/39055446214-117462364445, square/okhttp/39135366359-117698680393, gradle/gradle/39420184294-118625702128, mockito/mockito/38609515792-116130684902, spring-projects/spring-boot/39470047089-118791406803
+# 锚: gradle 测试汇总行 `N tests completed, M failed, K skipped` — 测试任务收尾时打印, M>0 才是失败证据
+#   (成功任务不打印此行; 非零守卫 [1-9] 防御性排除 0-failed 形态, 虽语料未出现);
+# 扩展: 恒随的 `There were failing tests. See the report at: file:///...` 报告路径行 (非 loop 单槽)。
+# 定位: 逐用例失败行由 gradle-test-case-failed 捕捉, 本行是定量证据 (总用例数/失败数/跳过数)。
+id: gradle-test-summary-failed
+title: 'gradle 测试汇总失败行 (N tests completed, M failed)'
+tool: gradle
+category: test
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?[0-9]+ tests completed, [1-9][0-9]* failed(, [0-9]+ skipped)?$'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?There were failing tests\. See the report at: '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

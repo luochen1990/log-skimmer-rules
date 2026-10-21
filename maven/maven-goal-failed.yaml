@@ -1,0 +1,20 @@
+# samples: google/guava/39478899884-118821996962, google/guava/37628608564-112816731912, diffplug/spotless/37213674732-111470520034
+# 锚: maven goal 执行失败行 `[ERROR] Failed to execute goal <gav>:<goal> ...` — BUILD FAILURE 块的定位行,
+#   根因多样实测 (deps 解析失败 / surefire 测试失败 / spotless lint 失败), category 按 maven 的构建系统角色归 build;
+# 宿主前缀容忍: GH 折叠形态 `  > [ERROR] ...` (spotless maven 实测, 每行带 `  > ` 续行前缀) 由 `( *> *)?` 吸收;
+# 扩展 (loop): 后续 `[ERROR]` 行 (含 `\tCaused by` 缩进形态) / `\tat ` 栈帧 / `... N more` / `Caused by: ` /
+#   全限定异常类首行 (spotless `  > org.apache.maven.lifecycle.LifecycleExecutionException: ...` 实测)。
+id: maven-goal-failed
+title: 'maven goal 失败行 ([ERROR] Failed to execute goal + [ERROR]/栈扩展)'
+tool: maven
+category: build
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?( *> *)?\[ERROR\] Failed to execute goal '
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?( *> *)?(\[ERROR\].*|\tat \S.*|\.\.\. [0-9]+ more.*|Caused by: .*|(java|org|com|kotlin|io|jdk|sun)\.[A-Za-z0-9_.$]*(Exception|Error).*)$'
+    loop: true
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

@@ -1,0 +1,20 @@
+# samples: google/guava/33512973437-99872925160, google/guava/35379108230-105710770142
+# 锚: surefire 模块收尾汇总段头 `[ERROR] Failures: ` / `[ERROR] Errors: ` — Results 之后打印, 仅存在失败/错误时出现;
+# 扩展 (loop): 后续 `[ERROR]` 行 — 含逐用例摘要 `  Class.method:LINE expected: ... ` 与定量汇总
+#   `[ERROR] Tests run: N, Failures: M, Errors: K, Skipped: W`; 段中夹杂的 `[INFO] ` 空行分隔亦吞 (保块连续),
+#   段尾 `[INFO] ---` 分隔线闭块。
+# 与 maven-surefire-test-failed 互补: 那条抓逐用例现场, 本条抓定量汇总 (N tests / M failures 全局账)。
+id: maven-surefire-failures-summary
+title: 'surefire 失败汇总段 ([ERROR] Failures: 段头 + [ERROR] 条目扩展)'
+tool: maven
+category: test
+confidence: medium
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?( *> *)?\[ERROR\] (Failures|Errors): ?$'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?( *> *)?(\[ERROR\].*|\[INFO\] *)$'
+    loop: true
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

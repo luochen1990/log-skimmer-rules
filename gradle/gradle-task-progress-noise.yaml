@@ -1,0 +1,15 @@
+# samples: square/okhttp/39536785971-119015146862, google/guava/39501139301-118898631630, detekt/detekt/38877252175-116895162344
+# gradle 任务进度海 `> Task :path` — 10 个 JVM 仓语料实测 86k 行 (裸形态 + UP-TO-DATE/FROM-CACHE/NO-SOURCE/SKIPPED 后缀),
+# 是 JVM 栈头号噪音源; 后缀集精确枚举, 刻意不含 FAILED (失败行是证据, 由 gradle-task-failed 提取, 噪声剔除会吃掉它);
+# 引擎 A0 已剥行尾 \r (语料实测存在 CRLF 变体)。
+id: gradle-task-progress-noise
+title: 'gradle 任务进度行噪音 (> Task :path [UP-TO-DATE|...])'
+tool: gradle
+confidence: low
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?> Task :\S+( (UP-TO-DATE|FROM-CACHE|NO-SOURCE|SKIPPED))?$'
+kind: noise
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

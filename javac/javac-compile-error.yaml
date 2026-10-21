@@ -1,0 +1,17 @@
+# samples: diffplug/spotless/38596956882-115966035586, diffplug/spotless/37651290135-112894989017
+# 锚: javac 编译错误行 `<path>.java:LINE: error: msg` — 经 error-prone 增强时 msg 为 `[RuleName]` 形态
+#   (spotless lombokStubs 实测 `[UnnecessarilyFullyQualified] ...`), GHA 又以 `##[error]` 前缀回显同文案 —
+#   `\S+` 前缀吞掉路径连带可能的 annotation 前缀, 两种形态同锚;
+# 单行块 — javac 的 symbol/location 缩进续行与 `N errors` 汇总刻意不吞 (锚行已含定位与原因, 语料无独立汇总行实例)。
+id: javac-compile-error
+title: 'javac 编译错误行 (path.java:NN: error: msg)'
+tool: javac
+category: typecheck
+confidence: medium
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\S+\.java:[0-9]+: error: '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

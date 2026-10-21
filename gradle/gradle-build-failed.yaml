@@ -1,0 +1,23 @@
+# samples: spring-projects/spring-boot/39470047507-118791406750, spring-projects/spring-framework/38856680807-116829603824, square/okhttp/39055446214-117462364445, gradle/gradle/39543369351-119035952618, mockito/mockito/38290548304-114949316440, diffplug/spotless/37846907002-113549925090, diffplug/spotless/37838843130-113522768986
+# 锚: gradle 构建失败块头 `FAILURE: Build failed with an exception.` — 33 个 JVM 失败 job 实测恒在场;
+#   宿主前缀容忍: GH 时间戳 `2026-...Z ` 与 codeql autobuild 包裹 `[YYYY-MM-DD HH:MM:SS] [autobuild] `
+#   (spotless Analyze 实测, 且与 GH 时间戳叠加成双前缀) — 两可选前缀链式组合, 四种组合形态全覆盖。
+# 扩展 (单 loop 结构化 alternation, 数据驱动): `* Xxx` 节头 (What went wrong/Try/Exception is/...)、`> ` 条目、缩进行
+#   (含 \t 栈帧)、空行、失败主句 col-0 prose (Execution failed for task/Could not determine/Failed to — 33 job 窗口
+#   实测仅此三族, 逐词枚举不放宽)、`BUILD FAILED in`、`N actionable tasks:`、`[Incubating]` 报告行、弃用提示双行。
+# 刻意收窄: `* Exception is:` 后的 col-0 全限定异常首行即闭块 — 其后是 ~150 行 org.gradle 机器栈帧 (spotless deploy
+#   实测), 原因主句已保住, 吞栈只伤压缩率 (PR #8 gotestsum 先例同理); BUILD FAILED 行偶随丢失不损 FN (锚已命中)。
+id: gradle-build-failed
+title: 'gradle 构建失败块 (FAILURE: Build failed with an exception. 锚 + 结构化扩展)'
+tool: gradle
+category: build
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(\[[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9:]{2,8}\] \[[a-z]+\] )?FAILURE: Build failed with an exception\.'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(\[[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9:]{2,8}\] \[[a-z]+\] )?(\* [A-Za-z].*|> .*|\s.*|Execution failed for task .*|Could not determine .*|Failed to .*|BUILD FAILED in .*|[0-9]+ actionable tasks: .*|\[Incubating\].*|Deprecated Gradle features.*|You can use .--warning-mode all..*|Configuration cache .*)?$'
+    loop: true
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

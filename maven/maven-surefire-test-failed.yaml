@@ -1,0 +1,20 @@
+# samples: google/guava/33512973437-99872925160, google/guava/35379108230-105710770142
+# 锚: maven surefire 的逐用例失败标记 `<<< FAILURE!` — surefire 独有 token, 行内 [ERROR] 前缀 + 行尾标记双向锚定;
+#   两形态: `[ERROR] Class.method -- Time elapsed: N s <<< FAILURE!` (用例行) 与
+#   `[ERROR] Tests run: N, Failures: M <<< FAILURE! -- in Class` (类汇总行);
+# 扩展 (loop): 紧随的裸异常首行 (col-0 全限定类, `java.lang.AssertionError: ...`)、`\tat ` 栈帧、`Caused by: `、
+#   `... N more`、缩进续行 (长断言消息折行实测) — 首个非匹配行 (下一个 [INFO]/[ERROR]) 闭块。
+id: maven-surefire-test-failed
+title: 'surefire 逐用例失败块 (<<< FAILURE! 锚 + 异常/栈扩展)'
+tool: maven
+category: test
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?( *> *)?\[ERROR\] .*<<< FAILURE!'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?((java|org|com|kotlin|io|jdk|sun)\.[A-Za-z0-9_.$]*(Exception|Error)(: .*)?$|\tat \S.*|\.\.\. [0-9]+ more.*|Caused by: .*| +\S.*)$'
+    loop: true
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

@@ -1,0 +1,17 @@
+# samples: spring-projects/spring-boot/39147946714-117735522265, square/okhttp/39536785971-119015146862, detekt/detekt/38877252175-116895162344, diffplug/spotless/37211076699-111462740119, gradle/gradle/39420184294-118625702128
+# 锚: gradle 任务失败行 `> Task :path FAILED` — 任务失败时 console 恒打, 提供 failing task 坐标 (checkstyleMain/compileKotlin/
+#   detektMain/spotlessJavaApply/allTests/...), 在并行构建中先于 FAILURE 汇总块出现;
+# 单行块刻意不吞任务日志体 — 失败根因细节由各工具自己的规则捕捉 (kotlinc e:/junit 用例行/FAILURE 块), 坐标行只指路。
+# 与 gradle-task-progress-noise 同源互斥: noise 只剔非 FAILED 后缀 (UP-TO-DATE/FROM-CACHE/NO-SOURCE/SKIPPED/裸形态)。
+id: gradle-task-failed
+title: 'gradle 任务失败行 (> Task :path FAILED)'
+tool: gradle
+category: build
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?> Task :\S+ FAILED$'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0
