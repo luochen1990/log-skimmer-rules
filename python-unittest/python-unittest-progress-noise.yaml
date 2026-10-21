@@ -1,0 +1,15 @@
+# samples: django/django/39453298917-118733504811
+# unittest verbose 模式逐用例进度海 (`<test> ... ok`, django 全量跑 2 万测试 = 2 万行) — 高频噪音;
+# 行尾限定 `... ok|skipped|expected failure`, 刻意排除 `... FAILED`/`... ERROR` 失败标记;
+# 单行 noise 块。
+id: python-unittest-progress-noise
+title: unittest verbose 进度噪音行 (test ... ok)
+tool: python-unittest
+confidence: low
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\S.*\.\.\. (ok|skipped|expected failure)$'
+kind: noise
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

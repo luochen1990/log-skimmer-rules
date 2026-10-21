@@ -1,0 +1,18 @@
+# samples: cli/cli/39469004641-118787805176
+# 锚: go mod 依赖获取失败的链尾错误行 `<pkg>: <dep>@<ver>: read "<url>" ...`
+# (实测两种形态: TAB 缩进与列首裸行, 前缀 \t? 二者兼容; 动词 read/dial) — 单行即完整诊断
+# (哪个包、哪个依赖版本、从哪个 URL 获取失败)。
+# 刻意不锚 `go: <pkg> imports` 链头并扩展链体: 同一失败重复报告数十次时 (实测 cli 74 条链,
+# 420 行) 整段吞入造成压缩率相对退化 >2% 触发双测门禁红; 锚链尾错误行即保住工具级证据。
+id: go-mod-fetch-error
+title: 'go mod 依赖获取失败 (链尾 pkg/dep@ver/read url 形态)'
+tool: go
+category: deps
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\t?\S+: \S+@\S+: (read|dial) '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

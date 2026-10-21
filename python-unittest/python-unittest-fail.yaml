@@ -1,0 +1,17 @@
+# samples: django/django/39453298917-118733504811
+# 锚: unittest (含 django test runner) 失败证据双形态 — verbose 逐用例行
+# `FAIL: test_x (module.Class.test_x)` / `ERROR: test_x (...)` 与运行汇总
+# `FAILED (failures=N, ...)`;
+# 单行块; `test_` 前缀 + 括号收尾是 unittest verbose 结构签名, 成功样本零命中。
+id: python-unittest-fail
+title: 'unittest 失败行 (FAIL/ERROR: test_x 与 FAILED (failures=) 汇总)'
+tool: python-unittest
+category: test
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?((FAIL|ERROR): test_\S+ \(|FAILED \(failures=)'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

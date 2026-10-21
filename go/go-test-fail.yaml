@@ -1,0 +1,16 @@
+# samples: cli/cli/38576005440-115893162373, mvdan/sh/36580434635-109446864230, spf13/viper/35719892990-106724406040, gohugoio/hugo/39496684555-118883443514, golangci/golangci-lint/38293348404-114959565628, moby/moby/39409304144-118585161133
+# 锚: go test (含 -v) 的顶层单测失败行 `--- FAIL: TestX` — 紧跟行首/时间戳前缀, 不容缩进:
+# 缩进的 `    --- FAIL: TestX/sub` 子测试行是父失败的冗余回显 (子测试失败必有顶层父行,
+# FN 无损), 收紧可免高失败量 job 的重复行堆积; 单行块, 相邻失败行由 A5 自然合并。
+id: go-test-fail
+title: 'go test 单测失败行 (--- FAIL: TestX, 顶层形态)'
+tool: go
+category: test
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*--- FAIL: \S'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

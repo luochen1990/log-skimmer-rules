@@ -1,0 +1,15 @@
+# samples: django/django/39453298917-118733504811, fastapi/fastapi/39246541360-118039796615
+# pytest 非 verbose 模式的点号进度海 (`....sss... [ 12%]`) — 高频噪音;
+# 字符集限定 [.s] (跳过 s), 刻意排除 F/E/x/X (失败/错误/xfail/xpass 标记是证据不得剔);
+# 长度 >=8 防误吞正文里的省略号; 尾部可选 ` [ N%]` 百分比 (xdist/progress 形态); 引擎 A0 已剥 \r。
+id: pytest-progress-noise
+title: pytest 点号进度噪音行 (.... [ N%])
+tool: pytest
+confidence: low
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?[.s]{8,}( \[ *[0-9]+%\])?$'
+kind: noise
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

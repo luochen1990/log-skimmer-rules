@@ -1,0 +1,16 @@
+# samples: cli/cli/38576005440-115893162373, helm/helm/38907731845-116995460162, mvdan/sh/36580434635-109446864230, gohugoio/hugo/39496684555-118883443514, golangci/golangci-lint/38293348404-114959565628
+# 锚: go test 包级失败汇总 `FAIL\t<pkg> [duration|[build failed]]` (TAB 分隔, 与 bare FAIL 区分);
+# 单行块。末尾裸 `FAIL` 收尾行刻意不收 (恒跟随 FAIL\t 行出现, 冗余回显);
+# `ok`/`?` 汇总行属噪音 (go-test-progress-noise)。
+id: go-test-pkg-fail
+title: go test 包级失败汇总 (FAIL + TAB + pkg, 含 build failed 形态)
+tool: go
+category: test
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*FAIL\t\S'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

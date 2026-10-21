@@ -1,0 +1,14 @@
+# samples: etcd-io/etcd/39523275372-118971937030, cli/cli/39469004641-118787805176, gohugoio/hugo/39496684555-118883443514
+# go mod 依赖下载进度行 `go: downloading <module> <ver>` — 高频噪音 (单仓日志可达数百行);
+# 单行 noise 块。与 go-mod-fetch-error 信号链 (imports 链) 行形态不相交。
+id: go-download-noise
+title: 'go mod 下载进度噪音行 (go: downloading)'
+tool: go
+confidence: low
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?go: downloading \S+'
+kind: noise
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

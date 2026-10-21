@@ -1,0 +1,16 @@
+# samples: pydantic/pydantic/39394205230-118532773813, pandas-dev/pandas/39531298631-118997555493
+# 锚: pyright 运行汇总 `N errors, M warnings, K informations` — 错误数限定非零
+# ([1-9][0-9]*) — 0 errors 形态会出现在通过子检查 (实测同一 job 内 0-error/1-error 两行并存),
+# 零错误汇总不是失败证据; 单复数均容忍 (1 error / 2 errors / 1 warning)。
+id: pyright-error-summary
+title: pyright 失败汇总 (N errors, M warnings, K informations, N>0)
+tool: pyright
+category: typecheck
+confidence: medium
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?[1-9][0-9]* errors?, [0-9]+ warnings?, [0-9]+ informations$'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0
