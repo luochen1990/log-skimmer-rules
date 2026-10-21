@@ -1,0 +1,23 @@
+# samples: google/benchmark/37714285616-113781433420, google/benchmark/37918829126-113781670082, google/benchmark/39244525244-118046179465
+# 锚: DoozyX/clang-format-lint-action 的漂移报告头 `--- <path>\t(original)` — (original)/(reformatted)
+# label 是该 action 专属形态 (clang-format --output-replacements-xml 之外的 diff 输出), 普通 git
+# diff 的 `--- a/file` 无 label 不冲突。FN 诊断 §1: JS action 退出即败不产注解, diff 即唯一证据。
+# 扩展 (有序): `+++ <path> (reformatted)` → `@@` hunk → diff 体 (ANSI 色码容忍, 行首 [-+ ] 或 @@;
+# 体行含 hunk 自身, 多 hunk/多文件连续吸收)。与 telescope stylua 的 `Diff in <file>:` 形态锚不同,
+# 按特异锚分立 (族级抽象的取舍: 分)。
+id: clang-format-lint-diff
+title: 'clang-format 漂移 diff 块 (--- path (original) / +++ (reformatted) + ANSI diff 体)'
+tool: clang-format
+category: fmt
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(\x1b\[[0-9;]*m)*--- \S.*\(original\)[ \t]*$'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(\x1b\[[0-9;]*m)*\+\+\+ \S.*\(reformatted\)[ \t]*$'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(\x1b\[[0-9;]*m)*@@ -[0-9]+(,[0-9]+)? \+[0-9]+(,[0-9]+)? @@'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(\x1b\[[0-9;]*m)*([-+ ]|@@)'
+    loop: true
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

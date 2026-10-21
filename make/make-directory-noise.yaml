@@ -1,0 +1,15 @@
+# samples: openssl/openssl/39431097056-118656056867, duckdb/duckdb/39424738661-118642875298, ClickHouse/ClickHouse/39538792771-119022068736
+# make 递归构建的目录进出回显 `make[N]: Entering/Leaving directory '...'` — 全语料 12385 行,
+# 最大单簇噪音源之一; 与 make-target-error 信号行动词面不相交 (Entering/Leaving vs ***)。
+# 单行 noise 块。
+id: make-directory-noise
+title: 'make 目录回显噪音行 (Entering/Leaving directory)'
+tool: make
+confidence: low
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?make(\[[0-9]+\])?: (Entering|Leaving) directory '
+kind: noise
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

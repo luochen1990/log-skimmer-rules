@@ -1,0 +1,17 @@
+# samples: libuv/libuv/38442904105-115453779115, libuv/libuv/38443756634-115456682602, libuv/libuv/38444316409-115458603007
+# 锚: ctest 逐用例失败行 `[N/M] Test #X: <name> ....***Failed <sec>` — `***` 三星前缀是 ctest
+# 失败/超时标志位, 与通过形态 (`.... Passed`/`***Passed`) 相互排斥; 测试名含 "Failed" 字样的
+# 通过用例 (Catch2 `FailureReporting::FailedAssertion ... Passed`) 不会误命中 — 已实测排雷。
+# Timeout/Not Run 状态语料未现但同族恒形, 收窄为 `(Failed|Timeout|Not Run)` 三值 (宁覆盖勿漏)。
+id: ctest-test-failed
+title: 'ctest 逐用例失败行 (Test #X: name ...***Failed/Timeout/Not Run)'
+tool: ctest
+category: test
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?([0-9]+/[0-9]+ )?Test #[0-9]+: .*\*\*\*(Failed|Timeout|Not Run)'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

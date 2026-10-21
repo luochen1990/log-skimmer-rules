@@ -1,0 +1,17 @@
+# samples: curl/curl/39536530689-119014354607, curl/curl/39539987532-119025289293
+# 锚: curl runtests.pl 测试框架的失败汇总行 `TESTFAIL: These test cases failed: <ids>` —
+# 框架专属大写签名 (与 TESTDONE 汇总行成对, TESTDONE 100% OK 形态出现在 success 侧不锚);
+# 单行即完整证据 (哪些用例号失败)。autotools 家族 (configure: error / config.status: error)
+# 语料零实例, 按样本驱动纪律不写。
+id: curl-runtests-testfail
+title: 'curl runtests 失败汇总 (TESTFAIL: These test cases failed)'
+tool: curl-runtests
+category: test
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?TESTFAIL: These test cases failed: '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

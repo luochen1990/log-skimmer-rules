@@ -1,0 +1,22 @@
+# samples: nlohmann/json/39124283742-117666036506, nlohmann/json/39124284387-117666038639, curl/curl/39536515179-119014439228, bitcoin/bitcoin/39419195723-118615614767, google/benchmark/37601516077-112726846968
+# 锚: gcc/clang (及同格式派生编译器) 的文件限定诊断头 `<path>:<line>:<col>: (fatal )?error: ` —
+# error 关键字在行中, 须以 file:l:c 前缀限定 (裸 `error:` 不锚, 防误撞); 容忍 GH 时间戳与
+# buildkit `#N M.M ` docker 前缀 (OSS-Fuzz 构建形态, 诊断文档 p3-fn-diagnosis §2)。
+# 扩展: 诊断链结构行 — note/warning 同格式诊断行 / `In file included from` / 源码 gutter
+# (` NNN | src`) / caret gutter (` | ^~`) / 链尾汇总 (`N errors generated.` clang,
+# `compilation terminated.` gcc, `fatal error: too many errors emitted` ferror-limit);
+# 任一行不满足结构即闭块。warning 诊断行仅作扩展不作锚 (成功构建含 warning, 锚 warning 即 FP)。
+id: gcc-clang-diagnostic-error
+title: 'gcc/clang 编译诊断链 (file:line:col: error 锚 + note/gutter/汇总扩展)'
+tool: gcc-clang
+category: typecheck
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(#[0-9]+ [0-9.]+ )?[^: ]+:[0-9]+:[0-9]+: (fatal )?error: '
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(#[0-9]+ [0-9.]+ )?([^: ]+:[0-9]+:[0-9]+: (note|warning|fatal error|error): |In file included from | *[0-9]+ *\|| *\|[\s^~]+|[0-9]+ errors? generated\. ?$|compilation terminated\. ?$|fatal error: )'
+    loop: true
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0
