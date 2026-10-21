@@ -1,0 +1,16 @@
+# samples: openai/openai-python/39372368549-118462861608
+# 锚: pip 安装失败错误 `ERROR: Could not find a version that satisfies the requirement ...`
+# / `ERROR: Could not install packages ...` — pip 自有错误文案前缀 (大写 ERROR: + Could not 组合);
+# 单行块; pip 进度行 (Collecting/Downloading) 由 pip-install-progress-noise 压制。
+id: pip-install-error
+title: 'pip 安装失败 (ERROR: Could not find/install)'
+tool: pip
+category: deps
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?ERROR: Could not (find|install)'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

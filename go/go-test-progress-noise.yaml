@@ -1,0 +1,15 @@
+# samples: golangci/golangci-lint/38293348404-114959565628, spf13/viper/35719892990-106724406040, gohugoio/hugo/39496684555-118883443514
+# go test -v 进度海 (=== RUN/CONT/PAUSE/NAME, --- PASS:/SKIP:/BENCH: 与包级 ok/?\t 汇总行) — 高频噪音;
+# 单行 noise 块。特异双端限定: `--- (PASS|SKIP|BENCH):` 带冒号 (与 `--- FAIL:` 信号行不相交),
+# `ok|\? *\t\S` 要求 ok/? + TAB + 包名 (与 `FAIL\t` 信号行不相交)。
+id: go-test-progress-noise
+title: go test 进度噪音行 (=== RUN / --- PASS / ok\t 汇总)
+tool: go
+confidence: low
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*(=== (RUN|CONT|PAUSE|NAME) |--- (PASS|SKIP|BENCH): |(ok|\?) *\t\S+)'
+kind: noise
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

@@ -1,0 +1,16 @@
+# samples: fastapi/fastapi/39499348483-118892572124, pytest-dev/pytest/39378379197-118481682475, pandas-dev/pandas/39502724904-118903970251, scikit-learn/scikit-learn/39534784183-119008953873
+# 锚: pytest 失败/错误段头 `==== FAILURES ====` / `==== ERRORS ====` (等号带长度不定位, 双端 =+ 包裹);
+# 段体内是自由文本 traceback (无结构形态), 不做扩展, context.after 带出用例分隔线与 [gwN] 环境行。
+id: pytest-failures-section
+title: pytest 失败/错误段头 (==== FAILURES/ERRORS ====)
+tool: pytest
+category: test
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?=+ (FAILURES|ERRORS) =+$'
+context: {after: 2}
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

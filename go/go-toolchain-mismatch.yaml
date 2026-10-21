@@ -1,0 +1,16 @@
+# samples: grafana/loki/39519615367-118959968040, grafana/loki/39519614797-118960011729
+# 锚: go 工具链版本不匹配错误 `go: go.mod requires go >= X (running go Y; GOTOOLCHAIN=...)`。
+# 证据恒嵌行中 (实测被 faillint/docker 前缀包裹, 如 `faillint: err: ... stderr: go: ...`),
+# 依 spec §2.A2 锚定惯例段, 锚不带 ^ 以容忍宿主前缀; 字符串本身足够特异 (零成功样本命中)。
+id: go-toolchain-mismatch
+title: go 工具链版本不匹配 (go.mod requires go >= X)
+tool: go
+category: build
+confidence: high
+patterns:
+  - regex: 'go: go\.mod requires go >= '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

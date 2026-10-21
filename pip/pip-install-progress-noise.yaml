@@ -1,0 +1,16 @@
+# samples: django/django/39453298917-118733504811, fastapi/fastapi/39499348483-118892572124, mitmproxy/mitmproxy/39538470181-119020494074
+# pip 安装进度海 (Collecting/Downloading/Using cached/Requirement already satisfied) — 高频噪音;
+# 缩进容忍 (Downloading/Using cached 带两空格缩进); 单行 noise 块。
+# Successfully installed 行刻意保留 (每安装一次仅一行, 是环境快照信息)。
+id: pip-install-progress-noise
+title: pip 安装进度噪音行 (Collecting/Downloading/Using cached)
+tool: pip
+confidence: low
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\s*(Collecting|Downloading|Using cached) \S+'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Requirement already satisfied'
+kind: noise
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

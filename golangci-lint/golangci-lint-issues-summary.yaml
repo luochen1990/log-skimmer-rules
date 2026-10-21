@@ -1,0 +1,19 @@
+# samples: golangci/golangci-lint/37962612786-113928984390, golangci/golangci-lint/37149099837-111278995040, helm/helm/39328482802-118320340192, moby/moby/39451040240-118726847898
+# 锚: golangci-lint 检出汇总行 `N issues:` (含语法错误的 "1 issues" 形态);
+# 扩展 (loop): linter 维度分解行 `* <linter>: <count>`。
+# 单条诊断 (`file.go:l:c: msg (linter)`) 在本语料中恒被 action 转为 ##[error] 注解 (annotation 规则兜底),
+# 本规则锚定工具自身的原始汇总文本。
+id: golangci-lint-issues-summary
+title: 'golangci-lint 检出汇总 (N issues: + linter 分解行)'
+tool: golangci-lint
+category: lint
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?[0-9]+ issues:$'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\* [a-z0-9-]+: [0-9]+$'
+    loop: true
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

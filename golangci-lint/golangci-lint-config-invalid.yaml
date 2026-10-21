@@ -1,0 +1,18 @@
+# samples: caddyserver/caddy/39021385385-117363727085, caddyserver/caddy/39019812000-117978423989, caddyserver/caddy/39018249441-117354684132
+# 锚: golangci-lint v2 config verify 失败的收尾错误串
+# `The command is terminated due to an error: the configuration contains invalid elements`
+# (工具自身文案, 足够特异); 行常为 ##[error] 注解的续行 (无时间戳前缀), 锚不带 ^ 容忍前缀;
+# context.before 带出前一行的 jsonschema 校验错误细节。
+id: golangci-lint-config-invalid
+title: golangci-lint 配置校验失败 (config verify 终止错误)
+tool: golangci-lint
+category: config
+confidence: medium
+patterns:
+  - regex: 'The command is terminated due to an error: the configuration contains invalid elements'
+context: {before: 1}
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

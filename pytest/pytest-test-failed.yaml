@@ -1,0 +1,16 @@
+# samples: fastapi/fastapi/39499348483-118892572124, fastapi/fastapi/39246541360-118039796615, pandas-dev/pandas/39467032326-118780990459
+# 锚: pytest 失败用例汇总行 `FAILED <nodeid>` (nodeid 形如 tests/x.py::test_y[params],
+# :: 双冒号限定是 pytest nodeid 的结构签名), 尾随 `- <异常>` 不入锚 (锚只取签名前缀)。
+# 单行块; 失败段头部由 pytest-failures-section 覆盖, 本规则锚定逐用例定位行。
+id: pytest-test-failed
+title: pytest 失败用例行 (FAILED tests/x.py::test_y)
+tool: pytest
+category: test
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*FAILED \S+::\S+'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

@@ -1,0 +1,18 @@
+# samples: grafana/loki/39519909006-118961691527, grafana/loki/39507732660-118921105446, moby/moby/39409304144-118585161133, microsoft/TypeScript/39389890820-118518576308
+# 锚: gotestsum 形态运行汇总 `DONE N tests[, M skipped], K failures in D` — 仅在失败数 >0 时
+# 汇总行才含 "failures" 字样 (成功运行印 `DONE N tests in D`, 实测 TypeScript 成功侧样例), 锚要求
+# failures 子句在场; 单行块, 定量失败证据。
+# 刻意不锚逐用例行 `=== FAIL: <pkg> <Test> (dur)`: 高失败量 job (实测 TypeScript 430 失败) 会整段
+# 吞入 430+ 行, 压缩率相对退化 >2% 触发双测门禁红; 失败定位细节由消费方 read_around 展开。
+id: gotestsum-run-summary
+title: 'gotestsum 运行失败汇总 (DONE N tests, K failures in)'
+tool: gotestsum
+category: test
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?DONE [0-9]+ tests.*, [0-9]+ failures? in '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0
