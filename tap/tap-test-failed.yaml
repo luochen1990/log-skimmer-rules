@@ -1,0 +1,15 @@
+# samples: nix-community/nix-direnv/31921882289-95102910877, nix-community/nix-direnv/36604486972-109529903364, libuv/libuv/39026024981-117377057802, openssl/openssl/39561279312-119092926152
+# TAP (Test Anything Protocol) 测试失败: 锚 `not ok N - <test name>` (TAP 消费端通用 —
+# bats (home-manager), perl prove (openssl), 自研 TAP runner (libuv) 同形态), 后随 `# `
+# 前缀诊断注释块 (TAP diagnostics — 断言栈/exit code/断言失败输出)。成功 run 只有
+# `ok N` 行, 不触锚; prove 的 Dubious/wstat 行为 col-0 非 # 行, 自然闭块。
+id: tap-test-failed
+title: TAP 测试失败 (not ok + 诊断注释)
+tool: tap
+category: test
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?not ok [0-9]+ .*$'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?# .*$'
+    loop: true
+kind: signal
