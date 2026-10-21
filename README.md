@@ -9,7 +9,7 @@ CI 日志提取规则集 — 描述「各类工具的失败证据长什么样」
 - 布局: `<tool-id>/<rule-id>.yaml`, 一文件一规则 (如 `nix/nix-eval-error-tree.yaml`)。
 - `tool-id` 为 folksonomy 约定名: 无中央注册表, 规则文件的存在即定义 ID (小写字母/数字/连字符)。
 - `rule-id` 形如 `<tool-id>-<语义名>`, 全局唯一, 同 id 重复加载报错。
-- 当前覆盖 37 个工具: bun, cargo, checkstyle, clang-format, cmake, ctest, curl-runtests, eslint, forgejo-actions, gcc-clang, git, github-actions, go, golangci-lint, gotestsum, gradle, javac, just, kotlinc, ld, make, maven, msvc, mypy, nim, ninja, nix, nixfmt, pip, playwright, pyright, pytest, python-unittest, rust, rustc, systemd, treefmt。
+- 工具覆盖面以顶层目录为准 (**目录即清单**, folksonomy 存在即定义 — 不在 README 重复枚举, 免合并冲突)。
 
 ## 2. 字段语义速览
 

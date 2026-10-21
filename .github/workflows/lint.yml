@@ -2,8 +2,8 @@
 #
 # 校验链: 引擎 (发布面 log-skimmer master) × 语料 (corpus 仓) × 本仓规则
 #   0. 结构断言 (纯 shell, 不依赖引擎构建, 前置快速失败): 目录名一致性 (tool 字段 ==
-#      所在目录名, folksonomy 存在即定义的机器强制) + README 工具清单守护 (宣称集合
-#      == 目录实况; 清点自动化, 杜绝人工数数漂移)
+#      所在目录名, folksonomy 存在即定义的机器强制) + 工具清单守护 (README 枚举已退役:
+#      目录即清单; 断言枚举行不回潮 + 顶层目录恒为工具目录)
 #   1. 加载合法性: 引擎加载全部规则 (单条违例整集拒载, exit 2)
 #   2. L0 全量断言 (PR 侧): FN=0 / FP率≤2% / 零块=0 / 边界违例=0
 #   3. 压缩率双测: base rules (master) vs PR rules — 同引擎同语料, 纯规则变量归因,
@@ -43,11 +43,8 @@ jobs:
         # 取值不用 yq — runner 未预装, 顶层标量 sed 提取在本格式族内无歧义,
         # schema 由引擎加载校验兜底, 模板在 .github/ 隐藏路径不入列)
         run: bash rules-pr/.github/scripts/structure-assert.sh rules-pr
-      - name: "结构断言: README 工具清单守护 (宣称集合 == 目录实况)"
-        if: steps.engine.outputs.ready == 'true'
-        # 同一脚本第二节 (两断言合一调用; 规则数不设断言 — 每 PR 自然变化, 由 L0
-        # 计数步骤的下限护栏兜底, 工具清单是唯一人工维护且需守护的数字)
-        run: bash rules-pr/.github/scripts/structure-assert.sh rules-pr
+        # 工具清单守护已并入同脚本第二节 (README 枚举退役后两步合一; 规则数不设
+        # 断言 — 每 PR 自然变化, 由 L0 计数步骤的下限护栏兜底)
       - uses: actions/checkout@v4
         if: steps.engine.outputs.ready == 'true'
         with: {repository: luochen1990/log-skimmer-corpus, path: corpus, fetch-depth: 1}
