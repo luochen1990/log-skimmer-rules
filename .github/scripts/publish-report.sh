@@ -42,6 +42,13 @@ badge backtest "$v · $asof" "$vc" verdict
 badge corpus "$samples samples · $repos repos" blue corpus
 badge quality "FN $fn · FP $fp%" "$vc" quality
 badge compression "sig $sig% · blk $blk%" blue compression
+# 诊断覆盖率徽章 (引擎 #93 起; 旧引擎 summary 无字段 → pending 占位, publish 后自动就位)
+cov_pct=$(jq -r '.diagnostic_coverage.pct // "pending"' "$summary")
+badge coverage "diag $cov_pct%" blue coverage
+
+# rules-health.md (规则健康浏览面): 每规则六元组 + 分级 + intent 声明核对 —
+#   人逛的总表, 消费入口 = README 徽章链接与 job summary 短段
+jq -rn -f "$here/health-md.jq" --slurpfile s "$summary" > rules-health.md
 
 # latest.md: 头部 (时点/verdict/消费方链回) + summary-md.jq 全量渲染 (同 job summary, DRY)
 {
@@ -53,10 +60,26 @@ badge compression "sig $sig% · blk $blk%" blue compression
   jq -rn -f "$here/summary-md.jq" --slurpfile s "$summary" --slurpfile v "$verdict"
 } > latest.md
 
-# 孤儿单提交强推 reports 分支 (与语料仓同模式: 无历史累积, 体积恒定)
+# history.jsonl 指标累积 (跨 orphan 重写存活 — 6h 语料提频的配套裁决: 样本快照
+#   滚动即弃, 跨时序积累的是指标历史): 从远端 reports 分支取上一版追加
+prev=$(mktemp -d)
+if git clone -q --depth 1 --branch reports   "https://x-access-token:${GITHUB_TOKEN}@github.com/${slug}.git" "$prev" 2>/dev/null; then
+  cp "$prev/history.jsonl" history.jsonl 2>/dev/null || true
+fi
+jq -c --arg ts "${asof}T$(date -u +%H:%M:%SZ)" --arg run "$run_url" --arg verdict "$v" \
+  --argjson samples "$samples" --argjson repos "$repos" \
+  '{ts: $ts, run: $run, verdict: $verdict, samples: $samples, repos: $repos,
+    fn: .totals["fn"], fp_lines: .totals.fp_lines, fp_rate_pct: (.totals.fp_rate_pct * 100 | round / 100),
+    comp_blk_pct: .totals.comp_blk_pct, comp_sig_pct: .totals.comp_sig_pct,
+    diag_covered: (.diagnostic_coverage.covered // null), diag_total: (.diagnostic_coverage.total // null),
+    diag_pct: (.diagnostic_coverage.pct // null),
+    grades: ((.per_rule_health // {}) | to_entries | group_by(.value.grade) | map({(.[0].value.grade): length}) | add // {})}' \
+  "$summary" >> history.jsonl
+
+# 孤儿单提交强推 reports 分支 (与语料仓同模式: 单提交快照; 唯 history.jsonl 逐轮追加)
 work=$(mktemp -d)
 git -C "$work" init -q -b reports
-cp -r badges latest.md "$work/"
+cp -r badges latest.md rules-health.md history.jsonl "$work/"
 git -C "$work" add -A
 git -C "$work" -c user.name=sweep-bot -c user.email=sweep-bot@users.noreply.github.com \
   commit -qm "sweep report $asof (verdict=$v)"

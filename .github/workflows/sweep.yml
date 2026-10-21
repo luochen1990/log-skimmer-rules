@@ -24,7 +24,9 @@
 #   sweep 取周二 03:00 UTC — 错开 refresh 窗口且留 4h+ 余量, 每周扫的恒是本周新语料。
 name: sweep
 on:
-  schedule: [{cron: "0 3 * * 2"}]
+  # 语料 6h 刷新 (00/06/12/18 UTC) → sweep 错峰 +3.5h 跟拍 (单轮 refresh 45-115min,
+  #   余量充分; 重叠则 concurrency 排队, 后到的扫到更新的语料)
+  schedule: [{cron: "30 3,9,15,21 * * *"}]
   workflow_dispatch:
 # contents: write = 发布步推送 reports 孤儿分支 (README 活指标徽章数据 SSOT,
 #   红绿照常发布 — fail 状态公开可见, 报告恰是红的诊断材料)
