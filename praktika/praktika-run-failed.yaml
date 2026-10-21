@@ -1,0 +1,15 @@
+# samples: ClickHouse/ClickHouse/39565674125-119108046165, ClickHouse/ClickHouse/39574846466-119137704304, ClickHouse/ClickHouse/39565344262-119106906252
+# praktika run 脚本终止签名: `ERROR: Run failed with exit code [N]` — job 级失败的单行兜底锚,
+# 与 praktika-job-fail (失败树) 常相邻合并为一块; 树缺失时 (如纯 hook 失败) 此行仍是可靠失败证据。
+id: praktika-run-failed
+title: 'praktika run 终止 (ERROR: Run failed with exit code [N])'
+tool: praktika
+category: test
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\[[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}\] ERROR: Run failed with exit code \[[0-9]+\]'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

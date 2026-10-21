@@ -1,0 +1,22 @@
+# samples: protocolbuffers/protobuf/39550723836-119059086397
+# bazel 经典错误头: 行首 `ERROR: ` 前缀的两类高特异形态 —
+# ① `ERROR: <path>:<row>:<col>: <msg>` (规则/目标求值失败, 如 repository fetch 失败的 Traceback 头);
+# ② `ERROR: no such (package|target|rule|label)` (external 仓库解析失败)。
+# 锚刻意收紧到这两形态而非裸 `ERROR: ` — pip 的 `ERROR: pip's dependency resolver ...`
+# 依赖冲突警告在成功 job 常见 (fmtlib 39574123266 实测), 裸前缀会误吸。
+# ext loop: 3 空格/tab 缩进续行 (Starlark `   Traceback` / `\tFile "...", line N` / `\t\tdownload_info = ...`),
+# `Error in download: ...` 无缩进根因行不被吞 (ERROR 锚行自身即签名, 根因行紧邻下一个块或闭块边界)。
+id: bazel-error
+title: 'bazel 错误头 (ERROR: path:row:col / ERROR: no such ...) + Starlark Traceback 缩进树'
+tool: bazel
+category: build
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(ERROR: \S+:[0-9]+:[0-9]+: |ERROR: no such (package|target|rule|label)[ :])'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(   |\t)\S'
+    loop: true
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

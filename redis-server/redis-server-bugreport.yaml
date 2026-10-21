@@ -1,0 +1,21 @@
+# samples: redis/redis/39272658178-118128749433, redis/redis/39272657901-118128747522
+# redis-server 崩溃报告头: `=== REDIS BUG REPORT START: Cut & paste starting from here ===`
+# + 三行崩溃签名 (`<pid>:M <date> # Redis <ver> crashed by signal: N, si_code: N` /
+# `# Accessing address: ...` / `# Crashed running the instruction at: ...`)。
+# 报告主体 (STACK TRACE/REGISTERS/hexdump) 千行级 — 刻意只取 4 行有界签名, 空行即闭块;
+# 完整 dump 由消费方 read_around 按坐标展开。
+id: redis-server-bugreport
+title: 'redis-server 崩溃报告头 (BUG REPORT START + crashed by signal 签名三行)'
+tool: redis-server
+category: test
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?=== REDIS BUG REPORT START'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?[0-9]+:[MXCS] .* # Redis .+ crashed by signal: [0-9]+'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?[0-9]+:[MXCS] .* # Accessing address: '
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?[0-9]+:[MXCS] .* # Crashed running the instruction at: '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0
