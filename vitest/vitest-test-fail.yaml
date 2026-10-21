@@ -1,0 +1,20 @@
+# samples: sveltejs/svelte/38669257972-116208220995, vuejs/core/39527648729-118985971966, honojs/hono/37464610017-112272396418, tailwindlabs/tailwindcss/39277337688-118145016778
+# vitest 失败证据三形态 (实测全部带 ANSI 色, CI 无 --reporter=plain 样本):
+# ① 逐用例 FAIL 行 — 精确字面量 `\x1b[41m\x1b[1m FAIL \x1b[22m\x1b[49m` (红底粗体 FAIL,
+#    jest 的 FAIL 是 `[7m[1m[31m` 反色前景色, 字面量不同不相交) + 路径 + `\x1b[2m > \x1b[22m` 用例链;
+# ② 失败文件行 — 红色 `❯` (U+276F) 前缀, 后跟文件与 `(N tests | M failed)`; 通过文件是绿色 ✓, 不相交;
+# ③ `⎯ Failed Tests N ⎯` 分节头 (U+23AF 水平线)。
+# context.after=6 带出紧随的 AssertionError/期望-实际 diff 首段 (仅扩输出); 相邻失败行 A5 自然合并。
+id: vitest-test-fail
+title: vitest 失败用例/失败文件行 (FAIL 链, 红❯文件, Failed Tests 分节头)
+tool: vitest
+category: test
+confidence: high
+context: {before: 0, after: 6}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\s*(\x1b\[41m\x1b\[1m FAIL \x1b\[22m\x1b\[49m \S|\x1b\[31m❯\x1b\[39m\s|(?:\x1b\[[0-9;]*m)*⎯+(?:\x1b\[[0-9;]*m)* Failed Tests [0-9]+)'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

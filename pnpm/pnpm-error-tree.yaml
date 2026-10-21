@@ -1,0 +1,18 @@
+# samples: vuejs/core/39402831600-118561495004, vuejs/core/39402831768-118561497229
+# pnpm 错误码树根行 `Error: ERR_PNPM_<CODE>` + 尾随 clap 风格错误树 (实测 OUTDATED_LOCKFILE:
+# `  × installing dependencies` / `  ╰─▶ Cannot install with "frozen-lockfile" ...` / 缩进明细)。
+# 扩展消费「空行或缩进≥2」的树体行 (含 GHA 时间戳前缀容忍), 树体终结于首个非缩进内容行。
+id: pnpm-error-tree
+title: 'pnpm 错误码树 (Error: ERR_PNPM_* + ×/╰─▶ 明细树)'
+tool: pnpm
+category: deps
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Error: ERR_PNPM_[A-Z_]+$'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z)?( *$| {2,}\S.*)'
+    loop: true
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

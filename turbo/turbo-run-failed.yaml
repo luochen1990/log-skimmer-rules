@@ -1,0 +1,23 @@
+# samples: withastro/astro/39252499883-118061339316, tailwindlabs/tailwindcss/38803166145-116657150736, vercel/next.js/39506594449-118956933512
+# turbo (Turborepo) 任务失败三形态 (plain 与 ANSI 双形态实测):
+# ① `ERROR  run failed: command  exited (1)` — run 级终结失败 (无任务名, 双空格);
+# ② `<pkg>#<task>:  ERROR  command (<cwd>) <cmd> exited (1)` — 任务级失败横幅 (command 与 exited
+#    间可含路径/命令文本, 用 `.*` 容忍);
+# ③ `Failed:    <pkg>#<task>` — 汇总区的失败任务清单 (冒号后空格对齐)。
+# ` ERROR ` 横幅 + `command ... exited (N)` 组合双端限定, 不与 webpack `ERROR in ...` 形态相交;
+# `Failed:` 后 2+ 空格对齐 (turbo 汇总版式), 排除 elixir mix test 的 `Failed: 1 test` 单空格形态
+# (elixir 失败样本实测误吸)。
+# context.before=3 带回 ` Tasks:/Cached:/Time:` 汇总三行 (任务定量上下文)。
+id: turbo-run-failed
+title: 'turbo 任务失败 (ERROR run failed / 任务 exited / Failed: 清单)'
+tool: turbo
+category: build
+confidence: medium
+context: {before: 3, after: 1}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(.*: )?(?:\x1b\[[0-9;]*m)* ERROR (?:\x1b\[[0-9;]*m| )*(run failed: )?command.*exited \([0-9]+\)(?:\x1b\[[0-9;]*m)*$|^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*Failed: {2,}\S'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

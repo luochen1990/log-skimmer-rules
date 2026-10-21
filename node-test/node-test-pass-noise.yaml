@@ -1,0 +1,15 @@
+# samples: withastro/astro/39252499883-118061339316
+# node:test 通过用例的 ✔ 行 (绿 `[32m✔`, U+2714) — 被失败 ✖ 片段的 after-context 带入输出
+# (astro 实测: 运行列表中失败 ✖ 紧邻通过 ✔), 剔除以保失败证据聚焦; ✔ 与失败标记 ✖ (U+2716)
+# 字符级不相交。
+id: node-test-pass-noise
+title: node:test 通过用例行 (✔ name (dur))
+tool: node-test
+confidence: low
+patterns:
+  - regex: '(?:\x1b\[[0-9;]*m)+✔'
+kind: noise
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

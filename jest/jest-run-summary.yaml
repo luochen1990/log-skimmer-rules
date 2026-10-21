@@ -1,0 +1,17 @@
+# samples: prettier/prettier/39541125404-119028863147, stylelint/stylelint/39394395123-118533403404, vercel/next.js/39525968778-118981898143
+# jest 运行汇总行 `Test Suites: N failed, ...` / `Tests:       N failed, ...` / `Snapshots:   N failed, ...`
+# — 冒号是 jest 与 vitest 汇总的区分点 (vitest 无冒号, 见 vitest-run-summary);
+# 要求冒号后首个计数字段为 failed 且 ≥1: 全绿运行打印 `Tests: 14 skipped, 11211 passed, 11225 total`
+# (stylelint 成功样本实测) 不以 failed 开头, 天然零 FP。
+id: jest-run-summary
+title: 'jest 运行汇总行 (Test Suites:/Tests:/Snapshots: N failed)'
+tool: jest
+category: test
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*(Test Suites|Tests|Snapshots): (?:\x1b\[[0-9;]*m|[ ])*[1-9][0-9]* failed'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

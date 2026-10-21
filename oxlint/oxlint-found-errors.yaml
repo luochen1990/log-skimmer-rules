@@ -1,0 +1,17 @@
+# samples: vitejs/vite/39524631125-118976293474, honojs/hono/37456235545-112244434930
+# oxlint 汇总行 `Found N warnings and M errors.` — 要求 M≥1 (错误存在才非零退出);
+# 全绿/仅警告运行打印 `Found 0 warnings and 0 errors.` (vite 成功样本实测) 被排除。
+# 逐条违例行经 GHA problem matcher 包装为 `##[error]<path>:<line>:<col>: <msg>` (vite 实测 614 条),
+# 已由 github-actions-error-annotation 安全网覆盖, 本规则补定量汇总锚。
+id: oxlint-found-errors
+title: oxlint 汇总行 (Found N warnings and M errors, M≥1)
+tool: oxlint
+category: lint
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Found [0-9]+ warnings? and [1-9][0-9]* errors?\.'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0
