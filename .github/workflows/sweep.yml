@@ -26,8 +26,10 @@ name: sweep
 on:
   schedule: [{cron: "0 3 * * 2"}]
   workflow_dispatch:
+# contents: write = 发布步推送 reports 孤儿分支 (README 活指标徽章数据 SSOT,
+#   红绿照常发布 — fail 状态公开可见, 报告恰是红的诊断材料)
 permissions:
-  contents: read # 三仓 checkout
+  contents: write # 三仓 checkout + reports 分支发布
   actions: read # gh run list / gh run download — 取上次成功 run 的 summary artifact
 concurrency:
   group: sweep
@@ -114,6 +116,18 @@ jobs:
           path: |
             summary.json
             verdict.json
+      - name: 发布 reports 分支 (README 活指标徽章数据 + latest.md; 红绿照常发布)
+        if: always() && steps.report.outcome == 'success'
+        env:
+          REPO_SLUG: luochen1990/log-skimmer-rules
+          GITHUB_TOKEN: "${{ github.token }}" # flow scalar 内 ${{}} 须引号 (YAML 花括号)
+          RUN_URL: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+        run: |
+          set -euo pipefail
+          bash rules/.github/scripts/publish-report.sh summary.json verdict.json \
+            "$(git -C engine-repo rev-parse HEAD)" \
+            "$(git -C rules rev-parse HEAD)" \
+            "$(git -C corpus rev-parse HEAD)"
       - name: gate 结果落地 (断言违例/退化 → 红)
         if: always()
         run: |

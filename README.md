@@ -2,6 +2,13 @@
 
 CI 日志提取规则集 — 描述「各类工具的失败证据长什么样」(锚行 + 多行扩展), 供 [log-skimmer](https://github.com/luochen1990/log-skimmer) 引擎运行时消费。**社区维护 + Agent 辅助**: 欢迎 PR, AI agent 起草的规则同样欢迎 (请在 attribution 字段声明来源)。
 
+[![backtest](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fluochen1990%2Flog-skimmer-rules%2Freports%2Fbadges%2Fverdict.json)](https://github.com/luochen1990/log-skimmer-rules/blob/reports/latest.md)
+[![corpus](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fluochen1990%2Flog-skimmer-rules%2Freports%2Fbadges%2Fcorpus.json)](https://github.com/luochen1990/log-skimmer-rules/blob/reports/latest.md)
+[![quality](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fluochen1990%2Flog-skimmer-rules%2Freports%2Fbadges%2Fquality.json)](https://github.com/luochen1990/log-skimmer-rules/blob/reports/latest.md)
+[![compression](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fluochen1990%2Flog-skimmer-rules%2Freports%2Fbadges%2Fcompression.json)](https://github.com/luochen1990/log-skimmer-rules/blob/reports/latest.md)
+
+> 活指标: 徽章与 [完整回测报告](https://github.com/luochen1990/log-skimmer-rules/blob/reports/latest.md) 由每周 sweep 自动发布 (`reports` 分支), 数字不手工维护 — 本 README 只做定性描述。
+>
 > 职责边界: 本 README 面向规则贡献者 — 布局速览、字段速览、打标纪律与贡献流程。规则 YAML 格式、状态机语义、L0 统计口径的单一事实来源是引擎仓的 spec ([docs/rule-format.md](https://github.com/luochen1990/log-skimmer/blob/master/docs/rule-format.md)); 本文只做速览与指针。
 
 ## 1. 规则集概貌
