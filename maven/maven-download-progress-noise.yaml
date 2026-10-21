@@ -1,0 +1,14 @@
+# samples: google/guava/39478899884-118821996962, google/guava/37628608564-112816731912
+# maven 依赖下载进度 `[INFO] Downloading/Downloaded ...` — 未开 -ntp 的 job 上成海 (2.3k 行/10 仓);
+# 纯传输进度无证据价值; 下载失败走 [ERROR]/Failed to execute goal, 不在本形态内。
+id: maven-download-progress-noise
+title: 'maven 依赖下载进度行噪音 ([INFO] Downloading/Downloaded)'
+tool: maven
+confidence: low
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\[INFO\] (Downloading|Downloaded) .*$'
+kind: noise
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

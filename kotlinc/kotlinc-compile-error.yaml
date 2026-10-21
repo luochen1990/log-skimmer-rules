@@ -1,0 +1,18 @@
+# samples: spring-projects/spring-framework/39261704058-118090733990, detekt/detekt/38877252282-116895162712, detekt/detekt/38818112974-116707755936, square/okhttp/39512754508-118937530632
+# 锚: kotlinc 诊断错误行 `e: <path>.kt:LINE:COL message` — 路径两形态 (file:/// URI 与 / 绝对路径) 统一覆盖,
+#   `w:` 警告行刻意不锚 (非失败证据, okhttp -Werror 场景中被提升为 e: 的会自然命中);
+# 搭车同形: detekt 编译插件/ktlint 的规则违例也以 `e: path.kt:105:1 msg [RuleId]` 形态输出 (detekt/gradle 实测),
+#   同锚一并捕获 — 诊断主体的角色是编译器, category 归 typecheck;
+# 单行块, 86 行/7 job 实测均为独立诊断行, 相邻行由 A5 合并。
+id: kotlinc-compile-error
+title: 'kotlinc 编译诊断行 (e: path.kt:NN:NN msg)'
+tool: kotlinc
+category: typecheck
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?e: (file:)?/\S+\.kt:[0-9]+:[0-9]+ '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

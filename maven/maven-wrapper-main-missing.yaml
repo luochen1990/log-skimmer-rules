@@ -1,0 +1,18 @@
+# samples: google/guava/39501139301-118898631630, google/guava/37625014458-112804456458, google/guava/37089614602-111106948262
+# 锚: maven wrapper 启动失败 `Error: Could not find or load main class org.apache.maven.wrapper.MavenWrapperMain` —
+#   wrapper jar 缺失/未下载时 JVM 启动即败, 类名全限定特异锚 (guava 三个 job 同形复现);
+# 扩展: 恒随的 `Caused by: java.lang.ClassNotFoundException: org.apache.maven.wrapper.MavenWrapperMain`。
+# 类别: 构建工具链环境破损 (wrapper 产物未就位), 归 infra 而非 deps — 无依赖解析过程, 是运行环境缺件。
+id: maven-wrapper-main-missing
+title: 'maven wrapper 启动失败 (MavenWrapperMain 类缺失)'
+tool: maven
+category: infra
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Error: Could not find or load main class org\.apache\.maven\.wrapper\.MavenWrapperMain$'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Caused by: java\.lang\.ClassNotFoundException: org\.apache\.maven\.wrapper\.MavenWrapperMain$'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

@@ -1,0 +1,23 @@
+# samples: spring-projects/spring-framework/38856680807-116829603824, square/okhttp/39512754508-118937530632, gradle/gradle/39420184294-118625702128, mockito/mockito/38609515792-116130684902, square/okhttp/39391947736-118525332004, diffplug/spotless/37211076699-111462740119
+# 锚: gradle test-logging 的逐用例失败行 — 行首 IDENT (Java/Kotlin 类名, 允许全限定点号) 后接两分支之一:
+#   A) `IDENT[tag] > ...` 家族 (JUnit5 display name: 顶层 `Class > method()` / 嵌套 `Class > m(a) > [2] P FAILED` /
+#      okhttp android `Class > method[emulator-5554 - 17] FAILED`), B) `IDENT method()` 家族 (rich console 无分隔符形态);
+#   IDENT 前缀结构化 (非 `.*` 开头) 杜绝时间戳空回溯误配 — `TS > Task :x FAILED` / `Gradle Test Run :x FAILED`
+#   (gradle 9 任务级汇总行) / `foo bar FAILED` 均被结构性排除 (13 向量离线验证全过);
+# ANSI 容忍 (spotless rich console 实测): 行首 `\x1b[0K\x1b[1m`、IDENT/方法名/FAILED 前后的 `\x1b[31m\x1b[22m` 色码、
+#   FAILED 后可选 ` (2.6s)` 时长与尾部 reset — 头尾挂 `(?:\x1b\[[0-9;]*[mK])*` 吸收器;
+# 扩展 (非 loop 单槽): 缩进的异常首行 `    java.lang.AssertionError[: msg | at File.java:NN]` — gradle 对失败用例
+#   恒打一行异常类摘要 (17 job 实测), 全栈刻意不吞 (机器帧噪音, read_around 可展开)。
+id: gradle-test-case-failed
+title: 'gradle 逐用例失败行 (Class > method() FAILED + 缩进异常摘要)'
+tool: gradle
+category: test
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*[mK])*(?:[A-Za-z_][A-Za-z0-9_.$]*(?:\x1b\[[0-9;]*m)*(?:\[\S*\])?(?:\x1b\[[0-9;]*m)* > |[A-Za-z_][A-Za-z0-9_.$]*(?:\x1b\[[0-9;]*m)* [A-Za-z0-9_$]+\(\))[^\n]*FAILED(?:\x1b\[[0-9;]*m)*( \([0-9.]+s\))?(?:\x1b\[[0-9;]*m)* ?(?:\x1b\[[0-9;]*m)*$'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )? +(?:\x1b\[[0-9;]*m)*(java|org|com|kotlin|io|jdk|sun)\.[A-Za-z0-9_.$]*(Exception|Error)(: .*| at .*)?$'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0
