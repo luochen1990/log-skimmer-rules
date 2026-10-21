@@ -1,0 +1,17 @@
+# samples: fmtlib/fmt/38693313794-117066468219, nlohmann/json/38941919709-117111428409, ClickHouse/ClickHouse/39538792771-119022068736
+# 锚: ninja 构建终止行 `ninja: build stopped: ` — 实测两尾: `subcommand failed.` (主流) 与
+# `cannot make progress due to previous errors.`; 容忍 python 风格 `[YYYY-MM-DD HH:MM:SS]` 前缀
+# 与缩进 (cmake try_compile 捕获)。与 ninja-failed (失败头) 互补: 失败头与终止行间可隔数十行
+# (fmt 样本隔 46 行), 各自单行成块, 中间证据由 ld/gcc-clang/诊断链规则填充。
+id: ninja-build-stopped
+title: 'ninja 构建终止行 (build stopped: subcommand failed / cannot make progress)'
+tool: ninja
+category: build
+confidence: medium
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(\[[0-9: -]+\] )? *ninja: build stopped: '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

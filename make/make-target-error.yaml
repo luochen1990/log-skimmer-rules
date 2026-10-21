@@ -1,0 +1,17 @@
+# samples: nlohmann/json/39124283742-117666036506, openssl/openssl/39431097056-118656056867, duckdb/duckdb/39424738661-118642875298
+# 锚: make 目标失败行 `make[N]: *** [Makefile:l: target] Error N` — make 递归构建的失败逐级上浮
+# (make[2]→make[1]→make), 单行块; `Entering/Leaving directory` 间行归 make-directory-noise。
+# `make: *** No rule to make target` 形态语料未现 (不写); mingw32-make 前缀语料未现。
+# 全语料 success 侧 0 命中 (52 个 failure 样本命中)。
+id: make-target-error
+title: 'make 目标失败行 (make[N]: *** [Makefile:l: target] Error N)'
+tool: make
+category: build
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?make(\[[0-9]+\])?: \*\*\* \[[^]]+\] Error [0-9]+'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

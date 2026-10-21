@@ -1,0 +1,17 @@
+# samples: fmtlib/fmt/38947405828-117129908465, luarocks/luarocks/37336450627-111865251576
+# 锚: MSVC 编译器诊断头 `<file>(line[,col]): (fatal )?error C<code>: ` — 新式带列号/工程尾注
+# (`gtest.h(11528,1): error C2678: ... [format-test.vcxproj]`), 旧式仅行号 (`c_module.c(11):
+# fatal error C1004:`); `error C\d+:` 码段是 MSVC 独有签名, 与 gcc/clang 的 `error:` 词法面
+# 不相交。单行即完整定位 (文件/行/码/消息); 遵循 `warning C` 不锚纪律 (成功构建含警告)。
+id: msvc-compiler-error
+title: 'MSVC 编译器诊断行 (file(l,c): error Cxxxx:)'
+tool: msvc
+category: typecheck
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\S[^(]*\([0-9]+(,[0-9]+)?\): (fatal )?error C[0-9]+: '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

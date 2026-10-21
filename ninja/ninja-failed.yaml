@@ -1,0 +1,18 @@
+# samples: fmtlib/fmt/38693313794-117066468219, curl/curl/39536515179-119014439228, duckdb/duckdb/39424738661-118642875298, google/benchmark/37601516037-112726844566, ClickHouse/ClickHouse/39538792771-119022068736
+# 锚: ninja 构建失败头 `FAILED: [code=N] <target>` — 两种实测形态: 裸 `FAILED: bin/x` (fmt) 与
+# `FAILED: [code=1] cmTC_x` (新 ninja, curl/duckdb 的 cmake try_compile 内); 容忍缩进 (try_compile
+# 捕获输出带缩进) 与尾随空格。单行块: 后续命令回显/链接错误由 ld/gcc-clang 规则捕获, 相邻块 A5 自然
+# 合并。pytest 的 `FAILED test.py::x` 无冒号不冲突; 全语料 success 侧 0 命中。
+# OSS-Fuzz 场景 (fmt fuzz, FN 诊断 §4) 此行是仅有的失败证据之一。
+id: ninja-failed
+title: 'ninja 构建失败头 (FAILED: [code=N] target, col-0/缩进双形态)'
+tool: ninja
+category: build
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )? *FAILED: '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

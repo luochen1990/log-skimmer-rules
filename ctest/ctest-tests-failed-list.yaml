@@ -1,0 +1,22 @@
+# samples: libuv/libuv/38442904105-115453779115, libuv/libuv/38443756634-115456682602, libuv/libuv/38444316409-115458603007
+# 锚: ctest 失败汇总头 `The following tests FAILED:` — ctest 运行尾部的失败清单块头, 极特异。
+# 扩展 (有序): 失败用例行 `\tN - <test> (Failed|Timeout|...)` (loop) → `Errors while running
+# CTest` → `Output from these tests are in:` / `Use "--rerun-failed...` 收尾行; 顺序透传 (A3)
+# 逐段消费。与 ctest-test-failed (逐用例行) 双锚互补: 汇总头兜住日志截断在用例列表之前的场景。
+id: ctest-tests-failed-list
+title: 'ctest 失败汇总块 (The following tests FAILED: + 清单/Errors/Output 尾)'
+tool: ctest
+category: test
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?The following tests FAILED: ?$'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?[\t ]*[0-9]+ - .+ \(.*\)$'
+    loop: true
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Errors while running CTest ?$'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(Output from these tests are in: .+|Use "--rerun-failed .+)$'
+    loop: true
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

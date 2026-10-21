@@ -1,0 +1,22 @@
+# samples: fmtlib/fmt/38693313794-117066468219, curl/curl/39514513518-118943342355
+# 锚: GNU ld (bfd) 链接错误行 `(/path/to/)?ld(\.exe)?: ...` — 语料形态 `DWARF error: invalid or
+# unhandled FORM value` / `<obj>: in function \`...':` / `undefined reference to ...`; ld 错误链
+# 每行都自带 ld 前缀 (bfd 风格), 扩展即锚形态自循环。锚不限定 error 关键字: `in function` /
+# `undefined reference` 等证据行同样带 ld 前缀且只在失败时成簇出现 (全语料 success 侧 0 命中)。
+# 扩展另收无前缀续行: 老式 bfd 把 `undefined reference to` 印在下一行且不带 ld 前缀
+# (curl AM-mbedtls 实测: `<file.c>:NN:(.text+0xNN): undefined reference to ...`), 以
+# 节偏移签名 `\(\.text...\): undefined reference` 限定, 仅在锚后扩展态可达 (无独立开块风险)。
+id: ld-linker-error
+title: 'GNU ld 链接器错误链 (ld: DWARF error / undefined reference / in function)'
+tool: ld
+category: build
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(\S*/)?ld(\.exe)?: '
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?((\S*/)?ld(\.exe)?: |(\S+:[0-9]+:)?\(\.[^)]+\): (undefined reference|more undefined references) to )'
+    loop: true
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

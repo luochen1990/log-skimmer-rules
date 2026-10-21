@@ -1,0 +1,15 @@
+# samples: google/benchmark/37601516037-112726844566, duckdb/duckdb/39424738661-118642875298
+# cmake 生成构建系 (make/ninja generator) 的编译进度行 `[ N%] Building|Built|Linking|Generating|...`
+# — 全语料 5133 行高频噪音; 动词白名单限定 (pytest 的 `[ 5%]` 进度无这些动词, cargo Compiling
+# 无百分比前缀, 均不相交)。单行 noise 块。
+id: cmake-build-progress-noise
+title: 'cmake 编译进度噪音行 ([ N%] Building/Linking/...)'
+tool: cmake
+confidence: low
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\[ *[0-9]+%\] (Building|Built|Linking|Generating|Performing|Compiling|Finished|Automatic) '
+kind: noise
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

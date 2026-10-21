@@ -1,0 +1,20 @@
+# samples: bitcoin/bitcoin/39419195723-118615614767, neovim/neovim/39498802072-118891310509, swiftlang/swift/39502997228-118904871567
+# 锚: cmake configure 期错误头 `CMake Error at <file>:<line> (<command>):` — 语料全形态皆带
+# `at ... (cmd):` 后缀 (message / cmake_minimum_required 等); Windows 路径 (D:/a/...) 与 Unix
+# 路径均在。扩展: 缩进续行 / 空行 / `-- ` 状态行 (`-- Configuring incomplete, errors occurred!`
+# 会插在消息中间, 故入扩展) / `Call Stack (most recent call first):` 栈头 (col-0) — 任一 col-0
+# 非状态行 (如 `+ cd ...` shell 回显) 即闭块, 防吞后续 CMakeConfigureLog 转储。
+id: cmake-configure-error
+title: 'cmake 配置错误块 (CMake Error at f:l (cmd): + 缩进续文/Call Stack 扩展)'
+tool: cmake
+category: build
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?CMake Error at [^:]+:[0-9]+ \([^)]+\): ?$'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(-- .*|\s+\S.*|Call Stack \(most recent call first\):| *)$'
+    loop: true
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0
