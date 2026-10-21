@@ -1,0 +1,20 @@
+# samples: AvaloniaUI/Avalonia/39556053491-119075960272 (2 处: DBG 彩行与缩进汇总行两种形态)
+# 锚: MSBuild 构建失败汇总行 `Build FAILED.` — 与成功侧 `Build succeeded.` 对偶的词法面; xcodebuild
+# 的 `** BUILD FAILED **` 全大写+星号, 词法面不相交。不写 `^` 锚定: 实测植于 `06:40:02 [ DBG ] `
+# 彩色控制台前缀与缩进汇总中, 彩行尾随 ANSI reset (`Build FAILED.\x1b[0m`) 故不锚定行尾。后随
+# context 8 行扫入失败详情列表与 `N Error(s) / N Warning(s)` 计数 (`0 Error(s)` 单行出现于成功构建,
+# 不可单独作锚 — 本规则仅锚 FAILED 结论行; 详情行由 csc-diagnostic-error 逐行命中)。
+id: msbuild-build-failed
+title: 'MSBuild 构建失败汇总 (Build FAILED. + 错误列表 + Error(s) 计数)'
+tool: msbuild
+category: build
+intent: failure
+confidence: high
+context: { before: 0, after: 8 }
+patterns:
+  - regex: 'Build FAILED\.'
+kind: signal
+attribution:
+  contributor: lc (agent-drafted, opencode/GLM)
+  generated-by: { harness: opencode, model: glm-5.3 }
+  adapter-version: p3-wave1

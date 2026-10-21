@@ -1,0 +1,22 @@
+# samples: AvaloniaUI/Avalonia/39556053491-119075960272 (16 处: ##[error] 注解回显 / MSBuild ERR 彩行 / DBG 缩进行三种宿主包装, 12 带尾 ANSI reset / 4 净尾)
+# 锚: Roslyn (csc) 诊断行签名 `<file>(<line>,<col>): error <CODE>: <msg> [proj.csproj]` — MSBuild
+# 编排管线独有。不写 `^` 锚定 (spec §2 锚定惯例): 实测证据恒嵌行中 —— `##[error]/path.cs(442,13):
+# error xUnit1051: ...` (annotation 回显)、`06:39:58 [ ERR ] /path.cs(442,13): ...` (dotnet build
+# 彩色控制台)、缩进汇总列表三种植入形态。码段 `[A-Za-z]{2,}` 要求 ≥2 字母: 覆盖 CS (编译器) 与
+# 分析器码族 (xUnit/CA/IDE...), 同时与 msvc 的单字母 C 码 (`error C2678:`) 词法面解耦。**尾部
+# `\[\S*proj\]` 工程标签是解耦关键**: tsc 经典输出同形 (`a.ts(2,10): error TS2724:`, 见
+# vuejs/prettier 样本) 但无工程标签, 由既有 tsc-diagnostic 认领, 双归属即假归因; MSBuild 恒带
+# `[projrelpath]` 尾 (16/16 实测), 尾容忍 ANSI reset (`\x1b[0m`)。
+id: csc-diagnostic-error
+title: 'Roslyn 编译器/分析器诊断行 (file(l,c): error CODE: ... [proj.csproj])'
+tool: csc
+category: typecheck
+intent: failure
+confidence: high
+patterns:
+  - regex: '\([0-9]+,[0-9]+\): error [A-Za-z]{2,}[0-9]+: .*\[[^\]]*proj\](\x1b\[0m)?$'
+kind: signal
+attribution:
+  contributor: lc (agent-drafted, opencode/GLM)
+  generated-by: { harness: opencode, model: glm-5.3 }
+  adapter-version: p3-wave1
