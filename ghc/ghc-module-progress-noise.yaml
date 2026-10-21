@@ -1,0 +1,17 @@
+# samples: commercialhaskell/stack/39519482264-118959532391 (2803 行), commercialhaskell/stack/39519482256-118959532282 (769 行), haskell/cabal/39144143826-117724435998 (82 行), jgm/pandoc/39559204077-119086127805 (275 行, 成功样本), hadolint/hadolint/39307342217-118247728410 (102 行, 成功样本)
+# GHC 模块编译进度行 — haskell 族日志最高频噪音 (大语料仓可达 38% 行数): `[ 9 of 130] Compiling
+# <module>` (GHC 裸形态) 与 `pkg > [N of M] Compiling <module>` (cabal/stack 包前缀形态, `[^>]*> `
+# 组), 实测跨仓命中 pandoc/hadolint 等所有 haskell 栈日志, 与非 haskell 栈词法面不相交 (首刷 110 仓
+# 枚举确认命中全为 GHC 进度行)。进度行不携带失败证据, 剔除无信息损失; 失败签名 (error 行/相位失败)
+# 词法面不交, 无信号吞噬风险。
+id: ghc-module-progress-noise
+title: 'GHC 模块编译进度行 ([N of M] Compiling, cabal/stack 包前缀两形态)'
+tool: ghc
+confidence: low
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?([^>]*> )?\[ *[0-9]+ of [0-9]+\] Compiling '
+kind: noise
+attribution:
+  contributor: lc (agent-drafted, opencode/GLM)
+  generated-by: { harness: opencode, model: glm-5.3 }
+  adapter-version: p3-wave1
