@@ -1,10 +1,26 @@
-# samples: niri-wm/niri/38707882543-116331716854, niri-wm/niri/38707552842-116330622870
-# cargo 依赖下载/编译进度行 (Downloaded/Compiling/Updating/...) — 高频噪音,
-# ANSI 色码与缩进容忍; 单行 noise 块, 从 signal 输出中剔除。
+# samples: niri-wm/niri/38707552842-116330622870 (正向锚), django/django/39535409436-119010803789, gradle/gradle/39541783022-119030943685, tailwindlabs/tailwindcss/39281027929-118155018623 (负向锚: 后三者命中过旧锚的跨栈行, 新锚须不命中)
+# cargo 依赖下载/编译进度行 — 高频噪音。P3 Wave0 收窄 (跨栈过匹配修复):
+# 旧锚 `(Compiling|Downloaded|Downloading|Updating|Unpacking|Fresh)` + 任意缩进容忍, 在首刷
+# 110 仓语料上命中 107 仓 — 吞掉非 cargo 生态的同词头行: pip `Downloading *.whl`、apt
+# `Unpacking <pkg> (...)`、git checkout `Updating files: N%`、freebsd pkg `Downloading [N]`/
+# `Updating FreeBSD repository...`、docker `Status: Downloaded ...`、甚至 Django 测试用例名
+# `Updating a field of a model subclass ... ok` (信号行被噪规则吞 = FN 风险)。
+# 新锚 = cargo 输出的两个结构不变量 (语料全量枚举证实, 见 PR 描述):
+#   1. 动词右对齐 12 列 (indent+动词长度恒 12): `   Compiling` / `  Downloaded` /
+#      ` Downloading` / `    Updating` / `      Fresh`; 其他包管理器同词头行均不满足
+#      (pip 0/2 缩进, uv 1 缩进 `Downloaded`, git/freebsd 0 缩进);
+#   2. 动词后接 cargo 专属尾缀: `<crate> v<semver>` (Compiling/Downloaded/Fresh)、
+#      `crates.io`/`git repository ` (Updating)、`crates` (Downloading)。
+# ANSI 容忍保留实测形态: 色码在缩进前 (`\x1b[1m\x1b[92m   Compiling\x1b[0m crate vN`),
+# 故 ANSI 组在 indent+动词单元两侧。`Unpacking` 移除 — cargo 不产此行 (apt 专属)。
 id: cargo-progress-noise
-title: cargo 进度噪音行 (Downloaded/Compiling/Updating)
+title: cargo 进度噪音行 (Compiling/Downloaded/Downloading/Updating/Fresh, 12 列对齐 + cargo 尾缀锚定)
 tool: cargo
 confidence: low
 patterns:
-  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\s*(?:\x1b\[[0-9;]*m)*\s*(Compiling|Downloaded|Downloading|Updating|Unpacking|Fresh)(?:\x1b\[[0-9;]*m)* '
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*(?:(   Compiling|  Downloaded|      Fresh)(?:\x1b\[[0-9;]*m)* \S+ v[0-9]|    Updating(?:\x1b\[[0-9;]*m)* (crates\.io|git repository )| Downloading(?:\x1b\[[0-9;]*m)* crates)'
 kind: noise
+attribution:
+  contributor: lc (agent-drafted, opencode/GLM)
+  generated-by: { harness: opencode, model: glm-5.3 }
+  adapter-version: p3-wave0
