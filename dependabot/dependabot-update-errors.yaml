@@ -1,0 +1,22 @@
+# samples: denoland/deno/39501107597-118898532638, denoland/deno/39473983149-118805061327
+# dependabot updater 命令行输出: `Dependabot encountered 'N' error(s) during execution, ...`
+# 后随 ASCII 框线 Errors 表 (`+--` / `| Type | Details |`, 含失败类型如 security_update_not_possible),
+# 容器层再报 `Failure running container <hash>: Error: Command failed with exit code 1: ...dependabot-updater`。
+# ext 链: 框线行 loop 贪心 → 单个空行透传 → Failure running 容器行收尾 (有界三段)。
+# `##[error]Dependabot encountered an error performing the update` 注解另由平台规则覆盖。
+id: dependabot-update-errors
+title: 'dependabot 更新失败 (error(s) during execution + Errors 框线表 + Failure running container)'
+tool: dependabot
+category: deps
+confidence: high
+patterns:
+  - regex: "^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Dependabot encountered '[0-9]+' error\\(s\\) during execution"
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?[\+|]'
+    loop: true
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?$'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Failure running container \S+: Error: Command failed'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

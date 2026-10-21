@@ -1,0 +1,19 @@
+# samples: flutter/flutter/39485579393-118846643094, flutter/flutter/39501333794-118899294729, flutter/flutter/39485579754-118844995048
+# flutter/cocoon wait_for_tests.dart 守卫失败: 等待的上游 engine test 失败/取消后, 守卫脚本以
+# `Error: One or more tests have failed, or the overall guard status is failed.` 终止 (flutter/flutter
+# Tree_analyze / Mac_arm64_verify_binaries job 的唯一失败标记, 8/8 样本同形态)。
+# `Failure: Action completed with errors.` 是同脚本的伴随行 (顺序不定), 由 context 带出而非单独锚。
+# 短语特异 (全语料仅此工具产出), 成功语料 0 命中。
+id: cocoon-wait-for-tests-failed
+title: 'cocoon wait_for_tests 守卫失败 (Error: One or more tests have failed...)'
+tool: cocoon
+category: test
+confidence: high
+context: {before: 4, after: 1}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(Error: One or more tests have failed, or the overall guard status is failed\.|Failure: Action completed with errors\.)'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

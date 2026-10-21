@@ -1,0 +1,18 @@
+# samples: denoland/deno/39579393507-119152936895, denoland/deno/39577699879-119147234941
+# deno 仓 tools/verify_pr_title.js (deno run 执行) 的 PR 标题 lint 失败:
+# `The PR title must start with one of the following prefixes:` + conventional-commits 前缀清单 +
+# `Please fix the PR title according to ...`。上一步的 `PR title: <实际标题>` 行由 context 带出。
+# 文案特异 (conventionalcommits.org 提示行仅此脚本产出), 成功语料 0 命中。
+id: verify-pr-title-invalid
+title: 'PR 标题 lint 拒绝 (The PR title must start with one of the following prefixes:)'
+tool: verify-pr-title
+category: lint
+confidence: high
+context: {before: 1, after: 6}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?The PR title must start with one of the following prefixes:'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

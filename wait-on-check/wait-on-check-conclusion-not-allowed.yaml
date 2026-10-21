@@ -1,0 +1,19 @@
+# samples: flutter/packages/38976753824-117227924025
+# lewagon/wait-on-check-action 失败 (第二形态): 等待的 check 结论不在允许清单 —
+# `The conclusion of one or more checks were not allowed. Allowed conclusions are: success, neutral.
+# This can be configured with the 'allowed-conclusions' param.` (上游 check 失败导致本 job 连坐)。
+# 前导的 `<check>: completed (conclusion)` 状态列表由 context 带出 (指认哪个 check 挂)。
+# 与 wait-on-check-never-run (check 未运行) 互斥互补, 覆盖该 action 的两种失败出口。
+id: wait-on-check-conclusion-not-allowed
+title: 'wait-on-check 结论不允许 (The conclusion of one or more checks were not allowed)'
+tool: wait-on-check
+category: infra
+confidence: high
+context: {before: 5, after: 0}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?The conclusion of one or more checks were not allowed\.'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

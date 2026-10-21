@@ -1,0 +1,18 @@
+# samples: redis/redis/39272658178-118128749433, redis/redis/39519806722-118960586912, redis/redis/39272657901-118128747522
+# redis 测试框架 Tcl harness 异常: `[exception]: Executing test client: <错因>` (客户端执行中断言/IO 错)
+# 与 `[exception]: Test client <sock> exited unexpectedly -- last client state: ...` (客户端崩溃, centos 样本)。
+# 后随 `Killing still running Redis server <pid>` 清理行; 崩溃样本 exception 前是千行级 client state 命令
+# dump (HSET/HGET 序列) — 同因级联形态, 刻意不向前扩展 (repeat-collapse 由引擎特性另行解决, 本规则只取签名)。
+id: redis-test-exception
+title: 'redis 测试客户端异常 ([exception]: Executing/exit unexpectedly + Killing server)'
+tool: redis-test
+category: test
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\[exception\]: '
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Killing still running Redis server [0-9]+'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

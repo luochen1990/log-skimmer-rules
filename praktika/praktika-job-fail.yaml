@@ -1,0 +1,20 @@
+# samples: ClickHouse/ClickHouse/39565674125-119108046165, ClickHouse/ClickHouse/39574722932-119138071991, ClickHouse/ClickHouse/39570391828-119133904324
+# praktika (ClickHouse CI 框架) job 失败树: 无缩进主行 `[<ts>] Fail [<job>]` 逐级嵌套
+# (`  Fail [Tests]` → `    Fail [<test>]` → `      | Reason: ...` / `| Code: N. DB::Exception: ...`)。
+# ext loop: 任意 praktika `[<ts>] ` 前缀行 (计数行/嵌套 Fail/原因行/`++++` 收尾线一并贪入),
+# 遇无前缀行 (空行) 即闭块 — 有界; 无前缀 wrap 续行丢失可接受 (签名已定位于锚行, 续文可 read_around)。
+# 实测 ClickHouse 全部 8 失败样本命中、3 成功样本零命中。
+id: praktika-job-fail
+title: 'praktika job 失败树 ([ts] Fail [job] + Failures 计数 + 嵌套 Fail/Reason/Exception)'
+tool: praktika
+category: test
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\[[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}\] Fail \['
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\[[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}\] '
+    loop: true
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

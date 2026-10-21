@@ -1,0 +1,19 @@
+# samples: flutter/flutter/39477011894-118815472602
+# flutter dev/bots 框架 (dev/bots/*.dart, ━━ 分隔线 + ▌hh:mm:ss▐ 前缀版式) 的命令失败汇总:
+# `Command exited with exit code N but expected zero exit code.` — bots runner 对子命令非零退出的
+# 标准报错 (该样本为 Tree_analyze job 的 format.dart/analyze.dart 失败, 同因重复 4 次, 均有界)。
+# 伴随行 (`Command: <cmd>` / `Working directory:` / ━━ 分隔线 / `You may find the errors by
+# searching for "╡ERROR #"`) 由 context 带出。文案特异, 成功语料 0 命中。
+id: flutter-bots-command-failed
+title: 'flutter bots 命令失败 (Command exited with exit code N but expected zero exit code.)'
+tool: flutter-bots
+category: build
+confidence: high
+context: {before: 2, after: 3}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Command exited with exit code [0-9]+ but expected zero exit code\.'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

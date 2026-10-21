@@ -1,0 +1,18 @@
+# samples: flutter/packages/39526055358-118980837910, flutter/packages/39455827439-118742306418, flutter/packages/39272706028-118128917560
+# lewagon/wait-on-check-action 失败: `The requested check was never run against this ref, exiting...`
+# — 等待的 check 超时未出现 (flutter/packages release job 8/8 样本唯一失败形态)。
+# 前置重试行 `Matching checks have not been found yet, will check again in 30 seconds. (Limit: 60s)`
+# 由 context.before 带出。行文案特异, 成功语料 0 命中。
+id: wait-on-check-never-run
+title: 'wait-on-check 等待的 check 未运行 (The requested check was never run against this ref)'
+tool: wait-on-check
+category: infra
+confidence: high
+context: {before: 2, after: 0}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?The requested check was never run against this ref, exiting\.\.\.'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

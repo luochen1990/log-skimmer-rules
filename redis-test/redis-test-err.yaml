@@ -1,0 +1,19 @@
+# samples: redis/redis/39412931925-118594896316, redis/redis/39272658178-118128749433, redis/redis/39346213296-118379326241
+# redis Tcl 测试框架 (tests/testlib) 逐用例失败行: `[err]: <用例名> in <file.tcl>`
+# (live 段) 与汇总节重放 `*** [err]: <用例名>` (尾段) — 同锚可选 `*** ` 前缀一并覆盖。
+# 断言详情行以 `Expected '...' to (be equal to|match|...)` 开头 (assert_* 家族统一前缀), loop 吞多行详情。
+# 通过形态是 `[ok]: `, 与 `[err]: ` 字符级不相交; 成功语料 0 命中。
+id: redis-test-err
+title: 'redis 测试用例失败 ([err]: name in file.tcl / *** [err]: 重放 + Expected 断言详情)'
+tool: redis-test
+category: test
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(\*\*\* )?\[err\]: '
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Expected ''.+'' to '
+    loop: true
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

@@ -1,0 +1,19 @@
+# samples: denoland/deno/39501040556-118898368232
+# git push 无凭据致命错: `fatal: could not read Username for 'https://...': No such device or address`
+# (CI 非交互环境无 terminal 可读凭据), 伴随后续 `send-pack: ...` / `fatal: the remote end hung up`
+# / `error: failed to push some refs` 级联。与既有 git-push-rejected (`! [rejected]` 锚) 不相交 —
+# 本形态无 rejected 行 (认证在协商前失败)。文案特异, 成功语料 0 命中。
+id: git-push-auth-failed
+title: 'git push 认证失败 (fatal: could not read Username + 拒答级联)'
+tool: git
+category: infra
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?fatal: could not read Username for '
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(fatal: |send-pack: |error: failed to push some refs)'
+    loop: true
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0
