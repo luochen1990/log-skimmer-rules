@@ -72,7 +72,7 @@ master CI 的 FN 红 (失败样本经规则集 skim 后 failure-intent fragment 
 - **机械红线**: agent 永不 merge / approve / force push (master 分支保护 require PR 是其机械屏障, 非自觉约束)。
 - **迭代上限**: PR CI 连续 3 轮红则停止迭代 — 留 draft 并开 issue 通报卡点, 交人工分诊。
 
-CI 侧数据面: lint 的判定违例明细以 `l0-verdict` artifact 机读产出 (见 §5), 供 agent 迭代环消费。
+CI 侧数据面: lint 的判定违例明细以 `l0-verdict` artifact 机读产出 (见 §5), 供 agent 迭代环消费; sweep 的 FN 事件另产 **`fn-evidence.json`** — FN 样本锚行证据摘要 (verdict fn detail 样本清单 × 语料通用失败关键词窗口 ±5 行, 每样本 ≤30 行锚行 / 总体积 ≤256KB), 经 `fn-evidence` artifact 与 reports 分支双渠道发布, 供 agent 免语料研判 — **语料永不离 CI runner** (v2 数据面原则)。
 
 ## License
 
