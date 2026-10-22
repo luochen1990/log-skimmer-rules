@@ -63,6 +63,17 @@ intent 三值与 category 十值的详细判定基准不在本文重复 — 见 
 
 sweep 首跑无上次 artifact 属合法首态 (跳过对比只出报告与断言); 其红是「上周→本周的退化信号」, 归因面为 规则集/引擎/语料 三者时点差的聚合, 需人工分诊。
 
+## 6. Agent 自动响应 (FN 契约)
+
+master CI 的 FN 红 (失败样本经规则集 skim 后 failure-intent fragment 数为 0) 由**维护者的自动化 agent** 响应, 无需社区处理。agent 与人类贡献者走完全相同的通道 (分支 + PR), 契约如下:
+
+- **产物形态**: 分支 `agent/fn-<run_id>` 的规则 PR 与归因 issue; 所有 PR/issue body 恒含 `dedup-key: run <run_id>` 行 — 既是 agent 的 run 级去重锚 (同一 run 至多响应一次), 也是人眼核对「该 run 是否已被响应过」的锚。
+- **draft → ready 语义**: agent 起草的 PR 以 **draft** 开; 自验证 (本地全链门禁, 与 CI 同口径) 通过后 flip 为 **ready**。ready 仅代表 agent 已尽力, 不代表已 review — **人是唯一的 review 与合并点**。
+- **机械红线**: agent 永不 merge / approve / force push (master 分支保护 require PR 是其机械屏障, 非自觉约束)。
+- **迭代上限**: PR CI 连续 3 轮红则停止迭代 — 留 draft 并开 issue 通报卡点, 交人工分诊。
+
+CI 侧数据面: lint 的判定违例明细以 `l0-verdict` artifact 机读产出 (见 §5), 供 agent 迭代环消费。
+
 ## License
 
 本仓规则与文档以 CC0 1.0 发布 (见 [LICENSE](LICENSE)) — 无版权保留, 可自由复用与再分发。
