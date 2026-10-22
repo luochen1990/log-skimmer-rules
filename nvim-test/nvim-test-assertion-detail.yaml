@@ -1,0 +1,23 @@
+# samples: neovim/neovim/39306452241-118244679306, neovim/neovim/39336560827-118347407101, neovim/neovim/39354801369-118407030881, neovim/neovim/39493051453-118870913961, neovim/neovim/39498802072-118891310509
+# neovim 测试 harness (test/reporter.lua) 失败清单的断言详情块: `...<截断路径>.lua:<行>: <msg>`
+# — 行首 `...` 是 harness 对长路径的截断标记 (栈帧行带 \t 前缀, 不在锚面), 扩展透传
+# Expected/Actual 头 (`Expected (anywhere):` / `Expected values to be equal.` 等变体,
+# loop) 与屏幕转储行 (`  |{...}`, loop)。与 nvim-test-run-fail (内联 RUN 行) 互补:
+# 本规则兜清单侧详情, 彼规则兜运行侧条目。
+id: nvim-test-assertion-detail
+title: 'nvim 测试断言详情块 (...path.lua:N: msg + Expected/Actual + 屏幕转储)'
+tool: nvim-test
+category: test
+confidence: high
+context: {before: 0, after: 3}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\.\.\.\S*\.lua:[0-9]+: \S'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(Expected|Actual|Observed)\b'
+    loop: true
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?  \|'
+    loop: true
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

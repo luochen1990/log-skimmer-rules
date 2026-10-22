@@ -1,0 +1,18 @@
+# samples: neovim/neovim/39306452241-118244679306, neovim/neovim/39336560827-118347407101, neovim/neovim/39354801369-118407030881, neovim/neovim/39493051453-118870913961, neovim/neovim/39498802072-118891310509
+# neovim 自研测试 harness (test/reporter.lua) 的内联失败行: `RUN      T<N> <desc>: <ms> ms FAIL`
+# — RUN + T 编号 + `: N.NN ms ` 计时 + 终态词 (FAIL 断言失败 / ERR error 状态) 四重结构;
+# 通过用例 (OK/SKIP) 不开块。context.after=6 带出紧随的失败描述头 (assert 消息 /
+# Expected:/Actual: 值段)。尾部失败清单 (`FAILED  ...lua @ N:`) 由既有 luaunit 族规则覆盖。
+id: nvim-test-run-fail
+title: 'nvim 测试内联失败行 (RUN T<n> desc: N ms FAIL/ERR)'
+tool: nvim-test
+category: test
+confidence: high
+context: {before: 0, after: 6}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?RUN +T[0-9]+ .+: [0-9.]+ ms (?:\x1b\[[0-9;]*m)*(FAIL|ERR)\b'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

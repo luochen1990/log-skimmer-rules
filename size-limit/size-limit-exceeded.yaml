@@ -1,0 +1,18 @@
+# samples: ant-design/ant-design/39675728845-119484955612
+# size-limit 产物体积门禁超标: `Size limit has been exceeded` — @size-limit 动作
+# core.setFailed 固定文案 (CLI 形态另有 `Package size limit has been exceeded by` 变体,
+# 前缀可选容忍)。context.before=8 带出紧邻上方的 `## size-limit report 📦` 体积对照表
+# (超标证据本体)。容忍 ##[error] 注解前缀与宿主时间戳。
+id: size-limit-exceeded
+title: 'size-limit 体积门禁超标 (Size limit has been exceeded + report 表)'
+tool: size-limit
+category: build
+confidence: medium
+context: {before: 8, after: 0}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(##\[error\])?(Package )?Size limit has been exceeded'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0
