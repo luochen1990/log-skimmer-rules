@@ -1,0 +1,21 @@
+# samples: luarocks/luarocks/37336450627-111865251576, luarocks/luarocks/37349875638-111897728961, luarocks/luarocks/37367391547-111955736438, luarocks/luarocks/37374715884-111980292552 (WindowsTest 2.1 luajit)
+# 锚: busted-htest 输出器 (busted 的 htest outputter, src/busted/outputHandlers/htest.lua)
+# 失败清单条目 ` FAILED <path>.lua:NNN: <test 名>` — 源码 L55 `colors.red(' FAILED') .. ' %s\n'`
+# + L105-112 getFileLine `<cyan path>:<cyan line>: `。`.lua` 路径 + `:NNN` 直连定位段是
+# 结构签名; 非 Windows+ANSICON 环境条目带 ANSI 包裹 (colors.red/cyan), 故锚容错 ESC。
+# 原名 luaunit-failed-test-entry 属误归属: 真 luaunit 全源码无 `listed below` 措辞
+# (摘要为 `Ran N tests in X seconds, N successes...`), 语料亦零真 luaunit 样本;
+# 2026-10-22 审计重归属 busted-htest, 并收紧锚 (退役 ` @ N:` 行列后置分支 —
+# 那是 neovim 自研 harness 形态, 由 nvim-test/nvim-test-failure-list-entry 接管)。
+id: busted-htest-failed-test-entry
+title: 'busted-htest 失败条目 ( FAILED path.lua:NNN: <test 名>)'
+tool: busted-htest
+category: test
+confidence: high
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)* ?FAILED {1,2}(?:\x1b\[[0-9;]*m)* ?(?:\x1b\[[0-9;]*m)*\S*\.lua(?:\x1b\[[0-9;]*m)*:(?:\x1b\[[0-9;]*m)*[0-9]+(?:\x1b\[[0-9;]*m)*: '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0
