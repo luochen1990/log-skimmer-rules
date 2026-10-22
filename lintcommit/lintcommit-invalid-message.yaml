@@ -1,0 +1,19 @@
+# samples: neovim/neovim/39574891773-119137848358, neovim/neovim/39577601889-119146906016
+# neovim 自研 commit message 检查 (`scripts/lintcommit.lua`, cmake lintcommit 目标):
+# `Invalid commit message: "<原文>"` + 4 空格缩进的原因行 (`Commit: <sha>` /
+# `Invalid commit type ...` / `Description ends with a period` 等)。文案带项目特异
+# 标记 (spec §1.S: 自研检查带特异锚 → 中央仓), 逐违规条目循环开块 (loop 消费缩进原因行)。
+id: lintcommit-invalid-message
+title: 'lintcommit 违规条目 (Invalid commit message + 缩进原因)'
+tool: lintcommit
+category: lint
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Invalid commit message: '
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?    \S'
+    loop: true
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

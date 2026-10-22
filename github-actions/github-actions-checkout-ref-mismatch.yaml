@@ -1,0 +1,17 @@
+# samples: catchorg/Catch2/37779252547-113317872355, catchorg/Catch2/37779252605-113317872554, catchorg/Catch2/37779252613-113317872332, catchorg/Catch2/37779252720-113317872370
+# actions/checkout ref 漂移守卫: `The ref '<ref>' does not point to the expected commit
+# '<sha>'. The ref may have been updated after the workflow was triggered.` — checkout
+# action 的固定文案 (单行), tag 在 workflow 触发后被强推时出现; 与 git-fetch-ref-not-found
+# (couldn't find remote ref, ref 被删) 是同一故障的两种落点。容忍 ##[error] 注解前缀。
+id: github-actions-checkout-ref-mismatch
+title: 'actions/checkout ref 漂移 (The ref does not point to the expected commit)'
+tool: github-actions
+category: infra
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(##\[error\])?The ref ''\S+'' does not point to the expected commit'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

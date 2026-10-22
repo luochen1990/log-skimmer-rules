@@ -1,0 +1,18 @@
+# samples: DavidAnson/markdownlint/38597448203-115967705656, DavidAnson/markdownlint/38674542795-116225024696
+# eslint stylish 汇总尾行 `✖ N problems (M errors, K warnings)` — `✖` + problems 括号计数
+# 是 eslint CLI 固定签名; 要求 errors 计数 ≥1 (首位非零): warning-only 的通过运行打印
+# `✖ 5 problems (0 errors, 5 warnings)` 不开块, 零 FP。扩展透传紧随的
+# `N errors and K warnings potentially fixable` 行。容忍 ANSI 色码 / [label] 前缀 / 时间戳。
+id: eslint-stylish-summary
+title: 'eslint stylish 汇总尾行 (✖ N problems (M errors, K warnings))'
+tool: eslint
+category: lint
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(\[[^\]]+\] )*(?:\x1b\[[0-9;]*m)*✖ [0-9]+ problems? \([1-9][0-9]* errors?, [0-9]+ warnings?\)'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(\[[^\]]+\] )* *[0-9]+ errors? and [0-9]+ warnings? potentially fixable'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

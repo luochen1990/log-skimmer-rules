@@ -1,0 +1,18 @@
+# samples: catchorg/Catch2/37779252546-113317871920, catchorg/Catch2/37779252555-113317873607, catchorg/Catch2/37779252558-113317872300, catchorg/Catch2/37779252571-113317871962
+# git fetch/checkout 取不到远程 ref: `fatal: couldn't find remote ref <ref>` (git 自身签名,
+# tag 被移动/删除后 actions/checkout 拉取失败的高频形态); 扩展透传 GHA toolkit 的
+# `The process '<git>' failed with exit code 128` 退出码级联行 (两行常相邻, 亦有
+# ##[error] 注解前缀形态, 锚与扩展均容忍)。与既有 git-push-* (push 侧) 正交 — 本规则是 fetch 侧。
+id: git-fetch-ref-not-found
+title: 'git 远程 ref 不存在 (fatal: couldn''t find remote ref + process 退出码级联)'
+tool: git
+category: infra
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(##\[error\])?fatal: couldn''t find remote ref '
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(##\[error\])?The process ''\S+'' failed with exit code -?[0-9]+'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0
