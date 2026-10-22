@@ -1,0 +1,29 @@
+# samples: erlang/otp/2026-10-22/39770929558-119798154584-finished-tests (FN 闭环, sweep run 39797013222)
+#   同锚 TP 佐证 (本语料 34 样本命中): laravel/framework, semgrep/semgrep, django/django,
+#   mockito/mockito, opencv/opencv, bitcoin/bitcoin, eslint/eslint 等
+# Python 未捕获异常 traceback 的尾行 (异常类名 + 消息) — 解释器崩溃的收束签名:
+#   FileNotFoundError: [Errno 2] No such file or directory: 'artifacts/Event File/event.json'
+#   AssertionError: 2 != 1 : Found 2 instances of '...' (expected 1) ...
+# 锚选择依据 (FP 免疫优先于召回, 三重收窄, 全语料成功侧实测 0 命中):
+#   1. 裸类名 (无点分包前缀) — Java 全限定名 (jakarta.jms.JMSException) / Haskell 模块名
+#      (Hadolint.Formatter.ParseError) 免疫 (spring-boot/hadolint 成功样本实测);
+#   2. 必须带非空消息 (\`: .+\`) — 空消息行 (\`java.lang.Exception: \`) 与裸类名行免疫;
+#   3. 类名以 Error|Exception 结尾 — 成功侧被捕获打印的预期异常 (pydantic 的
+#      StopIteration / coverage_comment.github.NoArtifact) 免疫。
+# 点分全限定形态 (django.core...CommandError / subprocess.CalledProcessError) 刻意不覆盖 —
+# 与 Java 预期内异常日志 (spring-boot 成功样本) 同构无法判别, 该形态样本均已有其他规则覆盖。
+# 单行锚 + context.before 7 带出 traceback 主体 (File/源码行) — 状态机不扩展 (防贪心吞段),
+# 证据完整性由呈现层 context 兑现。category 跨因 (assert/infra/deps) → unknown (宁缺勿错)。
+id: python-traceback-uncaught-exception
+title: 'Python 未捕获异常 traceback 尾行 (裸异常类名 + 消息)'
+tool: python-traceback
+category: unknown
+confidence: medium
+context: {before: 7, after: 0}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?[A-Za-z_][A-Za-z0-9_]*(Error|Exception): .+$'
+kind: signal
+attribution:
+  contributor: 'LuoChen <luochen1990@gmail.com> (agent-drafted, fn-responder/glm-5.3)'
+  generated-by: {harness: fn-responder, model: glm-5.3}
+  adapter-version: 0.1.0
