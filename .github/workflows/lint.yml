@@ -8,6 +8,8 @@
 #   2. L0 全量断言 (PR 侧): FN=0 / FP率≤2% / 零块=0 / 边界违例=0
 #   3. 压缩率双测: base rules (master) vs PR rules — 同引擎同语料, 纯规则变量归因,
 #      退化 >2% 判红 (与引擎仓 gate 同一判定语义, 编排对称: 那边变引擎这边变规则)
+# 判定产物: l0 verdict JSON (违例明细) 恒上传 l0-verdict artifact (机读, 红 run 供
+#   维护者的 agent 迭代环消费 — 见 README「agent 自动响应」节; 绿 run 恒传无分支)。
 # 降级: 发布面仓为空 (首次 publish 前) 时显式 skip 并说明 — 不假绿 (日志可见)。
 name: lint
 on:
@@ -65,6 +67,7 @@ jobs:
         # 被引擎静默当空规则集 → 恒 100% 压缩伪 regression; 引擎已加硬拒绝防线)。
         run: git -C rules-pr fetch --depth 1 origin master && git -C rules-pr worktree add --detach ../rules-base origin/master
       - name: L0 双测 (PR rules vs base rules × 同引擎同语料; 引擎 l0 子命令)
+        id: l0
         if: steps.engine.outputs.ready == 'true'
         run: |
           set -euo pipefail
@@ -76,4 +79,16 @@ jobs:
           [ "$n" -ge 25 ] || { echo "规则数异常 ($n <25), 疑拉取失败"; exit 1; }
           "$B" l0 --corpus corpus --rules rules-pr --emit-summary > /tmp/s-pr.json
           "$B" l0 --corpus corpus --rules rules-base --emit-summary > /tmp/s-base.json
-          "$B" l0 --corpus corpus --rules rules-pr --base /tmp/s-base.json
+          # l0 流分离契约: stdout = 完整 JSON 判定报告 (verdict/violations/
+          # compression_compare, 机读), stderr = 单行摘要 — 重定向落盘供 artifact
+          # (违例判定失败时 exit 1 步红, 文件已落盘, 红 run 恰是消费方)
+          "$B" l0 --corpus corpus --rules rules-pr --base /tmp/s-base.json > verdict.json
+      - name: 上传 l0 verdict artifact (机读违例明细; 消费方见 README §6 agent 自动响应)
+        # 恒传 (红绿不分支): 绿 run 的小 JSON 无害, 红绿分支是零正确性收益的
+        # outcome 耦合 — 与 sweep.yml 「红绿照常产出 artifact」同风格;
+        # != skipped 守护 engine 未就绪降级路径 (l0 未跑无文件不上传)
+        if: always() && steps.l0.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: l0-verdict
+          path: verdict.json
