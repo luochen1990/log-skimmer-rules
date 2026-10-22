@@ -6,7 +6,12 @@
 #       触发器 id 由服务端生成, 故幂等 = 先删除指向本 agent 的既有同类规则再建。
 #
 # 用法:  AGENT_SERVICE_URL=http://127.0.0.1:8300 bash .github/fn-responder/register.sh
-#        (缺省 http://127.0.0.1:8300; agent-service 无认证, loopback 绑定是唯一网络边界)
+#        (缺省 8300 是 agent-service README 的 **dev 默认端口** — 生产 unit 端口
+#         由部署侧 nixos `services.agent-service.port` 决定, 与 dev 默认不同!
+#         生产执行一律**显式传 AGENT_SERVICE_URL**, 勿依赖缺省值 — 本机若有存量
+#         dev 实例占听 8300, 缺省打过去会命中错误服务 (422 工具不在白名单目录);
+#         首部署事故 2026-10-22 见维护者内部 runbook。agent-service 无认证,
+#         loopback 绑定是唯一网络边界)
 #
 # 前置 (缺失时本脚本报错退出, 详见 README 部署节):
 #   - 服务端 toolCatalog 有名为 "github" 的 MCP server (github-mcp-server, PAT 只授权 rules 仓)
