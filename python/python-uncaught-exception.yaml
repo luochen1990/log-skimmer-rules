@@ -1,5 +1,5 @@
 # samples: erlang/otp/39770929558-119798154584 (finished-tests — publish-unit-test-result-action
-# 容器内 Python 崩溃: Event File 工件缺失 → FileNotFoundError, 无 ##[error] 注解行故既有安全网失明)
+# 容器内 Python 崩溃: Event File 工件缻失 → FileNotFoundError, 无 ##[error] 注解行故既有安全网失明)
 # 锚: python traceback 异常终行 `<module-path>.<ExceptionName>: <msg>` — 枚举语料实证的内建异常名
 # (FileNotFoundError/ModuleNotFoundError/AssertionError/RuntimeError/ValueError/TypeError/CalledProcessError),
 # module 前缀可选容忍 (如 subprocess.CalledProcessError)。
@@ -7,12 +7,15 @@
 # (pydantic/39768911862 coverage-comment action catch 后继续成功, 其终行为自定义 NoArtifact, 不在枚举不命中);
 # 无消息的 StopIteration 无冒号天然不匹配。TypeError 同形覆盖 JS 未捕获崩溃行首形态
 # (eslint/37486997319, home-manager/37361595634 — 与 node-uncaught-exception 重叠命中, 无独立 FP 面)。
-# 锚预检 (1318 样本): 26 命中 = 25 已覆盖 failure + 1 FN 本样本, 0 success, 0 gate_exempt。
+# 锚预检 (1349 样本, 语料 86624b2, 2026-10-22): 27 命中 = 26 已覆盖 failure + 1 FN 本样本,
+# 0 success, 0 gate_exempt (逐异常: TypeError 10 / AssertionError 8 / RuntimeError 3 /
+# FileNotFoundError 2 / ValueError 2 / CalledProcessError 1 / ModuleNotFoundError 1, 全失败侧)。
 # 深栈 (Traceback 头 + File 帧) 由 context.before=8 摘要带出, 终行后一行 (退出码/空行) 由 after=1。
 id: python-uncaught-exception
 title: 'python 未捕获异常 (traceback 异常终行 ...Error: msg)'
 tool: python
 category: unknown
+intent: failure
 confidence: high
 context: {before: 8, after: 1}
 patterns:
