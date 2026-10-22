@@ -2,9 +2,10 @@
 #
 # 职责边界: 纯渲染 (数据 → markdown), 语义 SSOT = 引擎 l0.rs 模块注释 (分级/
 #   ppv/lift/spec 定义与阈值), 本文只渲染。输入 = 引擎 `l0 --emit-summary` 的
-#   summary JSON; 旧引擎产物无健康字段时输出缺席提示 (不空表)。
+#   summary JSON + history.jsonl 全量 (含本轮 — 脚本先追加后渲染); 旧引擎产物
+#   无健康字段时输出缺席提示 (不空表); 旧 history 记录无 dead_rules 按无死规则处理。
 #
-# 用法: jq -rn -f health-md.jq --slurpfile s summary.json
+# 用法: jq -rn -f health-md.jq --slurpfile s summary.json --slurpfile h history.jsonl
 #   (与 summary-md.jq 同模式; 本文件是 standalone 文档渲染器, 消费面 = reports
 #   分支 rules-health.md — 人逛的健康度总表, summary-md.jq 只放短段 + 链接)
 
@@ -13,6 +14,12 @@ def f3: ((. * 1000 | round) / 1000 | tostring);  # ppv/lo/lift 三位收敛 (浮
 def link($r; $t):
   # 目录名 = tool 字段 (规则 id 含连字符不可逆推; 引擎 RuleHealth.tool, #93 起)
   "[`\($r)`](https://github.com/luochen1990/log-skimmer-rules/blob/master/\($t)/\($r).yaml)";
+
+def dead_streak($hist; $r):
+  # 连续死王轮数: 从最新记录 (数组尾) 往回数规则在 dead_rules 连续在场数,
+  #   首个不在场记录即截断; 旧记录无 dead_rules 按无死规则 (null-guard)
+  [ $hist | reverse[] | (((.dead_rules // []) | index($r)) != null) ]
+  | (index(false) // length);
 
 ($s[0] // {}) as $s |
 ($s.per_rule_health // null) as $hh |
@@ -28,6 +35,19 @@ else
   ([$rules[] | select(.value.grade == "boundary")] | length) as $n_bnd |
   ([$rules[] | select(.value.intent == "info" and ((.value.lift > 1.2) or (.value.lift < 0.8))) | .key]) as $bad_info |
   ([$rules[] | select(.value.intent == "failure" and (($fire[.key].fire_success // 0) > 0)) | .key]) as $fp_form |
+  # 腐化预警旗标 (failure-intent 限定): 可靠度崩塌 / 与结论解相关
+  ([$rules[] | select(.value.intent == "failure" and .value.ppv_lo < 0.5)]) as $rot_ppv |
+  ([$rules[] | select(.value.intent == "failure" and (.value.lift > 0.8) and (.value.lift < 1.2)
+       and ((($fire[.key].fire_failure // 0) + ($fire[.key].fire_success // 0)) >= 20))]) as $rot_lift |
+  # 死规则连续性: 曾死者取全历史最近连续在场轮数, ≥3 为死王 (锚失效腐化信号)
+  (($h // [])) as $hist |
+  ([[ $hist[] | .dead_rules // [] | .[] ] | unique[]
+     | . as $r | {id: $r, n: dead_streak($hist; $r)} | select(.n >= 3)]
+     | sort_by(-.n)) as $dead_kings |
+  # 旗标条目行 (两旗标同格式: 链接 + a/b + ppv(lo) + lift)
+  def rot_line:
+    .key as $r | .value as $hv
+    | "  - \(link($r; $hv.tool)): a/b=\($fire[$r].fire_failure // 0)/\($fire[$r].fire_success // 0) ppv=\($hv.ppv | f3) (lo \($hv.ppv_lo | f3)) lift=\($hv.lift | f3)";
   [ "# 规则健康档案 (每轮 sweep 自动刷新)",
     "",
     "- 诊断覆盖率: **\($cov.covered)/\($cov.total) = \($cov.pct)%** — 含 ≥1 诊断规则失败块的失败族样本占比",
@@ -58,6 +78,25 @@ else
     else
       ["", "## boundary / 异常 (人工审)", "", "无 — 分级分布健康。"]
     end)
+  + (["", "## 腐化预警", "", "failure 规则的个体腐化快照 (连续性视角见下节):"]
+     + (if ($rot_ppv | length) > 0 then
+         ["- ppv_lo < 0.5 — 触发推出失败的可靠度崩塌 (锚过宽或形态漂移):",
+          ($rot_ppv[] | rot_line)]
+       else [] end)
+     + (if ($rot_lift | length) > 0 then
+         ["- 0.8 < lift < 1.2 且 a+b ≥ 20 — 与结论解相关 (failure 规则应与失败正相关; lift≈1 = 常数化, 锚退化成了背景噪音; info 规则本应 lift≈1 故不在列):",
+          ($rot_lift[] | rot_line)]
+       else [] end)
+     + (if (($rot_ppv | length) == 0 and ($rot_lift | length) == 0) then
+         ["无 — 个体健全。"]
+       else [] end))
+  + (["", "## 死规则连续性", ""]
+     + (if ($dead_kings | length) > 0 then
+         ["连续 ≥3 轮零命中 (per_rule_hits==0 连续在场; 锚随上游形态漂移失效, 候选重锚/退役):",
+          ($dead_kings[] | "- `\(.id)`: 连续 \(.n) 轮零命中")]
+       else
+         ["无连续 ≥3 轮死规则。"]
+       end))
   + (["", "## intent 声明 vs 统计核对", "",
      "- info 规则应 lift ≈ 1.0 (触发与结论独立); 偏离 >20% 列出:"]
     + (if ($bad_info | length) > 0 then
