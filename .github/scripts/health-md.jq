@@ -36,7 +36,8 @@ else
   ([$rules[] | select(.value.intent == "info" and ((.value.lift > 1.2) or (.value.lift < 0.8))) | .key]) as $bad_info |
   ([$rules[] | select(.value.intent == "failure" and (($fire[.key].fire_success // 0) > 0)) | .key]) as $fp_form |
   # 腐化预警旗标 (failure-intent 限定): 可靠度崩塌 / 与结论解相关
-  ([$rules[] | select(.value.intent == "failure" and .value.ppv_lo < 0.5)]) as $rot_ppv |
+  ([$rules[] | select(.value.intent == "failure" and .value.ppv_lo < 0.5
+           and (($fire[.key].fire_failure + $fire[.key].fire_success) >= 20))]) as $rot_ppv |
   ([$rules[] | select(.value.intent == "failure" and (.value.lift > 0.8) and (.value.lift < 1.2)
        and ((($fire[.key].fire_failure // 0) + ($fire[.key].fire_success // 0)) >= 20))]) as $rot_lift |
   # 死规则连续性: 曾死者取全历史最近连续在场轮数, ≥3 为死王 (锚失效腐化信号)
@@ -80,7 +81,7 @@ else
     end)
   + (["", "## 腐化预警", "", "failure 规则的个体腐化快照 (连续性视角见下节):"]
      + (if ($rot_ppv | length) > 0 then
-         ["- ppv_lo < 0.5 — 触发推出失败的可靠度崩塌 (锚过宽或形态漂移):",
+         ["- ppv_lo < 0.5 (证据量 a+b≥20 才参评 — 小样本 Wilson 下界天然低, 非崩塌) — 触发推出失败的可靠度崩塌 (锚过宽或形态漂移):",
           ($rot_ppv[] | rot_line)]
        else [] end)
      + (if ($rot_lift | length) > 0 then
