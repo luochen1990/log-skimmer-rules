@@ -50,17 +50,17 @@ log-skimmer l0 --corpus corpus --rules rules --emit-summary > summary.json 2> l0
 
 - l0 exit 0 → 本地无违例 → **verdict_mismatch**: 大概率是引擎版本偏斜 (CI 用发布面 master, 你用部署方注入版)。以 outcome=verdict_mismatch 收卷, notes 记录你的 `log-skimmer --version` 与规则/语料 commit, 并开一条 issue 说明偏斜疑点, 不写规则。
 - exit 1 (断言违例) → 解析 stderr/summary 定红因: 违例 kind 不是 fn (fp-rate/zero-block/boundary/compression 族) → outcome=fp_report, 开 issue 报告违规类型与证据, 不写规则。
-- kind 是 fn → 其 detail 是 `{仓路径: FN 计数}` 的逐仓清单。对其中每个仓跑逐样本定位 (FN 谓词与引擎一致 — conclusion ∈ {failure, timed_out} ∧ sidecar gate_exempt != true ∧ skim failure-intent fragment 数为 0):
+- kind 是 fn → 定位 FN 样本 (FN 谓词与引擎一致 — conclusion ∈ {failure, timed_out} ∧ sidecar gate_exempt != true ∧ skim failure-intent fragment 数为 0)。**注意: 当前引擎 FN 违例的 detail 为空数组 (未细化)** — 定位范围不依赖 detail: detail 非空 (未来引擎细化后) 按其逐仓清单缩小范围; detail 为空 (现状) 则直接全语料扫描 (1318 样本 × skim ≈ 数分钟, 15min 节拍内可容):
 
 ```bash
-find corpus/<该仓路径> -name '*.log.json' | while read sc; do
+find corpus -name '*.log.json' | while read sc; do   # 全语料扫描 (detail 空时); 引擎细化 detail 后可改 corpus/<该仓路径> 缩范围
   jq -e 'select(.conclusion=="failure" or .conclusion=="timed_out") | select(.gate_exempt != true)' "$sc" >/dev/null 2>&1 || continue
   n=$(log-skimmer skim --rules rules --json "${sc%.json}.gz" 2>/dev/null | jq '[.blocks[].fragments[] | select(.intent=="failure")] | length')
   [ "${n:-1}" = "0" ] && echo "FN: ${sc%.json}.gz"
 done
 ```
 
-- clone 后样本已不在语料 (corpus 6h 轮换出窗) → 该样本标 ghost。FN 清单为空且无其他违例 → CI 红因已随轮换消失 → outcome=ghost 收卷; 部分样本 ghost 时在报告逐样本标注, 其余样本照常分类。
+- clone 后样本已不在语料 (corpus 6h 轮换出窗) → 该样本标 ghost。**全语料扫描后** FN 清单为空且无其他违例 → CI 红因已随轮换消失 → outcome=ghost 收卷 (禁止在未做全语料扫描时以 detail 为空为由判 ghost — detail 空是引擎现状, 不是无 FN 的证据); 部分样本 ghost 时在报告逐样本标注, 其余样本照常分类。
 
 ## 4. 分类 (对每个 FN 样本)
 
