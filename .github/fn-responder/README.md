@@ -34,8 +34,9 @@ agent-service interval 触发器 (每 15min)
 | 归因 issue | 标题 `structural FN: ...`, body 含分类证据 + 豁免提请 (corpus 仓 `projects.yaml` 的 `exempt` 字段是项目级豁免通道, agent 只提请不代改) | 裁决豁免或 close |
 | FP 报告 issue | 非 FN 红因 (FP 率/零块/边界/退化) 的证据报告 | 按普通门禁红处理 |
 
-所有 PR/issue body 恒含 `dedup-key: run <id>` 行 — 既是去重锚 (agent 每轮开工前搜它),
-也是人眼快速核对「这个 run 是否已被响应过」的锚。
+FN 样本分类混合时 (部分可翻转 + 部分结构性) 产出 PR + issue 双件 (逐样本明细在
+PR/issue body)。所有 PR/issue body 恒含 `dedup-key: run <id>` 行 — 既是去重锚
+(agent 每轮开工前搜它), 也是人眼快速核对「这个 run 是否已被响应过」的锚。
 
 ## 防环与限流 (设计事实, 改动前先理解)
 
@@ -53,10 +54,15 @@ agent-service interval 触发器 (每 15min)
 
 1. `agent.json` — 响应 agent 的完整任务定义 (system prompt 即执行剧本), 经
    `register.sh` 幂等注册 (或经 `AGENT_SERVICE_STATIC_AGENTS_DIR` 静态目录装载)。
-2. `register.sh` — 注册 agent + interval 触发器 (幂等, 重跑即换新)。
+   由 `build_agent.py` 生成 (system prompt 是长文本, JSON 转义后手工编辑易错 —
+   改剧本改 builder 再跑一次, 产物零手工)。
+2. `register.sh` — 注册 agent + interval 触发器 (幂等, 重跑即换新; agent 定义
+   变化 = 新 uuid, 必须重跑重绑触发器)。
 3. 部署侧前置 (服务端配置, 详见维护者内部 runbook): toolCatalog 挂 `github`
-   MCP server (PAT 只授权本仓), sandboxTools 注入 `git` 与 `log-skimmer`
-   (引擎二进制), 引擎版本与发布面 master 对齐。
+   MCP server (PAT 只授权本仓, 工具白名单对齐所部署 github-mcp-server 版本的
+   工具名 — v1.14 是 issue_write/issue_read/push_files, 而非 create_issue/get_issue),
+   sandboxTools 注入 `git` 与 `log-skimmer` (引擎二进制), 引擎版本与发布面 master
+   对齐, rules 仓 master 开分支保护 (require PR — 「永不合并」的机械屏障)。
 
 引擎二进制版本偏斜会让 agent 的本地复判与 CI 判定分叉 (verdict_mismatch 报告会
 提示) — 部署侧应随发布面演进更新 sandboxTools 的引擎包。
