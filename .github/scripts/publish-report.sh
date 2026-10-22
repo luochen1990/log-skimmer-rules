@@ -10,12 +10,15 @@
 # 语义: verdict 红绿照常发布 — 徽章忠实反映 fail (防腐状态公开可见), 红不是不发
 #   报告的理由 (报告恰是红的诊断材料)。
 #
-# 用法: publish-report.sh <summary.json> <verdict.json> <engine_sha> <rules_sha> <corpus_sha>
+# 用法: publish-report.sh <summary.json> <verdict.json> <engine_sha> <rules_sha> <corpus_sha> [fn-evidence.json]
+#   第 6 参可选: FN 证据摘要 (仅 FN 红 run 产生) — 在场则一并发布到 reports 分支
+#   (快照语义: 文件在 ⟺ 本轮有 FN, 孤儿单提交重写天然清除上轮旧文件, 防 agent
+#   消费过期证据)。
 # 环境: REPO_SLUG (如 luochen1990/log-skimmer-rules) / GITHUB_TOKEN (push 权限) / RUN_URL
 #   (脚本可从任意 CWD 调用: summary-md.jq 按脚本自身位置定位)
 set -euo pipefail
 
-summary=$1 verdict=$2 esha=$3 rsha=$4 csha=$5
+summary=$1 verdict=$2 esha=$3 rsha=$4 csha=$5 fne=${6:-}
 slug=${REPO_SLUG:?REPO_SLUG 必填} run_url=${RUN_URL:-"(run URL 缺失)"}
 here=$(cd "$(dirname "$0")" && pwd)
 asof=$(date -u +%F)
@@ -78,6 +81,9 @@ jq -rn -f "$here/health-md.jq" --slurpfile s "$summary" --slurpfile h history.js
   echo
   echo "- 时点: $asof · verdict: **$v** · 引擎 \`${esha:0:7}\` · 规则 \`${rsha:0:7}\` · 语料 \`${csha:0:7}\`"
   echo "- 运行记录: $run_url · 消费方: README 徽章 — 本文件即其数据源, 勿手工编辑"
+  if [ -n "$fne" ] && [ -f "$fne" ]; then
+    echo "- FN 证据: fn-evidence.json — 本轮 FN 样本锚行证据摘要 (agent 迭代环机读源, README §6)"
+  fi
   echo
   jq -rn -f "$here/summary-md.jq" --slurpfile s "$summary" --slurpfile v "$verdict"
 } > latest.md
@@ -86,6 +92,7 @@ jq -rn -f "$here/health-md.jq" --slurpfile s "$summary" --slurpfile h history.js
 work=$(mktemp -d)
 git -C "$work" init -q -b reports
 cp -r badges latest.md rules-health.md history.jsonl "$work/"
+if [ -n "$fne" ] && [ -f "$fne" ]; then cp "$fne" "$work/"; fi
 git -C "$work" add -A
 git -C "$work" -c user.name=sweep-bot -c user.email=sweep-bot@users.noreply.github.com \
   commit -qm "sweep report $asof (verdict=$v)"

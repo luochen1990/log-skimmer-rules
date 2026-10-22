@@ -20,6 +20,11 @@
 #   基线恒取「最近一次成功 run」(红 run 的 artifact 仅作诊断, 不作基线 — 防
 #   红→红对比把退化漂移成新常态)。
 #
+# FN 事件数据面 (fn-responder v2): fn 违例 detail 非空时另产 fn-evidence.json
+#   (FN 样本锚行证据摘要, KB 级 — verdict 样本清单 × 语料关键词窗口, 语料本体
+#   永不离 runner), 独立 fn-evidence artifact + reports 分支双渠道发布, 供内网
+#   agent 免语料研判 (消费契约见 README §6)。
+#
 # 时段: 语料仓 refresh = 周一 20:00 UTC (124 仓抓取 45-115min, 最晚 ~23:00 落地),
 #   sweep 取周二 03:00 UTC — 错开 refresh 窗口且留 4h+ 余量, 每周扫的恒是本周新语料。
 name: sweep
@@ -98,6 +103,18 @@ jobs:
           set -e
           echo "rc=$rc" >> "$GITHUB_OUTPUT"
           exit 0 # 红/绿统一由末步落地; 本步中断会吞掉报告与 artifact (红 run 更需要它们)
+      - name: FN 证据提取 (fn detail 非空 → fn-evidence.json; 辅助产物, 内部失败降级 warning 不劫持哨兵主链)
+        id: fnev
+        if: always() && steps.report.outcome == 'success' # 与 artifact/publish 同前置: verdict 在场才有证据可言
+        run: |
+          set -uo pipefail
+          # 脚本契约: 0 = 完成 (含无 FN 零产物的绿跳过) / 1 = 内部错误。证据是辅助
+          # 产物 — 红 run 的主链 (verdict/artifact/publish) 不得被它劫持 → warning 降级。
+          if ! bash rules/.github/scripts/fn-evidence.sh corpus verdict.json fn-evidence.json; then
+            echo "::warning::fn-evidence 提取内部错误 — 跳过证据产物 (哨兵判定与报告不受影响)"
+            rm -f fn-evidence.json
+          fi
+          if [ -s fn-evidence.json ]; then echo "present=true" >> "$GITHUB_OUTPUT"; fi
       - name: 渲染 job summary (gated/exempt 双组 + 逐仓分解 + 规则×仓矩阵, 大表折叠)
         if: always() && steps.report.outcome == 'success'
         run: |
@@ -118,6 +135,15 @@ jobs:
           path: |
             summary.json
             verdict.json
+      - name: 上传 fn-evidence artifact (FN 样本锚行证据摘要 — v2 agent 迭代环机读源, README §6)
+        # 独立 artifact 而非并入 l0-summary: 后者是下次 sweep 基线下载的稳定文件集
+        # 契约, 且绿 run 无此文件时并入会逐 run 产生 no-files warning — 条件独立
+        # 上传零噪音, 「FN 事件 → 证据在场」在 UI 上因果显式 (步 skipped vs ran)。
+        if: always() && steps.report.outcome == 'success' && steps.fnev.outputs.present == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: fn-evidence
+          path: fn-evidence.json
       - name: 发布 reports 分支 (README 活指标徽章数据 + latest.md; 红绿照常发布)
         if: always() && steps.report.outcome == 'success'
         env:
@@ -129,7 +155,8 @@ jobs:
           bash rules/.github/scripts/publish-report.sh summary.json verdict.json \
             "$(git -C engine-repo rev-parse HEAD)" \
             "$(git -C rules rev-parse HEAD)" \
-            "$(git -C corpus rev-parse HEAD)"
+            "$(git -C corpus rev-parse HEAD)" \
+            fn-evidence.json # 可选第 6 参: 仅 FN 红 run 在场, 脚本内 -f 容忍缺失
       - name: gate 结果落地 (断言违例/退化 → 红)
         if: always()
         run: |
