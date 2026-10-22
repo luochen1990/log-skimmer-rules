@@ -1,0 +1,20 @@
+# samples: Alamofire/Alamofire/36341365449-108681984757 (Windows 937 诊断级联, 曾致退役形态), swiftlang/swift-syntax/39357947946-118417040953, swiftlang/swift-format/35045825940-104635354516
+# 锚: swiftc 编译诊断 `path.swift:L:C: error: msg` — .swift/.sil 扩展名 + 双坐标限定,
+# 与 zig (.zig/.zon) / gcc-clang (.c/.cc/...) 诊断族按扩展名正交; 无坐标的裸
+# `error: ... exit code` 驱动失败行不吸 (swift-build-error 的管辖, 过匹配教训见其头注释)。
+# 级联不在规则层回避: 同型类型错误级联 (~2500 处/样本) 由引擎 repeat-collapse 折叠
+# (spec §3.R, 937 块实测折叠后 90 行呈现) — 本规则即该折叠能力解锁的首个受益规则族。
+# context.after=4 带源码摘录行 / caret 行 (`- error:`) / `note:` 诊断附注。
+id: swiftc-compile-error
+title: 'swiftc 编译诊断 (File.swift:L:C: error:)'
+tool: swiftc
+category: typecheck
+confidence: high
+context: {before: 0, after: 4}
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*\S+\.(?:swift|sil):[0-9]+:[0-9]+: error: '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0
