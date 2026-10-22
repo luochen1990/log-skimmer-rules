@@ -124,8 +124,8 @@
   "task_template": "log-skimmer FN 响应巡检 (目标 run: {{input.run_id | null: \"自动检测最新失败的 master run\"}}) — 按 system prompt 的执行循环走完: 检测 → 去重 → 本地复判 → 分类 → 响应 → 结构化收卷。",
   "tool_fault_policy": "degrade",
   "default_priority": 50,
-  "default_budget_tokens": 2000000,
-  "default_max_rounds": 64,
+  "default_budget_tokens": 100000000,
+  "default_max_rounds": 100,
   "notify_events": [
     "failed",
     "signal"

@@ -192,8 +192,8 @@ defn = {
     ),
     "tool_fault_policy": "degrade",
     "default_priority": 50,
-    "default_budget_tokens": 2000000,  # dedup/no_event 捷径 120-300k; 真 acted 响应 (锚量化+规则起草+验证+PR) 首夜 800k 做到 60% 断粮 — 2M = 2.5x 捷径 p95, 事件稀有, 成本可忽略
-    "default_max_rounds": 64,  # 同源: 断粮任务 27 轮才到 60%; 64 给 acted 全程余量, 兼防廉价轮循环 (预算 2M 仍是主熔断)
+    "default_budget_tokens": 100000000,  # 需求方裁决 2026-10-23 (nixos#2011): 2M 太少 → 100M。参考基线: dedup/no_event 捷径 120-300k; 真 acted 响应首夜 840k 做到 60%。100M = 从不断粮, 代价是失控任务可烧满 — 由 max_rounds 与人工观测兜底
+    "default_max_rounds": 100,  # 同裁决 64→100; acted 全程余量, 主熔断让位给人工观测 (trigger 15min 一拍, 异常可随时 cancel)
     # notify: 不含 done — 96 拍/日的常规完成是噪音, 只召回异常 (failed/signal)
     "notify_events": ["failed", "signal"],
     "generation_note": (
