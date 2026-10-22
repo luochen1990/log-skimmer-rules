@@ -1,0 +1,22 @@
+# samples: self-provided (semgrep 1.182.1 真机运行产出, 见 PR 附样例 samples/self/semgrep-fail.log;
+#   产出命令: semgrep scan --config <rule> <target> --error; 跨版本形态与 semgrep 仓自家 e2e 快照
+#   cli/tests/default/e2e/snapshots/test_baseline/test_symlink/error.txt 逐字一致)
+#   语料激活说明: 语料清单已播种 semgrep/semgrep (projects.yaml exempt: onboarding-security),
+#   下一轮 refresh 入库后由 test-e2e-semgrep-ci 等工作流失败样本激活。
+# semgrep 扫描发现 (Findings 汇总): 锚为 Scan Summary 块的 `• Findings: N (M blocking)` 行
+#   (N>=1 门控 — 成功侧同构行恒为 `Findings: 0 (0 blocking)`), 扩展贪心吞后续 `• ` 摘要
+# bullets (Rules run / Targets scanned / ...) 与收尾行 `Ran N rule on M file: K findings.`
+# (findings 计数行是 semgrep 全版本稳定的收尾签名)。finding 明细块 (文件路径 + ❯❯❱ 规则id +
+# 源码行) 位于块后, 消费方按坐标 read_around 展开, 不整块捕获。`semgrep ci` (AppSec 平台
+# CLI) 的 Scan Summary 同构, 同被覆盖。
+id: semgrep-findings
+title: semgrep 扫描发现 (Findings 汇总块)
+tool: semgrep
+category: security
+confidence: high
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)* *• Findings: [1-9][0-9]* \([0-9]+ blocking\)(?:\x1b\[[0-9;]*m)*$'
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)* *• (?:\x1b\[[0-9;]*m)*[A-Z][^\n]*$'
+    loop: true
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*Ran [0-9]+ rules? on [0-9]+ files?: [0-9]+ findings?\.(?:\x1b\[[0-9;]*m)*$'
+kind: signal
