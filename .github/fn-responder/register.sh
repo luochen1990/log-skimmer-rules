@@ -53,18 +53,25 @@ for row in $(curl -sf "$URL/v1/approvals" | jq -c --arg aid "$AGENT_ID" \
   fi
 done
 
-# 2. 触发器幂等重整: 删除指向本 agent 的既有 submit 规则 (服务端生成 id, 按 payload 归属识别)
+# 2. 触发器幂等重整: 删除指向本响应器**任何代际**的既有 submit 规则 (服务端生成
+#    id, 按 payload 归属识别)。跨代清理是必须的: agent 定义演进 = 新 uuid, 旧
+#    agent 的触发器若不清理会双跑同一红 run — dedup 检查存在竞态窗口, 会出双草稿
+#    (2026-10-23 实证)。代际识别 = 同名 (agent.json 的 name) 的全部 agent_id。
 #    删除失败显式中止 — 残留旧规则会造成双触发, 宁可失败重跑不可静默叠加
-for tid in $(curl -sf "$URL/v1/triggers" | jq -r \
-  --arg aid "$AGENT_ID" \
-  '.triggers[] | select(.action.type=="submit"
-      and .action.template.kind=="invoke"
-      and .action.template.payload.agent_id==$aid) | .id'); do
-  curl -sf -X DELETE "$URL/v1/triggers/$tid" -o /dev/null || {
-    echo "旧触发器删除失败: $tid — 中止 (防双触发), 排查后重跑本脚本" >&2
-    exit 1
-  }
-  echo "旧触发器已删: $tid"
+NAME=$(jq -r .name "$HERE/agent.json")
+for gen in $(curl -sf "$URL/v1/agents" | jq -r --arg n "$NAME" \
+  '.agents[] | select(.name==$n) | .agent_id'); do
+  for tid in $(curl -sf "$URL/v1/triggers" | jq -r \
+    --arg aid "$gen" \
+    '.triggers[] | select(.action.type=="submit"
+        and .action.template.kind=="invoke"
+        and .action.template.payload.agent_id==$aid) | .id'); do
+    curl -sf -X DELETE "$URL/v1/triggers/$tid" -o /dev/null || {
+      echo "旧触发器删除失败: $tid — 中止 (防双触发), 排查后重跑本脚本" >&2
+      exit 1
+    }
+    echo "旧触发器已删: $tid (agent ${gen:0:8})"
+  done
 done
 
 # 3. 注册 interval 触发器 (armed always; budget 走 agent 定义的 default_budget_tokens)
