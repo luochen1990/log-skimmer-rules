@@ -1,0 +1,20 @@
+# samples: neovim/neovim/39336560827-118347407101 (ubuntu asan clang functionaltest), neovim/neovim/39354801369-118407030881 (macos intel clang functionaltest), neovim/neovim/39493051453-118870913961 (linux zig build), neovim/neovim/39498802072-118891310509 (windows functional)
+# 锚: neovim 自研测试 harness (test/reporter.lua) 尾部失败清单条目
+# `FAILED  <path>.lua @ NNN: <test 名>` — 源码 L191 summary_label('FAILED  ')
+# + L295-298 get_file_line (`fpath(src) .. ' @ ' .. fpath(line) .. ': '`, cyan ANSI
+# 包裹) + L330 `('%s %s\n')`。` @ ` 行列号后置是 harness 结构签名 (与 busted-htest
+# 的 `:NNN` 直连形态正交)。断言详情由 nvim-test-assertion-detail 覆盖, 本规则只兜清单条目。
+# 原由 luaunit-failed-test-entry 的 ` @ ` 容错分支误辖 (tool id luaunit 属误归属,
+# 2026-10-22 审计拆分: 该规则 `:` 分支归 busted-htest-failed-test-entry)。
+id: nvim-test-failure-list-entry
+title: 'nvim 测试失败清单条目 (FAILED path.lua @ N: <test 名>)'
+tool: nvim-test
+category: test
+confidence: high
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)* ?FAILED {1,2}(?:\x1b\[[0-9;]*m)* ?(?:\x1b\[[0-9;]*m)*\S*\.lua(?:\x1b\[[0-9;]*m)* @ (?:\x1b\[[0-9;]*m)*[0-9]+(?:\x1b\[[0-9;]*m)*: '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

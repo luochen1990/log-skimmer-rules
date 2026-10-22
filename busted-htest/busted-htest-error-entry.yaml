@@ -1,0 +1,20 @@
+# samples: luarocks/luarocks/37374715884-111980292552 (WindowsTest 2.1 luajit)
+# 锚: busted-htest 输出器错误清单条目 `  ERROR <path>.lua:NNN: <test 名>` — 源码 L61
+# `colors.magenta('  ERROR') .. ' %s\n'` + L105-112 getFileLine (同 failed-test-entry
+# 的定位段, 仅关键字不同: ERROR 是 busted error 事件, FAILED 是断言失败)。
+# 2 空格前导是源码字面量; 非 Windows+ANSICON 环境带 ANSI 包裹, 锚容错 ESC。
+# 原名 luaunit-error-entry 属误归属 (同族审计见 busted-htest-failed-test-entry 头注);
+# 锚同步收紧 ` @ ` 行列后置分支 (neovim harness 形态, 归 nvim-test 族 — 语料零样本,
+# 后续 FN 响应兜), `:` 分支域内命中不变。
+id: busted-htest-error-entry
+title: 'busted-htest 错误条目 (  ERROR path.lua:NNN: <test 名>)'
+tool: busted-htest
+category: test
+confidence: high
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)* {1,3}ERROR {1,2}(?:\x1b\[[0-9;]*m)* ?(?:\x1b\[[0-9;]*m)*\S*\.lua(?:\x1b\[[0-9;]*m)*:(?:\x1b\[[0-9;]*m)*[0-9]+(?:\x1b\[[0-9;]*m)*: '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0
