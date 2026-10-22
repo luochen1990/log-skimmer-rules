@@ -1,0 +1,22 @@
+# samples: self-provided (锚行形态取自 trivy 源码 pkg/report/table/misconfig.go Render()
+#   `Failures: %d (%s)` + 官方单测期望输出 misconfig_test.go `Failures: 1 (LOW: 0, MEDIUM: 0,
+#   HIGH: 1, CRITICAL: 0)` 逐字核对; 真机 DB 扫描因本环境 registry 不可达未产样本, PR 附源码
+#   溯源说明; 语料激活: 语料清单已播种 aquasecurity/trivy (projects.yaml exempt: onboarding-security),
+#   其 Test/K8s 集成门禁在扫描含漏洞镜像时由本规则族激活)
+# trivy 误配置检查失败 (misconfig): 锚为 per-target 汇总行 `Failures: N (SEVERITY: n, ...)`
+#   (N>=1 门控 — summarize() 仅在存在失败项时渲染该节, 成功侧无此行; severity 词表与
+# 漏洞表同源 dbTypes.SeverityNames, 大写五值+计数括号结构是 trivy 特异签名)。context.before: 1
+# 回带上一行 `Tests: N (SUCCESSES: S, FAILURES: F)` — 通过/失败双计数, 与 Failures 行互为佐证。
+# misconfig 明细表 (CheckID/Cause/...) 紧随块后, 消费方按坐标 read_around 展开。漏洞表形态见
+# 姊妹规则 trivy-vuln-found (secret 检出复用同一 Total 汇总行, 已在其射程)。
+id: trivy-misconf-failures
+title: trivy 误配置检查失败 (Failures 汇总行)
+tool: trivy
+category: security
+confidence: high
+context:
+  before: 1
+  after: 0
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Failures: [1-9][0-9]* \((?:UNKNOWN|LOW|MEDIUM|HIGH|CRITICAL): [0-9]+'
+kind: signal

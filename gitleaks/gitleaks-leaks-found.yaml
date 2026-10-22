@@ -1,0 +1,18 @@
+# samples: self-provided (gitleaks v8.28.2 真机运行产出, 见 PR 附样例 samples/self/gitleaks-fail.log;
+#   产出命令: gitleaks git <repo> --exit-code 1 -v, fixture 内含假 github-pat)
+#   语料激活说明: 语料清单已播种 gitleaks/gitleaks (projects.yaml exempt: onboarding-security),
+#   下一轮 refresh 入库后由其 gitleaks.yml / gitleaks-new.yml 门禁失败样本激活。
+# gitleaks 检出密钥泄漏: 锚为退出路径唯一汇总行 `WRN leaks found: N` (zerolog console 形态,
+#   cmd/root.go findingSummaryAndExit — 无论 verbose 与否恒打印, 是 CI 门禁日志里确定性最强的
+#   失败签名)。partial-scan 变体 `N leaks found in partial scan` 一并覆盖。N>=1 门控: 成功侧
+# 恒为 INF `no leaks found` (WRN 级别 + 计数非零双门控, 零误命中)。verbose 模式的 Finding/Secret
+# 明细块位于汇总行之前, 由消费方按坐标 read_around 展开, 不整块捕获 (索引+摘要)。
+# 前缀容忍: GHA 行时间戳 + zerolog kitchen 时间 (11:02AM) + ANSI 色码 (TTY 形态)。
+id: gitleaks-leaks-found
+title: gitleaks 检出密钥泄漏 (leaks found 汇总行)
+tool: gitleaks
+category: security
+confidence: high
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)?(?:[0-9]{1,2}:[0-9]{2}[AP]M)?(?:\x1b\[[0-9;]*m)? ?(?:\x1b\[[0-9;]*m)?WRN(?:\x1b\[[0-9;]*m)? ?(?:\x1b\[[0-9;]*m)?(?:leaks found: [1-9][0-9]*|[1-9][0-9]* leaks found in partial scan)(?:\x1b\[[0-9;]*m)?$'
+kind: signal
