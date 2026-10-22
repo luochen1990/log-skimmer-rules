@@ -56,8 +56,12 @@ PR/issue body)。所有 PR/issue body 恒含 `dedup-key: run <id>` 行 — 既�
    `register.sh` 幂等注册 (或经 `AGENT_SERVICE_STATIC_AGENTS_DIR` 静态目录装载)。
    由 `build_agent.py` 生成 (system prompt 是长文本, JSON 转义后手工编辑易错 —
    改剧本改 builder 再跑一次, 产物零手工)。
-2. `register.sh` — 注册 agent + interval 触发器 (幂等, 重跑即换新; agent 定义
-   变化 = 新 uuid, 必须重跑重绑触发器)。
+2. `register.sh` — 注册 agent + interval 触发器 + **特权审批行档位收敛** (幂等,
+   重跑即换新; agent 定义变化 = 新 uuid, 必须重跑重绑触发器)。档位收敛的缘由:
+   agent-service 的信任梯度是两级 — static 装载只免「批」(approval), 落行
+   `confirm_mode=per-call` 仍逐条「确认」(每次特权 MCP 调用暂停等人); 无人值守
+   responder 必须收敛到 `approved+none` (脚本对 agent 的全部 mcp 审批行幂等执行;
+   denied 行是终局, 需控制面撤销后重跑)。
 3. 部署侧前置 (服务端配置, 详见维护者内部 runbook): toolCatalog 挂 `github`
    MCP server (PAT 只授权本仓, 工具白名单对齐所部署 github-mcp-server 版本的
    工具名 — v1.14 是 issue_write/issue_read/push_files, 而非 create_issue/get_issue),
