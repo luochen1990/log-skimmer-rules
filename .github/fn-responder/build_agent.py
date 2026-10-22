@@ -21,14 +21,15 @@ SYSTEM_PROMPT = """你是 log-skimmer 规则库 (github.com/luochen1990/log-skim
 - 红 run 的其他形态 (FP 率>2% / 零块 / 边界违例 / 压缩率退化) 不属于 FN, 你只报告不写规则。
 - 引擎二进制 `log-skimmer` 已由部署方注入你的沙箱 PATH (含 `skim` 与 `l0` 两个子命令)。若 `command -v log-skimmer` 失败, 立即以 outcome=error 收卷并在 notes 说明缺引擎, 不要尝试自行构建。
 - git 与 curl 在沙箱可用 (本任务 share_net 开启, 可直连 github.com 公开仓; 单次 bash 调用上限 300s, 大循环须分批)。
-- GitHub 操作经 MCP server `github` 的工具, 在 run_js 内编排调用 (v1.14 工具名: search_issues / issue_write / issue_read / create_branch / push_files / create_or_update_file / create_pull_request)。你的 PAT 只授权 rules 仓。读操作 (查 run 列表/clone/读 raw 文件) 优先走免认证 curl, 失败再走 MCP。
+- GitHub 操作经 MCP server `github` 的工具, 在 run_js 内编排调用 (v1.14 工具名: search_issues / issue_write / issue_read / create_branch / push_files / create_or_update_file / create_pull_request / actions_list / actions_get / get_job_logs_consolidated)。你的 PAT 只授权 rules 仓。**读操作一律走 run_js 内的 MCP 调用** (认证面 5k req/h 稳定) — **不要用免认证 curl 打 api.github.com** (匿名 60/h/IP, 与宿主其他消费方共享额度, 常态 403, 首夜曾为此降级网页抓取白烧 3 轮); 沙箱 curl 仅用于 raw.githubusercontent.com 这类无限额静态面 (clone 规范/语料)。若 actions_list 因 PAT 缺 Actions 读权限而 403, 在 notes 记一行 "PAT 缺 actions:read" 并降级用 curl 匿名面 (网页抓取是最后手段, 仅限 actions 列表页一次)。
 
 # 执行循环 (每轮按序执行, 任何一步可判终态即提前收卷)
 
 ## 1. 检测
 
 - 优先处理 input 指定的 run_id (人工重放通道; 该 run 不存在或非失败状态 → outcome=no_event + notes 说明, 不视为错误)。缺省自动检测:
-  `curl -s 'https://api.github.com/repos/luochen1990/log-skimmer-rules/actions/runs?branch=master&per_page=10'`, 按 run 的 `.path` 字段过滤 `.github/workflows/sweep.yml` 或 `.github/workflows/lint.yml` 且 `conclusion=failure`, 取最新一个。
+  run_js 内 `tools.github["actions_list"]` (workflow runs 列表, 过滤 branch=master + conclusion=failure, 取 `.github/workflows/sweep.yml` / `lint.yml` 最新一个); 该工具缺席或 403 时降级 `curl -s 'https://api.github.com/repos/luochen1990/log-skimmer-rules/actions/runs?branch=master&per_page=10'` (按 `.path` 字段过滤)。
+- 拿红 run 的日志 (复判要读 FN detail): run_js 内 `tools.github["get_job_logs_consolidated"]`, **在 run_js 内先过滤再 return** (只留 l0-gate 输出段 / FN detail / 断言红行, 整卷日志严禁整段进上下文 — 首夜实测整日志会撑爆预算)。
 - 只看 branch=master 的 run — 你自己开的 PR 触发的 run 永远不在响应范围 (防环的结构性保证)。
 - 无失败 run → outcome=no_event 收卷。
 
@@ -191,8 +192,8 @@ defn = {
     ),
     "tool_fault_policy": "degrade",
     "default_priority": 50,
-    "default_budget_tokens": 800000,
-    "default_max_rounds": 50,
+    "default_budget_tokens": 2000000,  # dedup/no_event 捷径 120-300k; 真 acted 响应 (锚量化+规则起草+验证+PR) 首夜 800k 做到 60% 断粮 — 2M = 2.5x 捷径 p95, 事件稀有, 成本可忽略
+    "default_max_rounds": 64,  # 同源: 断粮任务 27 轮才到 60%; 64 给 acted 全程余量, 兼防廉价轮循环 (预算 2M 仍是主熔断)
     # notify: 不含 done — 96 拍/日的常规完成是噪音, 只召回异常 (failed/signal)
     "notify_events": ["failed", "signal"],
     "generation_note": (
