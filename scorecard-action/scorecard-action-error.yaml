@@ -1,0 +1,23 @@
+# samples: github.com/curl/curl/2026-10-22/39817588595-119960042181-Scorecard-analysis-failure.log.gz
+# ossf/scorecard-action 失败汇总行: `scorecard had an error: <err>` — 签名为 action 自身产出
+# (scorecard-action/internal/scorecard/scorecard.go:45 fmt.Errorf("scorecard had an error: %w")),
+# 错误路径唯一出口, 成功运行恒不出现 → 跨仓通用工具签名。curl/curl 样本根因是 GitHub GraphQL
+# 服务端内部错误 (B048 码, 瞬态), 但签名行恒定; 锚不限定 err 内容, API 瞬断/鉴权/解析等任何
+# scorecard 执行失败均以此行收尾 (FP 免疫优先于召回: 短语特异, 仅此错误路径打印)。
+# 语料激活说明: 触发样本已随语料翻离开当前语料 (2026-10-23 语料 8ca4ec4 无此文件, 后续
+# sweep 绿为语料翻转而非规则修复); 本规则本轮以 FP 免疫面验证, 召回面待下次 scorecard
+# 失败样本入库激活 (同 gitleaks 先落地后激活成例)。单行自足无扩展链; 前缀容忍 GHA 行
+# 时间戳 + scorecard-action Go log 标准时间头 (2026/10/22 16:51:56)。
+id: scorecard-action-error
+title: 'scorecard-action 分析失败 (scorecard had an error 致命行)'
+tool: scorecard-action
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?([0-9]{4}/[0-9]{2}/[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2} )?scorecard had an error: '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, fn-responder/glm-5.3)'
+  generated-by: { harness: fn-responder, model: glm-5.3 }
+  adapter-version: fn-responder-v2
