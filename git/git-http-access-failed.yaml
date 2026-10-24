@@ -1,0 +1,27 @@
+# samples: github.com/laravel/framework/2026-10-24/40103383683-120899934740-Facade-DocBlocks-failure.log.gz
+# git HTTP 传输访问失败: 锚 `fatal: unable to access '<url>'` (git 自身签名, 覆盖 403/404/
+# 连接失败等全部 HTTP 错误变体 — git 源码级 http.c 错误路径, 跨仓通用)。样本根因:
+# git-auto-commit-action 以 github-actions[bot] push 被拒 (403), 前一行 remote: Permission
+# denied 由 context.before=1 捕获; 扩展透传 action 的 node 包装错误 `Error: Invalid status
+# code: 128` + at 栈帧 + code:/} 错误 dump。与既有 git-fetch-ref-not-found (fetch ref 缺失) /
+# git-push-auth-failed (本地无凭据) / git-push-rejected (协商 ! [rejected]) 三形态均不相交 —
+# 本规则是 HTTP 层访问失败。锚为 fatal 级错误行, 成功侧无同构形态 (FP 免疫)。
+# 注: 该样本 fn-evidence truncated=true (锚行窗口截断), 但失败签名块完整可判 — 置信 medium。
+id: git-http-access-failed
+title: 'git HTTP 访问失败 (fatal: unable to access + 错误码/栈级联)'
+tool: git
+category: infra
+kind: signal
+intent: failure
+confidence: medium
+context:
+  before: 1
+  after: 0
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(##\[error\])?fatal: unable to access '''
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(##\[error\])?(Error: Invalid status code: -?[0-9]+|\s+at |\s+code: |\})'
+    loop: true
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, fn-responder/glm-5.3)'
+  generated-by: {harness: fn-responder, model: glm-5.3}
+  adapter-version: 0.1.0
