@@ -1,0 +1,24 @@
+# samples: github.com/laravel/framework/2026-10-24/40103383683-120899934740-Facade-DocBlocks-failure.log.gz
+# git HTTP 传输被服务端拒答: 锚 `fatal: unable to access '<url>': The requested URL returned error: 40[34]`
+# (git 自身标准 fatal 签名, 跨仓通用 — 403 = 有凭据但无权限, 典型为 GITHUB_TOKEN github-actions[bot]
+# push 被拒 (前置行 `remote: Permission to <repo>.git denied to <user>.` 经 context.before 收入输出);
+# 404 = 私有仓/已改名仓匿名拉取。均为确定性拒答, 非可重试瞬态 (5xx/超时族不收, 防成功侧重试级联 FP)。
+# 扩展透传包装器 (git-auto-commit-action 等) 的 `Error: Invalid status code: 128` 与 node 堆栈/code/} 行。
+# 与既有 git-push-auth-failed (无凭据: could not read Username) / git-push-rejected (! [rejected] 协商后拒绝)
+# / git-fetch-ref-not-found (couldn't find remote ref) 正交 — 本规则是 HTTP 层拒答, 补齐 git 传输失败第三形态。
+id: git-http-access-denied
+title: 'git HTTP 访问被拒 (fatal: unable to access + 403/404 拒答级联)'
+tool: git
+category: infra
+confidence: high
+intent: failure
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(##\[error\])?fatal: unable to access ''[^'']+'': The requested URL returned error: 40[34]'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(Error: Invalid status code: -?[0-9]+|\s+at \S|\s*\}|  code: -?[0-9]+)'
+    loop: true
+kind: signal
+context: { before: 2, after: 0 }
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, fn-responder/glm-5.3)'
+  generated-by: {harness: fn-responder, model: glm-5.3}
+  adapter-version: 0.1.0
