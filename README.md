@@ -74,7 +74,7 @@ master CI 的 FN 红 (失败样本经规则集 skim 后 failure-intent fragment 
 
 CI 侧数据面: lint 的判定违例明细以 `l0-verdict` artifact 机读产出 (见 §5), 供 agent 迭代环消费; sweep 的 FN 事件另产 **`fn-evidence.json`** — FN 样本锚行证据摘要 (verdict fn detail 样本清单 × 语料通用失败关键词窗口 ±5 行, 每样本 ≤30 行锚行 / 总体积 ≤256KB), 经 `fn-evidence` artifact 与 reports 分支双渠道发布, 供 agent 免语料研判 — **语料永不离 CI runner** (v2 数据面原则)。
 
-唤醒面: sweep 的 FN 事件经**机械门控差集判定** (本拍 FN 样本 − reports 分支上一拍快照 − 在途声明) — 仅出现**未被在途响应覆盖的新 FN 样本**时发 `repository_dispatch` (`event_type: fn-responder-wake`, `client_payload` 含 `run_id` 与新样本清单) 唤醒 agent; 稳态重复红零发送 (下游零 token 消耗), sweep 红门禁本身照红。在途声明: 上述 `dedup-sample:` 行, PR open 全程有效, merged 后 **12h 冷却窗**内仍有效 — 防「合了未愈」窗口内重复唤醒; 超窗仍失败 = 升级信号, 声明过期允许重唤醒。门控取数失败一律保守多发 (宁可多唤醒不可静默漏), 实现见 `.github/scripts/fn-dispatch-gate.sh`。
+唤醒面: sweep 的 FN 事件经**机械门控差集判定** (本拍 FN 样本 − reports 分支上一拍快照 − 在途声明) — 仅出现**未被在途响应覆盖的新 FN 样本**时发 `repository_dispatch` (`event_type: fn-responder-wake`, `client_payload` 含 `run_id` 与新样本清单) 唤醒 agent; 稳态重复红零发送 (下游零 token 消耗), sweep 红门禁本身照红。dispatch 的下游链 = `.github/workflows/fn-wake.yml` 监听 workflow: 其 run 是 agent-service `github_dispatch` 触发器的探测边沿 (runs API 是唯一可轮询 dispatch 面 — events feed 不收录 dispatch 事件), 并把 `client_payload` 原文写到 `fn-wake` 分支 `fn-wake.json` (数据面; 响应器经 raw URL 免认证拉取 — client_payload 不经任何 API 面)。在途声明: 上述 `dedup-sample:` 行, PR open 全程有效, merged 后 **12h 冷却窗**内仍有效 — 防「合了未愈」窗口内重复唤醒; 超窗仍失败 = 升级信号, 声明过期允许重唤醒。门控取数失败一律保守多发 (宁可多唤醒不可静默漏), 实现见 `.github/scripts/fn-dispatch-gate.sh`。
 
 ## License
 
