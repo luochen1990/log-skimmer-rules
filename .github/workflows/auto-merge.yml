@@ -1,0 +1,58 @@
+# auto-merge — Tier A 自动合并门禁 (加性-only 安全线)
+#
+# 对 fn-responder 起草的 PR (分支 agent/fn-*) 在 ready 后执行机械断言链:
+#   全过 → squash 合并 + 删分支 + 审计 comment; 任一失败 → label auto-merge-skipped
+#   + 原因 comment, 不合并。语义复审 (Tier B, LLM) 后置 — 本门禁只做机械可判定的事。
+#
+# 断言链与安全论证 SSOT = .github/scripts/auto-merge.sh (本文件只编排: 触发/权限/并发)。
+#
+# 设计要点:
+#   - 触发面 ready_for_review + synchronize: responder 以 draft 开、CI 绿后 flip ready
+#     (剧本 5c), ready_for_review 是主触发点; synchronize 覆盖 ready 后的新推送
+#     (重新全链验证)。draft 期推送不起跑 (if 过滤) — CI 照常由 lint.yml 判定。
+#   - 门禁脚本从 base.sha checkout 运行 (非 merge ref): PR 内容永远无法影响门禁自身
+#     逻辑 — PR 若夹带 workflow/脚本改动, 跑的仍是 master 版门禁, 且脚本 T3 的路径
+#     断言会拒绝之 (加性-only 只允许 <tool>/<rule>.yaml)。
+#   - 评估 CI 时排除自身 check-run (SELF_CHECK_NAME) — 本门禁是 head sha 上的
+#     in-progress check, 不排除会死锁于等待自身终态。
+#   - concurrency 按 PR 号去重: 同 PR 新事件取消旧跑 (旧跑通常处于 CI 轮询态, 取消
+#     无副作用; 取消若恰落在合并窗口, 脚本的 TOCTOU 复核 + 新事件重跑自愈)。
+#   - GITHUB_TOKEN 合并不触发下游 workflow (GitHub 防递归): lint 的 push:master 不会
+#     因此开跑, 但 master 防腐哨兵 sweep 是 schedule 触发 (每 6h, 与 push 事件无关),
+#     安全论证的「下一拍 sweep 暴露废规则」不依赖本合并的 push 事件。
+name: auto-merge
+on:
+  pull_request:
+    types: [ready_for_review, synchronize]
+permissions:
+  contents: write # squash merge + 删分支
+  pull-requests: write # 审计 comment / skip label
+concurrency:
+  group: auto-merge-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+jobs:
+  tier-a-auto-merge:
+    # 前置粗滤 (廉价, 防人类 PR 空跑): responder 命名空间 + 非 draft + base=master +
+    # head 同仓 (fork 同名分支排除 — check-run 名 == job 名, SELF_CHECK_NAME 须与 job 名一致)。
+    # 严格断言 (正则/同仓/CI/加性/样本/规模) 在脚本内逐条复审, 此处不过滤语义。
+    if: >-
+      startsWith(github.event.pull_request.head.ref, 'agent/fn-') &&
+      !github.event.pull_request.draft &&
+      github.event.pull_request.base.ref == 'master' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    name: tier-a-auto-merge
+    runs-on: ubuntu-latest
+    timeout-minutes: 45 # 脚本内 CI 等待上限 30m + 轮询/断言开销
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # 从 base.sha 运行门禁 (防 PR 自改门禁代码 — 见文件头「设计要点」)
+          ref: ${{ github.event.pull_request.base.sha }}
+      - name: Tier A gate (断言链 + 合并)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPO: ${{ github.repository }}
+          SELF_CHECK_NAME: tier-a-auto-merge # = 上方 job 名 (T2 排除自身用)
+          GATE_REF: ${{ github.event.pull_request.base.sha }}
+        run: bash .github/scripts/auto-merge.sh
