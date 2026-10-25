@@ -21,6 +21,8 @@
 # 冻结契约 (下游已对接, 勿改): POST /repos/<slug>/dispatches
 #   {"event_type": "fn-responder-wake",
 #    "client_payload": {"run_id": <int>, "samples": ["<样本路径>", ...]}}
+#   下游链 = fn-wake.yml 监听 workflow (run = agent-service github_dispatch
+#   触发器的边沿; client_payload 原文落 fn-wake 分支 fn-wake.json 数据面)。
 #
 # 用法: fn-dispatch-gate.sh <fn-evidence.json>
 # 环境: REPO_SLUG / GITHUB_TOKEN (PR 列表 + dispatch) / RUN_ID (client_payload)
