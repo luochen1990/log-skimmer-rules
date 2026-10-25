@@ -60,6 +60,7 @@ intent 三值与 category 十值的详细判定基准不在本文重复 — 见 
 | --- | --- | --- |
 | [lint](.github/workflows/lint.yml) | PR / master push | **时点回归**: merge 前校验 — 规则加载 + 全语料断言 + master-vs-PR 压缩率双测 (同引擎同语料, 纯规则变量归因), 回答「这个 PR 是否让现状变差」。规则 PR 的质量门禁由它承担。 |
 | [sweep](.github/workflows/sweep.yml) | 周二 03:00 UTC / 手动 | **时点间漂移防腐**: master 规则集 × 最新语料 (周一语料仓刷新后) 全量报告 (job summary: gated/exempt 双组 + 逐仓分解 + 规则×仓矩阵, artifact 存完整 JSON), 并与上次成功 run 对比 (引擎 `--base` 内置口径, 逐仓压缩率相对退化 >2% 判红), 回答「两次 PR 的间隙里, 世界演化是否让 master 悄悄退化」。 |
+| [auto-merge](.github/workflows/auto-merge.yml) | PR ready/同步 (仅 `agent/fn-*`) | **Tier A 自动合并**: 机械断言链 (CI 全绿 / 加性-only / 动机样本在场 / 规模上限) 全过的 ready PR 自动 squash 合并, 未过打标交人工 — 断言链与安全论证见 §6 与 `.github/scripts/auto-merge.sh` 头注释。 |
 
 sweep 首跑无上次 artifact 属合法首态 (跳过对比只出报告与断言); 其红是「上周→本周的退化信号」, 归因面为 规则集/引擎/语料 三者时点差的聚合, 需人工分诊。
 
@@ -68,8 +69,9 @@ sweep 首跑无上次 artifact 属合法首态 (跳过对比只出报告与断�
 master CI 的 FN 红 (失败样本经规则集 skim 后 failure-intent fragment 数为 0) 由**维护者的自动化 agent** 响应, 无需社区处理。agent 与人类贡献者走完全相同的通道 (分支 + PR), 契约如下:
 
 - **产物形态**: 分支 `agent/fn-<run_id>` 的规则 PR 与归因 issue; 所有 PR/issue body 恒含 `dedup-key: run <run_id>` 行 — 既是 agent 的 run 级去重锚 (同一 run 至多响应一次), 也是人眼核对「该 run 是否已被响应过」的锚。规则 PR body 另为**每个覆盖的 FN 样本**含一行 `dedup-sample: <样本路径>` (样本路径 = fn-evidence.json 的 `evidence[].sample` 原样) — sweep 唤醒门控的在途声明 (样本级去重, 见下), 也是人眼核对响应覆盖面的锚。
-- **draft → ready 语义**: agent 起草的 PR 以 **draft** 开; 自验证 (本地全链门禁, 与 CI 同口径) 通过后 flip 为 **ready**。ready 仅代表 agent 已尽力, 不代表已 review — **人是唯一的 review 与合并点**。
-- **机械红线**: agent 永不 merge / approve / force push (master 分支保护 require PR 是其机械屏障, 非自觉约束)。
+- **draft → ready 语义**: agent 起草的 PR 以 **draft** 开; CI 绿后 flip 为 **ready**。ready 仅代表 agent 已尽力; 合并判定归 Tier A 门禁的机械断言链 (见下), 语义 review 归人 (Tier B 后置)。
+- **机械红线**: agent 永不 merge / approve / force push — merge 族工具不在 agent 的 MCP 白名单 (结构性缺席); 仓侧防线 = Tier A 门禁断言链只放行加性-only 的 agent PR。
+- **Tier A 自动合并 (机械断言链, 2026-10-25 裁决)**: ready 的 agent PR 由 [auto-merge](.github/workflows/auto-merge.yml) 门禁评估, 全过才合并: head 本仓 `agent/fn-<run_id>` (fork 同名分支不认) / CI 全绿 (head sha 全部 check-run success, 空集即拒) / **加性-only** (仅新增单层 `<tool>/<rule>.yaml`, 删改/越界路径即拒) / 动机样本仍在语料 (防样本轮换出窗的「空转绿」) / 规模 ≤3 文件且 ≤60 行。任一违例 → label `auto-merge-skipped` + 原因 comment, 交人工。安全论证: 新增规则只增 failure-fragments (FN 只降不升), 隐藏失败须删改既有规则 (被加性-only 排除), FP 被 lint ≤2% 断言封顶 — 最坏情况是废规则进 master, 下一拍 sweep 变红暴露, revert 即愈 (自限性故障)。断言链 SSOT: `.github/scripts/auto-merge.sh` 头注释。
 - **迭代上限**: PR CI 连续 3 轮红则停止迭代 — 留 draft 并开 issue 通报卡点, 交人工分诊。
 
 CI 侧数据面: lint 的判定违例明细以 `l0-verdict` artifact 机读产出 (见 §5), 供 agent 迭代环消费; sweep 的 FN 事件另产 **`fn-evidence.json`** — FN 样本锚行证据摘要 (verdict fn detail 样本清单 × 语料通用失败关键词窗口 ±5 行, 每样本 ≤30 行锚行 / 总体积 ≤256KB), 经 `fn-evidence` artifact 与 reports 分支双渠道发布, 供 agent 免语料研判 — **语料永不离 CI runner** (v2 数据面原则)。
