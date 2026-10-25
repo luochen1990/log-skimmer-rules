@@ -67,12 +67,14 @@ sweep 首跑无上次 artifact 属合法首态 (跳过对比只出报告与断�
 
 master CI 的 FN 红 (失败样本经规则集 skim 后 failure-intent fragment 数为 0) 由**维护者的自动化 agent** 响应, 无需社区处理。agent 与人类贡献者走完全相同的通道 (分支 + PR), 契约如下:
 
-- **产物形态**: 分支 `agent/fn-<run_id>` 的规则 PR 与归因 issue; 所有 PR/issue body 恒含 `dedup-key: run <run_id>` 行 — 既是 agent 的 run 级去重锚 (同一 run 至多响应一次), 也是人眼核对「该 run 是否已被响应过」的锚。
+- **产物形态**: 分支 `agent/fn-<run_id>` 的规则 PR 与归因 issue; 所有 PR/issue body 恒含 `dedup-key: run <run_id>` 行 — 既是 agent 的 run 级去重锚 (同一 run 至多响应一次), 也是人眼核对「该 run 是否已被响应过」的锚。规则 PR body 另为**每个覆盖的 FN 样本**含一行 `dedup-sample: <样本路径>` (样本路径 = fn-evidence.json 的 `evidence[].sample` 原样) — sweep 唤醒门控的在途声明 (样本级去重, 见下), 也是人眼核对响应覆盖面的锚。
 - **draft → ready 语义**: agent 起草的 PR 以 **draft** 开; 自验证 (本地全链门禁, 与 CI 同口径) 通过后 flip 为 **ready**。ready 仅代表 agent 已尽力, 不代表已 review — **人是唯一的 review 与合并点**。
 - **机械红线**: agent 永不 merge / approve / force push (master 分支保护 require PR 是其机械屏障, 非自觉约束)。
 - **迭代上限**: PR CI 连续 3 轮红则停止迭代 — 留 draft 并开 issue 通报卡点, 交人工分诊。
 
 CI 侧数据面: lint 的判定违例明细以 `l0-verdict` artifact 机读产出 (见 §5), 供 agent 迭代环消费; sweep 的 FN 事件另产 **`fn-evidence.json`** — FN 样本锚行证据摘要 (verdict fn detail 样本清单 × 语料通用失败关键词窗口 ±5 行, 每样本 ≤30 行锚行 / 总体积 ≤256KB), 经 `fn-evidence` artifact 与 reports 分支双渠道发布, 供 agent 免语料研判 — **语料永不离 CI runner** (v2 数据面原则)。
+
+唤醒面: sweep 的 FN 事件经**机械门控差集判定** (本拍 FN 样本 − reports 分支上一拍快照 − 在途声明) — 仅出现**未被在途响应覆盖的新 FN 样本**时发 `repository_dispatch` (`event_type: fn-responder-wake`, `client_payload` 含 `run_id` 与新样本清单) 唤醒 agent; 稳态重复红零发送 (下游零 token 消耗), sweep 红门禁本身照红。在途声明: 上述 `dedup-sample:` 行, PR open 全程有效, merged 后 **12h 冷却窗**内仍有效 — 防「合了未愈」窗口内重复唤醒; 超窗仍失败 = 升级信号, 声明过期允许重唤醒。门控取数失败一律保守多发 (宁可多唤醒不可静默漏), 实现见 `.github/scripts/fn-dispatch-gate.sh`。
 
 ## License
 
