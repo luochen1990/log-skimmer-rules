@@ -8,6 +8,8 @@
 #   2. L0 全量断言 (PR 侧): FN=0 / FP率≤2% / 零块=0 / 边界违例=0
 #   3. 压缩率双测: base rules (master) vs PR rules — 同引擎同语料, 纯规则变量归因,
 #      退化 >2% 判红 (与引擎仓 gate 同一判定语义, 编排对称: 那边变引擎这边变规则)
+#   4. bundle 生成演练: 全规则单文件打包 + 引擎装载数口径断言 (与 sweep 同一脚本
+#      SSOT — 口径漂移在 PR 时点即拦下, 不等 sweep 红; 发布归 sweep, 本步不推送)
 # 判定产物: l0 verdict JSON (违例明细) 恒上传 l0-verdict artifact (机读, 红 run 供
 #   维护者的 agent 迭代环消费 — 见 README「agent 自动响应」节; 绿 run 恒传无分支)。
 # 降级: 发布面仓为空 (首次 publish 前) 时显式 skip 并说明 — 不假绿 (日志可见)。
@@ -83,6 +85,11 @@ jobs:
           # compression_compare, 机读), stderr = 单行摘要 — 重定向落盘供 artifact
           # (违例判定失败时 exit 1 步红, 文件已落盘, 红 run 恰是消费方)
           "$B" l0 --corpus corpus --rules rules-pr --base /tmp/s-base.json > verdict.json
+      - name: bundle 生成演练 (全规则单文件打包 + 引擎口径断言; 发布归 sweep — PR 时点只验证不推送)
+        # 与 sweep 发布步同一脚本 SSOT (.github/scripts/make-rules-bundle.sh);
+        # s-pr.json 为 L0 双测步已产的 PR 侧 summary — 零额外引擎/语料开销
+        if: steps.engine.outputs.ready == 'true'
+        run: bash rules-pr/.github/scripts/make-rules-bundle.sh rules-pr /tmp/s-pr.json /tmp/rules-bundle.json
       - name: 上传 l0 verdict artifact (机读违例明细; 消费方见 README §6 agent 自动响应)
         # 恒传 (红绿不分支): 绿 run 的小 JSON 无害, 红绿分支是零正确性收益的
         # outcome 耦合 — 与 sweep.yml 「红绿照常产出 artifact」同风格;

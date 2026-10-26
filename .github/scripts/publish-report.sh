@@ -2,23 +2,29 @@
 # publish-report.sh — sweep 报告发布到 reports 孤儿分支 (README 活指标 SSOT)
 #
 # 职责: 从 summary.json + verdict.json 生成 shields endpoint 徽章数据 (badges/*.json)
-#   与完整人类可读报告 (latest.md, 复用 summary-md.jq 渲染 — 零新渲染逻辑), 孤儿
-#   单提交强推 reports 分支 (仓体积恒定, 同语料仓 refresh 模式)。README 徽章/链接
+#   与完整人类可读报告 (latest.md, 复用 summary-md.jq 渲染 — 零新渲染逻辑), 连同
+#   rules-bundle.json (全规则原文单文件, 生成 SSOT = make-rules-bundle.sh) 一道,
+#   孤儿单提交强推 reports 分支 (仓体积恒定, 同语料仓 refresh 模式)。README 徽章/链接
 #   指向 raw URL, 数字随每周 sweep 自动刷新 — 活文档不手工维护数字 (需求方裁决
 #   2026-10-21: 手工刷 README = 重复声明, 同构于已退役的工具枚举行)。
 #
 # 语义: verdict 红绿照常发布 — 徽章忠实反映 fail (防腐状态公开可见), 红不是不发
 #   报告的理由 (报告恰是红的诊断材料)。
 #
-# 用法: publish-report.sh <summary.json> <verdict.json> <engine_sha> <rules_sha> <corpus_sha> [fn-evidence.json]
+# 用法: publish-report.sh <summary.json> <verdict.json> <engine_sha> <rules_sha> <corpus_sha> [fn-evidence.json] <rules-bundle.json>
 #   第 6 参可选: FN 证据摘要 (仅 FN 红 run 产生) — 在场则一并发布到 reports 分支
 #   (快照语义: 文件在 ⟺ 本轮有 FN, 孤儿单提交重写天然清除上轮旧文件, 防 agent
 #   消费过期证据)。
+#   第 7 参必填: rules-bundle.json (全规则原文单文件, 常驻产物 — 与 fn-evidence 的
+#   逐轮快照语义不同, 缺产调用方 (sweep) 已保证不发生: 生成失败时发布步整体跳过,
+#   上一版 reports 快照保持完整服务)。
 # 环境: REPO_SLUG (如 luochen1990/log-skimmer-rules) / GITHUB_TOKEN (push 权限) / RUN_URL
 #   (脚本可从任意 CWD 调用: summary-md.jq 按脚本自身位置定位)
 set -euo pipefail
 
 summary=$1 verdict=$2 esha=$3 rsha=$4 csha=$5 fne=${6:-}
+bundle=${7:?用法: publish-report.sh <summary> <verdict> <esha> <rsha> <csha> [fn-evidence] <rules-bundle> — bundle 是常驻产物, 第 7 参必填}
+[ -f "$bundle" ] || { echo "rules-bundle 不存在: $bundle" >&2; exit 1; }
 slug=${REPO_SLUG:?REPO_SLUG 必填} run_url=${RUN_URL:-"(run URL 缺失)"}
 here=$(cd "$(dirname "$0")" && pwd)
 asof=$(date -u +%F)
@@ -84,6 +90,7 @@ jq -rn -f "$here/health-md.jq" --slurpfile s "$summary" --slurpfile h history.js
   if [ -n "$fne" ] && [ -f "$fne" ]; then
     echo "- FN 证据: fn-evidence.json — 本轮 FN 样本锚行证据摘要 (agent 迭代环机读源, README §6)"
   fi
+  echo "- 规则 bundle: rules-bundle.json ($(jq -r .manifest.rule_count "$bundle") 规则) — userscript 消费源 (README §5)"
   echo
   jq -rn -f "$here/summary-md.jq" --slurpfile s "$summary" --slurpfile v "$verdict"
 } > latest.md
@@ -92,6 +99,8 @@ jq -rn -f "$here/health-md.jq" --slurpfile s "$summary" --slurpfile h history.js
 work=$(mktemp -d)
 git -C "$work" init -q -b reports
 cp -r badges latest.md rules-health.md history.jsonl "$work/"
+# bundle 落分支文件名固定为 rules-bundle.json (raw URL 是跨仓契约, 与来源路径解耦)
+cp "$bundle" "$work/rules-bundle.json"
 if [ -n "$fne" ] && [ -f "$fne" ]; then cp "$fne" "$work/"; fi
 git -C "$work" add -A
 git -C "$work" -c user.name=sweep-bot -c user.email=sweep-bot@users.noreply.github.com \
