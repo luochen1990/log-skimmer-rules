@@ -1,0 +1,22 @@
+# samples: github.com/haskell/haskell-language-server/2026-10-26/40258645053-121365918403-build-x86_64-linux-deb11-9124--failure.log.gz
+# 锚: apt/apt-get (Debian 系包管理器) 安装中止判词行 `E: Unable to fetch some archives,
+# maybe run apt-get update or try with --fix-missing?` — apt 在归档获取失败放弃安装时
+# 必打的收尾错误行 (工具签名), 任何仓的 deb 系容器 CI 均可出现, 非仓特有守卫文案。
+# 取舍: 同一失败 run 内的 `E: Failed to fetch <url> 404 ...` 逐包行 (本样本 20+ 行)
+# 刻意不锚不扩展 — 多行吞入有压缩率双测退化前科 (见 python-logging-critical-message
+# 的取舍记录: phpstan ERROR 级行因逐行提取致 >2% 退化而退役); 单行判词即完整失败
+# 证据 (获取失败 → 安装中止), 成功侧 FP 面极窄 (仅 wrapper 重试恢复场景同构)。
+# 根因族: 镜像 404 (deb11 EOL 池轮换) / 网络超时 — 均为依赖获取失败, category deps。
+id: apt-fetch-failed
+title: 'apt 包获取失败判词 (E: Unable to fetch some archives 单行)'
+tool: apt
+category: deps
+intent: failure
+confidence: high
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?E: Unable to fetch some archives'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, fn-responder/glm-5.3)'
+  generated-by: {harness: fn-responder, model: glm-5.3}
+  adapter-version: 0.1.0
