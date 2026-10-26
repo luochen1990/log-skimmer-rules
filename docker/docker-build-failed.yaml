@@ -1,0 +1,21 @@
+# samples: github.com/nlohmann/json/2026-10-26/40284481428-121444831898-Fuzzing-failure.log.gz
+# 锚: docker buildx/buildkit 构建失败总判词行 `ERROR: failed to solve: <原因链>` —
+# buildkit 在构建失败退出前必打的单行收尾 (工具签名, 与根因无关: 网络 / Dockerfile /
+# 步骤退出码失败均以此收尾), 任何仓的 docker 构建 CI 均可出现。
+# 取舍: 步骤级 `#N ERROR: ...` 形态 (本样本 #2 load metadata i/o timeout) 刻意不锚 —
+# 总判词恒在场 (FN 闭环由它保底), 步骤级加锚只增 FP 面与压缩率负担, 收益为零;
+# 多因混合 (本样本根因 = gcr.io DNS 解析超时, 属一次性网络故障, 但判词行本身跨因
+# 泛化, 非一次性形态)。category build: 判据是工具角色 (构建系统失败) 优先于个案根因。
+id: docker-build-failed
+title: 'docker buildkit 构建失败判词 (ERROR: failed to solve: 单行)'
+tool: docker
+category: build
+intent: failure
+confidence: high
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?ERROR: failed to solve: '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, fn-responder/glm-5.3)'
+  generated-by: {harness: fn-responder, model: glm-5.3}
+  adapter-version: 0.1.0
