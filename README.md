@@ -63,6 +63,8 @@ intent 三值与 category 十值的详细判定基准不在本文重复 — 见 
 
 sweep 首跑无上次 artifact 属合法首态 (跳过对比只出报告与断言); 其红是「上周→本周的退化信号」, 归因面为 规则集/引擎/语料 三者时点差的聚合, 需人工分诊。
 
+**规则 bundle 产物**: sweep 每轮同时发布 [rules-bundle.json](https://github.com/luochen1990/log-skimmer-rules/blob/reports/rules-bundle.json) 到 reports 分支 — 全规则**原文透传**单文件, 供无目录枚举能力的消费方 (如浏览器 userscript 经 `raw.githubusercontent.com` 拉取, CORS 干净) 逐条 `(path, yaml)` 喂引擎装载。`rule_count` 以**引擎装载成功数**为准, 与 rules 数组长度在生成时断言; 格式契约 SSOT = [make-rules-bundle.sh 头注释](.github/scripts/make-rules-bundle.sh)。lint 在 PR 时点同步演练生成 (口径断言前置到 merge 前, 不推送)。
+
 ## 6. Agent 自动响应 (FN 契约)
 
 master CI 的 FN 红 (失败样本经规则集 skim 后 failure-intent fragment 数为 0) 由**维护者的自动化 agent** 响应, 无需社区处理。agent 与人类贡献者走完全相同的通道 (分支 + PR), 契约如下:

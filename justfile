@@ -18,3 +18,6 @@ check:
     echo "summary-md.jq 空输入冒烟: OK"
     # 3. 结构断言 (与 lint CI 同一脚本: 目录名一致性 + README 工具清单守护)
     bash .github/scripts/structure-assert.sh .
+    # 4. 脚本语法检查 (bash -n; 管线脚本秒级本地门禁, 语义校验归 lint CI 实跑)
+    for f in .github/scripts/*.sh; do bash -n "$f"; done
+    echo "管线脚本语法: OK"

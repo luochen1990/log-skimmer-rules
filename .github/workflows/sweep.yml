@@ -31,6 +31,11 @@
 #   sweep 红门禁本身照红 (诚实不变)。差集/冷却/保守边界语义见
 #   .github/scripts/fn-dispatch-gate.sh 头注。
 #
+# 规则 bundle 产物: 每轮另产 rules-bundle.json (全规则原文单文件, userscript
+#   消费源) 随 report 同步发布到 reports 分支 — 生成/口径/格式 SSOT =
+#   .github/scripts/make-rules-bundle.sh 头注释; lint 在 PR 时点同步演练生成
+#   (口径断言前置到 merge 前)。
+#
 # 时段: 语料仓 refresh = 周一 20:00 UTC (124 仓抓取 45-115min, 最晚 ~23:00 落地),
 #   sweep 取周二 03:00 UTC — 错开 refresh 窗口且留 4h+ 余量, 每周扫的恒是本周新语料。
 name: sweep
@@ -121,6 +126,14 @@ jobs:
             rm -f fn-evidence.json
           fi
           if [ -s fn-evidence.json ]; then echo "present=true" >> "$GITHUB_OUTPUT"; fi
+      - name: 生成 rules-bundle.json (全规则原文单文件 — userscript 消费源; 口径 = 引擎装载数)
+        id: bundle
+        # 只依赖 report 步的 summary.json — 零额外引擎开销 (口径 SSOT = 脚本头注释);
+        # 生成失败 = 红 run 且发布步跳过 (缺产发布的理由见发布步注释)
+        if: always() && steps.report.outcome == 'success'
+        run: |
+          set -euo pipefail
+          bash rules/.github/scripts/make-rules-bundle.sh rules summary.json rules-bundle.json
       - name: 渲染 job summary (gated/exempt 双组 + 逐仓分解 + 规则×仓矩阵, 大表折叠)
         if: always() && steps.report.outcome == 'success'
         run: |
@@ -168,8 +181,11 @@ jobs:
         run: |
           set -euo pipefail
           bash rules/.github/scripts/fn-dispatch-gate.sh fn-evidence.json
-      - name: 发布 reports 分支 (README 活指标徽章数据 + latest.md; 红绿照常发布)
-        if: always() && steps.report.outcome == 'success'
+      - name: 发布 reports 分支 (README 活指标徽章数据 + latest.md + rules-bundle.json; 红绿照常发布)
+        # bundle 步耦合: rules-bundle.json 是常驻产物 (history.jsonl 族) — 生成失败
+        # 时跳过发布: orphan 单提交重写会清掉上一版 bundle, 缺产发布 = 消费方 404;
+        # 报告的让位由红 run 自身可见性兜底 (上一版 reports 快照保持完整服务)
+        if: always() && steps.report.outcome == 'success' && steps.bundle.outcome == 'success'
         env:
           REPO_SLUG: luochen1990/log-skimmer-rules
           GITHUB_TOKEN: "${{ github.token }}" # flow scalar 内 ${{}} 须引号 (YAML 花括号)
@@ -180,7 +196,7 @@ jobs:
             "$(git -C engine-repo rev-parse HEAD)" \
             "$(git -C rules rev-parse HEAD)" \
             "$(git -C corpus rev-parse HEAD)" \
-            fn-evidence.json # 可选第 6 参: 仅 FN 红 run 在场, 脚本内 -f 容忍缺失
+            fn-evidence.json rules-bundle.json # 第 6 参可选 (仅 FN 红 run 在场, 脚本内 -f 容忍缺失); 第 7 参必填 (常驻产物)
       - name: gate 结果落地 (断言违例/退化 → 红)
         if: always()
         run: |
