@@ -1,0 +1,20 @@
+# samples: element-hq/synapse/40397893435-121874073690
+# 锚: gotestfmt (go test -json 的格式化层) 输出的单测失败行 `FAIL TestX <duration>` —
+# 空格分隔含尾随时长, 与 go test 原生 `--- FAIL:` (go-test-fail) 和 `FAIL\t<pkg>` 汇总
+# (go-test-pkg-fail) 形态互补且互不相交; 尾随时长限定排除裸 `FAIL` 收尾行与用户文本;
+# 同形态 `PASS TestX <duration>` 行由 FAIL 字面量天然排除。单行块, 父级 suite 失败行
+# (`FAIL TestX/sub` / `FAIL TestX`) 同样匹配 — A5 自然合并为相邻块。
+# 语料缺口: 现有语料仓零 gotestfmt 样本 (FP 零风险佐证), 溯源仅本 samples 行 — 补语料
+# 属语料仓迭代 (示范项目集需含 gotestfmt 生产者, 如 element-hq/synapse complement)。
+id: gotestfmt-test-fail
+title: 'gotestfmt 单测失败行 (FAIL TestX 空格分隔含尾随时长)'
+tool: gotestfmt
+category: test
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*FAIL \S.* [0-9]+(\.[0-9]+)?s$'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0
