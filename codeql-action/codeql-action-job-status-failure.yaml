@@ -1,0 +1,23 @@
+# samples: github.com/scikit-learn/scikit-learn/2026-10-26/40339610746-121630392020-Analyze-(python)-failure.log.gz
+# github/codeql-action 的 job 状态上报行 `CodeQL job status was failure.` — 签名为 action 自身
+# 产出 (init 后置步骤 status report 流程, 样本 748 行 kw 锚), 不含任何仓库标识; 任何仓的
+# CodeQL Analyze job 失败后, init post 步骤上报状态必现此行。成功侧同构行恒为
+# `CodeQL job status was success.` (状态词字符级不相交, FP 免疫) — 锚锁定 failure 字面。
+# 样本根因 (Analyze 步骤失败) 的更早根因行在 fn-evidence 中被截断 (样本 truncated=true,
+# anchors 仅覆盖 689-753 行), 但状态行是确定性失败判决行, 独立自足; context before=5 回收
+# `Uploading failed SARIF file` / `Post-processing sarif files` 邻接细节 (同为失败侧专属,
+# 细节行词法弱不独立作锚)。前置容忍 GHA 时间戳 (与 scorecard-action 同构)。
+id: codeql-action-job-status-failure
+title: 'codeql-action 失败状态上报 (CodeQL job status was failure.)'
+tool: codeql-action
+category: infra
+intent: failure
+confidence: high
+context: {before: 5, after: 0}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?CodeQL job status was failure\.'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, fn-responder/glm-5.3)'
+  generated-by: { harness: fn-responder, model: glm-5.3 }
+  adapter-version: fn-responder-v2
