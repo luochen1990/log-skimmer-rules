@@ -1,6 +1,8 @@
-# Log Skimmer 规则库
+# Log Skimmer Rules
 
-CI 日志提取规则集 — 描述「各类工具的失败证据长什么样」(锚行 + 多行扩展), 供 [log-skimmer](https://github.com/luochen1990/log-skimmer) 引擎运行时消费。**社区维护 + Agent 辅助**: 欢迎 PR, AI agent 起草的规则同样欢迎 (请在 attribution 字段声明来源)。
+[English](README.md) | [简体中文](README.zh-CN.md)
+
+Rule set for CI log extraction — describes "what failure evidence looks like" for various tools (anchor line + multi-line extension), consumed at runtime by the [log-skimmer](https://github.com/luochen1990/log-skimmer) engine. **Community-maintained + agent-assisted**: PRs are welcome, including rules drafted by AI agents (declare provenance in the `attribution` field).
 
 [![backtest](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fluochen1990%2Flog-skimmer-rules%2Freports%2Fbadges%2Fverdict.json)](https://github.com/luochen1990/log-skimmer-rules/blob/reports/latest.md)
 [![corpus](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fluochen1990%2Flog-skimmer-rules%2Freports%2Fbadges%2Fcorpus.json)](https://github.com/luochen1990/log-skimmer-rules/blob/reports/latest.md)
@@ -8,78 +10,78 @@ CI 日志提取规则集 — 描述「各类工具的失败证据长什么样」
 [![compression](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fluochen1990%2Flog-skimmer-rules%2Freports%2Fbadges%2Fcompression.json)](https://github.com/luochen1990/log-skimmer-rules/blob/reports/latest.md)
 [![coverage](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fluochen1990%2Flog-skimmer-rules%2Freports%2Fbadges%2Fcoverage.json)](https://github.com/luochen1990/log-skimmer-rules/blob/reports/rules-health.md)
 
-> 活指标: 徽章与 [完整回测报告](https://github.com/luochen1990/log-skimmer-rules/blob/reports/latest.md) 由每周 sweep 自动发布 (`reports` 分支), 数字不手工维护 — 本 README 只做定性描述。每条规则的健康度 (PPV/lift/信息量/分级) 见 [rules-health.md](https://github.com/luochen1990/log-skimmer-rules/blob/reports/rules-health.md)。
+> Live metrics: badges and the [full backtest report](https://github.com/luochen1990/log-skimmer-rules/blob/reports/latest.md) are auto-published by the weekly sweep (`reports` branch) — numbers are never hand-maintained, and this README stays qualitative. Per-rule health (PPV/lift/information content/grade) lives in [rules-health.md](https://github.com/luochen1990/log-skimmer-rules/blob/reports/rules-health.md).
 >
-> 职责边界: 本 README 面向规则贡献者 — 布局速览、字段速览、打标纪律与贡献流程。规则 YAML 格式、状态机语义、L0 统计口径的单一事实来源是引擎仓的 spec ([docs/rule-format.md](https://github.com/luochen1990/log-skimmer/blob/master/docs/rule-format.md)); 本文只做速览与指针。
+> Scope: this README targets rule contributors — layout overview, field overview, labeling discipline, and the contribution flow. The single source of truth for the rule YAML format, state-machine semantics, and L0 statistics is the engine repo's spec ([docs/rule-format.en.md](https://github.com/luochen1990/log-skimmer/blob/master/docs/rule-format.en.md)); this document is a quick reference with pointers.
 
-## 1. 规则集概貌
+## 1. Rule Set at a Glance
 
-- 布局: `<tool-id>/<rule-id>.yaml`, 一文件一规则 (如 `nix/nix-eval-error-tree.yaml`)。
-- `tool-id` 为 folksonomy 约定名: 无中央注册表, 规则文件的存在即定义 ID (小写字母/数字/连字符)。
-- `rule-id` 形如 `<tool-id>-<语义名>`, 全局唯一, 同 id 重复加载报错。
-- 工具覆盖面以顶层目录为准 (**目录即清单**, folksonomy 存在即定义 — 不在 README 重复枚举, 免合并冲突)。
+- Layout: `<tool-id>/<rule-id>.yaml`, one rule per file (e.g. `nix/nix-eval-error-tree.yaml`).
+- `tool-id` is a folksonomy convention name: no central registry — a rule file's existence defines the ID (lowercase letters/digits/hyphens).
+- `rule-id` takes the form `<tool-id>-<semantic-name>`, globally unique; loading two rules with the same id is an error.
+- Tool coverage is defined by the top-level directories (**the directory tree is the manifest**, folksonomy existence-is-definition — tools are not re-enumerated in this README, avoiding merge conflicts).
 
-## 2. 字段语义速览
+## 2. Field Semantics at a Glance
 
-| 字段 | 必填 | 默认 | 语义 |
+| Field | Required | Default | Semantics |
 | --- | --- | --- | --- |
-| id | 必填 | — | 规则唯一标识, `<tool-id>-<语义名>`, 须以 tool 值为前缀 |
-| title | 必填 | — | 一句话人类可读描述 |
-| tool | 必填 | — | 工具维度, 与目录名一致 |
-| 生效范围 | — | — | 由**存储位置**唯一决定 (spec §1.S): 本仓规则 = 全局层; 项目特异规则住项目仓 `<repo>/.log-skimmer/rules/`。scope/repo 字段已退役, 勿写 |
-| patterns | 必填 | — | 状态机 pattern 链 (≥1 项), `patterns[0]` 为锚, 是开块的唯一途径 |
-| kind | 必填 | — | `signal` 提取信号片段; `noise` 标记噪音行 (覆盖行从输出中剔除) |
-| intent | 选填 | failure | `failure` / `warning` / `info`, 命中对成败判定意味着什么 |
-| confidence | 选填 | medium | `high` / `medium` / `low`, 片段继承, 呈现排序参考 |
-| category | 选填 | unknown | 封闭枚举 10 值, 信息类别; 省缺即 unknown |
-| context | 选填 | before: 0, after: 0 | 输出边界扩展行数 (各 0-10), 只影响输出不参与状态机 |
-| attribution | 条件必填 | null | 规则来源声明, Adapter/Agent 生成时必填, 手写规则省略 |
+| id | required | — | unique rule identifier, `<tool-id>-<semantic-name>`, must be prefixed by the tool value |
+| title | required | — | one-line human-readable description |
+| tool | required | — | tool dimension; must match the directory name |
+| Effective scope | — | — | decided solely by **storage location** (spec §1.S): rules in this repo = global layer; project-specific rules live in the project repo at `<repo>/.log-skimmer/rules/`. The `scope`/`repo` fields are retired — do not write them |
+| patterns | required | — | state-machine pattern chain (≥1 item); `patterns[0]` is the anchor — the only way a block opens |
+| kind | required | — | `signal` extracts signal fragments; `noise` marks noise lines (covered lines are dropped from the output) |
+| intent | optional | failure | `failure` / `warning` / `info` — what a hit means for the pass/fail verdict |
+| confidence | optional | medium | `high` / `medium` / `low`; inherited by fragments, a presentation-order hint |
+| category | optional | unknown | closed enum of 10 values, information category; omitted means unknown |
+| context | optional | before: 0, after: 0 | output boundary extension in lines (0–10 each); affects output only, never the state machine |
+| attribution | conditionally required | null | rule provenance declaration; required when adapter/agent-generated, omitted for hand-written rules |
 
-intent 三值与 category 十值的详细判定基准不在本文重复 — 见 spec §1 与引擎仓 docs/category-survey.md。
+The detailed adjudication criteria for the three intent values and ten category values are not repeated here — see spec §1 and the engine repo's docs/category-survey.md.
 
-## 3. 打标纪律
+## 3. Labeling Discipline
 
-核心原则**宁缺勿错**:
+Core principle: **prefer missing over wrong**.
 
-- 错标 (category/intent 与实际不符) 污染查询语义 — 下游按这些字段做程序化过滤, 错标不可检测且误导全局; unknown 只损失该规则自身这一条过滤价值。
-- 以下情形一律打 `unknown`: 多因混合无法唯一判类 / 样例不足拿不准 / 回测发现规则命中多类日志 / 类别超出枚举 (属集合演化信号, 在 PR 中记录样例)。
-- `kind: noise` 的规则必须缺省 intent; signal 规则 intent 默认 failure, 确认语义分层后才改标 warning 或 info。
-- unknown 占比长期 >40% 触发集合审视; unknown 升级具名走 PR 人工确认; flaky 是属性不是类别, 不进 category。
+- Mislabeled (category/intent not matching reality) pollutes query semantics — downstream consumers filter programmatically on these fields; a mislabel is undetectable and misleads globally, while unknown only loses that one rule's filtering value.
+- Always label `unknown` when: multiple mixed causes prevent a unique classification / insufficient samples leave you unsure / backtesting shows the rule hits multiple log classes / the category falls outside the enum (a set-evolution signal — record samples in the PR).
+- `kind: noise` rules must omit intent; signal rules default to intent `failure` — relabel to `warning` or `info` only after the semantic layering is confirmed.
+- An unknown share persistently >40% triggers a set review; upgrading an unknown to a named value goes through PR with human confirmation; flaky is an attribute, not a category — it does not enter category.
 
-## 4. 贡献流程
+## 4. Contribution Flow
 
-1. 复制 `.github/_template.yaml` 起步, 存为 `<tool-id>/<rule-id>.yaml` (模板在 `.github/` 隐藏路径, 引擎加载跳过 — 不进生产规则集)。
-2. 头注释写样例溯源: `# samples: <repo>/<run>-<job>, ...` (样本来自 [log-skimmer-corpus](https://github.com/luochen1990/log-skimmer-corpus) 公开语料仓; 头注释是规则↔样本的人工溯源线索)。建议同时写 why 叙事 (锚/扩展正则的匹配依据与宿主前缀容忍考虑), 参考示例: [nix/nix-eval-error-tree.yaml](nix/nix-eval-error-tree.yaml), [bun/bun-error-json.yaml](bun/bun-error-json.yaml)。
-3. **本地验证命中** (规则「有用」的唯一守门): 用引擎 CLI 对**带来这条规则的那条真实日志**跑 `log-skimmer skim <样例.log> --rules .` (在本仓根目录执行; 引擎构建方式见 [log-skimmer README](https://github.com/luochen1990/log-skimmer#快速上手)), 确认人类可读输出的块头 (`--- [L..-L..] <rule-id>`) 出现你的规则 id — 即锚行真的命中。corpus 无该工具样本时, PR 的 lint CI 只验证「不添乱」(加载合法 + 回测不退化), **不会**验证新规则能命中 — 本地命中验证是规则有效性的唯一守门步骤。
-4. 提 PR — CI 自动校验: 规则加载合法性 + 全语料回测 (FN=0 / FP率≤2% / 零块=0) + 压缩率 master-vs-PR 双测对比 (引擎与语料在双测中同侧, 纯规则变量归因, 退化 >2% 判红)。
-5. 规则语法错误 (regex 编译失败/枚举越界/字段约束违例) 在 CI 加载阶段即拦下; 单条规则违例会导致整个规则集拒绝加载 — 第 3 步的验证命令会先在本地暴露加载错误, 贡献者做单样例验证即可, 无需本地跑引擎仓的 `just ci-merge` (重量级全量门禁是引擎维护者的回归工具)。
+1. Start by copying `.github/_template.yaml` and save as `<tool-id>/<rule-id>.yaml` (the template lives under the hidden `.github/` path, which engine loading skips — it never enters the production rule set).
+2. Record sample provenance in the header comment: `# samples: <repo>/<run>-<job>, ...` (samples come from the public [log-skimmer-corpus](https://github.com/luochen1990/log-skimmer-corpus) corpus repo; header comments are the human-readable rule↔sample tracing clue). Also consider writing the why narrative (matching rationale for the anchor/extension regexes and host-prefix tolerance considerations) — reference examples: [nix/nix-eval-error-tree.yaml](nix/nix-eval-error-tree.yaml), [bun/bun-error-json.yaml](bun/bun-error-json.yaml).
+3. **Verify the hit locally** (the only gate on a rule being "useful"): run the engine CLI over **the real log that motivated the rule**: `log-skimmer skim <sample.log> --rules .` (from this repo's root; for engine build instructions see the [log-skimmer README](https://github.com/luochen1990/log-skimmer#quick-start)), and confirm your rule id appears in the human-readable block header (`--- [L..-L..] <rule-id>`) — i.e. the anchor really matches. When the corpus has no samples for a tool, PR lint CI only verifies "do no harm" (loads legally + no backtest regression) and will **not** verify that the new rule hits anything — local hit verification is the only gating step for rule effectiveness.
+4. Open a PR — CI automatically checks: rule loading legality + whole-corpus backtest (FN=0 / FP rate ≤2% / zero-block=0) + compression master-vs-PR dual-run comparison (engine and corpus identical on both sides, isolating the rules variable; regression >2% is red).
+5. Rule syntax errors (regex compile failure / enum out of range / field constraint violations) are caught at the CI load stage; a single violating rule makes the whole rule set fail to load — the verification command from step 3 surfaces load errors locally first, so a single-sample check by the contributor suffices; there is no need to run the engine repo's `just ci-merge` locally (the heavyweight full gate is the engine maintainers' regression tool).
 
-## 5. CI 门禁分工: lint (PR 时点回归) × sweep (周常驻防腐)
+## 5. CI Gate Split: lint (per-PR point-in-time regression) × sweep (weekly drift watch)
 
-| 门禁 | 触发 | 语义 |
+| Gate | Trigger | Semantics |
 | --- | --- | --- |
-| [lint](.github/workflows/lint.yml) | PR / master push | **时点回归**: merge 前校验 — 规则加载 + 全语料断言 + master-vs-PR 压缩率双测 (同引擎同语料, 纯规则变量归因), 回答「这个 PR 是否让现状变差」。规则 PR 的质量门禁由它承担。 |
-| [sweep](.github/workflows/sweep.yml) | 周二 03:00 UTC / 手动 | **时点间漂移防腐**: master 规则集 × 最新语料 (周一语料仓刷新后) 全量报告 (job summary: gated/exempt 双组 + 逐仓分解 + 规则×仓矩阵, artifact 存完整 JSON), 并与上次成功 run 对比 (引擎 `--base` 内置口径, 逐仓压缩率相对退化 >2% 判红), 回答「两次 PR 的间隙里, 世界演化是否让 master 悄悄退化」。 |
-| [auto-merge](.github/workflows/auto-merge.yml) | PR ready/同步 (仅 `agent/fn-*`) | **Tier A 自动合并**: 机械断言链 (CI 全绿 / 加性-only / 动机样本在场 / 规模上限) 全过的 ready PR 自动 squash 合并, 未过打标交人工 — 断言链与安全论证见 §6 与 `.github/scripts/auto-merge.sh` 头注释。 |
+| [lint](.github/workflows/lint.yml) | PR / master push | **Point-in-time regression**: pre-merge check — rule loading + whole-corpus assertions + master-vs-PR compression dual-run (same engine, same corpus, isolating the rules variable), answering "does this PR make the status quo worse?". It is the quality gate for rule PRs. |
+| [sweep](.github/workflows/sweep.yml) | Tue 03:00 UTC / manual | **Between-PRs drift watch**: full report of master rules × latest corpus (after Monday's corpus refresh) (job summary: gated/exempt groups + per-repo breakdown + rule×repo matrix; full JSON in artifacts), compared against the last successful run (engine `--base` built-in comparison, per-repo compression relative regression >2% is red), answering "in the gap between two PRs, did the world's evolution quietly degrade master?". |
+| [auto-merge](.github/workflows/auto-merge.yml) | PR ready/synced (`agent/fn-*` only) | **Tier A auto-merge**: ready PRs passing the full mechanical assertion chain (CI all green / additive-only / motivating samples present / size caps) are squash-merged automatically; failures are labeled for humans — the assertion chain and safety argument are in §6 and the `.github/scripts/auto-merge.sh` header comment. |
 
-sweep 首跑无上次 artifact 属合法首态 (跳过对比只出报告与断言); 其红是「上周→本周的退化信号」, 归因面为 规则集/引擎/语料 三者时点差的聚合, 需人工分诊。
+A first sweep run without a previous artifact is a legal initial state (comparison skipped, report and assertions only); a red sweep is a "last week → this week" regression signal, attributable to the aggregate drift of ruleset/engine/corpus between the two points — it needs human triage.
 
-**规则 bundle 产物**: sweep 每轮同时发布 [rules-bundle.json](https://github.com/luochen1990/log-skimmer-rules/blob/reports/rules-bundle.json) 到 reports 分支 — 全规则**原文透传**单文件, 供无目录枚举能力的消费方 (如浏览器 userscript 经 `raw.githubusercontent.com` 拉取, CORS 干净) 逐条 `(path, yaml)` 喂引擎装载。`rule_count` 以**引擎装载成功数**为准, 与 rules 数组长度在生成时断言; 格式契约 SSOT = [make-rules-bundle.sh 头注释](.github/scripts/make-rules-bundle.sh)。lint 在 PR 时点同步演练生成 (口径断言前置到 merge 前, 不推送)。
+**Rules bundle artifact**: each sweep also publishes [rules-bundle.json](https://github.com/luochen1990/log-skimmer-rules/blob/reports/rules-bundle.json) to the reports branch — a single file carrying all rules **verbatim**, for consumers that cannot enumerate directories (e.g. a browser userscript fetching via `raw.githubusercontent.com`, CORS-clean), feeding the engine `(path, yaml)` pairs one by one. `rule_count` counts **rules the engine successfully loaded**, asserted against the rules array length at generation time; the format contract SSOT is the [make-rules-bundle.sh header comment](.github/scripts/make-rules-bundle.sh). lint rehearses the generation at PR time (the assertion moves before merge; nothing is pushed).
 
-## 6. Agent 自动响应 (FN 契约)
+## 6. Agent Auto-Response (FN Contract)
 
-master CI 的 FN 红 (失败样本经规则集 skim 后 failure-intent fragment 数为 0) 由**维护者的自动化 agent** 响应, 无需社区处理。agent 与人类贡献者走完全相同的通道 (分支 + PR), 契约如下:
+FN reds on master CI (failed samples yielding zero failure-intent fragments after skimming with the rule set) are responded to by the **maintainer's automated agent** — no community action needed. The agent goes through exactly the same channel as human contributors (branch + PR), under this contract:
 
-- **产物形态**: 分支 `agent/fn-<run_id>` 的规则 PR 与归因 issue; 所有 PR/issue body 恒含 `dedup-key: run <run_id>` 行 — 既是 agent 的 run 级去重锚 (同一 run 至多响应一次), 也是人眼核对「该 run 是否已被响应过」的锚。规则 PR body 另为**每个覆盖的 FN 样本**含一行 `dedup-sample: <样本路径>` (样本路径 = fn-evidence.json 的 `evidence[].sample` 原样) — sweep 唤醒门控的在途声明 (样本级去重, 见下), 也是人眼核对响应覆盖面的锚。
-- **draft → ready 语义**: agent 起草的 PR 以 **draft** 开; CI 绿后 flip 为 **ready**。ready 仅代表 agent 已尽力; 合并判定归 Tier A 门禁的机械断言链 (见下), 语义 review 归人 (Tier B 后置)。
-- **机械红线**: agent 永不 merge / approve / force push — merge 族工具不在 agent 的 MCP 白名单 (结构性缺席); 仓侧防线 = Tier A 门禁断言链只放行加性-only 的 agent PR。
-- **Tier A 自动合并 (机械断言链, 2026-10-25 裁决)**: ready 的 agent PR 由 [auto-merge](.github/workflows/auto-merge.yml) 门禁评估, 全过才合并: head 本仓 `agent/fn-<run_id>` (fork 同名分支不认) / CI 全绿 (head sha 全部 check-run success, 空集即拒) / **加性-only** (仅新增单层 `<tool>/<rule>.yaml`, 删改/越界路径即拒) / 动机样本仍在语料 (防样本轮换出窗的「空转绿」) / 规模 ≤3 文件且 ≤60 行。任一违例 → label `auto-merge-skipped` + 原因 comment, 交人工。安全论证: 新增规则只增 failure-fragments (FN 只降不升), 隐藏失败须删改既有规则 (被加性-only 排除), FP 被 lint ≤2% 断言封顶 — 最坏情况是废规则进 master, 下一拍 sweep 变红暴露, revert 即愈 (自限性故障)。断言链 SSOT: `.github/scripts/auto-merge.sh` 头注释。
-- **迭代上限**: PR CI 连续 3 轮红则停止迭代 — 留 draft 并开 issue 通报卡点, 交人工分诊。
+- **Artifact shape**: a rule PR on branch `agent/fn-<run_id>` plus a companion attribution issue; every PR/issue body always contains a `dedup-key: run <run_id>` line — both the agent's run-level dedup anchor (a given run is responded to at most once) and the human-check anchor for "has this run already been handled?". Rule PR bodies additionally carry one `dedup-sample: <sample path>` line **per covered FN sample** (sample path = verbatim `evidence[].sample` from fn-evidence.json) — an in-flight declaration for the sweep wake gate (sample-level dedup, see below) and the human-check anchor for response coverage.
+- **draft → ready semantics**: agent-drafted PRs start as **draft**; flipped to **ready** once CI is green. Ready only means the agent did its best; the merge decision belongs to the Tier A gate's mechanical assertion chain (below), semantic review belongs to humans (Tier B, deferred).
+- **Mechanical red lines**: the agent never merges / approves / force-pushes — merge-family tools are structurally absent from the agent's MCP allowlist; the repo-side defense is the Tier A assertion chain admitting only additive-only agent PRs.
+- **Tier A auto-merge (mechanical assertion chain, ruled 2026-10-25)**: ready agent PRs are evaluated by the [auto-merge](.github/workflows/auto-merge.yml) gate; merged only if all pass: head is this repo's `agent/fn-<run_id>` (same-named fork branches don't count) / CI all green (all check-runs success on the head sha; an empty set rejects) / **additive-only** (only new single-layer `<tool>/<rule>.yaml`; deletions/modifications/out-of-scope paths reject) / motivating samples still in the corpus (guards against "idling green" after sample rotation) / size ≤3 files and ≤60 lines. Any violation → label `auto-merge-skipped` + reason comment, escalated to humans. Safety argument: a new rule only adds failure-fragments (FN can only go down); hiding a failure would require modifying existing rules (excluded by additive-only); FP is capped by the lint ≤2% assertion — the worst case is a useless rule landing in master, exposed by the next sweep red, healed by revert (self-limiting failure). Assertion-chain SSOT: `.github/scripts/auto-merge.sh` header comment.
+- **Iteration cap**: if PR CI is red 3 rounds in a row, iteration stops — the PR stays draft and an issue reports the blocker for human triage.
 
-CI 侧数据面: lint 的判定违例明细以 `l0-verdict` artifact 机读产出 (见 §5), 供 agent 迭代环消费; sweep 的 FN 事件另产 **`fn-evidence.json`** — FN 样本锚行证据摘要 (verdict fn detail 样本清单 × 语料通用失败关键词窗口 ±5 行, 每样本 ≤30 行锚行 / 总体积 ≤256KB), 经 `fn-evidence` artifact 与 reports 分支双渠道发布, 供 agent 免语料研判 — **语料永不离 CI runner** (v2 数据面原则)。
+CI-side data plane: lint's verdict violation details are produced machine-readably as the `l0-verdict` artifact (see §5) for the agent's iteration loop; sweep's FN events additionally produce **`fn-evidence.json`** — an FN sample anchor-line evidence digest (verdict fn detail sample list × corpus-generic failure-keyword window ±5 lines, ≤30 anchor lines per sample / ≤256KB total), published through both the `fn-evidence` artifact and the reports branch, letting the agent reason without the corpus — **the corpus never leaves the CI runner** (v2 data-plane principle).
 
-唤醒面: sweep 的 FN 事件经**机械门控差集判定** (本拍 FN 样本 − reports 分支上一拍快照 − 在途声明) — 仅出现**未被在途响应覆盖的新 FN 样本**时发 `repository_dispatch` (`event_type: fn-responder-wake`, `client_payload` 含 `run_id` 与新样本清单) 唤醒 agent; 稳态重复红零发送 (下游零 token 消耗), sweep 红门禁本身照红。dispatch 的下游链 = `.github/workflows/fn-wake.yml` 监听 workflow: 其 run 是 agent-service `github_dispatch` 触发器的探测边沿 (runs API 是唯一可轮询 dispatch 面 — events feed 不收录 dispatch 事件), 并把 `client_payload` 原文写到 `fn-wake` 分支 `fn-wake.json` (数据面; 响应器经 raw URL 免认证拉取 — client_payload 不经任何 API 面)。在途声明: 上述 `dedup-sample:` 行, PR open 全程有效, merged 后 **12h 冷却窗**内仍有效 — 防「合了未愈」窗口内重复唤醒; 超窗仍失败 = 升级信号, 声明过期允许重唤醒。门控取数失败一律保守多发 (宁可多唤醒不可静默漏), 实现见 `.github/scripts/fn-dispatch-gate.sh`。
+Wake plane: sweep FN events go through **mechanical gated set-difference** (this round's FN samples − last round's snapshot on the reports branch − in-flight claims) — a `repository_dispatch` (`event_type: fn-responder-wake`, `client_payload` carrying `run_id` and the new-sample list) wakes the agent **only when FN samples not covered by in-flight responses appear**; steady-state repeated reds send nothing (zero downstream token cost), while the sweep red gate itself stays red. The dispatch's downstream chain = the `.github/workflows/fn-wake.yml` workflow listener: its runs are the agent-service `github_dispatch` trigger's sensing edge (the runs API is the only dispatch surface that can be polled — the events feed doesn't include dispatch events), and it writes the `client_payload` verbatim to `fn-wake.json` on the `fn-wake` branch (data plane; the responder fetches it via raw URL without authentication — client_payload never touches any API surface). In-flight claims: the `dedup-sample:` lines above, valid for the whole life of an open PR, and still valid within a **12h cooldown window** after merge — preventing repeated wakes in the "merged but not yet healed" window; still failing past the window = an escalation signal, the declaration expires and re-waking is allowed. Gate data-fetch failures always over-send (better an extra wake than a silent miss); implementation in `.github/scripts/fn-dispatch-gate.sh`.
 
 ## License
 
-本仓规则与文档以 CC0 1.0 发布 (见 [LICENSE](LICENSE)) — 无版权保留, 可自由复用与再分发。
+Rules and documentation in this repo are released under CC0 1.0 (see [LICENSE](LICENSE)) — no rights reserved; free to reuse and redistribute.
