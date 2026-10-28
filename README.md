@@ -12,7 +12,7 @@ Rule set for CI log extraction — describes "what failure evidence looks like" 
 
 > Live metrics: badges and the [full backtest report](https://github.com/luochen1990/log-skimmer-rules/blob/reports/latest.md) are auto-published by the weekly sweep (`reports` branch) — numbers are never hand-maintained, and this README stays qualitative. Per-rule health (PPV/lift/information content/grade) lives in [rules-health.md](https://github.com/luochen1990/log-skimmer-rules/blob/reports/rules-health.md).
 >
-> Scope: this README targets rule contributors — layout overview, field overview, labeling discipline, and the contribution flow. The single source of truth for the rule YAML format, state-machine semantics, and L0 statistics is the engine repo's spec ([docs/rule-format.en.md](https://github.com/luochen1990/log-skimmer/blob/master/docs/rule-format.en.md)); this document is a quick reference with pointers.
+> Scope: this README targets rule contributors — layout overview, field overview, labeling discipline, and the contribution flow. The single source of truth for the rule YAML format, state-machine semantics, and L0 statistics is the engine repo's spec ([docs/rule-format.en.md](https://github.com/luochen1990/log-skimmer/blob/master/docs/rule-format.en.md) — English translation; the normative SSOT is [docs/rule-format.md](https://github.com/luochen1990/log-skimmer/blob/master/docs/rule-format.md) in Chinese); this document is a quick reference with pointers.
 
 ## 1. Rule Set at a Glance
 
