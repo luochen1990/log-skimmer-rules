@@ -30,6 +30,13 @@
 #   agent — 稳态 (同一 FN 在规则合入前每拍重复红) 零发送 = 下游零 token 消耗;
 #   sweep 红门禁本身照红 (诚实不变)。差集/冷却/保守边界语义见
 #   .github/scripts/fn-dispatch-gate.sh 头注。
+# DG 唤醒门控 (dg-responder 唤醒面): 对偶 FN 门控 — summary.json 的
+#   diagnostic_gaps (引擎侧诊断缺口清单) 与上次成功 run 的 l0-summary artifact
+#   基线差集, 减 open PR 的 dg-samples: 在途声明; 仅新 gap 非空时发
+#   repository_dispatch (dg-responder-wake) 唤醒 dg-responder。冷启动 (无基线)
+#   基线采纳零派发 (显式 notice); 每拍 ≤20。差集/批量/载荷预算语义 =
+#   .github/scripts/dg-dispatch-gate.sh 头注; 全景契约 SSOT = 引擎仓
+#   docs/diagnostic-loop.md。
 #
 # 规则 bundle 产物: 每轮另产 rules-bundle.json (全规则原文单文件, userscript
 #   消费源) 随 report 同步发布到 reports 分支 — 生成/口径/格式 SSOT =
@@ -181,6 +188,25 @@ jobs:
         run: |
           set -euo pipefail
           bash rules/.github/scripts/fn-dispatch-gate.sh fn-evidence.json
+      - name: DG 唤醒门控 (新 diagnostic gap 差集 → dg-responder-wake dispatch; 稳态零发送)
+        # 机械门控 (零 LLM), 对偶 FN 门控步: diagnostic gap 非 CI 红事件 (覆盖债
+        #   增量面), 仅「未被基线/在途声明覆盖的新 gap 样本」非空时发 dispatch
+        #   唤醒 dg-responder。冷启动 = 基线采纳零派发 (notice); 每拍 ≤20;
+        #   载荷预算与差集语义见 .github/scripts/dg-dispatch-gate.sh 头注。
+        # 门控步红不阻断发布与 artifact (后续步均 always 前置); 步红仅 = 载荷
+        #   组装失败或 dispatch 发送失败 (漏唤醒不可静默), 不劫持哨兵语义。
+        # 基线 = prev 步的 prev-summary.json (上次成功 run 的 l0-summary
+        #   artifact); 文件缺席 (首跑/保留期外) 由脚本内判冷启动, 与 L0 判定步
+        #   的 have 分支同源, 本步不重复判。
+        id: dgwake
+        if: always() && steps.report.outcome == 'success' # summary.json 在场即可判 (gaps 不依赖 fn-evidence 类前置产物)
+        env:
+          REPO_SLUG: luochen1990/log-skimmer-rules
+          GITHUB_TOKEN: "${{ github.token }}" # flow scalar 内 ${{}} 须引号 (YAML 花括号); 同仓 dispatch 已被既有 contents:write 覆盖, permissions 无需变更
+          RUN_ID: "${{ github.run_id }}"
+        run: |
+          set -euo pipefail
+          bash rules/.github/scripts/dg-dispatch-gate.sh summary.json prev-summary.json
       - name: 发布 reports 分支 (README 活指标徽章数据 + latest.md + rules-bundle.json; 红绿照常发布)
         # bundle 步耦合: rules-bundle.json 是常驻产物 (history.jsonl 族) — 生成失败
         # 时跳过发布: orphan 单提交重写会清掉上一版 bundle, 缺产发布 = 消费方 404;

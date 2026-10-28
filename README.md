@@ -82,6 +82,14 @@ CI-side data plane: lint's verdict violation details are produced machine-readab
 
 Wake plane: sweep FN events go through **mechanical gated set-difference** (this round's FN samples − last round's snapshot on the reports branch − in-flight claims) — a `repository_dispatch` (`event_type: fn-responder-wake`, `client_payload` carrying `run_id` and the new-sample list) wakes the agent **only when FN samples not covered by in-flight responses appear**; steady-state repeated reds send nothing (zero downstream token cost), while the sweep red gate itself stays red. The dispatch's downstream chain = the `.github/workflows/fn-wake.yml` workflow listener: its runs are the agent-service `github_dispatch` trigger's sensing edge (the runs API is the only dispatch surface that can be polled — the events feed doesn't include dispatch events), and it writes the `client_payload` verbatim to `fn-wake.json` on the `fn-wake` branch (data plane; the responder fetches it via raw URL without authentication — client_payload never touches any API surface). In-flight claims: the `dedup-sample:` lines above, valid for the whole life of an open PR, and still valid within a **12h cooldown window** after merge — preventing repeated wakes in the "merged but not yet healed" window; still failing past the window = an escalation signal, the declaration expires and re-waking is allowed. Gate data-fetch failures always over-send (better an extra wake than a silent miss); implementation in `.github/scripts/fn-dispatch-gate.sh`.
 
+## 7. Agent 自动响应 (Diagnostic Gap 契约)
+
+sweep 的 summary artifact 另含 `diagnostic_gaps` (诊断缺口: 失败样本缺诊断级规则命中, 附 `hit_rules` 与候选行定位线索 — 引擎侧产出, **非 CI 红事件**, 是诊断覆盖债的增量面), 由维护者的 **dg-responder** agent 按增量响应。与 §6 FN 契约同骨架 (分支 + 规则 PR 草稿 + 永不自动合并), 差异面:
+
+- **唤醒**: sweep 的 DG 门控 ([.github/scripts/dg-dispatch-gate.sh](.github/scripts/dg-dispatch-gate.sh)) 差集判定 — 本拍 gaps − 上拍基线 (上次成功 run 的 `l0-summary` artifact) − 在途声明, 新增非空才发 `repository_dispatch` (`event_type: dg-responder-wake`, `client_payload` = `run_id` + DiagnosticGap 精简形样本, ≤64KB); 冷启动 (无基线) 基线采纳零派发 (存量积压不自动洪灌, 下拍起增量生效); 每拍 ≤20。dispatch 下游链 = [.github/workflows/dg-wake.yml](.github/workflows/dg-wake.yml) 监听 workflow: `client_payload` 原文落 `dg-wake` 分支 `dg-wake.json` (孤儿单提交强推, raw URL 免认证读取)。
+- **在途声明**: PR body 一行 `dg-samples: <逗号分隔样本路径>` (对偶 §6 的 `dedup-sample:`, open 全程有效)。
+- **全景 SSOT**: 本节只做指针 — 契约全文与响应器行为见引擎仓 [docs/diagnostic-loop.md](https://github.com/luochen1990/log-skimmer/blob/master/docs/diagnostic-loop.md)。
+
 ## License
 
 Rules and documentation in this repo are released under CC0 1.0 (see [LICENSE](LICENSE)) — no rights reserved; free to reuse and redistribute.

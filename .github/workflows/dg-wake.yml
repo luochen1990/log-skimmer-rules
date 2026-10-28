@@ -1,0 +1,53 @@
+# dg-wake.yml — DG 唤醒监听 workflow (dg-responder 唤醒面的边沿标记 + 数据面写者)
+#
+# 职责 (与 fn-wake.yml 同骨架, 控制面/数据面分离; 平台探测语义 — events feed
+#   不收录 RepositoryDispatchEvent, runs?event=repository_dispatch 是唯一可
+#   轮询 dispatch 边沿, 但 client_payload 不经任何 API 面 — 详见 fn-wake.yml
+#   头注, 此处不重复):
+#   1. 边沿 (控制面): 本 workflow 的 run = 下游 agent-service github_dispatch
+#      触发器的探测边沿 (run id 游标)。event_type 过滤由下方 types 表达
+#      (平台不重复过滤 — API 面不可见)。run-name 携 sweep run_id 供审计。
+#   2. 载荷 (数据面): 把 dispatch 的 client_payload 原文写到 dg-wake 分支
+#      dg-wake.json (孤儿单提交强推, 唯一写者无竞争; raw URL 免认证, 是
+#      响应器最廉价的取数通道)。完成态 run = 载荷必已推送 (平台探测
+#      过滤 status=completed, 数据面就绪确定性)。
+#
+# 契约 (上游 sweep 门控 dg-dispatch-gate.sh 的冻结契约对端; 全景 SSOT =
+#   引擎仓 docs/diagnostic-loop.md):
+#   client_payload = {"run_id": <sweep run_id int>,
+#                     "samples": [<DiagnosticGap 精简形>, ...]}
+#   (精简形 = summary.json diagnostic_gaps 元素去 input_lines, 字段名一致)
+#   响应器消费: raw.githubusercontent.com/<slug>/dg-wake/dg-wake.json
+#
+# types 单值刻意: 与 fn-responder 互不共享分支 (dg-wake 分支单写者纪律),
+#   未来其他 agent 的唤醒用独立 event_type + 独立监听 workflow。
+name: dg-wake
+on:
+  repository_dispatch:
+    types: [dg-responder-wake]
+run-name: dg-wake sweep-${{ github.event.client_payload.run_id }}
+permissions:
+  contents: write # dg-wake 分支强推 (仅此一 ref, 不触 master/reports)
+jobs:
+  wake:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 数据面落盘 (client_payload 原文 → dg-wake 分支 dg-wake.json)
+        env:
+          GITHUB_TOKEN: ${{ github.token }} # flow scalar 内 ${{}} 习惯引号
+          PAYLOAD: ${{ toJSON(github.event.client_payload) }}
+        run: |
+          set -euo pipefail
+          work=$(mktemp -d)
+          cd "$work"
+          git init -q -b dg-wake .
+          git config user.name 'dg-wake-bot'
+          git config user.email 'dg-wake-bot@users.noreply.github.com'
+          jq -e 'type == "object"' <<<"$PAYLOAD" >/dev/null # 形态哨兵: 畸形载荷步红可见
+          jq . <<<"$PAYLOAD" > dg-wake.json # 归一化缩进 (幂等 diff)
+          git add dg-wake.json
+          git commit -qm "dg-wake: sweep ${{ github.event.client_payload.run_id }}"
+          git push -q --force \
+            "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" \
+            HEAD:refs/heads/dg-wake
+          echo "✅ dg-wake.json 已推送 (dg-wake 分支)"
