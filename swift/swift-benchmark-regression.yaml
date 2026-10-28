@@ -1,0 +1,15 @@
+# samples: vapor/vapor 40531080223-122283726978 (benchmark-vs-threshold ×2)
+# 形态: swift package benchmark 阈值回归 `error: benchmarkThresholdRegression` +
+# `Deviations worse than threshold for <suite>` — 性能回归门失败。
+id: swift-benchmark-regression
+title: swift benchmark 阈值回归 (benchmarkThresholdRegression)
+tool: swift
+category: test
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(error: benchmarkThresholdRegression|Deviations worse than threshold for )'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

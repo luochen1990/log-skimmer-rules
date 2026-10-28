@@ -1,0 +1,21 @@
+# samples: ant-design/ant-design 40642146075 (tar child), 40627301366 (mv),
+#          coreutils/coreutils 40672782045/40677095701 (unzip)
+# 形态: unix 文件工具存取失败三族 — ① coreutils `mv/cp/ln/rm: cannot stat|remove|open`
+# (前导文件缺失/权限); ② GNU tar `tar (child): <file>: Cannot open` (压缩包缺失);
+# ③ unzip `unzip:  cannot find or open` (双空格为 unzip 实测格式)。均为命令级单行
+# 失败证据, 前置产物缺失 (artifact 未上传/路径拼错) 的直接症状。tar 伴生行
+# `tar: Error is not recoverable` 刻意不锚 — success 样本有 benign 出现 (FP 实测 1 例)。
+# 覆盖 gap 4。
+id: fileutils-cannot-access
+title: 'unix 文件工具存取失败 (mv/cp/tar/unzip: cannot ...)'
+tool: fileutils
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?((mv|cp|ln|rm): cannot (stat|remove|open|create)|tar \([a-z]+\): \S+: Cannot open|unzip: +cannot find or open)'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

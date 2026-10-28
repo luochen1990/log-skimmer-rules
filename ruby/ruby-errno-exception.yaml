@@ -1,0 +1,18 @@
+# samples: puma/puma 38838902320 (macos-15 3.3: Errno::EINVAL ×多)
+# 形态: Ruby 系统级异常双锚 — ① 行尾异常标签 `... (Errno::EXXX)` (rb 文件:行:in
+# `method': msg (Errno::EINVAL) 格式, Errno:: 系统调用错误族签名); ② 线程崩溃头
+# `#<Thread:...> terminated with exception (report_on_exception is true):`。
+# 两者同 run 共现 (integration 测试线程 setsockopt EINVAL)。FP 扫描 2 failure/0 success。覆盖 gap 1。
+id: ruby-errno-exception
+title: 'Ruby 系统调用异常 (Errno::EXXX / Thread terminated with exception)'
+tool: ruby
+category: test
+intent: failure
+confidence: high
+patterns:
+  - regex: '\.rb:[0-9]+:in .{0,60}: .+ \(Errno::[A-Z0-9_]+\)$|terminated with exception \(report_on_exception is true\)'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

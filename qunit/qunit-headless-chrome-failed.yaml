@@ -1,0 +1,18 @@
+# samples: django/django 40440641609 (JavaScript-tests)
+# 形态: QUnit headless-chrome 运行器失败双行 — `>> There was an error with headless
+# chrome` (runner 桥接错误) + `Fatal error: Navigation timeout of N ms exceeded`
+# (chrome-driver 超时判词)。django 用 grunt qunit + puppeteer; 该文案为
+# node-qunit-puppeteer 生态签名。覆盖 gap 1。
+id: qunit-headless-chrome-failed
+title: 'QUnit headless chrome 失败 (There was an error with headless chrome)'
+tool: qunit
+category: test
+intent: failure
+confidence: high
+patterns:
+  - regex: 'There was an error with headless chrome|Fatal error: Navigation timeout of [0-9]+ ms exceeded'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

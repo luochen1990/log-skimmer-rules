@@ -1,0 +1,18 @@
+# samples: phoenixframework/phoenix 37607390320 (integration-test-elixir docker)
+# 形态: Erlang/OTP erts 崩溃行 `sys/unix/sys_signal_stack.c:103:sys_sigaltstack():
+# Internal error: Failed to set alternate signal stack` — BEAM 在受限容器 (无
+# sigaltstack 权限) 启动即崩, 后随 `Aborted (core dumped)`。源文件:行:函数 头部
+# 是 erts 断言签名。FP 扫描全语料 1 failure / 0 success。覆盖 gap 1。
+id: erlang-signal-stack-failed
+title: 'Erlang VM sigaltstack 崩溃 (Failed to set alternate signal stack)'
+tool: erlang
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: 'Internal error: Failed to set alternate signal stack'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

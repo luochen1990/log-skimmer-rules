@@ -1,0 +1,21 @@
+# samples: fastlane/fastlane 40522265483/40522271067/40522276336 (macos ×3)
+# 形态: fastlane 环境探测脚本回显 `NO ITMS FOLDER` / `NO APPLICATION LOADER` —
+# ContentDeliveryServices.framework 缺失探测 (Xcode 16+ 移除 iTMS) 后脚本刻意
+# exit 1。探测行为 fastlane CI 自有脚本签名; 环境探测回显而非异常输出, grade
+# 预期 boundary。FP 扫描 3 failure / 0 success。覆盖 gap 3。
+# 审计修订 (audit-report.md §4.4): 合法但属弱锚 (deliberate-exit 探测, 探测行
+# 是该步骤仅有的信息) — 降级建议 grade=boundary; 备选更诚实锚形态
+# (`exit 1  # temporary` 步骤回显) 留待语料扩充后评估。
+id: fastlane-itms-probe-failed
+title: 'fastlane iTMS 环境探测失败 (NO ITMS FOLDER / NO APPLICATION LOADER)'
+tool: fastlane
+category: infra
+intent: failure
+confidence: medium
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?NO (ITMS FOLDER|APPLICATION LOADER)'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

@@ -1,0 +1,24 @@
+# samples: aquasecurity/trivy 39769979571-119794784730 (Test ubuntu-latest ×3:
+#          39769979571/39770594874/39771368477)
+# 形态 (对抗审计补锚, audit-report.md §4.1): mage 生成物漂移门禁的运行时回显
+# `Run 'mage docs:generate' and push it` — `mage docs:generate` 后 git status
+# 非空即 echo 判词 + exit 1。携带修复指令 (跑 mage 任务并推送), 是该 job 失败
+# 的真因; 此前 3 样本被 cache-not-found 裸行锚搭便车覆盖 (golangci-lint cache
+# miss 与失败无因果, 审计已裁 DROP), 本规则为在场真锚补位。
+# 锚定运行时回显 (行首 `Run '`), 不匹配 ##[group] 内的青色脚本源码回显
+# (`[36;1m  echo "Run '...' and push it"` — 分支未走时也回显源码)。
+# 任务名保持模板形态 (`mage <task>`) 而非硬编码 docs:generate — 门禁模板同构。
+# 全语料 FP 扫描: 3 failure / 0 success。覆盖 gap 3。
+id: mage-drift-gate-echo
+title: "mage 生成物漂移门禁 (Run 'mage X' and push it)"
+tool: mage
+category: config
+intent: failure
+confidence: high
+patterns:
+  - regex: "^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Run 'mage [^']+' and push it$"
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

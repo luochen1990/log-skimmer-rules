@@ -1,0 +1,25 @@
+# samples: JetBrains/Exposed 39408214314-118579248445 (validate-commits ×4, validate-PR-title ×1),
+#          django/django 40481627780-122113099152 (check-commit-suffix ×3)
+# 形态: Conventional Commits 门禁的违规输出 — 三种脚本形态:
+#   1. `🛑 Some commit messages are not following the Conventional Commits specification.` (汇总行)
+#   2. `❌ The PR title does not follow the Conventional Commits specification.` (PR 标题)
+#   3. `❌ Commit <sha> must end with a period.` (django 提交后缀检查)
+# 均为运行时回显 (group 外), 携带具体违规对象。
+# 审计修订 (audit-report.md §5): 违规 commit 列表 (🛑 行上方的 `❌ <subject>` ×N)
+# 不在旧 after:2 窗口内 — 扩 before 至上限 10, 携带列表尾部 (列表可达 34 行,
+# 头部仍出窗; 全列表捕获需泛化 `❌ ` 锚, 与 clickhouse/esbuild/next.js 等无关
+# ❌ 消费者相撞, 按灌水禁令不做)。PR-title 形态的违规值 (`PR Title -> <title>`)
+# 在锚行之后, 由 after:2 携带。
+id: commit-lint-violation
+title: Conventional Commits 门禁违规 (🛑/❌ 违规行)
+tool: commit-lint
+category: lint
+confidence: high
+context: {before: 10, after: 2}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(🛑 Some commit messages are not following|❌ The PR title does not follow|❌ Commit [0-9a-f]{7,40} must )'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

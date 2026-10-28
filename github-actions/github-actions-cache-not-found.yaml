@@ -1,0 +1,27 @@
+# samples: dotnet/roslyn 39840632634-120040391464 (restore-cache ×6)
+# 形态 (对抗审计修订, audit-report.md §4.1): actions/cache restore 错误路径的
+# 双行判词 — 锚 = `##[warning]Failed to restore: ` (空消息, 行尾), 扩展 = 下一行
+# `Cache not found for input keys: <key>` (携带具体 cache key)。
+# 旧版裸 `Cache not found` 行锚已收紧弃用: 无 warning 包装的 cache-miss 行是
+# actions/cache 的信息性回显 (restore-keys 回退 / miss 被容忍), 与 job 失败无因果
+# — 旧锚的 12 个 sole 覆盖为搭便车 (真因均为别处: mage 漂移门禁 / Verification
+# error / mordant 基线 / ParseError / npm run 退出 / dnf 断连), 其中 7 个的在场
+# 真锚已由对应语义规则补位 (mage-drift-gate-echo 等 6 条), 其余 5 个为真无信息。
+# roslyn ×6 合法保留: fail-on-cache-miss=true 包装语境 (composite action 在
+# cache 未命中后显式 `exit 1`), cache miss 就是该 job 的失败机制本身。
+# 已知容忍: elixir ort 等 miss 容忍型 success job 同打印 warning+cache 双行
+# (全语料 1 样本 ×3 行) — FP 由 <=2% 线吸收 (较旧锚的 13 个 success 样本面收窄)。
+id: github-actions-cache-not-found
+title: actions/cache restore 失败 (warning 包装的 Cache not found)
+tool: github-actions
+category: infra
+intent: failure
+confidence: medium
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?##\[warning\]Failed to restore: $'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Cache not found for input keys: '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

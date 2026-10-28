@@ -1,0 +1,19 @@
+# samples: nvim-telescope/telescope.nvim 32022533592 (unit-tests macos ×4: rg: command not found),
+#          ant-design/ant-design 40627301366 (persist-image-snapshots)
+# 形态: shell 命令不存在 `<script>: line N: <cmd>: command not found` (bash 标准错误)
+# — 前置依赖缺失或拼写错误导致 job 失败 (127)。锚定 line N: 结构 + command not found。
+# 扩展 (DG batch3): 兄弟形态 `<script>.sh: line N: <path/cmd>: No such file or
+#   directory` — bash 报目标文件不存在 (alacritty: ./configure 缺失, exit 127 同族)。
+#   收紧为 `.sh: line` 前缀 (泛化 `: line N:` 在 success 样本有 1 例 benign 命中)。
+id: shell-command-not-found
+title: 'shell 命令不存在/文件缺失 (line N: cmd: command not found / No such file)'
+tool: shell
+category: infra
+confidence: high
+patterns:
+  - regex: '(?:line [0-9]+: \S+: command not found|\.sh: line [0-9]+: \S+: No such file or directory$)'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

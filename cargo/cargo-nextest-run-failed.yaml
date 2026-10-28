@@ -1,0 +1,17 @@
+# samples: astral-sh/ruff 40639250253 (cargo-test linux release: ty mdtest 超时)
+# 形态: cargo-nextest 失败判词 `error: test run failed` (error 词与冒号间夹
+# ANSI 重置/加亮序列) — nextest 汇总后退出判词。ruff 样本: 9563 tests run:
+# 9559 passed, 4 failed (含 TIMEOUT 60s)。判词行是 nextest 专有收尾。覆盖 gap 1。
+id: cargo-nextest-run-failed
+title: 'cargo-nextest 运行失败 (error: test run failed)'
+tool: cargo
+category: test
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*error(?:\x1b\[[0-9;]*m)*: test run failed'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

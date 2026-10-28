@@ -1,0 +1,18 @@
+# samples: serde-rs/serde 32806579205 (Documentation: nightly feature 属性过期)
+# 形态: rustc 文档构建失败判词 `error: could not document ` + crate 名 —
+# cargo doc 的 rustc 收尾错误 (前置为具体诊断, 如 the feature `never_type`
+# has been stable)。error 词与冒号间有 ANSI 重置/加亮序列 (rustc 彩色输出)。
+# 与 rustc-error-tree (error[E....] 编译诊断族) 互补, 此处为 doc 域判词。覆盖 gap 1。
+id: rustc-doc-failed
+title: 'rustc 文档构建失败 (error: could not document)'
+tool: rustc
+category: build
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*error(?:\x1b\[[0-9;]*m)*: could not document '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

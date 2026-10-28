@@ -1,0 +1,19 @@
+# samples: microsoft/TypeScript 40417677947 (test-extra windows: node --test 超时)
+# 形态: npm-run-all (run-s/run-p) 失败汇总 `Failed tasks: <task-list>` —
+# 串行任务组收尾判词。TS 样本链: `Error in test:api in 1m 0.7s` →
+# `Completed test:api with errors` → `Failed tasks: test:api`。前置的
+# node --test 输出 (failing tests:) 为 node-test 规则域, 此处锚 runner 判词。
+# 全语料 6 failure / 0 success。覆盖 gap 1。
+id: npm-run-all-failed-tasks
+title: 'npm-run-all 任务失败汇总 (Failed tasks: ...)'
+tool: npm-run-all
+category: test
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Failed tasks: '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

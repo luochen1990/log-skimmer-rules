@@ -1,0 +1,18 @@
+# samples: rhysd/actionlint 33936526346-101225430329 (go-generate ×8)
+# 形态: actionlint generate-popular-actions 漂移检测 `Detected some new releases` —
+# 生成物落后于上游 (新 action 版本发布), 后跟版本清单与 `exit status 2`。
+# 锚定 Detected some new releases + loop 消费 https URL 清单行。
+id: actionlint-generate-drift
+title: actionlint 生成物漂移 (Detected some new releases)
+tool: actionlint
+category: build
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Detected some new releases'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?https://github\.com/'
+    loop: true
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

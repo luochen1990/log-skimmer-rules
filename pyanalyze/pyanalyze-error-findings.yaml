@@ -1,0 +1,24 @@
+# samples: psf/black 40606132904-122546051196 (analysis target: preview)
+# 形态 (对抗审计补锚, audit-report.md §4.1): diff-shades 运行 pyanalyze 对比
+# 分析时, pyanalyze 以粗体红 banner (`\x1b[1;31mpyanalyze:\x1b[0m`) 起头输出
+# 编号 finding 报告 — 样本 payload: `1. pyanalyze/test_name_check_visitor.py:
+# InvalidInput - INTERNAL ERROR: Black 26.10.2.dev... produced invalid code:
+# ... ParseError: bad input` (black 生成非法代码触发解析失败, job 真因)。
+# 此前样本被 cache-not-found 裸行锚搭便车覆盖 (preview cache miss 与失败无
+# 因果, 审计已裁 DROP), 本规则为在场真锚补位。
+# 锚 = banner (工具签名), 扩展 = 编号 finding 头行 (携带 file:CODE - 判词)。
+# 全语料 FP 扫描: 1 failure / 0 success。覆盖 gap 1。
+id: pyanalyze-error-findings
+title: 'pyanalyze 错误报告 (红色 banner + 编号 finding)'
+tool: pyanalyze
+category: lint
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\x1b\[1;31mpyanalyze:\x1b\[0m[[:space:]]*$'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?  [0-9]+\. \S+'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

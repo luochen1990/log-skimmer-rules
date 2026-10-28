@@ -1,0 +1,15 @@
+# samples: openai/openai-python 40626569834-122618445721 (×3)
+# 形态: uv 哈希锁定模式违规 `error: In `--require-hashes` mode, all requirements must
+# have their versions pinned with `==`, but found: <req>` — 依赖锁定校验失败。
+id: uv-require-hashes-unpinned
+title: uv --require-hashes 版本未钉住 (all requirements must have their versions pinned)
+tool: uv
+category: deps
+confidence: high
+patterns:
+  - regex: 'error: In .--require-hashes. mode, all requirements must have their versions pinned'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

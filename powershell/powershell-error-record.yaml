@@ -1,0 +1,23 @@
+# samples: luarocks/luarocks 36237595383-108392098446 (WindowsTest ×2), nlohmann/json
+#          40642414787-122663359646 (mingw), swiftlang/swift-syntax 38427834929 (Test-Windows nightly),
+#          evanw/esbuild (pwsh CommandNotFoundException)
+# 形态: PowerShell 错误记录三族 (常带 ANSI 红色与 CRLF):
+#   1. `Exception: <...>.ps1:<N>` — PS 脚本 throw 头 (luarocks/nlohmann)
+#   2. `Program '<exe>' failed to run: ...` — 原生程序启动失败 (swift.exe)
+#   3. `The term '<cmd>' is not recognized as a name of a cmdlet...` — 命令不存在 (pwsh)
+# 扩展 (DG batch3): pwsh 7 的 CommandNotFoundException 在 FancyConsole 渲染后
+# `The term '...'` 分支可带多层 ANSI + `     | ` 管道 gutter 前缀 (esbuild windows
+# 实测), 故拆独立 pattern 去行首锚; FP 扫描全语料无 success 命中。
+id: powershell-error-record
+title: PowerShell 错误记录 (Exception ps1:N / Program failed to run / term not recognized)
+tool: powershell
+category: unknown
+confidence: medium
+context: {before: 0, after: 2}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*(?:Exception: (?:\x1b\[[0-9;]*m)*\S+\.ps1:[0-9]+|Program ''.+'' failed to run: |(?:\x1b\[[0-9;]*m|\s|\|)*The term ''.+'' is not recognized as (?:a|the) name of a cmdlet)'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

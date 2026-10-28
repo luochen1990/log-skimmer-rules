@@ -1,0 +1,15 @@
+# samples: semgrep/semgrep 40617895765-119784784730 类 (semgrep-ci ×4)
+# 形态: semgrep CI 鉴权失败 `Invalid API Key. Run `semgrep logout` and `semgrep login`
+# again...` — SEMGREP_APP_TOKEN 缺失/失效。
+id: semgrep-invalid-api-key
+title: semgrep CI 无效 API Key (Invalid API Key. Run semgrep logout...)
+tool: semgrep
+category: infra
+confidence: high
+patterns:
+  - regex: 'Invalid API Key\. Run .semgrep (logout|login)'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

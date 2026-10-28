@@ -1,0 +1,19 @@
+# samples: pnpm/pnpm 40674167864/40677987581 (Triage-issue ×2)
+# 形态: Warp Oz (AI agent runner) 配额耗尽判词 `Error: You're out of AI credits.
+# Buy more credits or upgrade your plan at https://app.warp.dev/upgrade` —
+# AI triage 动作被配额拒绝后退出。FP 扫描全语料 2 failure / 0 success。
+# 由 S1 修复 (annotation-substantive 正确排除 `The process '...' failed`
+# 编排常量) 显露的真实语义锚补位。覆盖 gap 2。
+id: warp-out-of-credits
+title: 'Warp AI 配额耗尽 (You are out of AI credits)'
+tool: warp
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: 'Error: You''re out of AI credits'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

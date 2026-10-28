@@ -1,0 +1,15 @@
+# samples: swiftlang/swift-syntax 38527106249-115729950547 (Test-Windows 6.0)
+# 形态: SwiftPM 工具链版本不匹配 `error: 'source': package 'source' is using Swift tools
+# version 6.2.0 but the installed version is 6.0.3` — 声明的工具链高于安装版本。
+id: swift-tools-version-mismatch
+title: Swift tools 版本不匹配 (using Swift tools version X but the installed version is Y)
+tool: swift
+category: build
+confidence: high
+patterns:
+  - regex: 'is using Swift tools version [0-9.]+ but the installed version is [0-9.]+'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

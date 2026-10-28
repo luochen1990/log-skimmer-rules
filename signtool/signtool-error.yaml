@@ -1,0 +1,15 @@
+# samples: anomalyco/opencode 40642988907-122665622388 (build-electron windows)
+# 形态: Windows SignTool 签名失败 `SignTool Error: An unexpected internal error has
+# occurred.` — 代码签名工具错误。
+id: signtool-error
+title: "SignTool 签名失败 (SignTool Error: ...)"
+tool: signtool
+category: build
+confidence: high
+patterns:
+  - regex: 'SignTool Error: '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

@@ -1,0 +1,16 @@
+# samples: rrrene/credo 37057017663-111004095903 (resulting-issues ×5)
+# 形态: credo `--strict-diff-format` 结果差异行 `> <path>:<line>:<col> <message>
+# [Credo.Check.<Module>]` — 新引入的 lint issue (> 侧)。Credo.Check 方括号后缀是
+# credo 特异锚; 单行块, 级联由 repeat-collapse 折叠。
+id: credo-result-diff-issue
+title: credo 结果差异新 issue (> path:line:col ... [Credo.Check...])
+tool: credo
+category: lint
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?> \S+:[0-9]+:[0-9]+ .*\[Credo\.Check\.'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

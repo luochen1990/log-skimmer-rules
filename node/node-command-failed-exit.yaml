@@ -1,0 +1,17 @@
+# samples: swiftlang/swift-syntax 38782718875 (Validate-generated-code)
+# 形态: node child_process 失败判词 `Error: Command failed with non-zero exit
+# code N:` — Node exec/execFile 在子命令退出非零时的标准错误头, 后随子命令
+# stderr。FP 扫描全语料 2 failure / 0 success。覆盖 gap 1。
+id: node-command-failed-exit
+title: 'node 子命令失败 (Error: Command failed with non-zero exit code)'
+tool: node
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: 'Error: Command failed with non-zero exit code [1-9]'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

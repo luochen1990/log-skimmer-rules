@@ -1,0 +1,23 @@
+# samples: denoland/deno 39760716886-119763902439 (test-linux shard ×4:
+#          39760716886/40084628344/40183426010/40305359507)
+# 形态 (对抗审计补锚, audit-report.md §3 R 区/§4.2): deno test 失败双判词 —
+#   ① `error: Test failed` (deno test CLI 收尾判词);
+#   ② `FAILED | 0 passed | 1 failed (1 step) (400ms)` (node_compat runner 汇总)。
+# 此前 4 样本仅被 annotation-substantive 的 runner shutdown 常量行搭便车覆盖
+# (编排层常量, 审计已裁 DROP), 本规则为在场真锚补位。
+# `failed tests:` + 4 空格缩进明细行与 clickhouse 系样本的通用 `failed tests:`
+# 相撞, 按灌水禁令不做锚。全语料 FP 扫描: 双臂均 4 failure / 0 success。
+# 覆盖 gap 4 (deno ×4)。
+id: deno-test-failed
+title: 'deno 测试失败 (error: Test failed / FAILED | N passed | M failed)'
+tool: deno
+category: test
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(error: Test failed$|FAILED \| [0-9]+ passed \| [0-9]+ failed)'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

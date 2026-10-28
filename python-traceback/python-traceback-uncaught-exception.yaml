@@ -14,6 +14,9 @@
 # 与 Java 预期内异常日志 (spring-boot 成功样本) 同构无法判别, 该形态样本均已有其他规则覆盖。
 # 单行锚 + context.before 7 带出 traceback 主体 (File/源码行) — 状态机不扩展 (防贪心吞段),
 # 证据完整性由呈现层 context 兑现。category 跨因 (assert/infra/deps) → unknown (宁缺勿错)。
+# 扩展 (DG batch3): 异常类名前允许模块路径点 (urllib.error.HTTPError: HTTP Error 502)
+# — dotted 模块路径是 python 标准库异常的规范形态; 全语料对比扫描确认 success 端
+# 零新增命中 (既有 6 个 success fire 均为单段形态, 非本扩展引入)。
 id: python-traceback-uncaught-exception
 title: 'Python 未捕获异常 traceback 尾行 (裸异常类名 + 消息)'
 tool: python-traceback
@@ -21,7 +24,7 @@ category: unknown
 confidence: medium
 context: {before: 7, after: 0}
 patterns:
-  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?[A-Za-z_][A-Za-z0-9_]*(Error|Exception): .+$'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?[A-Za-z_][A-Za-z0-9_.]*(Error|Exception): .+$'
 kind: signal
 attribution:
   contributor: 'LuoChen <luochen1990@gmail.com> (agent-drafted, fn-responder/glm-5.3)'

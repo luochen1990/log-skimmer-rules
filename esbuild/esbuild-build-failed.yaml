@@ -1,0 +1,18 @@
+# samples: prettier/prettier 40663415859 (Build: esbuild 插件 throw-warnings)
+# 形态: esbuild JS API 顶层错误 `Error: Build failed with N error:` —
+# esbuild 的 context.rebuild() 失败收尾 (build API 统一签名), 后续行为
+# file:line:col: ERROR: 诊断 (plugin 名内嵌)。与 esbuild-js-api-tests-failed
+# (自测判词) 互补, 此处锚构建 API 错误。覆盖 gap 1。
+id: esbuild-build-failed
+title: 'esbuild 构建失败 (Error: Build failed with N error)'
+tool: esbuild
+category: build
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Error: Build failed with [0-9]+ error'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

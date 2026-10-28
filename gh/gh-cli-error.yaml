@@ -1,0 +1,16 @@
+# samples: pnpm/pnpm 40665124415-122737573551 (Cancel-workflows ×6)
+# 形态: GitHub CLI (gh) 错误输出 `gh: <message>` — gh api/run 失败的根因行
+# (例: `gh: Cannot cancel a workflow run that is completed. (HTTP 409)`)。
+# 锚定 `gh: ` 前缀 + 消息内容; 单行块。
+id: gh-cli-error
+title: 'gh CLI 错误行 (gh: <message>)'
+tool: gh
+category: infra
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?gh: .+'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

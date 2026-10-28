@@ -1,0 +1,17 @@
+# samples: evanw/esbuild 31211184326 (esbuild CI ubuntu-latest)
+# 形态: esbuild 自测 JS API 套件判词行 (❌ js api tests failed) —
+# make jsapi-tests 目标失败时的收尾 echo。前置 ❌ 断言行 (Expected values to be
+# strictly deep-equal) 为 node 断言通用格式不带工具签名, 判词行为锚。覆盖 gap 1。
+id: esbuild-js-api-tests-failed
+title: 'esbuild JS API 测试失败 (js api tests failed)'
+tool: esbuild
+category: test
+intent: failure
+confidence: high
+patterns:
+  - regex: 'js api tests failed$'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

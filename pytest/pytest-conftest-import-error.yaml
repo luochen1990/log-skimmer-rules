@@ -1,0 +1,16 @@
+# samples: pallets/flask 34252544596-102150232254 (Development-Versions ×3)
+# 形态: pytest 收集期 conftest 导入失败 `ImportError while loading conftest '<path>'` —
+# 测试环境依赖缺失 (后续为 Python ImportError 栈)。锚定首行, after 3 带出具体异常。
+id: pytest-conftest-import-error
+title: pytest conftest 导入失败 (ImportError while loading conftest)
+tool: pytest
+category: test
+confidence: high
+context: {before: 0, after: 3}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?ImportError while loading conftest '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

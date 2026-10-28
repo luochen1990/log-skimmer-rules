@@ -1,0 +1,18 @@
+# samples: oven-sh/bun 40681853207 (curl 56), honojs/hono 37279910499 (curl 35),
+#          Homebrew/brew 40104299741 (curl 6, portable ruby 下载)
+# 形态: curl CLI 错误行 `curl: (<code>) <message>` — 退出码内嵌的错误输出
+# (56 连接重置 / 35 SSL 握手 / 6 DNS 解析失败), 区别于 curl --fail 静默退出。
+# 全语料 FP 扫描 4 failure / 0 success。覆盖 gap 3。
+id: curl-cli-error
+title: 'curl CLI 错误 (curl: (code) message)'
+tool: curl
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?curl: \([0-9]+\) '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

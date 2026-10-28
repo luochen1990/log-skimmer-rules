@@ -1,0 +1,23 @@
+# samples: swiftlang/swift-syntax 39301879227/39962346008 (Format check ×2),
+#          fmtlib/fmt 39574123023 (cmake-format)
+# 形态: 格式/lint 检查输出 unified diff 头 `diff --git a/<path> b/<path>` —
+# swift-format format/lint 与 cmake-format --check 失败时打印重格式化 diff。
+# FP 取舍: label 类 success 样本有 benign diff 打印 (全语料 1/372 = 0.27%,
+# 门禁 <=2% 内); 15 个 failure 样本含此锚 (多数已被工具专属规则覆盖, 本规则
+# 兜住无判词的裸 diff 漂移形态)。confidence 降 medium。覆盖 gap 3。
+# 审计修订 (audit-report.md §4.4/§5): 合法但属弱锚 (任何 unified diff 输出都
+# 命中, PPV 0.9375) — 降级建议 grade=boundary, 引擎统计将如实呈现; 消费方
+# 对本规则命中宜结合相邻判词行判定。
+id: git-unified-diff-drift
+title: '格式检查 diff 漂移 (diff --git a/ ...)'
+tool: git
+category: fmt
+intent: failure
+confidence: medium
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?diff --git a/'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

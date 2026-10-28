@@ -1,0 +1,15 @@
+# samples: rollup/rollup 39879262444-120172402774 (Coverage-and-Additional-Tests)
+# 形态: codecov uploader 失败 `Error: No coverage reports found...` / `==> Failed to run
+# upload-coverage` — 覆盖率上传失败双联行。
+id: codecov-upload-failed
+title: codecov 上传失败 (No coverage reports found / Failed to run upload-coverage)
+tool: codecov
+category: infra
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(Error: No coverage reports found|==> Failed to run upload-coverage)'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

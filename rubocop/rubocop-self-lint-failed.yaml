@@ -1,0 +1,20 @@
+# samples: rubocop/rubocop 40357847965/40360883655/40363639316 (Ruby ×3), Homebrew/brew
+#          40637678540 (syntax: brew style 内嵌 rubocop)
+# 形态: RuboCop 自举 lint 失败双锚 — ① 判词行 `RuboCop failed!` (rubocop 仓 internal_affairs
+# 自检发现 Lint/DeprecatedReference 等 offense 后必打); ② 汇总行 `N files inspected, M offense
+# detected` (M>=1, rubocop/brew style 通用, offense 计数带 ANSI 红色)。M=0 (`no offenses
+# detected`) 不匹配 — 通过态不触发。取计数行而非逐条 offense 行: 计数行是工具签名,
+# 逐条行 (file:line:col: [C] CopName:) 易与源码回显混淆。覆盖 gap 4 (rubocop ×3 + brew ×1)。
+id: rubocop-self-lint-failed
+title: 'RuboCop 自举 lint 失败 (RuboCop failed! / N offenses detected)'
+tool: rubocop
+category: lint
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(RuboCop failed!|[0-9]+ files inspected, (?:\x1b\[[0-9;]*m)*[1-9][0-9]* offense)'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

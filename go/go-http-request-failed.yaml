@@ -1,0 +1,16 @@
+# samples: etcd-io/etcd 39523275372-118971937030 (Measure-TestGrid-Flakiness ×8)
+# 形态: Go net/http 客户端请求失败 `(Get|Post|...): "URL": dial tcp: ...` —
+# 上游服务不可达 (DNS 解析失败/连接拒绝/超时)。行内锚 (错误嵌在脚本输出行中),
+# 要求双引号 URL + 冒号后跟网络错误关键词。
+id: go-http-request-failed
+title: 'Go HTTP 请求失败 (Get "URL": dial tcp ...)'
+tool: go
+category: infra
+confidence: high
+patterns:
+  - regex: '(Get|Post|Put|Patch|Head|Delete) "https?://[^"]+": (dial tcp|context deadline exceeded|connection refused)'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

@@ -1,0 +1,17 @@
+# samples: igorshubovych/markdownlint 40148768240 (typescript job)
+# 形态: npm 脚本缺失 `npm error Missing script: "setup"` — package.json 无该
+# script 名 (工作流与包清单漂移)。npm>=10 错误前缀 `npm error` 与
+# npm-network-error (code ENNNNN) 同前缀不同文案族, 此处锚 Missing script 字面。覆盖 gap 1。
+id: npm-missing-script
+title: 'npm 脚本缺失 (npm error Missing script)'
+tool: npm
+category: config
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?npm error Missing script'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

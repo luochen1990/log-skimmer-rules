@@ -1,0 +1,16 @@
+# samples: mitmproxy/mitmproxy 40453878873-122022578274 (autofix ×6)
+# 形态: git am/cherry-pick 补丁应用失败 `error: could not apply <sha>... <subject>` —
+# 自动修复补丁回放失败的根因行。单行块 + after 2 带出后续 hint。
+id: git-am-apply-failed
+title: 'git 补丁应用失败 (error: could not apply <sha>...)'
+tool: git
+category: build
+confidence: high
+context: {before: 0, after: 2}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*error:(?:\x1b\[[0-9;]*m)* could not apply [0-9a-f]{7,}'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

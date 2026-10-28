@@ -1,15 +1,20 @@
-# samples: sveltejs/svelte/38975953734-117225328024
-# prettier --check 漂移判定行 `[warn] Code style issues found in the above file. Run Prettier to fix.`
-# (多文件形态为 `... found in N files.`) — 判定行是唯一可靠锚; 待格式化文件清单行 `[warn] <path>`
-# 形态过宽 (rollup 弃用告警同为 [warn] 前缀, playwright 实测), 不做锚, 由 context.before 带回。
+# samples: eslint/eslint 36798852143-110168428352 (Verify-Files ×4)
+# 形态: prettier --check 格式漂移汇总 `[warn] Code style issues found in the above
+# file. Run Prettier with --write to fix.` (单文件) / `... found in N files.`
+# (多文件) — 判定行是唯一可靠锚; 待格式化文件清单行 `[warn] <path>` 形态过宽
+# (rollup 弃用告警同为 [warn] 前缀), 不做锚, 由 context.before 带回。
+# 修复记录 (DG batch): 基线锚 `^\[warn\] Code style...` 因 [warn] 前被 ANSI 色码
+# 包裹 (实测 `[36m[warn][39m`) 全语料 0 命中; 去行首锚改锚无前缀文案后 4 failure
+# 样本恢复命中, FP 0。
 id: prettier-check-drift
-title: prettier --check 漂移判定 (Code style issues found)
+title: 'prettier --check 漂移 (Code style issues found in N files)'
 tool: prettier
 category: fmt
+intent: failure
 confidence: high
 context: {before: 6, after: 0}
 patterns:
-  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\[warn\] Code style issues found in '
+  - regex: 'Code style issues found in (?:the above file|[0-9]+ files?)\.?'
 kind: signal
 attribution:
   contributor: luochen1990

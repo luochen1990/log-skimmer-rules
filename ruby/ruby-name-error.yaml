@@ -1,0 +1,17 @@
+# samples: rails/rails 40669083636 (rails-new-docker: rails new 生成器)
+# 形态: Ruby NameError 行 `<file>.rb:<N>:in '<method>': undefined method ...` —
+# 方法未定义异常 (常量/方法拼写错误或加载顺序问题), 与 ruby-errno-exception
+# (Errno:: 系统调用族) 互补。FP 扫描全语料 1 failure / 0 success。覆盖 gap 1。
+id: ruby-name-error
+title: 'Ruby NameError (undefined method ...)'
+tool: ruby
+category: build
+intent: failure
+confidence: high
+patterns:
+  - regex: '\.rb:[0-9]+:in .{0,40}: undefined method'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

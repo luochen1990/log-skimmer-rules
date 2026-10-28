@@ -1,0 +1,17 @@
+# samples: dandavison/delta 37211840209/37229030872 (Publish-to-WinGet ×2)
+# 形态: winget-releaser (komac) 认证失败 — komac (Rust anyhow 错误链) 输出
+# `Error:` + 缩进链节点 `   0: GitHub token is invalid.` (91m ANSI 红色包裹)。
+# 锚定链节点文本而非顶层 Error: (bare Error: 行无语义)。覆盖 gap 2。
+id: winget-releaser-token-invalid
+title: 'winget-releaser 认证失败 (GitHub token is invalid)'
+tool: winget
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: ': (?:\x1b\[[0-9;]*m)*GitHub token is invalid'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

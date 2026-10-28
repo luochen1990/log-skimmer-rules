@@ -1,0 +1,18 @@
+# samples: zigtools/zls 40235447914 (coverage: kcov 收集失败)
+# 形态: zig build runner 汇总判词 `Build Summary: N/M steps succeeded (K failed);
+# X/Y tests passed (Z skipped, W failed)` (K>=1) — zig build 的终局汇总行,
+# 失败计数内嵌括号。伴生 `failed command: <cmd>` / `test transitive failure`。
+# 与 zig-build-command-failed (error: the following build command...) 互补。覆盖 gap 1。
+id: zig-build-summary-failed
+title: 'zig build 汇总失败 (Build Summary: N/M steps succeeded (K failed))'
+tool: zig
+category: build
+intent: failure
+confidence: high
+patterns:
+  - regex: 'Build Summary: [0-9]+/[0-9]+ steps succeeded \([1-9]'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

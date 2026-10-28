@@ -1,0 +1,21 @@
+# samples: haskell/haskell-language-server 40498230193-122169107711 (stackage-lts23)
+# 形态 (对抗审计补锚, audit-report.md §4.1): stack pantry 下载 hackage 索引时
+# hackage-security (TUF) 校验失败 `Verification error: Invalid hash for
+# <repo>/snapshot.json` (×5, 重试逐次打印) — 依赖索引哈希校验失败, 该 job 失败
+# 真因; 此前样本被 cache-not-found 裸行锚搭便车覆盖 (stack cache miss 与失败
+# 无因果, 审计已裁 DROP), 本规则为在场真锚补位。
+# 锚取 `Verification error: ` 工具判词前缀 (TUF 校验错误族, 非 hash 专属形态
+# 同族可捕)。全语料 FP 扫描: 1 failure / 0 success。覆盖 gap 1。
+id: stack-hackage-verification-error
+title: 'stack hackage 索引校验失败 (Verification error: ...)'
+tool: stack
+category: deps
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Verification error: '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

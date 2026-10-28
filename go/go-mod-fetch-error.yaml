@@ -4,13 +4,16 @@
 # (哪个包、哪个依赖版本、从哪个 URL 获取失败)。
 # 刻意不锚 `go: <pkg> imports` 链头并扩展链体: 同一失败重复报告数十次时 (实测 cli 74 条链,
 # 420 行) 整段吞入造成压缩率相对退化 >2% 触发双测门禁红; 锚链尾错误行即保住工具级证据。
+# 扩展 (DG batch3): `go install` 双层链形态 `go: <cmd-path>@<ver>: <module>@<ver>:
+#   read "https://proxy.golang.org/..."` (loki: jsonnet 安装 502) — 链尾 read/dial
+#   前允许 `(?:\S+@\S+: )+` 多层模块路径, 与原单层形态 (cli/cli) 共存。
 id: go-mod-fetch-error
-title: 'go mod 依赖获取失败 (链尾 pkg/dep@ver/read url 形态)'
+title: 'go mod/依赖获取失败 (链尾 pkg/dep@ver/read url 形态, 1-2 层)'
 tool: go
 category: deps
 confidence: high
 patterns:
-  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\t?\S+: \S+@\S+: (read|dial) '
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\t?\S+: (?:\S+@\S+: )+(read|dial) '
 kind: signal
 attribution:
   contributor: luochen1990

@@ -1,0 +1,16 @@
+# samples: sebastianbergmann/phpunit 39881351362 (PHPUnit 13.5, PHP 7.2)
+# 形态: PHPUnit 运行时版本门失败 `This version of PHPUnit requires PHP >= X.Y.Z.`
+# + 伴生 `You are using PHP a.b.c (/path).` — PHPUnit PHAR 启动自检判词。覆盖 gap 1。
+id: phpunit-php-version-mismatch
+title: 'PHPUnit PHP 版本不满足 (requires PHP >= X)'
+tool: phpunit
+category: config
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?This version of PHPUnit requires PHP '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

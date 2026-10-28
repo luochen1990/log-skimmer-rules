@@ -1,0 +1,17 @@
+# samples: wgy0925/sh 36581038238 (Build-and-test-Docker-images)
+# 形态: Rust io::Error 显示格式 `<path>: No such file or directory (os error N)` —
+# Rust CLI (样本为 registry/structure-test 工具链) 打开文件失败的 Display 输出,
+# (os error N) 后缀是 Rust std::io 标签。FP 扫描全语料 1 failure / 0 success。覆盖 gap 1。
+id: rust-io-no-such-file
+title: 'Rust io 文件缺失 (path: No such file or directory (os error N))'
+tool: rust
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: ': No such file or directory \(os error [0-9]+\)$'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

@@ -1,0 +1,18 @@
+# samples: haskell/cabal 40479429571/40485839488 (Changelogs ×2)
+# 形态: changelog-d (GHC 生态 changelog 校验器) 失败 — `Validation error(s) in entry
+# `changelog.d/....md`:` (条目级错误头, 反引号路径) + 收尾判词 `error: Validation
+# failed.`。锚条目错误头 (带工具语义); 收尾行泛化 (`error: Validation failed` 其它
+# 工具可撞), 仅作伴生不作主锚。覆盖 gap 2。
+id: cabal-changelog-validation-failed
+title: 'changelog-d 校验失败 (Validation error(s) in entry)'
+tool: cabal
+category: lint
+intent: failure
+confidence: high
+patterns:
+  - regex: 'Validation error\(s\) in entry '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

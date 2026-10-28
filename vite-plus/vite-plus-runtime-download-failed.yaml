@@ -1,0 +1,19 @@
+# samples: vuejs/core 40647232402 (autofix: setup-vp action)
+# 形态: vite-plus (vp) 运行时获取失败 `error: Failed to download Node.js
+# runtime: Failed to download from https://nodejs.org/dist/...: error
+# decoding response` — voidzero setup-vp action 安装 Node 运行时下载失败,
+# 后随 node 栈 + `The process .../vp failed` 编排常量。FP 扫描全语料
+# 2 failure / 0 success。覆盖 gap 1。
+id: vite-plus-runtime-download-failed
+title: 'vite-plus 运行时下载失败 (error: Failed to download ... runtime)'
+tool: vite-plus
+category: deps
+intent: failure
+confidence: high
+patterns:
+  - regex: 'error: Failed to download \S+ runtime'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

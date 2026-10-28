@@ -1,0 +1,21 @@
+# samples: haskell/haskell-language-server 40316857182 (cleanup: cache 删除 403 ×6),
+#          koalaman/shellcheck 30892406107 (Deploy-binaries: release upload 403),
+#          anomalyco/opencode 40664054770 (dispatch: workflow_dispatch 422),
+#          desktop/gh-cli-and-desktop-shared-workflows (GraphQL: close-suspected-spam)
+# 形态: GitHub API 集成层错误行 `HTTP <NNN>: <GHA 固定文案>` — ① 403 Resource
+# not accessible by integration (GITHUB_TOKEN 权限不足: cache 删除/release 上传
+# 等需写权限操作); ② 422 No ref found for (dispatch 目标 ref 不存在)。
+# 文案为 GitHub REST API 的机器响应签名, 任何包装工具均透传。覆盖 gap 3。
+id: gh-api-integration-error
+title: 'GitHub API 集成层错误 (HTTP 403 Resource not accessible / 422 No ref found)'
+tool: gh
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '(HTTP [0-9]{3}: (Resource not accessible by integration|No ref found for)|GraphQL: Something went wrong while executing your query)'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

@@ -1,0 +1,18 @@
+# samples: niri-wm/niri 39885092004-120191302749 (rustfmt ×4), starship 语料同族
+# 形态: cargo fmt --check 格式漂移报告 `Diff in <path>:<line>:` — 格式门失败锚,
+# 后续为 unified diff 行。锚单行 + 扩展消费 diff 正文行 (空行/+/-/空格前缀), 循环贪心;
+# context.after 4 兜底呈现。
+id: rustfmt-diff-drift
+title: rustfmt 格式漂移 (Diff in <path>:<line>:)
+tool: rustfmt
+category: fmt
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Diff in \S+:\d+:$'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?( |\+|-|\t)'
+    loop: true
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

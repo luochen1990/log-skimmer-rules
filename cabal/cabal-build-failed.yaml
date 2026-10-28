@@ -1,0 +1,15 @@
+# samples: koalaman/shellcheck 31005063069-92302970218 (Build linux.armv6hf)
+# 形态: cabal 构建失败汇总 `cabal: Failed to build <pkg>-<ver> (which is required by
+# exe:<name>)` — GHC 编译失败后的收束行。
+id: cabal-build-failed
+title: "cabal 构建失败 (cabal: Failed to build <pkg>)"
+tool: cabal
+category: build
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?cabal: Failed to build '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0
