@@ -23,7 +23,9 @@
 #     静默漏, 差集只增不减, 与 fn 同)。
 #   冷却名单: v1 缺省空集 (契约占位未启用 — 与 fn 的 merged-12h 窗不同: dg
 #     声明随 PR 关闭即失效, 「合了未愈」下拍重唤醒 = 契约行为)。
-#   批量上限: 每拍 ≤20, 超出部分按引擎序截断等下拍 — 基线含它们, 观察面不丢。
+#   批量上限: 每拍 ≤20, 超出部分按引擎序截断 — 截断部分留观察面 (summary
+#     报告/覆盖率徽章可见) 但不再自动派发 (基线含它们, 下拍差集不再出现);
+#     大涌入导致停滞时再演进 v1.5 延迟队列 (基线重定义为已派发集)。
 #
 # 冻结契约 (勿改; 全景 SSOT = 引擎仓 docs/diagnostic-loop.md §2.2):
 #   POST /repos/<slug>/dispatches
@@ -113,11 +115,12 @@ if [ "$n" -eq 0 ]; then
   exit 0
 fi
 
-# 批量上限: 每拍 ≤20, 超出按引擎序截断等下拍 (基线含它们, 观察面不丢)
+# 批量上限: 每拍 ≤20, 超出按引擎序截断 — 截断部分留观察面不再自动派发
+#   (基线含它们, 下拍差集不再出现; 大涌入停滞再演进 v1.5 延迟队列)
 deferred=$((n - BATCH_CAP)); [ "$deferred" -gt 0 ] || deferred=0
 disp_j=$(jq -c --argjson cap "$BATCH_CAP" '.[:$cap]' <<<"$new_j")
 extra=""
-[ "$deferred" -gt 0 ] && extra=" (超出 $deferred 条按引擎序截断, 等下拍 — 基线含它们, 观察面不丢)"
+[ "$deferred" -gt 0 ] && extra=" (超出 $deferred 条按引擎序截断, 留观察面不再自动派发 — 基线含它们, 下拍差集不再出现)"
 echo "dg-dispatch-gate: 新 diagnostic gap $n 个 (prev=$(jq 'length' <<<"$prev_j") · claims=$(jq 'length' <<<"$claims_j")) → 本拍派发 $(jq 'length' <<<"$disp_j")$extra → dispatch dg-responder-wake:"
 jq -r '.[] | "  + \(.)"' <<<"$disp_j"
 
