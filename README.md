@@ -80,6 +80,14 @@ CI 侧数据面: lint 的判定违例明细以 `l0-verdict` artifact 机读产�
 
 唤醒面: sweep 的 FN 事件经**机械门控差集判定** (本拍 FN 样本 − reports 分支上一拍快照 − 在途声明) — 仅出现**未被在途响应覆盖的新 FN 样本**时发 `repository_dispatch` (`event_type: fn-responder-wake`, `client_payload` 含 `run_id` 与新样本清单) 唤醒 agent; 稳态重复红零发送 (下游零 token 消耗), sweep 红门禁本身照红。dispatch 的下游链 = `.github/workflows/fn-wake.yml` 监听 workflow: 其 run 是 agent-service `github_dispatch` 触发器的探测边沿 (runs API 是唯一可轮询 dispatch 面 — events feed 不收录 dispatch 事件), 并把 `client_payload` 原文写到 `fn-wake` 分支 `fn-wake.json` (数据面; 响应器经 raw URL 免认证拉取 — client_payload 不经任何 API 面)。在途声明: 上述 `dedup-sample:` 行, PR open 全程有效, merged 后 **12h 冷却窗**内仍有效 — 防「合了未愈」窗口内重复唤醒; 超窗仍失败 = 升级信号, 声明过期允许重唤醒。门控取数失败一律保守多发 (宁可多唤醒不可静默漏), 实现见 `.github/scripts/fn-dispatch-gate.sh`。
 
+## 7. Agent 自动响应 (Diagnostic Gap 契约)
+
+sweep 的 summary artifact 另含 `diagnostic_gaps` (诊断缺口: 失败样本缺诊断级规则命中, 附 `hit_rules` 与候选行定位线索 — 引擎侧产出, **非 CI 红事件**, 是诊断覆盖债的增量面), 由维护者的 **dg-responder** agent 按增量响应。与 §6 FN 契约同骨架 (分支 + 规则 PR 草稿 + 永不自动合并), 差异面:
+
+- **唤醒**: sweep 的 DG 门控 ([.github/scripts/dg-dispatch-gate.sh](.github/scripts/dg-dispatch-gate.sh)) 差集判定 — 本拍 gaps − 上拍基线 (上次成功 run 的 `l0-summary` artifact) − 在途声明, 新增非空才发 `repository_dispatch` (`event_type: dg-responder-wake`, `client_payload` = `run_id` + DiagnosticGap 精简形样本, ≤64KB); 冷启动 (无基线) 基线采纳零派发 (存量积压不自动洪灌, 下拍起增量生效); 每拍 ≤20。dispatch 下游链 = [.github/workflows/dg-wake.yml](.github/workflows/dg-wake.yml) 监听 workflow: `client_payload` 原文落 `dg-wake` 分支 `dg-wake.json` (孤儿单提交强推, raw URL 免认证读取)。
+- **在途声明**: PR body 一行 `dg-samples: <逗号分隔样本路径>` (对偶 §6 的 `dedup-sample:`, open 全程有效)。
+- **全景 SSOT**: 本节只做指针 — 契约全文与响应器行为见引擎仓 [docs/diagnostic-loop.md](https://github.com/luochen1990/log-skimmer/blob/master/docs/diagnostic-loop.md)。
+
 ## License
 
 本仓规则与文档以 CC0 1.0 发布 (见 [LICENSE](LICENSE)) — 无版权保留, 可自由复用与再分发。
