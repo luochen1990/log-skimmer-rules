@@ -30,7 +30,9 @@ if $hh == null then
   "# 规则健康档案\n\n本报告由旧引擎产出 (无健康字段) — 引擎 master 合入 l0 健康档案后下一轮 sweep 自动生效。"
 else
   ($hh | to_entries) as $rules |
-  ([$rules[] | select(.value.grade == "restating")] | length) as $n_rest |
+  # trivial 双标签: 引擎将 restating 更名 trivial (过渡期两代引擎并存 — 双值同
+  #   语义合并计数, 与 summary-md.jq 同口径)
+  ([$rules[] | select(.value.grade == "restating" or .value.grade == "trivial")] | length) as $n_triv |
   ([$rules[] | select(.value.grade == "diagnostic")] | length) as $n_diag |
   ([$rules[] | select(.value.grade == "boundary")] | length) as $n_bnd |
   ([$rules[] | select(.value.intent == "info" and ((.value.lift > 1.2) or (.value.lift < 0.8))) | .key]) as $bad_info |
@@ -52,7 +54,7 @@ else
   [ "# 规则健康档案 (每轮 sweep 自动刷新)",
     "",
     "- 诊断覆盖率: **\($cov.covered)/\($cov.total) = \($cov.pct)%** — 含 ≥1 诊断规则失败块的失败族样本占比",
-    "- 分级: restating \($n_rest) / diagnostic \($n_diag) / boundary \($n_bnd) (共 \($rules | length) 条触发规则; 死规则见 job summary)",
+    "- 分级: trivial (原 restating) \($n_triv) / diagnostic \($n_diag) / boundary \($n_bnd) (共 \($rules | length) 条触发规则; 死规则见 job summary)",
     "",
     "## 怎么读",
     "",
@@ -60,7 +62,7 @@ else
     "- **PPV (lo95)**: P(失败|触发) 及 Wilson 95% 下界 — 触发推出失败的可靠度; b=0 时 PPV=1.0, 下界随样本量增长",
     "- **lift**: PPV / 失败基率 — 与结论的相关性 (1.0 = 独立; info 常数规则应 ≈1.0)",
     "- **spec**: -log2(a/N_f) 比特 — 触发携带的样本信息量 (选择性; 0 = 处处触发零信息)",
-    "- **分级**: restating = 触发由结论决定 (安全网, 不计覆盖); diagnostic = 内容决定 (计覆盖); boundary = 断裂带/异常 (人工审, 暂计覆盖)",
+    "- **分级**: trivial (原 restating) = 触发由结论决定 (安全网, 不计覆盖); diagnostic = 内容决定 (计覆盖); boundary = 断裂带/异常 (人工审, 暂计覆盖)",
     "",
     "## 全规则健康表 (spec 降序)",
     "",

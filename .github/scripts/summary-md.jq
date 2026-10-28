@@ -69,12 +69,14 @@ def pct: ((. * 100 | round) / 100 | tostring) + "%";
 
   # ---- 规则健康档案 (短段 + 链接; 完整浏览面 = reports 分支 rules-health.md) ----
   (if ($s.diagnostic_coverage // null) != null then
-    ([($s.per_rule_health // {}) | to_entries[] | select(.value.grade == "restating")] | length) as $n_rest |
+    # trivial 双标签: 引擎将 restating 更名 trivial (过渡期两代引擎并存, 旧标签
+    #   产物仍可能出现 — 双值同语义合并计数, 漏任一标签会把安全网计成 0)
+    ([$s.per_rule_health // {} | to_entries[] | select(.value.grade == "restating" or .value.grade == "trivial")] | length) as $n_triv |
     ([($s.per_rule_health // {}) | to_entries[] | select(.value.grade == "diagnostic")] | length) as $n_diag |
     ([($s.per_rule_health // {}) | to_entries[] | select(.value.grade == "boundary")] | length) as $n_bnd |
     (["", "## 规则健康档案", "",
-      "- 诊断覆盖率: \($s.diagnostic_coverage.covered)/\($s.diagnostic_coverage.total) = \($s.diagnostic_coverage.pct)% (含 ≥1 非 restating 失败块的失败族样本 — FN 保证有块, 覆盖保证块由内容决定)",
-      "- 分级: restating \($n_rest) (结论复述安全网) / diagnostic \($n_diag) (内容决定, 计覆盖) / boundary \($n_bnd) (断裂带, 人工审)",
+      "- 诊断覆盖率: \($s.diagnostic_coverage.covered)/\($s.diagnostic_coverage.total) = \($s.diagnostic_coverage.pct)% (含 ≥1 非 restating/trivial 失败块的失败族样本 — FN 保证有块, 覆盖保证块由内容决定)",
+      "- 分级: trivial (原 restating) \($n_triv) (结论复述安全网) / diagnostic \($n_diag) (内容决定, 计覆盖) / boundary \($n_bnd) (断裂带, 人工审)",
       "- 完整健康表 (PPV/Wilson/lift/spec/intent 核对): [reports 分支 rules-health.md](https://github.com/luochen1990/log-skimmer-rules/blob/reports/rules-health.md)"])[]
   else empty end),
 
