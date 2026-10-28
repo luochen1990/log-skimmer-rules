@@ -1,0 +1,20 @@
+# samples: oven-sh/bun 40678746242-122783725746 (mordant)
+# 形态 (对抗审计补锚, audit-report.md §4.1): bun 仓 mordant lint 门禁判词
+# `error: mordant: 3 finding(s) over the baseline in `bun_resolver`` — 基线
+# 超限即 error + exit 101, 携带超限数与目标 crate; 前置的 `warning: mordant:`
+# 行 (基线容忍内的明细提示, 不致败) 不锚。此前样本被 cache-not-found 裸行锚
+# 搭便车覆盖 (mordant-bin cache miss 与失败无因果, 审计已裁 DROP), 本规则为
+# 在场真锚补位。全语料 FP 扫描: 1 failure / 0 success。覆盖 gap 1。
+id: mordant-findings-over-baseline
+title: 'mordant lint 基线超限 (error: mordant: N finding(s) over the baseline)'
+tool: mordant
+category: lint
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?error: mordant: [0-9]+ finding\(s\) over the baseline'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

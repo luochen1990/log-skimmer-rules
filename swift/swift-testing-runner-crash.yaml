@@ -1,0 +1,15 @@
+# samples: vapor/vapor 40296775524-122861723174 (swift-testing ×3)
+# 形态: swift-testing 测试进程信号崩溃 `error: Process '<runner>' exited with unexpected
+# signal code 4` — 测试可执行文件被信号杀死 (SIGILL=4/SIGTRAP=5)。
+id: swift-testing-runner-crash
+title: swift-testing 进程信号崩溃 (exited with unexpected signal code N)
+tool: swift
+category: test
+confidence: high
+patterns:
+  - regex: 'exited with unexpected signal code [0-9]+'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

@@ -1,0 +1,18 @@
+# samples: ant-design/ant-design 40565491612 (build)
+# 形态: api-extractor 类型检查失败 — ① `TypeScript: N semantic error` /
+# `TypeScript: emit succeeded (with errors)` (N 带 ANSI 色码); ② node 层转抛
+# `Error: TypeScript: Compilation failed` (api-extractor 的 streamFull emit
+# 'error' 事件文案)。ant-design 用 api-extractor 校验 .d.ts 漂移。覆盖 gap 1。
+id: api-extractor-semantic-error
+title: 'api-extractor 语义错误 (TypeScript: N semantic error)'
+tool: api-extractor
+category: typecheck
+intent: failure
+confidence: high
+patterns:
+  - regex: 'TypeScript: .* semantic error|Error: TypeScript: Compilation failed'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

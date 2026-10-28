@@ -1,0 +1,16 @@
+# samples: rails/rails 39921549372-120307738680 (rails-new-docker ×2)
+# 形态: podman 拉取/复制容器镜像失败 `Error: creating build container: unable to copy from
+# source docker://<image>: ... reading manifest ...` — 镜像源不可达/不存在。
+# 锚定 unable to copy from source docker:// (携带镜像名)。
+id: podman-image-copy-failed
+title: podman 镜像复制失败 (unable to copy from source docker://...)
+tool: podman
+category: deps
+confidence: high
+patterns:
+  - regex: 'unable to copy from source docker://'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

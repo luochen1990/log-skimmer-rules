@@ -1,0 +1,31 @@
+# samples: protocolbuffers/protobuf 40677398050-122779201160 (Apply-Safe-for-Tests-Label ×8),
+#          apache/kafka 40642410765-122664890541 (build ×2, check-pr-labels ×3)
+# 形态: workflow 门禁脚本的运行时回显失败 (非 ##[error] 注解, 直接 echo 后 exit 1):
+#   - `This pull request is from an unsafe fork and hasn't been approved to run tests.` (fork 安全门)
+#   - `Cannot merge a draft PR` (draft PR 门)
+#   - `Could not find the PR that triggered this workflow request` (PR 定位失败)
+# 均携带门禁语义; 为 group 外运行时输出。
+# 扩展 (DG batch3, 均 group 外运行时回显, FP 扫描全语料 0 success):
+#   - `The PR description must include a RELEASE NOTES section.` (grpc-go, 4 空格缩进,
+#     core.setFailed 参数展开) ×2
+#   - `After resetting changes in lib/, mix test should have failed` (credo gate, 红色)
+#   - `PR link "#N" is missing` (prettier changelog 检查)
+#   - `Not all changelog file number(s) match this pull request number` (scikit-learn)
+#   - `Please add '(#N)' change line to CHANGES.md` (black 变更记录 gate)
+#   - `No changelog file was added in the correct directories for PR [0-9]+`
+#     (scikit-learn ×2, changelog 门)
+# 审计修订 (audit-report.md §4.3): 删除 `Preview Build failed.` 臂 — 该臂是
+# deploy-preview job 的固定收尾判词, 只复述已知结论, 无门禁语义与违规值 (为单一
+# F 样本定制的灌水向量); 删除后 idx 49 显形为真 F (不可达, 该 job 日志无信息)。
+id: github-actions-workflow-gate-echo
+title: workflow 门禁回显失败 (unsafe fork / draft PR / changelog / RELEASE NOTES gate)
+tool: github-actions
+category: unknown
+confidence: medium
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)* {0,8}(?:\x1b\[[0-9;]*m)*(This pull request is from an unsafe fork and hasn.t been approved to run tests|Cannot merge a draft PR|Could not find the PR that triggered this workflow request|No changelog file was added in the correct directories for PR [0-9]+|The PR description must include a RELEASE NOTES section\.|After resetting changes in lib/, mix test should have failed|PR link "#[0-9]+" is missing|[^:\n]{0,80}\]: PR link "#[0-9]+" is missing|Not all changelog file number\(s\) match this pull request number|Please add ''\(#[0-9]+\)'' change line to CHANGES\.md)'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

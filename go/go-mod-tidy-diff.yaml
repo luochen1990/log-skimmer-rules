@@ -1,0 +1,18 @@
+# samples: cli/cli 39574909280 (lint: go mod tidy 漂移)
+# 形态: go mod tidy 漂移检查输出 `diff current/go.sum tidy/go.sum` +
+# `--- current/go.sum` / `+++ tidy/go.sum` — 工作流将 tidy 前后 go.mod/go.sum
+# diff 非空即失败。锚 +++ tidy/ 头与 diff 头 (current/tidy 目录名是
+# go-tidy 检查惯用约定)。覆盖 gap 1。
+id: go-mod-tidy-diff
+title: 'go mod tidy 漂移 (diff current/go.sum tidy/go.sum)'
+tool: go
+category: lint
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(\+\+\+ tidy/go\.(mod|sum)|diff current/go\.(mod|sum) tidy/)'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

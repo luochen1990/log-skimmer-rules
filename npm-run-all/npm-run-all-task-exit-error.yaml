@@ -1,0 +1,23 @@
+# samples: rollup/rollup 39879262378-120172402522 (Build-current-artefacts),
+#          39955489073-120420471388 (Lint-and-Audit),
+#          DavidAnson/markdownlint 39254962411/39356812264/39356823853/39887419010/40618661544 (build ×5)
+# 形态 (对抗审计补锚, audit-report.md §4.1): npm-run-all (run-s/run-p) 的
+# 单任务收尾判词 `[<label>] npm run <script> exited with code N` — 携带任务标签
+# 与脚本名, N>=1 即任务失败 (exit 0 的正常收尾行不锚)。rollup 样本此前被
+# cache-not-found 裸行锚搭便车覆盖 (cargo cache miss 与失败无因果, 审计已裁
+# DROP), 本规则为在场真锚补位; markdownlint ×5 为同形态顺带覆盖 (非 gap 样本,
+# 原 sole/协同覆盖不变)。标签容忍嵌套 (`[serial-x] [task] npm run ...`)。
+# 全语料 FP 扫描: 7 failure / 0 success。覆盖 gap 1 (rollup idx 317)。
+id: npm-run-all-task-exit-error
+title: 'npm-run-all 单任务失败 ([task] npm run X exited with code N>=1)'
+tool: npm-run-all
+category: build
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\[[^]]+\] )+npm run .+ exited with code [1-9][0-9]*[[:space:]]*$'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

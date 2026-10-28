@@ -1,0 +1,17 @@
+# samples: dotnet/roslyn 39793142379-119876550474 (agent ×2), dotnet/runtime 40611601106-122564461343 (agent)
+# 形态: github-copilot-agentHarness 的重试失败行 `[copilot-harness] attempt N failed: exitCode=1
+# failureClass=... isCAPIError400=...` — agent 执行失败的逐次尝试证据 (携带失败分类位)。
+# 审计修订 (audit-report.md §4.4): 合法但属弱锚 (harness 失败分类位是工具语义,
+# 非根因载荷) — 降级建议 grade=boundary。
+id: copilot-harness-attempt-failed
+title: copilot-harness agent 尝试失败 ([copilot-harness] attempt N failed)
+tool: copilot
+category: infra
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\[copilot-harness\] attempt [0-9]+ failed: exitCode='
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

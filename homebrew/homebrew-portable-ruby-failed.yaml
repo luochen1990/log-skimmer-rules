@@ -1,0 +1,19 @@
+# samples: Homebrew/brew 40104299741 (test macos-15)
+# 形态: brew 自举 Portable Ruby 获取失败 — `Error: Failed to install Homebrew Portable
+# Ruby (and your system version is too old)!` 及伴生 `Error: Failed to download ruby
+# from the following locations:` — ghcr.io 拉取失败后 brew 放弃自举 (curl (6) 同因,
+# 本规则与 curl-cli-error 互为双保险)。Error: 带红色 ANSI 包裹 (Error 与文案间夹
+# 重置码, 锚按实测顺序容忍)。覆盖 gap 1。
+id: homebrew-portable-ruby-failed
+title: 'Homebrew Portable Ruby 安装失败 (Error: Failed to install/download ruby)'
+tool: homebrew
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*Error(?:\x1b\[[0-9;]*m)*:(?:\x1b\[[0-9;]*m)* Failed to (install Homebrew Portable Ruby|download ruby from the following locations)'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

@@ -1,0 +1,18 @@
+# samples: swiftlang/swift-syntax 38789699174 (Soundness / Documentation check)
+# 形态: swift-docc 文档编译失败判词 `Error: An error was encountered while compiling
+# documentation` 及伴生 `error: 'docc convert' invocation failed with a nonzero exit
+# code` — swift package generate-documentation 的顶层收尾错误。前置的
+# `error: 'x' doesn't exist at ...` 诊断行无工具签名 (与 swiftc 诊断同形), 不锚。覆盖 gap 1。
+id: swift-docc-compile-failed
+title: 'swift-docc 文档编译失败 (Error: ... compiling documentation)'
+tool: swift
+category: build
+intent: failure
+confidence: high
+patterns:
+  - regex: 'Error: An error was encountered while compiling documentation|error: .docc convert. invocation failed'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

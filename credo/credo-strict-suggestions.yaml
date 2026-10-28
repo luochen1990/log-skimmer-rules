@@ -1,0 +1,17 @@
+# samples: rrrene/credo 37187650151 ([26.2-1.17.3]-new-Phoenix-app)
+# 形态: credo 严格模式发现建议汇总 `N mods/funs, found M software design
+# suggestions.` (M>=1) — mix credo --strict 在新 Phoenix app 上执行后退出码 2。
+# 与 credo-result-diff-issue (diff 输出族) 互补, 此处为汇总判词族。覆盖 gap 1。
+id: credo-strict-suggestions
+title: 'credo 严格模式建议 (found N software design suggestions)'
+tool: credo
+category: lint
+intent: failure
+confidence: high
+patterns:
+  - regex: 'found [1-9][0-9]* software design suggestions'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

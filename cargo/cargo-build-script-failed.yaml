@@ -1,0 +1,16 @@
+# samples: anomalyco/opencode 40593431998-122503194074 (Windows-arm64, ubuntu ×2)
+# 形态: cargo 构建脚本失败 `error: failed to run custom build command for \`<crate>
+# v<ver> (<path>)\`` — build.rs 崩溃的根因行 (后续为 panic 栈)。
+id: cargo-build-script-failed
+title: cargo 构建脚本失败 (failed to run custom build command for)
+tool: cargo
+category: build
+confidence: high
+context: {before: 0, after: 2}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*error(?:\x1b\[[0-9;]*m)*:(?:\x1b\[[0-9;]*m)* failed to run custom build command for '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

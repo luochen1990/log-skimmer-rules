@@ -1,0 +1,15 @@
+# samples: eslint/eslint 40245872084-121327189655 (Test-Ecosystem-Plugin)
+# 形态: eslint 生态插件联测失败 — `Failed: <plugin-id>` / `Errors occurred while testing
+# plugins:` / `<plugin>: Error: ERROR: "test:js" exited with 1.`。
+id: eslint-ecosystem-plugin-failed
+title: "eslint 生态插件联测失败 (Failed: plugin / Errors occurred while testing plugins)"
+tool: eslint
+category: test
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(Failed: \S+$|Errors occurred while testing plugins:)'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

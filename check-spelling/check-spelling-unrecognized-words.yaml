@@ -1,0 +1,16 @@
+# samples: jekyll/jekyll 38427658020-115475190550 (Spell-Check ×3)
+# 形态: check-spelling action 的未识别词报告头 `### Unrecognized words (N)` — 拼写门失败锚,
+# 后跟逐词清单。锚单行 + after 8 带出词表 (呈现层)。
+id: check-spelling-unrecognized-words
+title: check-spelling 未识别词报告 (### Unrecognized words (N))
+tool: check-spelling
+category: lint
+confidence: high
+context: {before: 0, after: 8}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?### Unrecognized words \([0-9]+\)'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

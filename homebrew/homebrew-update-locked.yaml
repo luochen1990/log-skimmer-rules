@@ -1,0 +1,15 @@
+# samples: nvim-telescope/telescope.nvim 32022533592-95365025261 (unit-tests macos ×4)
+# 形态: brew update 并发锁冲突 `Error: Another `brew update` process is already running.`
+# — Homebrew 自更新互斥失败 (brew 退出码 127 场景)。
+id: homebrew-update-locked
+title: Homebrew update 并发锁冲突 (Another brew update process is already running)
+tool: homebrew
+category: infra
+confidence: high
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*(?:Error|lockf)(?:\x1b\[[0-9;]*m)*:?(?:\x1b\[[0-9;]*m)* ?(Another `brew update` process is already running|.*already locked)'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

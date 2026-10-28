@@ -1,0 +1,16 @@
+# samples: starship/starship 40374471094-121753872223 (Test-Suite windows ×N)
+# 形态: cargo llvm-cov 覆盖率生成失败 `error: failed to generate report: process didn't exit
+# successfully: ...llvm-cov.exe export...` / `error: failed to load coverage: ...` /
+# `error: could not load coverage information` — 覆盖率工具链失败三联。
+id: cargo-llvm-cov-error
+title: cargo llvm-cov 覆盖率失败 (failed to generate report / load coverage)
+tool: cargo
+category: test
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*error:(?:\x1b\[[0-9;]*m)* (failed to generate report: process didn.t exit successfully|failed to load coverage:|could not load coverage information)'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

@@ -1,0 +1,18 @@
+# samples: rrrene/credo 39665001811 ([26.2-1.15.7]-new-Phoenix-app)
+# 形态: Elixir Mix 任务异常头 `** (Mix) <原因>` — mix 任务抛出/捕获异常后的标准
+# 错误头 (Erlang 异常格式 ** (Module) msg 的 Mix 特化)。样本为 phx_new 版本不满足:
+# `** (Mix) You're trying to run :phx_new on Elixir v1.15.7 but ...`。
+# 单行即完整诊断 (异常模块+原因); mix test 异常亦同格式 (泛化收益)。覆盖 gap 1。
+id: mix-error
+title: 'Mix 任务异常 (** (Mix) 头)'
+tool: mix
+category: build
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\*\* \(Mix\) '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

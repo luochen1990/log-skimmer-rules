@@ -1,0 +1,15 @@
+# samples: nlohmann/json 40642414787-122663359646 (mingw x64)
+# 形态: Chocolatey 安装失败汇总 `Chocolatey upgraded 0/1 packages. 1 packages failed.`
+# — 包管理器失败计数行 (前置为 V2 feed 504 等错误)。
+id: chocolatey-install-failed
+title: Chocolatey 安装失败 (N packages failed)
+tool: chocolatey
+category: deps
+confidence: high
+patterns:
+  - regex: 'Chocolatey \S+ \d+/\d+ packages\. [1-9][0-9]* packages failed'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

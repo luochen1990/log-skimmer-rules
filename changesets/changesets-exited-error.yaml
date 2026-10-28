@@ -1,0 +1,22 @@
+# samples: stylelint/stylelint 40304610022 (🦋 Exited), 40559394618 (Invalid changeset)
+# 形态: changesets CLI 失败双锚 — ① 判词 `🦋 Exited with code N` (N>=1, 红色 ANSI,
+# @changesets/cli 收尾签名, 蝴蝶 emoji 是品牌锚 — 审计修订: 旧版裸 `Exited with
+# code N` 过宽, 曾搭便车命中 commercialhaskell/stack ×6 样本的 `Process exited
+# with code: ExitFailure N` 行, 收紧为品牌锚 + 行首/行尾锚定, 全语料 success 0
+# 命中 (banner 行 `🦋 changeset vX.Y.Z` 不含 Exited, 不受影响)); ②
+# `Error: Invalid changeset ...` (changeset 摘要校验失败的运行时判词, 后随完整
+# node 栈 — 非源码回显; 40559394618 实测该形态无 Exited 行, 双锚互补)。
+# 全语料 FP 扫描: 收紧后 1/0 + 1/0。覆盖 gap 2。
+id: changesets-exited-error
+title: 'changesets 失败 (🦋 Exited with code N)'
+tool: changesets
+category: build
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?((?:\x1b\[[0-9;]*m)?🦋 Exited with code [1-9][0-9]*(?:\x1b\[[0-9;]*m)?$|Error: Invalid changeset)'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

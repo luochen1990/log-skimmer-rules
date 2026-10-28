@@ -1,0 +1,15 @@
+# samples: aquasecurity/trivy 40665363633-122738369503 (Build-Test ×3)
+# 形态: 磁盘配额耗尽 `<pkg>: write <path>: disk quota exceeded` — runner 磁盘资源失败
+# (go build 缓存写入失败形态)。行内锚, 携带写入路径。
+id: infra-disk-quota-exceeded
+title: '磁盘配额耗尽 (write ...: disk quota exceeded)'
+tool: infra
+category: infra
+confidence: high
+patterns:
+  - regex: ': disk quota exceeded'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

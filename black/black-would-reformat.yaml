@@ -1,0 +1,18 @@
+# samples: django/django 40481627763 (black)
+# 形态: black 格式检查失败 — ① 文件级 `would reformat <path>`; ② 汇总判词
+# `N file(s) would be reformatted, M files would be left unchanged.` (含
+# `Oh no! 💥 💔 💥` 前奏)。通过态输出 `would be left unchanged` 无 reformat
+# 计数, 不匹配。覆盖 gap 1。
+id: black-would-reformat
+title: 'black 格式失败 (would reformat / N files would be reformatted)'
+tool: black
+category: fmt
+intent: failure
+confidence: high
+patterns:
+  - regex: 'would reformat |[1-9][0-9]* files? would be reformatted'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

@@ -3,14 +3,17 @@
 # `The PR title must start with one of the following prefixes:` + conventional-commits 前缀清单 +
 # `Please fix the PR title according to ...`。上一步的 `PR title: <实际标题>` 行由 context 带出。
 # 文案特异 (conventionalcommits.org 提示行仅此脚本产出), 成功语料 0 命中。
+# 扩展 (DG batch3): trivy 形态 `Error: Invalid type 'bug'` / `Error: Invalid scope 'x'`
+# — aquaproj/aqua 系 PR title 校验脚本 (trivy 用同款) 的判词行, 与 deno 前缀清单
+# 形态互补。FP 扫描全语料 1 failure / 0 success。
 id: verify-pr-title-invalid
-title: 'PR 标题 lint 拒绝 (The PR title must start with one of the following prefixes:)'
+title: 'PR 标题 lint 拒绝 (must start with prefixes / Error: Invalid type or scope)'
 tool: verify-pr-title
 category: lint
 confidence: high
 context: {before: 1, after: 6}
 patterns:
-  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?The PR title must start with one of the following prefixes:'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(The PR title must start with one of the following prefixes:|Error: Invalid (type|scope) '')'
 kind: signal
 attribution:
   contributor: luochen1990

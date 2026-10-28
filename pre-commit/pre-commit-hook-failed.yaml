@@ -1,0 +1,15 @@
+# samples: psf/requests 34145369235-101816141171 (lint ×4), pallets/flask 34727211038-103643345311 (main)
+# 形态: pre-commit 钩子失败行 `<hook-id>..........Failed` — pre-commit run 的逐钩子结果行,
+# 成功侧为 Passed/Fixed。锚定行尾 Failed + 中间点线 (≥3 个点), 排除回显。
+id: pre-commit-hook-failed
+title: pre-commit 钩子失败行 (hook-id ...Failed)
+tool: pre-commit
+category: lint
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\S.{0,60}\.{3,}(?:\x1b\[[0-9;]*m)*Failed(?:\x1b\[[0-9;]*m)*$'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

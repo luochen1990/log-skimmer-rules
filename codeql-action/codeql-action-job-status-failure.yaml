@@ -15,7 +15,7 @@ intent: failure
 confidence: high
 context: {before: 5, after: 0}
 patterns:
-  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?CodeQL job status was failure\.'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?CodeQL job status was (?:failure|configuration error)\.'
 kind: signal
 attribution:
   contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, fn-responder/glm-5.3)'

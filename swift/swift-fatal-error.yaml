@@ -1,0 +1,15 @@
+# samples: Alamofire/Alamofire 34807339862 (watchOS ×2), vapor/vapor 40531080353 (NIOCore)
+# 形态: Swift 运行时致命错误 `<File>.swift:<line>: Fatal error: <message>` —
+# 顶层未捕获 fatal error (含消息与文件坐标)。
+id: swift-fatal-error
+title: "Swift 运行时致命错误 (File.swift:N: Fatal error: ...)"
+tool: swift
+category: unknown
+confidence: high
+patterns:
+  - regex: '\.swift:[0-9]+:[0-9]* Fatal error: '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

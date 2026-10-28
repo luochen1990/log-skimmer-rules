@@ -1,4 +1,4 @@
-# samples: niri-wm/niri/37725735250-113143344875
+# samples: niri-wm/niri/37725735250-113143344875; 放宽: 行首缩进 (nextest/coverage 嵌套形态, uutils/coreutils)
 # libtest 单测失败行 (`test <name> ... FAILED`, 名字无空格)。行首 test 限定 + 行尾 FAILED 限定,
 # 双端锚定避免误吞; 单行块, 相邻多失败行由输出层 A5 合并。
 id: rust-libtest-failed
@@ -7,5 +7,9 @@ tool: rust
 category: test
 confidence: high
 patterns:
-  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?test \S+( \S+)* \.\.\. FAILED$'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\s*test \S+( \S+)* \.\.\. FAILED$'
 kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

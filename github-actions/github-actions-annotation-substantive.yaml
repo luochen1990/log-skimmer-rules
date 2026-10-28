@@ -1,0 +1,32 @@
+# samples: hyperium/hyper (verify-template ×8), jekyll/jekyll (commit_lint ×5), dotnet/runtime (check-labels ×7),
+#          psf/requests (action ×4), anomalyco/opencode (generate/update-hashes ×2, sign-macos ×1),
+#          Alamofire/Alamofire (watchOS ×3, Windows ×1, macOS ×1), uutils/coreutils (Build-MSYS ×1),
+#          dotnet/roslyn (restore-cache 边缘), niri-wm/niri (publish-docs ×1)
+# 形态: 带实质语义的 ##[error] 注解 — 与编排层常量/结论复述相对, 这些注解携带工具/门禁的
+# 具体失败原因 (输入校验约束 / PR 门禁文案 / 工具错误消息)。是 trivial 注解安全网
+# (github-actions-error-annotation) 的语义补集: 同一 ##[error] 前缀, 但排除编排层常量
+# 与包装复述前缀 (RE2 无 lookahead, 以字符前缀交替枚举实现负向匹配)。
+# 排除集 (对抗审计修订, audit-report.md §4.2 — 由 2 个常量扩至 6 个):
+#   1. `Process completed with exit code` (runner exit-code echo, 既有)
+#   2. `The process '` (runner 进程退出包装, 既有)
+#   3. `The runner has received` (runner shutdown 常量 — deno 83-86 曾搭便车, 真锚已由
+#      deno-test-failed 补位)
+#   4. `Agent execution exited with code` (agent 结论复述, 全日志无原因载荷)
+#   5. `Claude result reported subtype` (is_error 公告复述)
+#   6. `Action failed with error: Error: Claude execution failed` (is_error 复述第二形态)
+# 正则由前缀 trie 的补集生成 (每个非终结节点 p 产生分支 `p[^C].*`, C = 子字符集 —
+# 命中 = 与全部排除前缀在某处分叉); 全语料 ##[error] 行差分验证: 仅上述前缀行被
+# 排除 (13 行), 其余命中面与旧版逐行一致 (new-only=0)。
+# 单行块; 注解本身即完整证据行。
+id: github-actions-annotation-substantive
+title: 带实质语义的 GH Actions 错误注解 (排除编排层常量与复述文案)
+tool: github-actions
+category: unknown
+confidence: medium
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?##\[error\](?:[^ACPT].*|A[^cg].*|Ac[^t].*|Act[^i].*|Acti[^o].*|Actio[^n].*|Action[^ ].*|Action [^f].*|Action f[^a].*|Action fa[^i].*|Action fai[^l].*|Action fail[^e].*|Action faile[^d].*|Action failed[^ ].*|Action failed [^w].*|Action failed w[^i].*|Action failed wi[^t].*|Action failed wit[^h].*|Action failed with[^ ].*|Action failed with [^e].*|Action failed with e[^r].*|Action failed with er[^r].*|Action failed with err[^o].*|Action failed with erro[^r].*|Action failed with error[^:].*|Action failed with error:[^ ].*|Action failed with error: [^E].*|Action failed with error: E[^r].*|Action failed with error: Er[^r].*|Action failed with error: Err[^o].*|Action failed with error: Erro[^r].*|Action failed with error: Error[^:].*|Action failed with error: Error:[^ ].*|Action failed with error: Error: [^C].*|Action failed with error: Error: C[^l].*|Action failed with error: Error: Cl[^a].*|Action failed with error: Error: Cla[^u].*|Action failed with error: Error: Clau[^d].*|Action failed with error: Error: Claud[^e].*|Action failed with error: Error: Claude[^ ].*|Action failed with error: Error: Claude [^e].*|Action failed with error: Error: Claude e[^x].*|Action failed with error: Error: Claude ex[^e].*|Action failed with error: Error: Claude exe[^c].*|Action failed with error: Error: Claude exec[^u].*|Action failed with error: Error: Claude execu[^t].*|Action failed with error: Error: Claude execut[^i].*|Action failed with error: Error: Claude executi[^o].*|Action failed with error: Error: Claude executio[^n].*|Action failed with error: Error: Claude execution[^ ].*|Action failed with error: Error: Claude execution [^f].*|Action failed with error: Error: Claude execution f[^a].*|Action failed with error: Error: Claude execution fa[^i].*|Action failed with error: Error: Claude execution fai[^l].*|Action failed with error: Error: Claude execution fail[^e].*|Action failed with error: Error: Claude execution faile[^d].*|Ag[^e].*|Age[^n].*|Agen[^t].*|Agent[^ ].*|Agent [^e].*|Agent e[^x].*|Agent ex[^e].*|Agent exe[^c].*|Agent exec[^u].*|Agent execu[^t].*|Agent execut[^i].*|Agent executi[^o].*|Agent executio[^n].*|Agent execution[^ ].*|Agent execution [^e].*|Agent execution e[^x].*|Agent execution ex[^i].*|Agent execution exi[^t].*|Agent execution exit[^e].*|Agent execution exite[^d].*|Agent execution exited[^ ].*|Agent execution exited [^w].*|Agent execution exited w[^i].*|Agent execution exited wi[^t].*|Agent execution exited wit[^h].*|Agent execution exited with[^ ].*|Agent execution exited with [^c].*|Agent execution exited with c[^o].*|Agent execution exited with co[^d].*|Agent execution exited with cod[^e].*|C[^l].*|Cl[^a].*|Cla[^u].*|Clau[^d].*|Claud[^e].*|Claude[^ ].*|Claude [^r].*|Claude r[^e].*|Claude re[^s].*|Claude res[^u].*|Claude resu[^l].*|Claude resul[^t].*|Claude result[^ ].*|Claude result [^r].*|Claude result r[^e].*|Claude result re[^p].*|Claude result rep[^o].*|Claude result repo[^r].*|Claude result repor[^t].*|Claude result report[^e].*|Claude result reporte[^d].*|Claude result reported[^ ].*|Claude result reported [^s].*|Claude result reported s[^u].*|Claude result reported su[^b].*|Claude result reported sub[^t].*|Claude result reported subt[^y].*|Claude result reported subty[^p].*|Claude result reported subtyp[^e].*|P[^r].*|Pr[^o].*|Pro[^c].*|Proc[^e].*|Proce[^s].*|Proces[^s].*|Process[^ ].*|Process [^c].*|Process c[^o].*|Process co[^m].*|Process com[^p].*|Process comp[^l].*|Process compl[^e].*|Process comple[^t].*|Process complet[^e].*|Process complete[^d].*|Process completed[^ ].*|Process completed [^w].*|Process completed w[^i].*|Process completed wi[^t].*|Process completed wit[^h].*|Process completed with[^ ].*|Process completed with [^e].*|Process completed with e[^x].*|Process completed with ex[^i].*|Process completed with exi[^t].*|Process completed with exit[^ ].*|Process completed with exit [^c].*|Process completed with exit c[^o].*|Process completed with exit co[^d].*|Process completed with exit cod[^e].*|T[^h].*|Th[^e].*|The[^ ].*|The [^pr].*|The p[^r].*|The pr[^o].*|The pro[^c].*|The proc[^e].*|The proce[^s].*|The proces[^s].*|The process[^ ].*|The process [^''].*|The r[^u].*|The ru[^n].*|The run[^n].*|The runn[^e].*|The runne[^r].*|The runner[^ ].*|The runner [^h].*|The runner h[^a].*|The runner ha[^s].*|The runner has[^ ].*|The runner has [^r].*|The runner has r[^e].*|The runner has re[^c].*|The runner has rec[^e].*|The runner has rece[^i].*|The runner has recei[^v].*|The runner has receiv[^e].*|The runner has receive[^d].*)$'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

@@ -1,0 +1,17 @@
+# samples: rollup/rollup 39900575194-120241141965 (Lint-and-Audit ×5)
+# 形态: audit-ci/npm audit 未解决安全告警汇总行 `😱   Unresolved issues found!` —
+# 审计门失败签名; 前方为逐公告行 `[severity] pkg: advisory (id)`。
+# 锚定 emoji 汇总行 + before 3 带出公告行。
+id: npm-audit-unresolved
+title: npm audit 未解决告警 (😱 Unresolved issues found!)
+tool: npm
+category: security
+confidence: high
+context: {before: 3, after: 0}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\s*😱\s+Unresolved issues found!'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

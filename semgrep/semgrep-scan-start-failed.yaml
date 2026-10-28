@@ -1,0 +1,17 @@
+# samples: semgrep/semgrep 40580590124 (semgrep-ci-fail-open-blocking)
+# 形态: semgrep ci 扫描启动失败 `[ERROR] Could not start scan: API server at
+# https://semgrep.dev returned this error:` — semgrep.dev 后端 5xx 时 CLI 的
+# 收尾错误。与 semgrep-invalid-api-key (401 族) 互补, 此处为后端不可用族。覆盖 gap 1。
+id: semgrep-scan-start-failed
+title: 'semgrep 扫描启动失败 (Could not start scan: API server)'
+tool: semgrep
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: 'Could not start scan: API server'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

@@ -1,0 +1,15 @@
+# samples: anomalyco/opencode 40611840168-122564978741 (deploy)
+# 形态: Cloudflare API 请求失败 `A request to the Cloudflare API (/accounts/...) failed.`
+# + `errors: [ { code: N, message: '...' } ]` — wrangler/sst 部署的后端 API 错误。
+id: cloudflare-api-error
+title: Cloudflare API 请求失败 (A request to the Cloudflare API ... failed)
+tool: cloudflare
+category: infra
+confidence: high
+patterns:
+  - regex: 'A request to the Cloudflare API \([^)]*\) failed'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

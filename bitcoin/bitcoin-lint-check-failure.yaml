@@ -1,0 +1,17 @@
+# samples: bitcoin/bitcoin 40515511851 (lint: subtree 纯度检查)
+# 形态: Bitcoin Core lint 框架判词 `⚠️ Failure generated from lint check '<name>'
+# (<description>)!` — test/lint/lint-all.py 的统一收尾签名, name 为检查名
+# (subtree/whitespace/etc), description 为人读说明。覆盖 gap 1。
+id: bitcoin-lint-check-failure
+title: 'Bitcoin lint 检查失败 (Failure generated from lint check)'
+tool: bitcoin
+category: lint
+intent: failure
+confidence: high
+patterns:
+  - regex: 'Failure generated from lint check '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

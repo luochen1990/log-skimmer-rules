@@ -1,0 +1,19 @@
+# samples: withastro/astro 40515849716 (Run zizmor: podman httpReadSeeker),
+#          qdrant/qdrant 39960495213 (test-consistency: docker Head manifest)
+# 形态: 容器 registry 拉取失败双形态 — ① docker CLI `docker: Error response from
+# daemon: Head "https://registry-1.docker.io/..."` (manifest 拉取失败); ② podman/
+# buildah `failed to copy: httpReadSeeker: failed open: failed to do request:
+# Get "https://ghcr.io/..."` (blob 拉取)。ghcr/dockerhub 限流与鉴权失败的通用症状。覆盖 gap 2。
+id: docker-registry-pull-failed
+title: '容器 registry 拉取失败 (docker Error response / httpReadSeeker)'
+tool: docker
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(docker: Error response from daemon: |failed to copy: httpReadSeeker)'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

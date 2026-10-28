@@ -1,0 +1,17 @@
+# samples: detekt/detekt 39063968884 (build-detekt-docs)
+# 形态: Docusaurus (webpack) 客户端构建失败判词 `[ERROR] Client bundle compiled
+# with errors therefore further build is impossible.` — 文档站构建的顶层收尾。
+# 前置的 swc 语法错误树 (× Syntax Error) 为编译器通用格式, 判词行为锚。覆盖 gap 1。
+id: docusaurus-bundle-error
+title: 'Docusaurus 客户端构建失败 (Client bundle compiled with errors)'
+tool: docusaurus
+category: build
+intent: failure
+confidence: high
+patterns:
+  - regex: '\[ERROR\] Client bundle compiled with errors'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

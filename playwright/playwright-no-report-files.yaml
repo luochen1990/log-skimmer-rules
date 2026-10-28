@@ -1,0 +1,15 @@
+# samples: microsoft/playwright 40604090637-122193373424 (merge-reports ×3)
+# 形态: playwright merge-reports 无报告文件 `Error: No report files found in <path>` —
+# 上游测试产物缺失 (携带路径)。
+id: playwright-no-report-files
+title: playwright merge-reports 无报告文件 (No report files found in ...)
+tool: playwright
+category: infra
+confidence: high
+patterns:
+  - regex: 'Error: No report files found in '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

@@ -1,0 +1,18 @@
+# samples: LnL7/nix-darwin 39691426135 (install-against-stable)
+# 形态: nix-darwin 激活冲突判词 `error: Unexpected files in /etc, aborting
+# activation` (粗体红 ANSI 包裹) — /etc 已有未纳管文件 (bashrc/zshrc), activation
+# 拒绝覆盖, 后随文件清单与处理指引。与 nix-build-failed (构建域) /
+# nix-eval-error-tree (求值域) 互补, 此为 activation 域。覆盖 gap 1。
+id: nix-activation-conflict
+title: 'nix-darwin 激活冲突 (Unexpected files in /etc)'
+tool: nix
+category: config
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*error: Unexpected files in /etc, aborting activation'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

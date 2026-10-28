@@ -1,0 +1,19 @@
+# samples: BurntSushi/ripgrep 39399709616-118551079275 (test-stable-arm-musleabihf 等 ×7)
+# 形态: apt 包安装失败 — `E: Package '<name>' has no installation candidate`。
+# apt-get install 在包名不存在/仓库缺包时以退出码 100 失败, 前置的
+# "Package X is not available, but is referred to by another package." 为人类提示行。
+# 锚定 E: 前缀 + no installation candidate 语义 (携带包名); 单行块 + before 2 带出
+# "is not available" 提示行。
+id: apt-package-unavailable
+title: "apt 包不可用 (E: Package ... has no installation candidate)"
+tool: apt
+category: deps
+confidence: high
+context: {before: 2, after: 0}
+patterns:
+  - regex: "^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?E: Package '.+' has no installation candidate"
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

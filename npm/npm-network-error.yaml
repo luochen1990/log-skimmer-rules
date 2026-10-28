@@ -1,0 +1,17 @@
+# samples: microsoft/TypeScript 40552356551 (npm error code ECONNRESET), evanw/esbuild
+#          (npm ERR! 网络族), tailwindlabs/tailwindcss
+# 形态: npm 网络失败双格式 — 新 `npm error code ECONNRESET` / 旧 `npm ERR! code E...`。
+# 仅网络错误码 (ECONNRESET/ETIMEDOUT/EAI_AGAIN/ENOTFOUND/ECONNREFUSED 等), 不含
+# ELIFECYCLE (脚本失败由上游规则管)。
+id: npm-network-error
+title: npm 网络错误 (npm error code ECONNRESET 等网络错误码)
+tool: npm
+category: infra
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?npm (error|ERR!) (code E(CONNRESET|TIMEDOUT|CONNREFUSED|NOTFOUND|HOSTUNREACH|PIPE|AI_AGAIN)|network )'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

@@ -1,0 +1,19 @@
+# samples: tailwindlabs/tailwindcss 38268507480/38270362450/38272664961
+#          (Build-x86_64-unknown-freebsd ×3)
+# 形态: npm 配置错误族 `npm error code EUNKNOWNCONFIG` + `npm error Unknown
+# cli flag: - --unsafe-perm` — FreeBSD VM 里 npm 新版拒绝旧 flag。与
+# npm-network-error (ENNNNN 网络族) / npm-missing-script (脚本族) 同前缀
+# 不同族, 此处锚配置错误码/文案。FP 扫描全语料 3 failure / 0 success。覆盖 gap 3。
+id: npm-config-error
+title: 'npm 配置错误 (code EUNKNOWNCONFIG / Unknown cli flag)'
+tool: npm
+category: config
+intent: failure
+confidence: high
+patterns:
+  - regex: 'npm error (code EUNKNOWNCONFIG|Unknown cli flag)'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

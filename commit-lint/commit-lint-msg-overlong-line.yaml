@@ -1,0 +1,17 @@
+# samples: jgm/pandoc 40452062941 (check-commit-msg-length)
+# 形态: commit 消息行宽检查失败 `Overlong line:     <超长行原文>` — pandoc
+# 自制检查脚本的判词。与 commit-lint-violation (conventional-commit 结构族)
+# 互补, 此处为行宽族。覆盖 gap 1。
+id: commit-lint-msg-overlong-line
+title: 'commit 消息超长行 (Overlong line)'
+tool: commit-lint
+category: lint
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Overlong line: '
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0
