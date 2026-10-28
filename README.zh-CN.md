@@ -52,7 +52,7 @@ intent 三值与 category 十值的详细判定基准不在本文重复 — 见 
 
 1. 复制 `.github/_template.yaml` 起步, 存为 `<tool-id>/<rule-id>.yaml` (模板在 `.github/` 隐藏路径, 引擎加载跳过 — 不进生产规则集)。
 2. 头注释写样例溯源: `# samples: <repo>/<run>-<job>, ...` (样本来自 [log-skimmer-corpus](https://github.com/luochen1990/log-skimmer-corpus) 公开语料仓; 头注释是规则↔样本的人工溯源线索)。建议同时写 why 叙事 (锚/扩展正则的匹配依据与宿主前缀容忍考虑), 参考示例: [nix/nix-eval-error-tree.yaml](nix/nix-eval-error-tree.yaml), [bun/bun-error-json.yaml](bun/bun-error-json.yaml)。
-3. **本地验证命中** (规则「有用」的唯一守门): 用引擎 CLI 对**带来这条规则的那条真实日志**跑 `log-skimmer skim <样例.log> --rules .` (在本仓根目录执行; 引擎构建方式见 [log-skimmer README](https://github.com/luochen1990/log-skimmer#快速上手)), 确认人类可读输出的块头 (`--- [L..-L..] <rule-id>`) 出现你的规则 id — 即锚行真的命中。corpus 无该工具样本时, PR 的 lint CI 只验证「不添乱」(加载合法 + 回测不退化), **不会**验证新规则能命中 — 本地命中验证是规则有效性的唯一守门步骤。
+3. **本地验证命中** (规则「有用」的唯一守门): 用引擎 CLI 对**带来这条规则的那条真实日志**跑 `log-skimmer skim <样例.log> --rules .` (在本仓根目录执行; 引擎构建方式见 [log-skimmer README](https://github.com/luochen1990/log-skimmer#quick-start)), 确认人类可读输出的块头 (`--- [L..-L..] <rule-id>`) 出现你的规则 id — 即锚行真的命中。corpus 无该工具样本时, PR 的 lint CI 只验证「不添乱」(加载合法 + 回测不退化), **不会**验证新规则能命中 — 本地命中验证是规则有效性的唯一守门步骤。
 4. 提 PR — CI 自动校验: 规则加载合法性 + 全语料回测 (FN=0 / FP率≤2% / 零块=0) + 压缩率 master-vs-PR 双测对比 (引擎与语料在双测中同侧, 纯规则变量归因, 退化 >2% 判红)。
 5. 规则语法错误 (regex 编译失败/枚举越界/字段约束违例) 在 CI 加载阶段即拦下; 单条规则违例会导致整个规则集拒绝加载 — 第 3 步的验证命令会先在本地暴露加载错误, 贡献者做单样例验证即可, 无需本地跑引擎仓的 `just ci-merge` (重量级全量门禁是引擎维护者的回归工具)。
 
