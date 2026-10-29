@@ -1,0 +1,23 @@
+# samples: 内网 forgejo CI 失败样本 (形态引自 log-skimmer issue #106; 原始日志已被重跑
+#          覆盖, 内网语料不进公开语料仓 — 规则验证以 issue 引用行重放为准)
+# 形态: nix 求值后构建错误的行内判词 `error: opening file '<store path>': No such
+#        file or directory` — store path 携带样本特异信息 (hash + drv 名)。与
+#        nix-eval-error-tree (裸 `error:` 独立行 + 缩进 trace 帧的交互式版式) 互补,
+#        不相交: 本规则要求消息体与 /nix/store/ 路径, 裸锚不匹配行内形态。
+#        容忍 forgejo runner 轮询回显前缀 (`… ` U+2026 + 空格) 与行首缩进 —
+#        流式日志的编排层包装, 非错误语义的一部分。全公开语料零出现 (FP=0)。
+#        context.after 带出后随的 derivation 追溯树 (note: + derivation '...' 行)。
+id: nix-eval-missing-store-path
+title: 'nix 行内求值错误: store path 缺失 (error: opening file /nix/store/...drv: No such file or directory)'
+tool: nix
+category: build
+confidence: high
+intent: failure
+context: {before: 0, after: 5}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\s*(?:… )?(?:\x1b\[[0-9;]*m)?error: opening file ''/nix/store/[0-9a-z]+-[^'']+''(: No such file or directory)?$'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0
