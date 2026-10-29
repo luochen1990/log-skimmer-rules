@@ -8,7 +8,6 @@ Rule set for CI log extraction — describes "what failure evidence looks like" 
 [![corpus](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fluochen1990%2Flog-skimmer-rules%2Freports%2Fbadges%2Fcorpus.json)](https://github.com/luochen1990/log-skimmer-rules/blob/reports/latest.md)
 [![quality](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fluochen1990%2Flog-skimmer-rules%2Freports%2Fbadges%2Fquality.json)](https://github.com/luochen1990/log-skimmer-rules/blob/reports/latest.md)
 [![compression](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fluochen1990%2Flog-skimmer-rules%2Freports%2Fbadges%2Fcompression.json)](https://github.com/luochen1990/log-skimmer-rules/blob/reports/latest.md)
-[![coverage](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fluochen1990%2Flog-skimmer-rules%2Freports%2Fbadges%2Fcoverage.json)](https://github.com/luochen1990/log-skimmer-rules/blob/reports/rules-health.md)
 
 > Live metrics: badges and the [full backtest report](https://github.com/luochen1990/log-skimmer-rules/blob/reports/latest.md) are auto-published by the weekly sweep (`reports` branch) — numbers are never hand-maintained, and this README stays qualitative. Per-rule health (PPV/lift/information content/grade) lives in [rules-health.md](https://github.com/luochen1990/log-skimmer-rules/blob/reports/rules-health.md).
 >

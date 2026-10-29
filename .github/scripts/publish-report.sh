@@ -49,11 +49,13 @@ badge() { # <label> <message> <color> <file-stem>
 }
 badge backtest "$v · $asof" "$vc" verdict
 badge corpus "$samples samples · $repos repos" blue corpus
-badge quality "FN $fn · FP $fp%" "$vc" quality
 badge compression "sig $sig% · blk $blk%" blue compression
-# 诊断覆盖率徽章 (引擎 #93 起; 旧引擎 summary 无字段 → pending 占位, publish 后自动就位)
-cov_pct=$(jq -r '.diagnostic_coverage.pct // "pending"' "$summary")
-badge coverage "diag $cov_pct%" blue coverage
+# 诊断覆盖率并入 quality 徽章 (引擎 #114: 独立 coverage 胶囊易误读为测试覆盖率,
+#   诊断覆盖率反映规则质量, 与 FN/FP 同属 quality 面; 两仓 README 引用同一
+#   quality.json, 主仓徽章自动继承)。旧引擎 summary 无字段 → pending 占位,
+#   publish 后自动就位
+cov=$(jq -r '.diagnostic_coverage.pct as $p | if $p then "\($p)%" else "pending" end' "$summary")
+badge quality "FN $fn · FP $fp% · diag $cov" "$vc" quality
 
 # history.jsonl 指标累积 (跨 orphan 重写存活 — 6h 语料提频的配套裁决: 样本快照
 #   滚动即弃, 跨时序积累的是指标历史): 从远端 reports 分支取上一版追加。
