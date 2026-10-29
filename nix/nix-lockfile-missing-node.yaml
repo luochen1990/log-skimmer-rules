@@ -1,0 +1,20 @@
+# samples: zero-j89/gzml_shell#1 (GitHub issue 粘贴, 非语料样本 — I3 前瞻起草: 源码锚
+#          src/libflake/lockfile.cc `lock file references missing node '%s'`,
+#          公开语料零出现属预期, 待形态出现由 D1.3 转正)
+# 形态: flake.lock 悬空引用的行内判词 `error: lock file references missing node '<id>'` —
+#        锁文件引用了不存在的节点 (手改/合并冲突/上游锁文件被截断的典型症状), 节点 id
+#        携带特异信息。deps 域锁文件完整性错误, 既有规则未覆盖 (与 nix-download-failed
+#        同域不同因)。单一锚 (confidence 取 medium 的原因); 措辞在 nix master 源码存活。
+id: nix-lockfile-missing-node
+title: 'nix flake.lock 悬空节点 (error: lock file references missing node ...)'
+tool: nix
+category: deps
+confidence: medium
+intent: failure
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\s*(?:… )?(?:\x1b\[[0-9;]*m)?error: lock file references missing node ''[^'']+''.*$'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

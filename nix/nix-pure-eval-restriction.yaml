@@ -1,0 +1,28 @@
+# samples: NixOS/nix#6594, NixOS/nix#14857 (GitHub issue 粘贴, 非语料样本 — I3 前瞻起草:
+#          源码锚 src/libexpr/eval.cc `cannot look up '<%s>' in pure evaluation mode` 与
+#          求值器路径访问检查, 公开语料零出现属预期)
+# 形态: 纯求值模式限制的行内判词, 两子形 (消息体特征均为 `in pure evaluation mode`):
+#        ① `error: cannot look up '<nix-path-key>' in pure evaluation mode (use '--impure'
+#           to override)` — NIX_PATH 查找受限;
+#        ② `error: access to absolute path '<path>' is forbidden in pure evaluation mode
+#           (use '--impure' to override)` — 绝对路径访问受限。
+#        括注尾巴两代措辞恒为 `(use '--impure' to override)`。行内求值错误, 与
+#        nix-eval-error-tree 树形版式互补 (同 nix-undefined-variable-inline 的分工)。
+#        未锚变体清单 (无独立真实粘贴锚, 待 D1.3 转正时补): `in pure evaluation mode,
+#        '<f>' doesn't fetch unlocked input '<i>'` (fetchTree.cc) / `'<f>' requires a
+#        'sha256' argument` / `'<x>' is not allowed in pure evaluation mode`
+#        (builtins.storePath, primops.cc) / 同锚点姊妹形 `... is forbidden in restricted
+#        mode` (restrict-eval, 一词之差)。
+id: nix-pure-eval-restriction
+title: 'nix 纯求值限制 (error: ... in pure evaluation mode)'
+tool: nix
+category: config
+confidence: high
+intent: failure
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\s*(?:… )?(?:\x1b\[[0-9;]*m)?error: (cannot look up ''[^'']+''|access to absolute path ''[^'']+'' is forbidden) in pure evaluation mode( \(use ''--impure'' to override\))?$'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

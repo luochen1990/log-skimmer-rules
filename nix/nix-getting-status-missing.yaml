@@ -1,0 +1,24 @@
+# samples: NixOS/nix#16353 (单引号形), NixOS/nix#16365 (双引号形) (GitHub issue 粘贴, 非语料
+#          样本 — I3 前瞻起草: 公开语料零出现属预期, 待形态出现由 D1.3 转正)
+# 形态: 求值期路径 stat 失败的行内判词 `error: getting status of <q><path><q>: <errno>` —
+#        flake 引用/相对路径不存在时的 SysError 包装。引号两代渲染并存 (模板皆锚):
+#        单引号 = showPath 形 (源码锚 src/libutil/posix-source-accessor.cc:473 — 求值器
+#        路径访问器, issue #16353 即此形); 双引号 = PathFmt 现行渲染 (源码锚
+#        src/libutil/unix/file-system.cc:85 — fmt.hh PathFmt 全平台双引号, issue #16365)。
+#        与 nix-eval-missing-store-path (`opening file '<store path>': ...`) 和
+#        nix-path-not-exist 同族姊妹 (行内 SysError 求值错误, 按消息动词立规)。category 取
+#        config (求值域, 与 nix-eval-error-tree 定调一致) — 与姊妹规则的 build 标记存在
+#        分歧, 系姊妹历史选择, 在此披露不跟随。errno 尾巴不设枚举, 由 .+ 容纳。
+id: nix-getting-status-missing
+title: 'nix 路径 stat 失败 (error: getting status of ''...'': ...)'
+tool: nix
+category: config
+confidence: high
+intent: failure
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\s*(?:… )?(?:\x1b\[[0-9;]*m)?error: getting status of [''"][^''"]+[''"]: .+$'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

@@ -1,0 +1,23 @@
+# samples: NixOS/nix#7202 (`> ` builder 回显形态 + 顶格形态), NixOS/nix#16010,
+#          NixOS/nix#10106, NixOS/nix#8777, NixOS/nix#16521 (REPL 形态) (GitHub issue 粘贴,
+#          非语料样本 — I3 前瞻起草: 源码锚 src/libexpr 语法分析器 (bison, parser.cc 的
+#          `syntax error, unexpected ...` 判词), 公开语料零出现属预期, 待形态出现由 D1.3
+#          转正)
+# 形态: nix 语言解析错误的行内判词 `error: syntax error, unexpected <token>[, expecting
+#        <token>...]` — token 名携带特异信息。builder 输出内以 `> ` 前缀回显 (出自宿主
+#        nix-build-failed 的 "last N log lines" 块, 与 nix-buildenv-collision 的宿主/根因
+#        分工同款), 顶格直出两者皆锚。bison 默认措辞与其他 yacc 系工具同源 (confidence
+#        取 medium 的原因), 但 `error: ` 前缀 + 语料零撞形下风险可控。
+id: nix-syntax-error
+title: 'nix 语法错误 (error: syntax error, unexpected ...)'
+tool: nix
+category: config
+confidence: medium
+intent: failure
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\s*(?:… )?(?:\x1b\[[0-9;]*m)?(?:> )?error: syntax error, unexpected .+$'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0
