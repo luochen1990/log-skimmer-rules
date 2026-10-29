@@ -8,7 +8,6 @@ CI 日志提取规则集 — 描述「各类工具的失败证据长什么样」
 [![corpus](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fluochen1990%2Flog-skimmer-rules%2Freports%2Fbadges%2Fcorpus.json)](https://github.com/luochen1990/log-skimmer-rules/blob/reports/latest.md)
 [![quality](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fluochen1990%2Flog-skimmer-rules%2Freports%2Fbadges%2Fquality.json)](https://github.com/luochen1990/log-skimmer-rules/blob/reports/latest.md)
 [![compression](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fluochen1990%2Flog-skimmer-rules%2Freports%2Fbadges%2Fcompression.json)](https://github.com/luochen1990/log-skimmer-rules/blob/reports/latest.md)
-[![coverage](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fluochen1990%2Flog-skimmer-rules%2Freports%2Fbadges%2Fcoverage.json)](https://github.com/luochen1990/log-skimmer-rules/blob/reports/rules-health.md)
 
 > 活指标: 徽章与 [完整回测报告](https://github.com/luochen1990/log-skimmer-rules/blob/reports/latest.md) 由每周 sweep 自动发布 (`reports` 分支), 数字不手工维护 — 本 README 只做定性描述。每条规则的健康度 (PPV/lift/信息量/分级) 见 [rules-health.md](https://github.com/luochen1990/log-skimmer-rules/blob/reports/rules-health.md)。
 >
