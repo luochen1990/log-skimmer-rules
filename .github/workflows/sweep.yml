@@ -43,8 +43,8 @@
 #   .github/scripts/make-rules-bundle.sh 头注释; lint 在 PR 时点同步演练生成
 #   (口径断言前置到 merge 前)。
 #
-# 时段: 语料仓 refresh = 周一 20:00 UTC (124 仓抓取 45-115min, 最晚 ~23:00 落地),
-#   sweep 取周二 03:00 UTC — 错开 refresh 窗口且留 4h+ 余量, 每周扫的恒是本周新语料。
+# 时段: 语料仓 refresh = 4 拍/日 (00/06/12/18 UTC, 单轮 45-115min),
+#   sweep 错峰 +3.5h 跟拍 (03:30/09:30/15:30/21:30 UTC) — 恒扫最新语料快照。
 name: sweep
 on:
   # 语料 6h 刷新 (00/06/12/18 UTC) → sweep 错峰 +3.5h 跟拍 (单轮 refresh 45-115min,
@@ -58,7 +58,7 @@ permissions:
   actions: read # gh run list / gh run download — 取上次成功 run 的 summary artifact
 concurrency:
   group: sweep
-  cancel-in-progress: false # weekly 哨兵不抢跑: 重叠则排队, 后到的扫到更新的语料
+  cancel-in-progress: false # 哨兵不抢跑: 重叠则排队, 后到的扫到更新的语料
 jobs:
   sweep:
     runs-on: ubuntu-latest
@@ -80,7 +80,12 @@ jobs:
         working-directory: engine-repo
       - name: 取上次成功 run 的 summary artifact (退化对比基线)
         id: prev
-        env: {GH_TOKEN: "${{ github.token }}"} # flow scalar 内 ${{}} 须引号 (YAML 花括号)
+        env:
+          GH_TOKEN: "${{ github.token }}" # flow scalar 内 ${{}} 须引号 (YAML 花括号)
+          # workspace 根不是 git 仓 (三 checkout 皆带 path:), gh 无法从 git 推断 repo —
+          # 缺此锚定则查询恒败 (not a git repository) → 每拍 have=false → l0 压缩对比
+          # 哨兵失效 ∧ dg/fn 增量派发退化为基线采纳 (响应器永不唤醒)。2026-10-29 实证修复。
+          GH_REPO: luochen1990/log-skimmer-rules
         run: |
           set -euo pipefail
           # 查询失败容忍 (warning + 单测模式, 断言族照常): sweep.yml 未上 master 时
