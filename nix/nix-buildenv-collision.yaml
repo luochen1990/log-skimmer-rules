@@ -1,0 +1,29 @@
+# samples: NixOS/nixpkgs#254265, NixOS/nixpkgs#326908, NixOS/nixpkgs#337127, NixOS/nixpkgs#326405
+#          (GitHub issue 粘贴, 非语料样本 — I3 前瞻起草: 公开语料零出现属预期, 待形态出现
+#          由 D1.3 转正)
+# 形态: buildenv (nix-env/nix profile/home-manager 环境组装) 的文件冲突判词
+#        ``error: collision between `<store path A>' and `<store path B>'`` — 反引号开 +
+#        单引号闭的路径对携带特异信息。时代标注: 该措辞出自 perl 时代的
+#        src/libstore/builtins/buildenv/builder.pl (已发行稳定版仍在使用, 4 条锚均为
+#        2024 实测); nix master 已 C++ 重写 (src/libstore/builtins/buildenv.cc), 新判词
+#        (`Unable to build profile. There is a conflict for the following files:` /
+#        `collision between "..." and non-directory "..."` / `collision between
+#        non-directory '...' and directory '...'`) 无真实粘贴锚, 按 "无锚不起草" 纪律
+#        未锚, 列入未锚清单待 D1.3 转正时补。真实日志中本形态出现在 builder 输出内
+#        (`> ` 前缀 + 缩进, 包裹于宿主 nix-build-failed 的 "last N log lines" 块) 或
+#        nix-env 直出时顶格 — 模板两者皆锚。这是冲突族根因行: 宿主规则只报 exit code,
+#        本规则定位到具体冲突文件对。high 依据: 反引号+单引号配对与双 store path 形状
+#        跨工具撞形风险极低。
+id: nix-buildenv-collision
+title: 'nix buildenv 文件冲突 (error: collision between ... and ...)'
+tool: nix
+category: build
+confidence: high
+intent: failure
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\s*(?:… )?(?:\x1b\[[0-9;]*m)?(?:> )?error: collision between `[^`'']+'' and `[^`'']+''$'
+kind: signal
+attribution:
+  contributor: luochen1990
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0
