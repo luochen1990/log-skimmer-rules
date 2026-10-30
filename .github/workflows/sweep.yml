@@ -98,6 +98,9 @@ jobs:
           fi
           run_id=$(printf '%s' "$runs" | jq -rn '.[0].databaseId // empty')
           if [ -z "$run_id" ]; then
+            # 仪表化 (2026-10-30): by-workflow 查询恒空 (GITHUB_TOKEN 疑似), 转储双查询原始返回
+            raw2=$(gh run list --branch master --status success --limit 3 --json databaseId,workflowName,createdAt 2>&1 || true)
+            echo "::warning::by-workflow 空 — raw: $runs | unfiltered: $raw2"
             echo "::notice::无上次成功 run 的 l0-summary artifact (首跑/保留期外) — 跳过对比 (合法首态), 断言族判定与全量报告照常"
             echo "have=false" >> "$GITHUB_OUTPUT"
             exit 0
