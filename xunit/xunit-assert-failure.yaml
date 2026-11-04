@@ -1,0 +1,19 @@
+# samples: dotnet/aspnetcore/2026-11-02/41508536285-125494007266-PR-review-producer-fixtures
+# 锚: xUnit.net 断言失败措辞 "Assert.<Method>() Failure: ..." — xUnit.assert 结构签名 (带尾随冒号形态)。
+# 不锚 "TestName [FAIL]" 后缀行: Ginkgo 产 "[FAIL] TestName" 前缀同形 (podman 实测), 跨框架撞锚。
+# Avalonia 实测存在无尾随冒号变体 ("Assert.False() Failure"), 不入锚证据 — 样本驱动纪律, 待更多证据再放宽。
+# context.before=2 把用例名 [FAIL] 行带进输出。
+id: xunit-assert-failure
+title: 'xUnit 断言失败 (Assert.Xxx() Failure: ...) '
+tool: xunit
+category: test
+intent: failure
+confidence: high
+context: {before: 2, after: 6}
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?[ \t]*Assert\.[A-Za-z_][A-Za-z0-9_]*\(\) Failure: '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
