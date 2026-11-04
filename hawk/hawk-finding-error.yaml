@@ -14,7 +14,7 @@ intent: failure
 confidence: high
 context: {before: 0, after: 6}
 patterns:
-  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\\x1b\\[[0-9;]*m)*error\\[hawk::[a-z_]+\\]'
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*error\[hawk::[a-z_]+\]'
 kind: signal
 attribution:
   contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
