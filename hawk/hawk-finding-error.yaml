@@ -1,0 +1,22 @@
+# samples: github.com/astral-sh/ruff/2026-11-04/41776338997-126397599221-cargo-hawk-failure.log.gz
+# 形态: cargo-hawk (Rust crate 可见性治理 linter, 外部发布工具, 本样本 HAWK_VERSION=0.1.17)
+# 的 rustc 风格诊断行「error[hawk::<lint>]: <message>」(unnecessary_public /
+# unfulfilled_expectation 等) — ANSI 粗体/红包裹, 锚容忍色码前缀 (同 phpunit-failures-banner
+# 惯例); 后续「  --> file:line:col」定位 + 源码摘录 +「= help:」建议由 context.after=6 带出。
+# 收尾汇总行「hawk: N finding(s) ...」距末诊断块 15 行 (超 context 射程), 且引擎 patterns 为
+# 有序状态机 (p1 命中才推进 p2, 独立锚不共享块), 故不设第二锚; 诊断行本体即完整失败证据。
+# 成功侧 hawk: 0 finding(s) 且无 error[ 行 — FP 免疫。全语料 FP 扫描: 1 failure / 0 success。
+id: hawk-finding-error
+title: 'cargo-hawk 可见性治理判词 (error[hawk::...])'
+tool: hawk
+category: lint
+intent: failure
+confidence: high
+context: {before: 0, after: 6}
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\\x1b\\[[0-9;]*m)*error\\[hawk::[a-z_]+\\]'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

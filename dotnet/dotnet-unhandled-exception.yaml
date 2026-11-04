@@ -1,0 +1,26 @@
+# samples: github.com/dotnet/roslyn/2026-11-01/41281164605-124773204974-discover-failure.log.gz,
+#          github.com/dotnet/roslyn/2026-11-02/41401528557-125134173168-discover-failure.log.gz,
+#          github.com/dotnet/roslyn/2026-11-03/41590584896-125766147592-discover-failure.log.gz
+# 形态: .NET 运行时未捕获异常崩溃头 —「Unhandled exception. System.Xml.XmlException: ...」
+# (现代 .NET, 句点分隔) /「Unhandled Exception: System....: ...」(.NET Framework, 冒号分隔)
+# + 缩进三空格「at 」栈帧。运行时格式与具体程序无关 (任何 dotnet 控制台程序崩溃同形, 仓无关);
+# 本批样本: roslyn eng/update-fba-sources.cs 以 XDocument.Parse 解析非 XML 响应 → exit 134。
+# 锚 = 异常头行 (整行即携带异常类型+完整消息); loop = 3+ 空格缩进的 at 栈帧行 (有界:
+# 栈尽即闭块)。全语料 FP 扫描: 锚 3 failure / 0 success; Framework 变体语料暂无命中
+# (前瞻覆盖, RE2 安全无 lookahead)。
+id: dotnet-unhandled-exception
+title: '.NET 未捕获异常崩溃 (Unhandled exception. Type: message + 栈帧)'
+tool: dotnet
+category: build
+intent: failure
+confidence: high
+context: {before: 0, after: 2}
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Unhandled [Ee]xception[.:] '
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )? {3,}at '
+    loop: true
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0
