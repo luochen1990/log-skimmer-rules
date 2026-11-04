@@ -1,0 +1,17 @@
+# samples: github.com/fastapi/fastapi/2026-11-03/41694138606-126122775067-coverage-combine-failure.log.gz, github.com/fastapi/fastapi/2026-11-03/41694502388-126124780899-coverage-combine-failure.log.gz
+# 锚: coverage.py 覆盖率门失败签名 `Coverage failure: total of N is less than fail-under=M`
+# — 工具自身文案, 只在不达标时打印 (达标侧无此行), 全语料 2F/0S (恰为本批两样本)。
+id: coverage-fail-under
+title: 'coverage.py 覆盖率未达 fail-under 门限'
+tool: coverage
+category: test
+confidence: high
+intent: failure
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Coverage failure: total of [0-9]+ is less than fail-under='
+kind: signal
+context: {before: 1, after: 0}
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

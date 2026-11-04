@@ -1,0 +1,18 @@
+# samples: github.com/eslint/eslint/2026-11-01/41330870968-124920506313-Verify-Files-failure.log.gz
+# 锚: knip 未用项区块头 `Unused exports (N)` / `Unused files (N)` / `Unlisted dependencies (N)`
+# 等族形 — knip 只在有发现时打印区块头 (成功侧静默), 全语料 1F/0S。区块内逐项位置行
+# (name path:line:col) 形态随区块而变, 不做 pattern, 以 context after 6 带入块内证据。
+id: knip-unused-section
+title: 'knip 未用项区块头 (Unused/Unlisted X (N))'
+tool: knip
+category: lint
+confidence: high
+intent: failure
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(Unused|Unlisted) [a-zA-Z]+( [a-zA-Z]+)? \([0-9]+\)'
+kind: signal
+context: {before: 0, after: 6}
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

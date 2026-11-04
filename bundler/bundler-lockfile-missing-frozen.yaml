@@ -1,0 +1,20 @@
+# samples: github.com/fastlane/fastlane/2026-11-02/41514243871-125513587191-windows-2022,-Xcode-26.6,-Ruby-failure.log.gz
+# 锚: bundler frozen 模式下 lockfile 缺 gem 的工具签名
+# `Your lockfile is missing "<gem>", but can't be updated because frozen mode is set`
+# (CI 日志中换行截断于 "is"/"set" 之间, 锚取首行稳定前缀) — 任何 Gemfile 新增 gem 未同步
+# 提交 lockfile 的仓在 CI frozen 模式下都会打出; 全语料 2F/0S (另一样本 41514249000
+# 同 job 同形, 非本批工作集)。
+id: bundler-lockfile-missing-frozen
+title: 'bundler lockfile 缺 gem 且 frozen 不可更新 (Your lockfile is missing ...)'
+tool: bundler
+category: deps
+confidence: high
+intent: failure
+patterns:
+  - regex: "^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Your lockfile is missing .+, but can't be updated because frozen mode is"
+kind: signal
+context: {before: 0, after: 4}
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
