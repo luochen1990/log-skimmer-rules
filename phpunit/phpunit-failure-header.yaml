@@ -1,0 +1,21 @@
+# samples: github.com/composer/composer/2026-11-03/41623284570-125874156753-CI-(8.4,-locked,-ubuntu-latest-failure.log.gz, github.com/composer/composer/2026-11-03/41716908304-126199184909-CI-(8.4,-locked,-ubuntu-latest-failure.log.gz, github.com/composer/composer/2026-11-03/41717225292-126200295852-CI-(8.5,-locked,-ubuntu-latest-failure.log.gz
+# 锚: PHPUnit 失败/错误区段头 There was 1 failure: / There were N errors: — PHPUnit 结构
+# 签名, 跨大版本稳定; after=4 把 N) Class::method 条目头带进输出 (条目行本身跨栈同形不锚,
+# PR #11 教训)。仅锚 failures?/errors? 两形态 — skipped/warnings/risky/incomplete 区段头可在
+# success job 出现 (failOnWarning=false), 排除出锚。与既有 phpunit-failures-banner (横幅, ANSI
+# 后缀形态缺口待维护者放宽) / phpunit-failed-asserting (断言措辞, 非断言型失败如 mock 期望
+# 不含该措辞) 互补: 本锚覆盖两类规则都漏的区段头形态。
+id: phpunit-failure-header
+title: 'PHPUnit 失败/错误区段头 (There was/were N failure(s)/error(s):)'
+tool: phpunit
+category: test
+intent: failure
+confidence: high
+context: {before: 1, after: 4}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?There (?:was|were) [0-9]+ (?:failures?|errors?):\r?$'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

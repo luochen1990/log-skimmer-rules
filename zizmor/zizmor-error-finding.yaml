@@ -1,0 +1,21 @@
+# samples: github.com/aquasecurity/trivy/2026-11-01/41318035225-124882143730-Lint-GitHub-Actions-failure.log.gz
+# 锚: zizmor (GHA 安全审计) error 级发现的 miette 风格横幅 error[<audit-id>]: <标题> —
+# ANSI 色码包裹 (横幅前后均可有 \x1b[..m), 无色模式为裸文本, 两种形态同一锚覆盖;
+# after=8 把 --> .github/workflows/... 定位行 + 代码窗格 + = note:/= help: 尾注带进输出。
+# 审计 id 为小写 kebab (dangerous-triggers 等); rustc 的 error[E0308] 因大写 E 不入锚;
+# ty 的同形横幅在语料中仅以 insta 快照 diff 内嵌形态出现 (行首为 N |+ 前缀), 行首锚不撞。
+# 仅锚 error[ 级 (zizmor 默认只对 error 级非零退出; warning/pedantic/note 可在 success 出现)。
+id: zizmor-error-finding
+title: 'zizmor error 级审计发现 (error[audit-id]: ...)'
+tool: zizmor
+category: security
+intent: failure
+confidence: high
+context: {before: 0, after: 8}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*error\[[a-z][a-z0-9-]*\](?:\x1b\[[0-9;]*m)*: '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

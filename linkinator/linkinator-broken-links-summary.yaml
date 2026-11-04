@@ -1,0 +1,17 @@
+# samples: github.com/DavidAnson/markdownlint/2026-10-30/40989431496-124677304137-linkcheck-failure.log.gz, github.com/DavidAnson/markdownlint/2026-11-02/41375623731-125055100639-linkcheck-failure.log.gz, github.com/DavidAnson/markdownlint/2026-11-02/41375657285-125055202379-linkcheck-failure.log.gz, github.com/DavidAnson/markdownlint/2026-11-03/41697084551-126130341466-linkcheck-failure.log.gz
+# 锚: linkinator (npm 链接检查器) 汇总行 `ERROR: Detected N broken links. Scanned M links in ...` —
+# 工具专属模板文案, 0 断链 (success 侧) 时不出 ERROR 前缀形态; [1-9] 起始计数排除 0 断链。
+# 断链 URL 明细由伴生规则 linkinator-broken-link-status 提取 (本行只有计数)。
+id: linkinator-broken-links-summary
+title: 'linkinator 断链汇总 (ERROR: Detected N broken links)'
+tool: linkinator
+category: lint
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?ERROR: Detected [1-9][0-9]* broken links\. Scanned [0-9]+ links in '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

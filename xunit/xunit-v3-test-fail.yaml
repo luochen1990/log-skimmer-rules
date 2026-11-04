@@ -1,0 +1,22 @@
+# samples: github.com/dotnet/aspnetcore/2026-11-02/41508536285-125494007266-PR-review-producer-fixtures-failure.log.gz
+# 锚: xUnit.net v3 控制台运行器的用例失败行 <FullyQualifiedName> [FAIL] — [FAIL] 尾缀
+# 标记, 仅失败侧出现; ext loop ^\s{2,}\S 贪心消费缩进失败明细 (Assert.* Failure / Stack Trace /
+# Finished: 汇总), 至无缩进行 (=== TEST EXECUTION SUMMARY ===) 闭块。
+# v2 控制台形态 (Failed   Name) 与 ginkgo 的行首 [FAIL] (containers/podman macos e2e) 均不撞:
+# 本锚要求 [FAIL] 位于行尾。
+id: xunit-v3-test-fail
+title: 'xUnit v3 用例失败 (<FQN> [FAIL])'
+tool: xunit
+category: test
+intent: failure
+confidence: high
+context: {before: 1, after: 1}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\s*\S[^\r\n]* \[FAIL\]\r?$'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*\s{2,}\S'
+    loop: true
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

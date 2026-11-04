@@ -1,0 +1,18 @@
+# samples: github.com/astral-sh/ruff/2026-11-03/41719525864-126211412344-Fuzz-for-new-ty-panics-timeout-failure.log.gz
+# 锚: py-fuzzer 收尾汇总 New bugs found in the following seeds: — 单行终局判定 (红),
+# after=2 带入 seed 号清单与复现命令提示 (uv run --project=./python/py-fuzzer fuzz ...)。
+# 与 py-fuzzer-ty-panic (逐 bug 证据块) 互补: 该行是单次运行全部新 bug 的索引。
+id: py-fuzzer-new-bugs
+title: 'py-fuzzer 新 bug 汇总 (New bugs found in the following seeds:)'
+tool: py-fuzzer
+category: test
+intent: failure
+confidence: high
+context: {before: 0, after: 2}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*New bugs found in the following seeds:'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

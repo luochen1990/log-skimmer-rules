@@ -1,0 +1,17 @@
+# samples: 同 linkinator-broken-links-summary (4 个 markdownlint linkcheck 失败样本)
+# 锚: linkinator 逐链状态行中的失败态 `[4xx/5xx] http(s)://URL` — 成功侧恒为 [200]/[226] 等 2xx,
+# 4xx/5xx 仅在断链 (失败) 时出现; 顶层与文件小节缩进两形态都以行首 (可选 ts 前缀) 起锚。
+id: linkinator-broken-link-status
+title: 'linkinator 断链明细 ([4xx/5xx] URL)'
+tool: linkinator
+category: lint
+intent: failure
+confidence: high
+context: {before: 1, after: 0}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\s*\[[45][0-9]{2}\] https?://\S+\r?$'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

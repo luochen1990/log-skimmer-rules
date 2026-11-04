@@ -1,0 +1,20 @@
+# samples: github.com/astral-sh/ruff/2026-11-03/41719525864-126211412344-Fuzz-for-new-ty-panics-timeout-failure.log.gz
+# 锚: ruff 仓 py-fuzzer (python/py-fuzzer, fuzz --bin=ty) 发现新 ty panic/超时的判定行
+# The following code triggers a new ty panic or timeout with ... — 红色 ANSI 包裹, 后随
+# 最小化复现代码片段 (after=8 带入片段头); before=2 把 Ran fuzzer on seed N /
+# Minimized seed N: 定位行带进输出。成功侧逐 seed 输出 Ran fuzzer successfully on seed N
+# (绿), 无此文案 — FP 免疫。自研检查带特异标记, 按 rule-format §1.S 判定表第 2 行进中央仓。
+id: py-fuzzer-ty-panic
+title: 'py-fuzzer 新 ty panic 判定 (triggers a new ty panic or timeout)'
+tool: py-fuzzer
+category: test
+intent: failure
+confidence: high
+context: {before: 2, after: 8}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*The following code triggers a new ty panic or timeout'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

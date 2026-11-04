@@ -1,0 +1,19 @@
+# samples: github.com/Homebrew/brew/2026-11-03/41631910145-125903346016-docs-failure.log.gz
+# 锚: html-proofer 结果横幅 `HTML-Proofer found N failures!` — 工具名自带横幅, 跨仓稳定
+# (Ruby 文档静态检查器, Jekyll 站点检查标配); success 侧只打 `Ran on N files!`, 无此横幅。
+# 逐条失败明细 (* At <file>:<line>: + External link ... failed) 由伴生规则
+# html-proofer-link-failure 提取; 本行携带失败计数。
+id: html-proofer-failures-banner
+title: 'html-proofer 结果横幅 (found N failures!)'
+tool: html-proofer
+category: lint
+intent: failure
+confidence: high
+context: {before: 1, after: 1}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?HTML-Proofer found [0-9]+ failures!'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
