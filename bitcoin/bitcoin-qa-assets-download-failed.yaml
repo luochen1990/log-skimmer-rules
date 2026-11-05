@@ -1,0 +1,19 @@
+# samples: github.com/bitcoin/bitcoin/2026-11-05/41998355347-127154411704-Windows,-test-cross-built-failure.log.gz
+# 形态: Bitcoin Core 测试资产下载器 (test_runner qa-assets fetch, urllib) 的失败行
+# `Download failed: HTTP Error <code>: <reason>` — 重试提示 `Retrying download after
+# failure ...` 与下轮 `Fetching: <url>` 由 context.after 带出。网络抖动类 infra 根因,
+# job 因测试资产不可得而失败; 失败侧行, 成功侧仅 Fetching 行 — FP 免疫。
+id: bitcoin-qa-assets-download-failed
+title: 'Bitcoin qa-assets 下载失败 (Download failed: HTTP Error)'
+tool: bitcoin
+category: infra
+intent: failure
+confidence: medium
+context: {before: 0, after: 3}
+patterns:
+  - regex: 'Download failed: HTTP Error '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

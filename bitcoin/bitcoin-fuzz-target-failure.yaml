@@ -1,0 +1,20 @@
+# samples: github.com/bitcoin/bitcoin/2026-11-05/41945348313-126976072718-Windows-native,-fuzz,-clang-cl-failure.log.gz
+# 形态: Bitcoin Core test 框架 (test/fuzz/test_runner.py) 的 fuzz 目标失败签名
+# `⚠️ Failure generated from target with exit code <code>: [<cmd>]` — 与既有
+# bitcoin-lint-check-failure (同框架 `Failure generated from lint check` 锚) 同族,
+# 中行匹配 (容忍 ⚠️ 前缀/GHA 时间戳)。exit code 3221225477 = 0xC0000005 (Windows
+# STATUS_ACCESS_VIOLATION)。目标崩溃才打印, 成功侧 (`succeeded against N files`)
+# 零出现 — FP 免疫。
+id: bitcoin-fuzz-target-failure
+title: 'Bitcoin fuzz 目标失败 (Failure generated from target with exit code)'
+tool: bitcoin
+category: test
+intent: failure
+confidence: high
+patterns:
+  - regex: 'Failure generated from target with exit code '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0
