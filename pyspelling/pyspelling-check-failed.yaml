@@ -1,0 +1,17 @@
+# samples: github.com/curl/curl/2026-11-05/42044756095-127304577830-pyspelling-failure.log.gz
+# 形态: pyspelling 拼写检查失败横幅 `!!!Spelling check failed!!!` — 上方为 pyspelling
+# 原生 misspelled 输出 (`<task> <file>: <context-selector>` 分隔块 + 拼错的词), 由既有
+# 合并块衔接; 横幅是 check 非零退出的收尾签名, 成功侧零出现 — FP 免疫。
+id: pyspelling-check-failed
+title: 'pyspelling 拼写检查失败 (!!!Spelling check failed!!!)'
+tool: pyspelling
+category: lint
+intent: failure
+confidence: high
+patterns:
+  - regex: '!!!Spelling check failed!!!'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

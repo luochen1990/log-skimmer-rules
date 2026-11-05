@@ -1,0 +1,21 @@
+# samples: github.com/aquasecurity/trivy/2026-11-05/42000623059-127154606431-Module-Integration-Test-failure.log.gz, github.com/aquasecurity/trivy/2026-11-05/42006615642-127174860230-Module-Integration-Test-failure.log.gz
+# 形态: go 工具链拒绝解析 go.mod 的报错块 — 锚 `go: errors parsing go.mod:`, 后续
+# `go.mod:<line>: <判词>` 逐行诊断 (malformed module path / usage: require ...) loop 消费。
+# 典型根因: 合并冲突标记 (`<<<<<<<`) 残留或语法错误 — 本拍两样本即冲突标记残留。
+# go 仅在解析失败时打印, 成功侧零出现 — FP 免疫。既有 go-mod-fetch-error / go-mod-tidy-diff
+# 不覆盖此形态 (下载失败 / diff 漂移各锚各的)。
+id: go-mod-parse-error
+title: 'go.mod 解析错误 (go: errors parsing go.mod)'
+tool: go
+category: deps
+intent: failure
+confidence: high
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?go: errors parsing go\.mod:'
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?go\.mod:[0-9]+: '
+    loop: true
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0

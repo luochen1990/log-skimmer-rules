@@ -1,0 +1,21 @@
+# samples: github.com/anomalyco/opencode/2026-11-05/41983743155-127099777193-deploy-failure.log.gz
+# 形态: SST (sst.dev) deploy CLI 内部错误横幅 `✕  Unexpected error occurred. Please run
+# with --print-logs or check .sst/log/sst.log if available.` — sst 工具自身的收尾错误签名
+# (非仓守卫文案), 任何用 sst 部署的项目失败时同形态出现。锚取 `✕` + `.sst/log/sst.log`
+# 双特征, 成功侧 deploy 概要无此行 — FP 免疫。根因详情在 .sst/log/sst.log (工件外),
+# 本行是日志内最强定位 (失败工具 + 日志指引); 次行 `error: "sst" exited with code 1`
+# 由 context.after 带出。
+id: sst-unexpected-error
+title: 'SST deploy 内部错误横幅 (✕ Unexpected error occurred)'
+tool: sst
+category: build
+intent: failure
+confidence: medium
+context: {before: 0, after: 1}
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?✕ +Unexpected error occurred.*\.sst/log/sst\.log'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0
