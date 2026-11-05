@@ -1,0 +1,24 @@
+# samples: github.com/curl/curl/2026-11-04/41873996439-126728362615-midnightbsd-4.0.4,-CM-clang-gn-failure.log.gz
+# 锚: MidnightBSD mport 包管理器依赖获取失败判词
+# `Error at <path>/fetch.c:(NNN): Fetch error: <url>: <原因>` — mport 原生签名
+# (编译期 __FILE__:__LINE__ 内嵌, 行号随 mport 版本漂移故用 [0-9]+ 容忍; 路径用 \S* 容忍)。
+# 本样本因果链: pkgconf/jsoncpp/ninja 包获取 Operation timed out (L305/313/314/342) →
+# 依赖缺失 → 后续 configure 命令 exit 127 command not found (L419)。fetch 判词是日志中
+# 最早的真因文本 (deps 根因), 终态 exit 127 只是下游后果 — 锚取根因, 不锚 exit 行
+# (exit 127 属 github-actions-error-annotation 安全网射程, 且无数值特异性)。
+# 成功侧 mport 获取静默 (获取失败才打印判词) — 全语料扫描: 1 failure / 0 success 含此签名。
+# category=deps: 依赖下载失败 (spec §1 category 表「依赖获取失败归 deps」)。
+id: mport-fetch-error
+title: 'mport 依赖获取失败 (libmport fetch.c Fetch error)'
+tool: mport
+category: deps
+intent: failure
+confidence: medium
+context: {before: 1, after: 0}
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Error at \S*fetch\.c:\([0-9]+\): Fetch error: '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
