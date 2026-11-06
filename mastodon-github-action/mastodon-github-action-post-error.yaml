@@ -1,0 +1,18 @@
+# samples: pnpm/pnpm/42136958715-127627920679
+# cbrgm/mastodon-github-action (Docker Go action) 发帖失败: Go log 默认首部 `YYYY/MM/DD HH:MM:SS `
+# + `Error posting status: API call error: ...` (go-mastodon 客户端包装错误; 样本为 MASTODON_URL
+# 未配置 → unsupported protocol scheme "")。log.Fatalf 输出后进程退出 1 — 只出现在失败 job,
+# 成功发帖路径无此行, 无 FP 面。单行块。
+id: mastodon-github-action-post-error
+title: 'mastodon-github-action 发帖失败 (Error posting status: API call error:)'
+tool: mastodon-github-action
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '^(?:[0-9]{4}/[0-9]{2}/[0-9]{2} [0-9:.]+ )?Error posting status: '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, fn-responder/glm-5.3)'
+  generated-by: {harness: fn-responder, model: glm-5.3}
+  adapter-version: 0.1.0

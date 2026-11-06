@@ -1,0 +1,22 @@
+# samples: scikit-learn/scikit-learn/42061999315-127365929476
+# octokit (Node) 未捕获 RequestError 的进程崩溃报告: Node fatal dump 首行 `RequestError [HttpError]`
+# (类名 + 空 message → 无 `: ` 后缀, 行尾即止, \s*$ 容忍行尾空白), 后随 `    at ` 栈帧; 块尾 context
+# 暴露 `status:` / `response.url` 定位 API 端。样本: scientific-python/circleci-artifacts-redirector-action
+# 调 api.github.com statuses 返回 500。既有 node-uncaught-exception 只认内置错误类 `Class: ` 带冒号
+# 形态, 覆盖不到。锚限定空 message 形态 — 带 message 的 `RequestError [HttpError]: msg` 暂不覆盖
+# (防 catch 后仅日志记录的成功路径误报); fatal dump 只出现在进程崩溃, 成功 job 无此行。
+id: octokit-request-error
+title: 'octokit RequestError 未捕获崩溃 (RequestError [HttpError] + at 栈)'
+tool: octokit
+category: infra
+intent: failure
+confidence: high
+context: {before: 0, after: 3}
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?RequestError \[HttpError\]\s*$'
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?    at \S'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, fn-responder/glm-5.3)'
+  generated-by: {harness: fn-responder, model: glm-5.3}
+  adapter-version: 0.1.0

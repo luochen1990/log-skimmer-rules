@@ -1,12 +1,15 @@
-# samples: nix-community/home-manager/37250884107-111578068649, nix-community/home-manager/38778143008-116571035367
-# git push 被拒: 锚 `! [rejected]` 行, 透传扩展 error 行, 再贪心消费后续 hint: 建议行 (loop)。
+# samples: nix-community/home-manager/37250884107-111578068649, nix-community/home-manager/38778143008-116571035367, withastro/astro/42061981056-127365855347
+# git push 被拒: 锚 `! [(remote )?rejected]` 行, 透传扩展 error 行, 再贪心消费后续 hint: 建议行 (loop)。
+# 锚扩展 (run 42209045009 FN): 远端拒绝变体 `! [remote rejected] HEAD -> latest (...)` — GitHub 服务端
+# commit_refs_rules 崩溃等远端拒绝 (auto-branch-sync-action push 被拒); 与本地 `[rejected]` 同语义同证据
+# 块形态, 仅括号内多 `remote ` 段, 后随同一 `error: failed to push some refs` 收尾。
 id: git-push-rejected
-title: 'git push 被拒 (! [rejected] + error: failed to push some refs + hint: 树)'
+title: 'git push 被拒 (! [rejected]/! [remote rejected] + error: failed to push some refs + hint: 树)'
 tool: git
 category: infra
 confidence: high
 patterns:
-  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\s*! \[rejected\] '
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\s*! \[(?:remote )?rejected\] '
   - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?error: failed to push some refs to '
   - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?hint: '
     loop: true
