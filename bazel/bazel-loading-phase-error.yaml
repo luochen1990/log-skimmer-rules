@@ -1,0 +1,27 @@
+# samples: google/googletest/42314195946-128222712234
+# bazel loading phase 失败: 锚为 `ERROR: command succeeded, but there were
+# loading phase errors` — bazel 在外部依赖 fetch/分析失败后的 ERROR 级结论
+# (成功 job 无 ERROR: 前缀行), 任何 bazel 仓同构。容忽视时间戳 (bazel
+# --show_timestamps 的 `(HH:MM:SS) ` 与 CI 平台时间戳, 实测两者叠加出现
+# — `2026-...Z (23:48:12) ERROR: ...`, 两段可选前缀串联覆盖)。ext (非 loop):
+# 紧随的 `ERROR: Fetching some target dependencies failed with errors: ...`
+# 关联行; context.before=4 回带 `Analysis failed` 与 `INFO: Analysis
+# succeeded for only N of M top-level targets` (受影响规模的直接证据)。
+# 逐 target 的 `WARNING: errors encountered while analyzing target ...` 群
+# 刻意不锚 — WARNING 级且高重复 (单样本 70+ 行), 侥幸逐块捕获徒增压缩负担,
+# 锚行 + before 上下文已足够定位。既有 bazel-error 锚 `ERROR: <loc>:`/
+# `no such` 两形态, 与本锚 (ERROR: command succeeded/fetching 短语) 不相交。
+id: bazel-loading-phase-error
+title: 'bazel loading phase 失败 (ERROR: command succeeded, but there were loading phase errors)'
+tool: bazel
+category: build
+confidence: high
+context: {before: 4, after: 0}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(\([0-9]{2}:[0-9]{2}:[0-9]{2}\) )?ERROR: command succeeded, but there were loading phase errors'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(\([0-9]{2}:[0-9]{2}:[0-9]{2}\) )?ERROR: Fetching some target dependencies failed'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

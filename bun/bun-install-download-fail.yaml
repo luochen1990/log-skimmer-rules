@@ -1,0 +1,23 @@
+# samples: anomalyco/opencode/42328382905-128268923697, anomalyco/opencode/42328382966-128270558419, anomalyco/opencode/42328511027-128269329233
+# bun install 依赖获取失败: 锚为 bun 包管理器下载错误行
+# `error: failed to download <pkg>: HTTP <code>` — bun 自有版式 (成功安装无
+# error: 行, warn: no longer applies / warn: skipping 是良性近邻但前缀不同,
+# 字符级不相交), 任何用 bun install 的仓同构 (registry/git tarball 5xx 均此
+# 形态)。既有 bun 规则锚 test 失败 (fail) 与 script 退出码, install 阶段
+# 下载失败不在射程。ext loop: 2+ 空格缩进续行 (源 URL 行), 无缩进的 warn:
+# 行闭块。job 尾的 `Failed to install N package` 汇总行距锚 20+ 行不相邻,
+# 不并块 (平台注解已兜退出码)。
+id: bun-install-download-fail
+title: 'bun install 依赖下载失败 (error: failed to download pkg: HTTP <code>)'
+tool: bun
+category: deps
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?error: failed to download \S+: HTTP '
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )? {2,}\S'
+    loop: true
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
