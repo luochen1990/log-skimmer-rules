@@ -1,12 +1,12 @@
 # samples: anomalyco/opencode 42255967736-128023120164 (deploy)
-# 锚: wrangler \`--strict\` 模式的远程配置冲突中止判词 \`■  Aborting the upload
+# 锚: wrangler `--strict` 模式的远程配置冲突中止判词 `■  Aborting the upload
 # operation because of conflicts. To override and upload anyway, remove the
-# \`--strict\` flag\` — 本地 Worker 配置与远端配置 (dashboard 侧改动) 漂移时 wrangler
-# 拒绝覆盖上传, 部署步骤 exit 1 (前有 \`▲ The local configuration ... differs from
-# the remote configuration\` 与逐字段 diff 块)。任何仓的 wrangler/cf deploy --strict
-# 均可出现, 工具签名非仓守卫。尾随 \`◆  Deploy complete\` 是 wrangler 误导性收尾行
-# 刻意不锚; diff 块 (\`│\` 前缀行) 不扩展 — 锚行已携带完整因果 (冲突→拒绝上传)。
-# 与 cloudflare-api-error (API 请求失败族) 锚面不相交。注意 \`■\` 后为两个空格。
+# `--strict` flag` — 本地 Worker 配置与远端配置 (dashboard 侧改动) 漂移时 wrangler
+# 拒绝覆盖上传, 部署步骤 exit 1 (前有 `▲ The local configuration ... differs from
+# the remote configuration` 与逐字段 diff 块)。任何仓的 wrangler/cf deploy --strict
+# 均可出现, 工具签名非仓守卫。尾随 `◆  Deploy complete` 是 wrangler 误导性收尾行
+# 刻意不锚; diff 块 (`│` 前缀行) 不扩展 — 锚行已携带完整因果 (冲突→拒绝上传)。
+# 与 cloudflare-api-error (API 请求失败族) 锚面不相交。注意 `■` 后为两个空格。
 id: cloudflare-wrangler-strict-abort
 title: 'wrangler strict 部署冲突中止 (■ Aborting the upload operation because of conflicts)'
 tool: cloudflare
