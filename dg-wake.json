@@ -1,0 +1,837 @@
+{
+  "run_id": 42364345844,
+  "samples": [
+    {
+      "candidates": [
+        {
+          "line_no": 353,
+          "text": "2026-11-07T03:49:50.9657991Z       '  \"test-repos/electron-electron/docs/api/structures/notification-action.md:11:39 error MD060/table-column-style Table column style [Table pipe does not align with h…"
+        },
+        {
+          "line_no": 354,
+          "text": "2026-11-07T03:49:50.9660800Z       '  \"test-repos/electron-electron/docs/api/structures/notification-action.md:11:74 error MD060/table-column-style Table column style [Table pipe does not align with h…"
+        },
+        {
+          "line_no": 355,
+          "text": "2026-11-07T03:49:50.9663542Z       '  \"test-repos/electron-electron/docs/api/structures/notification-action.md:11:214 error MD060/table-column-style Table column style [Table pipe does not align with …"
+        },
+        {
+          "line_no": 356,
+          "text": "2026-11-07T03:49:50.9666459Z       '  \"test-repos/electron-electron/docs/api/structures/notification-action.md:11:428 error MD060/table-column-style Table column style [Table pipe does not align with …"
+        },
+        {
+          "line_no": 357,
+          "text": "2026-11-07T03:49:50.9668716Z       '  \"test-repos/electron-electron/docs/api/structures/notification-action.md:12:99 error MD060/table-column-style Table column style [Table pipe does not align with h…"
+        },
+        {
+          "line_no": 359,
+          "text": "2026-11-07T03:49:50.9670873Z       at TestContext.snapshotAssertion (node:internal/test_runner/snapshot:207:9)"
+        },
+        {
+          "line_no": 360,
+          "text": "2026-11-07T03:49:50.9672189Z       at assert.<computed> [as snapshot] (node:internal/test_runner/test:354:18)"
+        },
+        {
+          "line_no": 367,
+          "text": "2026-11-07T03:49:50.9678015Z     code: 'ERR_ASSERTION',"
+        },
+        {
+          "line_no": 368,
+          "text": "2026-11-07T03:49:50.9738486Z     actual: '\\n[\\n  \"test-repos/electron-electron/CLAUDE.md:59:1 error MD060/table-column-style Table column style [Table pipe is missing space to the right for style \\\\\\\\…"
+        },
+        {
+          "line_no": 369,
+          "text": "2026-11-07T03:49:50.9852817Z     expected: '\\n[\\n  \"test-repos/electron-electron/CLAUDE.md:59:1 error MD060/table-column-style Table column style [Table pipe is missing space to the right for style \\\\…"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/DavidAnson/markdownlint",
+      "sample": "github.com/DavidAnson/markdownlint/2026-11-07/42335592714-128291673685-build-(ubuntu-latest,-latest)-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 660,
+          "text": "2026-11-04T21:34:45.3489566Z (node:2151) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. C…"
+        },
+        {
+          "line_no": 867,
+          "text": "2026-11-04T21:34:47.5383761Z Result: {\"data\":{\"url\":\"https://api.github.com/repos/detekt/detekt/releases/201696569\",\"assets_url\":\"https://api.github.com/repos/detekt/detekt/releases/201696569/assets\",…"
+        },
+        {
+          "line_no": 888,
+          "text": "2026-11-04T21:34:48.7398638Z \u001b[36;1m  echo \"                 detekt failed                 \"\u001b[0m"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/JetBrains/Exposed",
+      "sample": "github.com/JetBrains/Exposed/2026-11-04/41917359258-126880440894-detekt-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 660,
+          "text": "2026-11-06T09:51:17.5332067Z (node:2197) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. C…"
+        },
+        {
+          "line_no": 867,
+          "text": "2026-11-06T09:51:19.9342890Z Result: {\"data\":{\"url\":\"https://api.github.com/repos/detekt/detekt/releases/201696569\",\"assets_url\":\"https://api.github.com/repos/detekt/detekt/releases/201696569/assets\",…"
+        },
+        {
+          "line_no": 888,
+          "text": "2026-11-06T09:51:21.5208317Z \u001b[36;1m  echo \"                 detekt failed                 \"\u001b[0m"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/JetBrains/Exposed",
+      "sample": "github.com/JetBrains/Exposed/2026-11-06/42198121177-127826396358-detekt-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 2383,
+          "text": "2026-11-07T02:16:55.4093192Z  * [new branch]            tagged-error-lint          -> origin/tagged-error-lint"
+        },
+        {
+          "line_no": 2417,
+          "text": "2026-11-07T02:16:55.4097987Z  * [new branch]            thdxr/v2-message-model-failures -> origin/thdxr/v2-message-model-failures"
+        },
+        {
+          "line_no": 4009,
+          "text": "2026-11-07T02:17:00.9926995Z shell: C:\\Program Files\\Git\\bin\\bash.EXE --noprofile --norc -e -o pipefail {0}"
+        },
+        {
+          "line_no": 4031,
+          "text": "2026-11-07T02:17:01.8745296Z [command]\"C:\\Program Files\\PowerShell\\7\\pwsh.exe\" -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Unrestricted -Command \"$ErrorActionPreference = 'Stop' ; try { Add-Ty…"
+        },
+        {
+          "line_no": 4039,
+          "text": "2026-11-07T02:17:02.3754829Z shell: C:\\Program Files\\Git\\bin\\bash.EXE --noprofile --norc -e -o pipefail {0}"
+        },
+        {
+          "line_no": 4052,
+          "text": "2026-11-07T02:17:02.4406272Z shell: C:\\Program Files\\Git\\bin\\bash.EXE --noprofile --norc -e -o pipefail {0}"
+        },
+        {
+          "line_no": 4072,
+          "text": "2026-11-07T02:17:04.2091544Z shell: C:\\Program Files\\Git\\bin\\bash.EXE --noprofile --norc -e -o pipefail {0}"
+        },
+        {
+          "line_no": 4086,
+          "text": "2026-11-07T02:17:17.6918419Z error: failed to download ghostty-web@github:anomalyco/ghostty-web#e91e38a: HTTP 5xx"
+        },
+        {
+          "line_no": 4152,
+          "text": "2026-11-07T02:17:27.8733947Z Failed to install 1 package"
+        },
+        {
+          "line_no": 4154,
+          "text": "2026-11-07T02:17:27.8874622Z ##[end-action id=__self.__run_2;outcome=failure;conclusion=failure;duration_ms=23670]"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/anomalyco/opencode",
+      "sample": "github.com/anomalyco/opencode/2026-11-07/42328382905-128268923697-unit-(windows)-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 282,
+          "text": "2026-11-07T02:22:33.7239771Z shell: C:\\Program Files\\Git\\bin\\bash.EXE --noprofile --norc -e -o pipefail {0}"
+        },
+        {
+          "line_no": 310,
+          "text": "2026-11-07T02:22:34.8122832Z [command]\"C:\\Program Files\\PowerShell\\7\\pwsh.exe\" -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Unrestricted -Command \"$ErrorActionPreference = 'Stop' ; try { Add-Ty…"
+        },
+        {
+          "line_no": 318,
+          "text": "2026-11-07T02:22:35.3751489Z shell: C:\\Program Files\\Git\\bin\\bash.EXE --noprofile --norc -e -o pipefail {0}"
+        },
+        {
+          "line_no": 334,
+          "text": "2026-11-07T02:22:35.4449077Z shell: C:\\Program Files\\Git\\bin\\bash.EXE --noprofile --norc -e -o pipefail {0}"
+        },
+        {
+          "line_no": 357,
+          "text": "2026-11-07T02:22:37.7330854Z shell: C:\\Program Files\\Git\\bin\\bash.EXE --noprofile --norc -e -o pipefail {0}"
+        },
+        {
+          "line_no": 374,
+          "text": "2026-11-07T02:22:51.1712852Z error: failed to download ghostty-web@github:anomalyco/ghostty-web#e91e38a: HTTP 5xx"
+        },
+        {
+          "line_no": 440,
+          "text": "2026-11-07T02:22:59.4298768Z Failed to install 1 package"
+        },
+        {
+          "line_no": 442,
+          "text": "2026-11-07T02:22:59.4419580Z ##[end-action id=__self.__run_2;outcome=failure;conclusion=failure;duration_ms=21653]"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/anomalyco/opencode",
+      "sample": "github.com/anomalyco/opencode/2026-11-07/42328382966-128270558419-build-node-(windows-x64,-black-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 285,
+          "text": "2026-11-07T02:18:10.6072924Z shell: C:\\Program Files\\Git\\bin\\bash.EXE --noprofile --norc -e -o pipefail {0}"
+        },
+        {
+          "line_no": 307,
+          "text": "2026-11-07T02:18:11.4781523Z [command]\"C:\\Program Files\\PowerShell\\7\\pwsh.exe\" -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Unrestricted -Command \"$ErrorActionPreference = 'Stop' ; try { Add-Ty…"
+        },
+        {
+          "line_no": 315,
+          "text": "2026-11-07T02:18:11.9843874Z shell: C:\\Program Files\\Git\\bin\\bash.EXE --noprofile --norc -e -o pipefail {0}"
+        },
+        {
+          "line_no": 328,
+          "text": "2026-11-07T02:18:12.0429782Z shell: C:\\Program Files\\Git\\bin\\bash.EXE --noprofile --norc -e -o pipefail {0}"
+        },
+        {
+          "line_no": 348,
+          "text": "2026-11-07T02:18:13.6993389Z shell: C:\\Program Files\\Git\\bin\\bash.EXE --noprofile --norc -e -o pipefail {0}"
+        },
+        {
+          "line_no": 362,
+          "text": "2026-11-07T02:18:19.0702196Z error: failed to download ghostty-web@github:anomalyco/ghostty-web#e91e38a: HTTP 5xx"
+        },
+        {
+          "line_no": 428,
+          "text": "2026-11-07T02:18:36.8465536Z Failed to install 1 package"
+        },
+        {
+          "line_no": 430,
+          "text": "2026-11-07T02:18:36.8592226Z ##[end-action id=__self.__run_2;outcome=failure;conclusion=failure;duration_ms=23089]"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/anomalyco/opencode",
+      "sample": "github.com/anomalyco/opencode/2026-11-07/42328511027-128269329233-unit-(windows)-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 125,
+          "text": "  description = 'Preview build failed';"
+        },
+        {
+          "line_no": 126,
+          "text": "} else if (deployFailureReason === 'invalid-token') {"
+        },
+        {
+          "line_no": 127,
+          "text": "  description = 'Preview deploy failed: rotate SURGE_TOKEN';"
+        },
+        {
+          "line_no": 128,
+          "text": "} else if (deployOutcome === 'failure') {"
+        },
+        {
+          "line_no": 129,
+          "text": "  description = 'Preview deploy failed';"
+        },
+        {
+          "line_no": 156,
+          "text": "2026-11-05T21:23:33.2309965Z   BUILD_FAILURE: true"
+        },
+        {
+          "line_no": 158,
+          "text": "2026-11-05T21:23:33.2310480Z   DEPLOY_FAILURE_REASON: "
+        },
+        {
+          "line_no": 165,
+          "text": "2026-11-05T21:23:34.3369025Z \u001b[36;1m  echo \"Preview Build failed.\"\u001b[0m"
+        },
+        {
+          "line_no": 169,
+          "text": "2026-11-05T21:23:34.3370095Z \u001b[36;1m  echo \"Surge Deploy failed.\"\u001b[0m"
+        },
+        {
+          "line_no": 177,
+          "text": "2026-11-05T21:23:34.3526667Z Preview Build failed."
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/ant-design/ant-design",
+      "sample": "github.com/ant-design/ant-design/2026-11-05/42112158369-127542321925-deploy-preview-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 91,
+          "text": "  description = 'Preview build failed';"
+        },
+        {
+          "line_no": 92,
+          "text": "} else if (deployFailureReason === 'invalid-token') {"
+        },
+        {
+          "line_no": 93,
+          "text": "  description = 'Preview deploy failed: rotate SURGE_TOKEN';"
+        },
+        {
+          "line_no": 94,
+          "text": "} else if (deployOutcome === 'failure') {"
+        },
+        {
+          "line_no": 95,
+          "text": "  description = 'Preview deploy failed';"
+        },
+        {
+          "line_no": 122,
+          "text": "2026-11-06T01:40:52.6803845Z   BUILD_FAILURE: false"
+        },
+        {
+          "line_no": 124,
+          "text": "2026-11-06T01:40:52.6804436Z   DEPLOY_FAILURE_REASON: "
+        },
+        {
+          "line_no": 131,
+          "text": "2026-11-06T01:40:53.6502599Z \u001b[36;1m  echo \"Preview Build failed.\"\u001b[0m"
+        },
+        {
+          "line_no": 135,
+          "text": "2026-11-06T01:40:53.6503999Z \u001b[36;1m  echo \"Surge Deploy failed.\"\u001b[0m"
+        },
+        {
+          "line_no": 143,
+          "text": "2026-11-06T01:40:53.6627880Z Preview Build failed."
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/ant-design/ant-design",
+      "sample": "github.com/ant-design/ant-design/2026-11-06/42145405234-127655618560-deploy-preview-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 72,
+          "text": "2026-11-07T03:31:52.7323982Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}"
+        },
+        {
+          "line_no": 82,
+          "text": "2026-11-07T03:31:52.7785901Z   fail-on-cache-miss: false"
+        },
+        {
+          "line_no": 91,
+          "text": "2026-11-07T03:31:53.2263639Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}"
+        },
+        {
+          "line_no": 197,
+          "text": "2026-11-07T03:32:32.3215738Z ##[end-action id=__lhotari_sandboxed-trivy-action.__run;outcome=failure;conclusion=failure;duration_ms=39104]"
+        },
+        {
+          "line_no": 213,
+          "text": "2026-11-07T03:32:32.7346269Z (node:2555) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. C…"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/apache/kafka",
+      "sample": "github.com/apache/kafka/2026-11-07/42334414503-128287987623-scan_jvm-(4.3.1)-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 185,
+          "text": "2026-11-07T03:58:44.0032201Z \u001b[32;1m√ \u001b[0m\u001b[34;1mdisplay_errors=On \u001b[0m\u001b[90;1mAdded to php.ini \u001b[0m"
+        },
+        {
+          "line_no": 186,
+          "text": "2026-11-07T03:58:44.0204703Z \u001b[32;1m√ \u001b[0m\u001b[34;1mdisplay_startup_errors=On \u001b[0m\u001b[90;1mAdded to php.ini \u001b[0m"
+        },
+        {
+          "line_no": 568,
+          "text": "2026-11-07T04:02:47.1154744Z 14) Composer\\Test\\Console\\ApplicationTest::testMissingComposerFileReportsErrorBeforeExiting"
+        },
+        {
+          "line_no": 579,
+          "text": "2026-11-07T04:02:47.1160019Z 16) Composer\\Test\\Downloader\\XzDownloaderTest::testErrorMessages"
+        },
+        {
+          "line_no": 664,
+          "text": "2026-11-07T04:02:47.1209999Z 33) Composer\\Test\\Util\\PlatformTest::testAssertPharMetadataSafeThrowsOnPhp7WithoutOptIn"
+        },
+        {
+          "line_no": 674,
+          "text": "2026-11-07T04:02:47.1217723Z 35) Composer\\Test\\Util\\ZipTest::testThrowsExceptionIfZipExtensionIsNotLoaded"
+        },
+        {
+          "line_no": 680,
+          "text": "2026-11-07T04:02:47.1223309Z \u001b[30;43mTests: 4149\u001b[0m\u001b[30;43m, Assertions: 9128\u001b[0m\u001b[30;43m, Skipped: 35\u001b[0m\u001b[30;43m.\u001b[0m"
+        },
+        {
+          "line_no": 697,
+          "text": "2026-11-07T04:02:47.1369448Z     4x in SuggestsCommandTest::testFailsWhenFilteringByNonInstalledPackages from Composer\\Test\\Command"
+        },
+        {
+          "line_no": 698,
+          "text": "2026-11-07T04:02:47.1370129Z     2x in BumpCommandTest::testBumpFailsOnNonExistingComposerFile from Composer\\Test\\Command"
+        },
+        {
+          "line_no": 699,
+          "text": "2026-11-07T04:02:47.1370774Z     2x in BumpCommandTest::testBumpFailsOnWriteErrorToComposerFile from Composer\\Test\\Command"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/composer/composer",
+      "sample": "github.com/composer/composer/2026-11-07/42336343176-128294031790-CI-(8.5,-windows-latest,-locke-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 65,
+          "text": "2026-11-06T18:33:03.6075400Z shell: /bin/bash --noprofile --norc -e -o pipefail {0}"
+        },
+        {
+          "line_no": 82,
+          "text": "2026-11-06T18:33:03.7272210Z ##[end-action id=__self.__run;outcome=failure;conclusion=failure;duration_ms=133]"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/curl/curl",
+      "sample": "github.com/curl/curl/2026-11-06/42271697475-128077603779-iOS,-CM-Xcode-libressl-arm64-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 7709,
+          "text": "2026-11-06T19:08:18.2745261Z  37 functions found, but only fail 13 (35.14%)"
+        },
+        {
+          "line_no": 7712,
+          "text": "2026-11-06T19:08:18.2862234Z  196 functions found, but only fail 13 (6.63%)"
+        },
+        {
+          "line_no": 7715,
+          "text": "2026-11-06T19:08:18.2906888Z  138 functions found, but only fail 13 (9.42%)"
+        },
+        {
+          "line_no": 7718,
+          "text": "2026-11-06T19:08:18.2959261Z  135 functions found, but only fail 13 (9.63%)"
+        },
+        {
+          "line_no": 7721,
+          "text": "2026-11-06T19:08:18.3000096Z  135 functions found, but only fail 13 (9.63%)"
+        },
+        {
+          "line_no": 7724,
+          "text": "2026-11-06T19:08:18.3035040Z  144 functions found, but only fail 13 (9.03%)"
+        },
+        {
+          "line_no": 7727,
+          "text": "2026-11-06T19:08:18.3048324Z  153 functions found, but only fail 13 (8.50%)"
+        },
+        {
+          "line_no": 7730,
+          "text": "2026-11-06T19:08:18.3080634Z  165 functions found, but only fail 13 (7.88%)"
+        },
+        {
+          "line_no": 7733,
+          "text": "2026-11-06T19:08:18.3106691Z  187 functions found, but only fail 13 (6.95%)"
+        },
+        {
+          "line_no": 7736,
+          "text": "2026-11-06T19:08:18.3146474Z  136 functions found, but only fail 13 (9.56%)"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/curl/curl",
+      "sample": "github.com/curl/curl/2026-11-06/42276644048-128094603262-mingw,-CM-ucrt-x86_64-schannel-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 10095,
+          "text": "2026-11-06T22:49:08.4504965Z  148 functions found, but only fail 13 (8.78%)"
+        },
+        {
+          "line_no": 10098,
+          "text": "2026-11-06T22:49:08.4578896Z  3 functions to make fail"
+        },
+        {
+          "line_no": 10101,
+          "text": "2026-11-06T22:49:08.4594863Z  146 functions found, but only fail 13 (8.90%)"
+        },
+        {
+          "line_no": 10104,
+          "text": "2026-11-06T22:49:08.4620538Z  found no functions to make fail"
+        },
+        {
+          "line_no": 10106,
+          "text": "2026-11-06T22:49:08.4677497Z  291 functions found, but only fail 13 (4.47%)"
+        },
+        {
+          "line_no": 10109,
+          "text": "2026-11-06T22:49:08.4735895Z  26 functions found, but only fail 13 (50.00%)"
+        },
+        {
+          "line_no": 10112,
+          "text": "2026-11-06T22:49:08.4767353Z  199 functions found, but only fail 13 (6.53%)"
+        },
+        {
+          "line_no": 10115,
+          "text": "2026-11-06T22:49:08.4871837Z  found no functions to make fail"
+        },
+        {
+          "line_no": 10117,
+          "text": "2026-11-06T22:49:08.4939843Z  found no functions to make fail"
+        },
+        {
+          "line_no": 10119,
+          "text": "2026-11-06T22:49:08.5008006Z  270 functions found, but only fail 13 (4.81%)"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/curl/curl",
+      "sample": "github.com/curl/curl/2026-11-06/42306698106-128197781404-mingw,-CM-ucrt-x86_64-schannel-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 32,
+          "text": "2026-11-05T14:47:09.9808247Z ##[group]Run failed=false"
+        },
+        {
+          "line_no": 33,
+          "text": "2026-11-05T14:47:09.9808923Z \u001b[36;1mfailed=false\u001b[0m"
+        },
+        {
+          "line_no": 37,
+          "text": "2026-11-05T14:47:09.9811710Z \u001b[36;1m  if [[ \"$result\" == \"failure\" || \"$result\" == \"cancelled\" ]]; then\u001b[0m"
+        },
+        {
+          "line_no": 38,
+          "text": "2026-11-05T14:47:09.9812450Z \u001b[36;1m    echo \"❌ Job '$name' was: $result\"\u001b[0m"
+        },
+        {
+          "line_no": 39,
+          "text": "2026-11-05T14:47:09.9813043Z \u001b[36;1m    failed=true\u001b[0m"
+        },
+        {
+          "line_no": 44,
+          "text": "2026-11-05T14:47:09.9816355Z \u001b[36;1mif [[ \"$failed\" == \"true\" ]]; then\u001b[0m"
+        },
+        {
+          "line_no": 47,
+          "text": "2026-11-05T14:47:10.0611858Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}"
+        },
+        {
+          "line_no": 113,
+          "text": "    \"result\": \"failure\","
+        },
+        {
+          "line_no": 144,
+          "text": "2026-11-05T14:47:10.1714586Z ❌ Job 'test' was: failure"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/erlang/otp",
+      "sample": "github.com/erlang/otp/2026-11-05/42034484582-127317411353-Ruleset-Checker-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 198,
+          "text": "2026-11-02T16:59:41.3295905Z  Exception during run: TypeError: addFile is not a function"
+        },
+        {
+          "line_no": 233,
+          "text": "2026-11-02T16:59:42.5320091Z       if (config.fatal || options.handlesFatalDynamically) throw e;"
+        },
+        {
+          "line_no": 236,
+          "text": "2026-11-02T16:59:42.5321039Z Error: exec: "
+        },
+        {
+          "line_no": 237,
+          "text": "2026-11-02T16:59:42.5321334Z  Exception during run: TypeError: addFile is not a function"
+        },
+        {
+          "line_no": 265,
+          "text": "2026-11-02T16:59:42.5334922Z     at Object.error (/home/runner/work/eslint/eslint/node_modules/shelljs/src/common.js:126:15)"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/eslint/eslint",
+      "sample": "github.com/eslint/eslint/2026-11-02/41486654808-125418691547-Test-(ubuntu-latest,-20.19.0)-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 193,
+          "text": "2026-11-05T17:45:09.8828320Z  Exception during run: TypeError: addFile is not a function"
+        },
+        {
+          "line_no": 229,
+          "text": "2026-11-05T17:45:10.9653993Z       if (config.fatal || options.handlesFatalDynamically) throw e;"
+        },
+        {
+          "line_no": 232,
+          "text": "2026-11-05T17:45:10.9654759Z Error: exec: "
+        },
+        {
+          "line_no": 233,
+          "text": "2026-11-05T17:45:10.9655036Z  Exception during run: TypeError: addFile is not a function"
+        },
+        {
+          "line_no": 262,
+          "text": "2026-11-05T17:45:10.9667723Z     at Object.error (/home/runner/work/eslint/eslint/node_modules/shelljs/src/common.js:126:15)"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/eslint/eslint",
+      "sample": "github.com/eslint/eslint/2026-11-05/42077545734-127421663888-Test-(ubuntu-latest,-26.x)-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 1331,
+          "text": "    \"result\": \"failure\","
+        },
+        {
+          "line_no": 1348,
+          "text": "2026-11-06T11:21:00.0589206Z   allowed-failures: []"
+        },
+        {
+          "line_no": 1353,
+          "text": "2026-11-06T11:21:00.0690530Z ##[start-action display=Decide whether the input jobs succeeded or failed;id=__re-actors_alls-green.outcome]"
+        },
+        {
+          "line_no": 1356,
+          "text": "2026-11-06T11:21:00.0754189Z \u001b[36;1m  \"$INPUT_ALLOWED_FAILURES\" \\\u001b[0m"
+        },
+        {
+          "line_no": 1359,
+          "text": "2026-11-06T11:21:00.0782245Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}"
+        },
+        {
+          "line_no": 1363,
+          "text": "2026-11-06T11:21:00.0785424Z   INPUT_ALLOWED_FAILURES: []"
+        },
+        {
+          "line_no": 1367,
+          "text": "    \"result\": \"failure\","
+        },
+        {
+          "line_no": 1385,
+          "text": "2026-11-06T11:21:00.1371826Z # ❌ Some of the required to succeed jobs failed 😢😢😢"
+        },
+        {
+          "line_no": 1389,
+          "text": "2026-11-06T11:21:00.1377963Z \u001b[31m❌ test → 🔴 failure [required to succeed or be skipped]\u001b[0m"
+        },
+        {
+          "line_no": 1394,
+          "text": "2026-11-06T11:21:00.1523048Z ##[end-action id=__re-actors_alls-green.outcome;outcome=failure;conclusion=failure;duration_ms=83]"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/fastapi/fastapi",
+      "sample": "github.com/fastapi/fastapi/2026-11-06/42209041467-127864581630-test-alls-green-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 508,
+          "text": "2026-11-07T04:32:01.1634274Z [added] engine/src/flutter/testing/smoke_test_failure/BUILD.bazel"
+        },
+        {
+          "line_no": 718,
+          "text": "2026-11-07T04:32:02.1520135Z   if-no-files-found: error"
+        },
+        {
+          "line_no": 736,
+          "text": "2026-11-07T04:32:03.7161132Z ##[group]Run echo \"Error: Code changes detected during the current code freeze.\""
+        },
+        {
+          "line_no": 737,
+          "text": "2026-11-07T04:32:03.7161773Z \u001b[36;1mecho \"Error: Code changes detected during the current code freeze.\"\u001b[0m"
+        },
+        {
+          "line_no": 743,
+          "text": "2026-11-07T04:32:03.7287271Z Error: Code changes detected during the current code freeze."
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/flutter/flutter",
+      "sample": "github.com/flutter/flutter/2026-11-07/42338858318-128301837014-Check-Code-Freeze-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 1265,
+          "text": "2026-11-06T23:50:28.5082850Z //googletest/test:googletest-failfast-unittest                           PASSED in 3.1s"
+        },
+        {
+          "line_no": 1275,
+          "text": "2026-11-06T23:50:28.5093576Z //googletest/test:googletest-throw-on-failure-test                       PASSED in 1.5s"
+        },
+        {
+          "line_no": 1279,
+          "text": "2026-11-06T23:50:28.5098081Z //googletest/test:gtest_assert_by_exception_test                         PASSED in 1.1s"
+        },
+        {
+          "line_no": 1289,
+          "text": "2026-11-06T23:50:28.5108762Z //googletest/test:googletest-break-on-failure-unittest                   FAILED in 1.4s"
+        },
+        {
+          "line_no": 1290,
+          "text": "2026-11-06T23:50:28.5109954Z   D:/_bazel/execroot/_main/bazel-out/x64_windows-dbg/testlogs/googletest/test/googletest-break-on-failure-unittest/test.log"
+        },
+        {
+          "line_no": 1291,
+          "text": "2026-11-06T23:50:28.5116934Z //googletest/test:googletest-list-tests-unittest                         FAILED in 1.1s"
+        },
+        {
+          "line_no": 1293,
+          "text": "2026-11-06T23:50:28.5133779Z //googletest/test:gtest_help_test                                        FAILED in 1.2s"
+        },
+        {
+          "line_no": 1298,
+          "text": "2026-11-06T23:50:28.5145266Z Executed 40 out of 40 tests: 37 tests pass and 3 fail locally."
+        },
+        {
+          "line_no": 1304,
+          "text": "2026-11-06T23:50:29.2925627Z Failed to save: Unable to reserve cache with key setup-bazel-1-win32-x64-bazelisk-, another job may be creating this cache."
+        },
+        {
+          "line_no": 1315,
+          "text": "2026-11-06T23:50:34.2267854Z Failed to save: Unable to reserve cache with key setup-bazel-1-win32-x64-external-rules_java++toolchains+local_jdk-33b8ceb4f3bcc33c895c0dc7d1e122554e0c013240ebdf1c77a4731b…"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/google/googletest",
+      "sample": "github.com/google/googletest/2026-11-06/42314094809-128222372640-Windows-MSVC-2022-Bazel---(c++-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 691,
+          "text": "2026-11-06T23:48:12.3860665Z (23:48:12) WARNING: errors encountered while analyzing target '//googletest/test:googletest-param-test-invalid-name1-test', it will not be built."
+        },
+        {
+          "line_no": 692,
+          "text": "2026-11-06T23:48:12.3861421Z Analysis failed"
+        },
+        {
+          "line_no": 693,
+          "text": "2026-11-06T23:48:12.3861961Z (23:48:12) WARNING: errors encountered while analyzing target '//googletest/test:gtest_skip_environment_check_output_test', it will not be built."
+        },
+        {
+          "line_no": 694,
+          "text": "2026-11-06T23:48:12.3862549Z Analysis failed"
+        },
+        {
+          "line_no": 695,
+          "text": "2026-11-06T23:48:12.3862957Z (23:48:12) WARNING: errors encountered while analyzing target '//:gtest_prod', it will not be built."
+        },
+        {
+          "line_no": 696,
+          "text": "2026-11-06T23:48:12.3863388Z Analysis failed"
+        },
+        {
+          "line_no": 700,
+          "text": "2026-11-06T23:48:12.4528161Z (23:48:12) ERROR: command succeeded, but there were loading phase errors"
+        },
+        {
+          "line_no": 703,
+          "text": "2026-11-06T23:48:12.4739464Z (23:48:12) ERROR: Build did NOT complete successfully"
+        },
+        {
+          "line_no": 704,
+          "text": "2026-11-06T23:48:12.4766141Z (23:48:12) ERROR: Fetching some target dependencies failed with errors: command succeeded, but there were loading phase errors"
+        },
+        {
+          "line_no": 710,
+          "text": "2026-11-06T23:48:14.4051636Z Failed to save: Unable to reserve cache with key setup-bazel-1-linux-x64-bazelisk-, another job may be creating this cache."
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/google/googletest",
+      "sample": "github.com/google/googletest/2026-11-06/42314195946-128222712234-Linux-GCC-libstdc++-(floor)-Ba-failure.log.gz"
+    }
+  ]
+}
