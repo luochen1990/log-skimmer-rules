@@ -1,0 +1,29 @@
+# samples: github.com/rollup/rollup/2026-11-06/42175917013-127754220931-Build-loongarch64-unknown-linu-failure.log.gz
+# 形态: node:net 连接聚合失败 — happy-eyeballs (autoSelectFamily) 全部候选地址 connect 失败时
+# node ≥17 抛 `AggregateError [<ERRNO>]: `(errno 括注, 消息恒空), 后随 node:net 栈
+# (internalConnectMultiple → processTimers)。rollup loongarch64 build job 的 napi 构建
+# 脚本外联超时即此形态 (fn-evidence: sweep run 42292791436, L392, 该 job 全日志唯一失败信号,
+# 零 ##[error] annotation)。
+# 锚选择: 行首 (GHA 时间戳可选) `AggregateError [ERRNO]: ` 字面量 — AggregateError 括注形态
+# 仅在 node:net 全地址 connect 失败路径产生, 成功侧无此签名 (FP 免疫); errno 放开为 [A-Z_]+
+# 连接失败族 (ETIMEDOUT/ECONNREFUSED/EHOSTUNREACH/ENETUNREACH/...), 同一代码路径同失败语义。
+# 与 npm/npm-network-error 互补: 那是 npm CLI 报告层格式 (`npm error code E...`), 本规则是
+# node 运行时裸进程形态; node-uncaught-exception 的锚不含 AggregateError 且 errno 括注形态
+# (`Name [ERRNO]: `) 结构上不匹配其 `Name: ` 交替项。
+# ext 单帧非 loop, 同 node-uncaught-exception 惯例: 只取首帧定位崩溃点, 深栈由消费方
+# read_around 按坐标展开 (全吞致单仓压缩率退化, CI 双测实证)。
+id: node-network-error
+title: 'node 网络错误 (AggregateError [ETIMEDOUT] 等连接 errno 聚合形态)'
+tool: node
+category: infra
+intent: failure
+confidence: high
+context: {before: 0, after: 2}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?AggregateError \[[A-Z_]+\]: '
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?    at \S'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, fn-responder/glm-5.3)'
+  generated-by: {harness: fn-responder, model: glm-5.3}
+  adapter-version: 0.1.0
