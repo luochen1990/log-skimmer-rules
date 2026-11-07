@@ -1,0 +1,20 @@
+# samples: elixir-lang/elixir 42060416744-127363405117 (Upload-release)
+# 锚: gh CLI (go-gh) API 请求失败的裸状态行形态 `HTTP <NNN> (<url>)` — 本样本
+# `HTTP 500 (https://api.github.com/.../releases/assets/708557072)`, gh release
+# upload 撞上服务端 5xx 后进程 exit 1, 单行即完整证据 (端点可见)。任何仓的
+# gh api/release/run 调用撞 4xx/5xx 均可出现。只锚 4xx/5xx 括号形态: 2xx/3xx
+# 不走该错误打印路径 (FP 面窄); 与 gh-api-integration-error 的 `HTTP NNN: <固定
+# 文案>` 形态 (冒号+文案, 词法面不相交) 和 gh-cli-error 的 `gh: ` 前缀族互补。
+id: gh-api-http-error
+title: 'gh CLI API 状态错误行 (HTTP 5xx/4xx (url))'
+tool: gh
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?HTTP [45][0-9]{2} \(https?://[^)]+\)'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: { harness: dg-responder, model: glm-5.3 }
+  adapter-version: 0.1.0

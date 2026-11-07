@@ -1,0 +1,23 @@
+# samples: dotnet/roslyn 41493252445-125441936940 (agent)
+# 锚: [copilot-harness] 模型别名解析失败判词 `[copilot-harness] copilot model alias
+# resolution failed: model-catalog retrieval prevented alias resolution for '<model>'
+# after a bounded refresh — refusing to ...` — model-catalog 获取失败导致模型别名
+# 无法解析, agent 执行以 code 1 终止 (`##[error]Agent execution exited with code 1`),
+# 本样本唯一非注解失败证据。任何仓的 copilot agent-workspace workflow 均可出现。
+# 伴生的过程行 `[copilot-harness] copilot model alias resolution: retrying ... once
+# before failing` 刻意不锚 (重试过程非终态)。与 copilot-harness-attempt-failed
+# (`attempt N failed: exitCode=`) 锚面不相交; 该既有规则的审计评级 (弱锚: 失败
+# 分类位非根因载荷) 不适用于本锚 — 此行携带根因文案 (catalog 获取失败 + 模型名)。
+id: copilot-harness-model-alias-failed
+title: 'copilot-harness 模型别名解析失败 (copilot model alias resolution failed)'
+tool: copilot
+category: infra
+intent: failure
+confidence: medium
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\[copilot-harness\] copilot model alias resolution failed: '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: { harness: dg-responder, model: glm-5.3 }
+  adapter-version: 0.1.0
