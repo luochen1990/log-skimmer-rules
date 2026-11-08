@@ -10,9 +10,11 @@
 #   - 触发面 ready_for_review + synchronize: responder 以 draft 开、CI 绿后 flip ready
 #     (剧本 5c), ready_for_review 是主触发点; synchronize 覆盖 ready 后的新推送
 #     (重新全链验证)。draft 期推送不起跑 (if 过滤) — CI 照常由 lint.yml 判定。
-#   - 门禁脚本从 base.sha checkout 运行 (非 merge ref): PR 内容永远无法影响门禁自身
-#     逻辑 — PR 若夹带 workflow/脚本改动, 跑的仍是 master 版门禁, 且脚本 T3 的路径
-#     断言会拒绝之 (加性-only 只允许 <tool>/<rule>.yaml)。
+#   - 门禁脚本从默认分支最新 checkout 运行 (非 merge ref, 非 base.sha): PR 内容永远
+#     无法影响门禁自身逻辑 — PR 若夹带 workflow/脚本改动, 跑的仍是 master 版门禁,
+#     且脚本 T3 的路径断言会拒绝之 (加性-only 只允许 <tool>/<rule>.yaml)。base.sha
+#     形态已退役: PR 对象的 base.sha 可能停留于开启时刻的旧 master (长龄 PR 实证),
+#     门禁会跑旧版断言 (版本漂移缺陷, 2026-11-08)。
 #   - 评估 CI 时排除自身 check-run (SELF_CHECK_NAME) — 本门禁是 head sha 上的
 #     in-progress check, 不排除会死锁于等待自身终态。
 #   - concurrency 按 PR 号去重: 同 PR 新事件取消旧跑 (旧跑通常处于 CI 轮询态, 取消
@@ -47,13 +49,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          # 从 base.sha 运行门禁 (防 PR 自改门禁代码 — 见文件头「设计要点」)
-          ref: ${{ github.event.pull_request.base.sha }}
+          # 从默认分支最新运行门禁 (防 PR 自改门禁代码 — PR 内容零参与, 见文件头「设计要点」)。
+          # 不用 base.sha: PR 对象的 base.sha 可能停留于 PR 开启时刻的旧 master (长龄 PR 实证,
+          # 门禁会跑旧版断言逻辑 — 版本漂移缺陷, 2026-11-08 存量 gap PR 集体被旧 T1 误拒)。
+          ref: refs/heads/master
       - name: Tier A gate (断言链 + 合并)
         env:
           GH_TOKEN: ${{ github.token }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
           REPO: ${{ github.repository }}
           SELF_CHECK_NAME: tier-a-auto-merge # = 上方 job 名 (T2 排除自身用)
-          GATE_REF: ${{ github.event.pull_request.base.sha }}
-        run: bash .github/scripts/auto-merge.sh
+          # GATE_REF 由 run 行注入 checkout 实际 HEAD — 审计溯源 = 实跑门禁版本
+        run: GATE_REF="$(git rev-parse HEAD)" bash .github/scripts/auto-merge.sh
