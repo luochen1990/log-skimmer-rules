@@ -1,0 +1,18 @@
+# samples: github.com/haskell/haskell-language-server/2026-11-08/42473095072-128708308525-flags-(9.12,-ubuntu-latest)-failure.log.gz, github.com/haskell/haskell-language-server/2026-11-08/42473095131-128708293791-bench_init-(9.12,-ubuntu-lates-failure.log.gz, github.com/haskell/haskell-language-server/2026-11-08/42473095205-128708306982-test-(9.12,-ubuntu-latest,-tru-failure.log.gz
+# 锚: cabal update 的 hackage-security (TUF) 镜像取回失败 `Unexpected response 403 for <url>` — cabal update
+# 随即以退出码 1 终止, 该行是唯一判词 (timestamp.json 403 ×3 实测); before=1 带 Downloading 行。
+# 注: 同日志 GHCup-00130 "not installed" 错误均被 fallback 安装恢复 (成功侧亦可出现), 非失败真因, 刻意不做锚。
+id: cabal-update-unexpected-response
+title: 'cabal update 镜像取回失败 (Unexpected response NNN for)'
+tool: cabal
+category: deps
+intent: failure
+confidence: medium
+context: {before: 1, after: 0}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Unexpected response [0-9]{3} for '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

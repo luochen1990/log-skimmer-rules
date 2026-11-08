@@ -1,0 +1,18 @@
+# samples: github.com/laravel/framework/2026-11-08/42473203987-128708607422-PHP-8.5---PHPUnit-13.0.3---pre-failure.log.gz
+# 锚: PHPUnit 测试进程崩溃判词 `Fatal error: <msg> when running <Class>::<method>` — PHP 进程级致命
+# (本样本 exit 255: Premature end of PHP process) 发生在横幀打印前, FAILURES!/Tests: 汇总均不出现,
+# 该行是唯一失败证据; 行首容忍进度点前缀 (实测 `....Fatal error:`)。成功侧不出现。
+id: phpunit-fatal-error-during-test
+title: 'PHPUnit 进程崩溃判词 (Fatal error: ... when running Class::method)'
+tool: phpunit
+category: test
+intent: failure
+confidence: high
+context: {before: 0, after: 0}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?[.]*Fatal error: .+ when running '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
