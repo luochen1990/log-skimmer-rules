@@ -1,0 +1,19 @@
+# samples: github.com/openssl/openssl/2026-11-08/42477919997-128723291114-check-style-failure.log.gz
+# 锚: argparse 缺值判词 `<prog>: error: argument <flag>: expected one argument` — argparse 原生签名第二形态
+# (与 missing-required-args 同族不同判词, 非仓特有守卫文案), prog 可含空格 (实测 `pre-commit run`)。
+# 任何仓的 Python CLI 误调用 (pre-commit action 传空 --from-ref 触发) 同形; 仅误调用时出现。
+# before=2 带 usage 块尾段; 不锚 usage 行本身 (-h 成功路径亦打印, FP 面)。
+id: python-argparse-expected-argument
+title: 'argparse 缺值判词 (error: argument ...: expected one argument)'
+tool: python-argparse
+category: config
+intent: failure
+confidence: high
+context: {before: 2, after: 0}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?.+: error: argument .+: expected one argument\r?$'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
