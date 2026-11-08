@@ -1,0 +1,24 @@
+# samples: DavidAnson/markdownlint/42335592714-128291673685
+# node:test snapshot 断言失败: 锚为断言失败堆栈的 node 内部帧
+# `at TestContext.snapshotAssertion (node:internal/test_runner/snapshot:N:M)` —
+# 只在快照断言抛错时出现 (成功日志无 assert 堆栈), 跨仓稳定 (node 内建帧,
+# 与被测项目无关); 既有 node-test-fail 锚红 ✖ 用例行, 本形态 (spec reporter
+# 的堆栈详情块, 无 ✖ 行) 不在其射程。ext loop: 缩进续行 (其余堆栈帧 +
+# generatedMessage/code:'ERR_ASSERTION'/actual/expected 详情对象), 无缩进行
+# (##[error] 尾注等) 闭块。context.before=10 回带 actual/expected 字符串 diff
+# 的 +/- 行段 (快照漂移的逐行证据)。
+id: node-test-snapshot-assert-fail
+title: 'node:test 快照断言失败 (snapshotAssertion 堆栈帧 + ERR_ASSERTION 详情块)'
+tool: node-test
+category: test
+confidence: high
+context: {before: 10, after: 0}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )? *at TestContext\.snapshotAssertion \(node:internal/test_runner/snapshot'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )? +\S'
+    loop: true
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

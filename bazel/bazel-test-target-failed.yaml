@@ -1,0 +1,25 @@
+# samples: google/googletest/42314094809-128222372640
+# bazel test 逐 target 失败行: 锚为 `//<label> +FAILED in <dur>s` —
+# bazel test 汇总版式, FAILED 与 PASSED/FLAKY/TIMEOUT 字符级不相交 (成功
+# job 全 PASSED 不命中), 任何 bazel test 的仓同构。容忽视时间戳 (bazel
+# --show_timestamps 的 `(HH:MM:SS) ` 与 CI 平台 `YYYY-MM-DDTHH:MM:SSZ `,
+# 两者可叠加出现, 两段可选前缀串联覆盖)。
+# ext loop: 2+ 空格缩进续行 (该 target 的 test.log 路径行), 下一个无缩进
+# target 行闭块; 多个 FAILED target 级联为相邻块 (A5 合并)。尾部
+# `Executed N ... M fail locally` 汇总行是结论复述, 刻意不锚 (平台注解兜
+# 退出码, 本规则提供的是哪个 target 挂了 + test.log 坐标)。既有 bazel-error
+# 锚 `ERROR: <loc>:`/`no such`, 测试失败行不在其射程。
+id: bazel-test-target-failed
+title: 'bazel test target 失败行 (//label  FAILED in X.Xs + test.log 续行)'
+tool: bazel
+category: test
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(\([0-9]{2}:[0-9]{2}:[0-9]{2}\) )?//[^ ]+ +FAILED in [0-9]+(\.[0-9]+)?s'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(\([0-9]{2}:[0-9]{2}:[0-9]{2}\) )? {2,}\S'
+    loop: true
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
