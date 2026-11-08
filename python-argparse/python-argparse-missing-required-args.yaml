@@ -1,0 +1,20 @@
+# samples: github.com/dotnet/aspnetcore/2026-10-09/37921195198-113789331273-docs_context-failure.log.gz, github.com/dotnet/aspnetcore/2026-10-09/37921222762-113789507176-docs_context-failure.log.gz
+# 锚: Python argparse (stdlib) 缺参判词 `<prog>: error: the following arguments are required: <args>` —
+# argparse 原生签名 (非仓特有守卫文案), 任何仓的 Python CLI 误调用 (workflow 输入缺失/参数拼错) 同形。
+# 仅在误调用时出现, 成功侧不出现 — 全语料扫描: 2 failure / 0 success 含此短语。
+# context.before=3 把前置 usage 块尾段带进输出; 不锚 usage 行本身 (-h/--help 成功路径亦打印 usage, FP 面)。
+# 锚选择依据: 判词行自带缺失参数名, 单锚即完整失败证据; <prog>: 前缀用 \S+ 容忍任意脚本名。
+id: python-argparse-missing-required-args
+title: 'argparse 缺参判词 (error: the following arguments are required:)'
+tool: python-argparse
+category: config
+intent: failure
+confidence: high
+context: {before: 3, after: 0}
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\S+: error: the following arguments are required: '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
