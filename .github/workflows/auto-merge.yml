@@ -1,6 +1,6 @@
 # auto-merge — Tier A 自动合并门禁 (加性-only 安全线)
 #
-# 对 fn-responder 起草的 PR (分支 agent/fn-*) 在 ready 后执行机械断言链:
+# 对 fn/dg 双 responder 起草的 PR (分支 agent/fn-* / agent/gap-*) 在 ready 后执行机械断言链:
 #   全过 → squash 合并 + 删分支 + 审计 comment; 任一失败 → label auto-merge-skipped
 #   + 原因 comment, 不合并。语义复审 (Tier B, LLM) 后置 — 本门禁只做机械可判定的事。
 #
@@ -36,7 +36,8 @@ jobs:
     # head 同仓 (fork 同名分支排除 — check-run 名 == job 名, SELF_CHECK_NAME 须与 job 名一致)。
     # 严格断言 (正则/同仓/CI/加性/样本/规模) 在脚本内逐条复审, 此处不过滤语义。
     if: >-
-      startsWith(github.event.pull_request.head.ref, 'agent/fn-') &&
+      (startsWith(github.event.pull_request.head.ref, 'agent/fn-') ||
+      startsWith(github.event.pull_request.head.ref, 'agent/gap-')) &&
       !github.event.pull_request.draft &&
       github.event.pull_request.base.ref == 'master' &&
       github.event.pull_request.head.repo.full_name == github.repository
