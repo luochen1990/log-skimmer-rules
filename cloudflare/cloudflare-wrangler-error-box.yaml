@@ -1,0 +1,22 @@
+# samples: anomalyco/opencode/2026-11-05/42123107883-127580281554 (deploy)
+# 锚: wrangler (Cloudflare workers CLI) 错误框首行 `┌ Error` — wrangler/workers-sdk
+# 部署失败的统一错误呈现形态 (box-drawing 顶角 + Error 标签), 与既有
+# cloudflare-api-error 的 `A request to the Cloudflare API (...) failed` (API 面
+# 错误) 互补。本样本错误为 worker 路由归属冲突 (`Can't deploy routes that are
+# assigned to another worker.`), 不走 API 错误形态, 既有规则射程外。成功部署不
+# 产此框 (仅错误路径输出), FP 免疫; context.after=6 回带 `│ <message>` 错误
+# 主体与 dash 指引行。
+id: cloudflare-wrangler-error-box
+title: 'wrangler 错误框 (┌ Error)'
+tool: cloudflare
+category: infra
+intent: failure
+confidence: high
+context: {before: 0, after: 6}
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?┌ Error\r?$'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
