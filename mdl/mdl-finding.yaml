@@ -1,0 +1,18 @@
+# samples: github.com/Homebrew/brew/2026-11-04/41825078421-126557626561-docs-failure.log.gz
+# 锚: mdl (ruby markdownlint) 判词行 `<file>:<line>: MDxxx <规则名>` — 工具自身签名,
+# 成功侧 mdl 静默 (有判词才输出), 全语料 1F/0S。锚不取 Homebrew Rakefile 的包装行
+# (`Command failed with status (1): [mdl ...]` / `rake aborted!`) — 那是仓特有 rake 包装,
+# 且 mdl 判词行先于包装行出现, 单锚即含真因。
+id: mdl-finding
+title: 'mdl (markdownlint) 判词行 (file:line: MDxxx 规则名)'
+tool: mdl
+category: lint
+confidence: high
+intent: failure
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*[^:\s]+\.md:[0-9]+: MD[0-9]{3} '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
