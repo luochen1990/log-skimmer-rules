@@ -1,0 +1,23 @@
+# samples: github.com/anomalyco/opencode/2026-11-04/41747900193-126316958610-publish-npm-failure.log.gz
+# 形态: npm publish 透明度日志 (tlog/rekor) 写入失败 — 「npm error code TLOG_CREATE_ENTRY_ERROR」
+# + cause「(409) an equivalent entry already exists in the transparency log with UUID ...」。
+# npm>=10 「npm error」前缀族的新错误码族: 与 npm-network-error (ENNNNN 网络族) /
+# npm-config-error (EUNKNOWNCONFIG 配置族) / npm-missing-script (脚本族) 同前缀不同族 —
+# sigstore 签名侧重发布已存在 entry 的 409, 属 registry 签名基础设施失败, 任何启用
+# provenance/trusted-publishing 的 npm publish 仓同形。锚 = 错误码行 (成功侧 publish 不打
+# 印任何「npm error code」行); context.after=3 带出两行 cause 与 complete-log 路径行。
+# 全语料 FP 扫描: 1 failure / 0 success。
+id: npm-tlog-entry-error
+title: 'npm publish tlog 写入失败 (code TLOG_CREATE_ENTRY_ERROR)'
+tool: npm
+category: infra
+intent: failure
+confidence: high
+context: {before: 0, after: 3}
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?npm error code TLOG_CREATE_ENTRY_ERROR'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: opencode-agent, model: glm-5.3}
+  adapter-version: 0.1.0
