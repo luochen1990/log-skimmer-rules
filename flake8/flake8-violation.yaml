@@ -1,0 +1,18 @@
+# samples: django/django/2026-11-03/41677526885-126062041183-flake8
+# 锚: flake8 违规行 "<path>.py:<line>:<col>: <CODE> <message>" — flake8/pycodestyle 标准输出格式,
+# 成功侧零违规 = 零输出 (结构性 FP 免疫)。CODE 后是空格 (pylint 是 "W391:" 带冒号, 不相交;
+# mypy 是 "x.py:10: error:" 小写, 不相交)。本样本违规行被宿主裹 "##[warning]" 前缀 (无失败关键词,
+# 候选扫描盲区) — DG 缺口的实际证据形态, 锚容错该前缀。
+id: flake8-violation
+title: 'flake8 违规行 (path:line:col: CODE message)'
+tool: flake8
+category: lint
+intent: failure
+confidence: medium
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:##\[(?:warning|error)\])?\S*\.py:[0-9]+:[0-9]+: [A-Z]+[0-9]+ '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
