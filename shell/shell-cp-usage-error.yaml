@@ -1,0 +1,20 @@
+# samples: curl/curl 2026-11-06/42271697475-128077603779 (iOS, CM-Xcode-libressl-arm64)
+# 形态: BSD/macOS cp 的 usage 横幅 `usage: cp [-R [-H | -L | -P]] [-fi | -n] ...` —
+#   CI 脚本 cp 参数误用时的根因行 (exit 64 EX_USAGE; 本样本: Xcode 证书准备脚本)。
+#   usage 横幅只在参数错误时打印, 成功侧无同构行; 只锚 BSD 小写 `usage: cp [-R` 头
+#   (GNU 形态 `Usage: cp [OPTION]...` 大写开头且可出现在 --help 输出, 刻意不锚)。
+#   context.after=1 带出第二行 usage 横幅 (cp [-R ... target_directory)。
+id: shell-cp-usage-error
+title: 'cp 用法错误横幅 (BSD usage: cp [-R ...)'
+tool: shell
+category: infra
+intent: failure
+confidence: medium
+context: { before: 0, after: 1 }
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?usage: cp \[-R \[-H \| -L \| -P\]\]'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: agent-service, model: glm-5.3}
+  adapter-version: 0.1.0

@@ -1,0 +1,22 @@
+# samples: DavidAnson/markdownlint 2026-11-07/42335592714-128291673685 (build ubuntu-latest)
+# 形态: node:test spec reporter 失败行的无色 (非 TTY) 变体 — 兄弟规则 node-test-fail
+#   锚 `\x1b[31m✖` (TTY 红色形怠), 本规则锚色码缺席时的同构失败行:
+#   ① 汇总分节头 `✖ failing tests:`; ② 逐用例/文件失败行 `✖ <name> (N.Nms)` (时长后缀)。
+#   成功侧用例行是 `✔` 前缀 (U+2714, 与 ✖ U+2716 字符级不相交); stan 的 `✖ Ignore`
+#   无时长后缀、无 failing tests: 字面 — 均被形态约束排除。context.after=6 带出
+#   `AssertionError [ERR_ASSERTION]` 首段。与在途 draft PR 的
+#   node-test-snapshot-assert-fail (锚 snapshotAssertion 栈帧) 互补不撞 id。
+id: node-test-fail-plain
+title: 'node:test 失败行 — 无色 (非 TTY) 变体 (✖ failing tests: / ✖ name (N.Nms))'
+tool: node-test
+category: test
+intent: failure
+confidence: medium
+context: { before: 0, after: 6 }
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*(✖ failing tests:\s*$|✖ .+\([0-9]+(\.[0-9]+)?ms\)\s*$)'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: agent-service, model: glm-5.3}
+  adapter-version: 0.1.0
