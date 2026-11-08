@@ -2,9 +2,10 @@
 # auto-merge.sh — Tier A 自动合并门禁: 断言链 SSOT (编排见 .github/workflows/auto-merge.yml)
 #
 # 职责边界: 对单个 PR 执行 6 条机械断言, 全过才合并; 不做语义审查 (LLM 复审 Tier B 后置):
-#   T1 来源       head 为本仓分支 ^agent/fn-<数字> (responder 命名空间; 尾部容忍 -rN 再响应
-#                 形态, 先例 PR #30) 且 base=master 且 head 同仓 (fork 同名分支不认 — 命名空间
-#                 的信任锚是本仓分支的推送权, fork 任何人可仿名)
+#   T1 来源       head 为本仓分支 ^agent/(fn|gap)-<数字> (fn/dg 双 responder 命名空间; 尾部容忍
+#                 -rN 再响应形态, 先例 PR #30) 且 base=master 且 head 同仓 (fork 同名分支不认 —
+#                 命名空间的信任锚是本仓分支的推送权, fork 任何人可仿名)。刻意不收
+#                 agent/gap-manual-* 人工重放形态 — regex 要求 fn-/gap- 后紧跟数字, manual 走人工。
 #   T2 CI 绿      head sha 的全部非自身 check-run (同名取最新一次, 重跑残留以最新为准)
 #                 completed 且 conclusion=success; 空检查集 / 超时 / >100 不可单页枚举 → 拒
 #   T3 加性-only  每个变更文件 status=added 且路径匹配 ^[a-z][a-z0-9-]*/[a-z][a-z0-9-]*\.yaml$
@@ -100,10 +101,10 @@ if [[ "$pr_draft" == "true" ]]; then
 fi
 
 # ---------- T1 来源 ----------
-if [[ "$head_repo" == "$REPO" && "$base_ref" == "master" ]] && [[ "$head_ref" =~ ^agent/fn-[0-9]+ ]]; then
+if [[ "$head_repo" == "$REPO" && "$base_ref" == "master" ]] && [[ "$head_ref" =~ ^agent/(fn|gap)-[0-9]+ ]]; then
   record "T1 来源" "✅" "head=$head_ref (本仓) → $base_ref"
 else
-  record "T1 来源" "❌" "head=$head_ref@$head_repo → $base_ref (要求: 本仓 ^agent/fn-<数字> → master)"
+  record "T1 来源" "❌" "head=$head_ref@$head_repo → $base_ref (要求: 本仓 ^agent/(fn|gap)-<数字> → master)"
   FAILED=1
 fi
 
