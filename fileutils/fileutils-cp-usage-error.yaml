@@ -1,0 +1,22 @@
+# samples: curl/curl 42271697475-128077603779 (iOS Xcode libressl arm64)
+# 锚: BSD cp 用法错误块 `usage: cp [-R ...] source_file target_file` + 续行
+# `       cp [-R ...] ... target_directory` — macOS runner 上 CI 脚本以非法参数调
+# cp 时的固定判词 (exit 64 EX_USAGE), 本样本证书裁剪脚本调用 cp 失败, 工具签名
+# 非仓守卫文案。任何仓的 macOS runner 脚本均可出现。GNU cp 的 `cp: missing file
+# operand` / `Try 'cp --help'` 族词法面不相交; fileutils-cannot-access 锚
+# `cp: cannot ...` 存取失败族, 与用法错误族互补。
+id: fileutils-cp-usage-error
+title: 'cp 用法错误 (usage: cp [-R ...] + 续行)'
+tool: fileutils
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?usage: cp '
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )? +cp [^ ]'
+    loop: true
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: { harness: dg-responder, model: glm-5.3 }
+  adapter-version: 0.1.0

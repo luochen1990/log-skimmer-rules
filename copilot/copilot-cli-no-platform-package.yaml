@@ -1,0 +1,21 @@
+# samples: dotnet/aspnetcore 41876529548-126737319180 (Skill-eval-checks)
+# 锚: GitHub Copilot CLI 启动器的平台包缺失判词 `GitHub Copilot CLI: no platform
+# package found. Reinstall with `npm install -g @github/copilot` to fetch the package
+# for your platform.` — npm 装了 CLI 壳包但平台二进制包未随装 (平台不支持/安装中断),
+# 步骤内首次调用即失败 (exit 1), 本样本唯一非注解失败证据。固定文案工具签名行,
+# 任何仓装 @github/copilot 探活/调用的 CI 均可出现; 锚定前缀 `no platform package
+# found.` 即止 (尾部安装指引不进正则, 跨版本稳态)。与 copilot-cli-error 的
+# `Error: ` 前缀族锚面不相交。
+id: copilot-cli-no-platform-package
+title: 'Copilot CLI 平台包缺失 (GitHub Copilot CLI: no platform package found)'
+tool: copilot
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?GitHub Copilot CLI: no platform package found\.'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: { harness: dg-responder, model: glm-5.3 }
+  adapter-version: 0.1.0

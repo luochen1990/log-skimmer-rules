@@ -1,0 +1,25 @@
+# samples: dotnet/aspnetcore 41894538307-126800991562 (agent), dotnet/aspnetcore 41894658233-126801320345 (agent)
+# 锚: gh-aw (github/gh-aw-actions) agent 会话审计脚本抛出的 Node 未捕获错误行
+# `Error: Copilot session transcript is missing: /tmp/gh-aw/agent-session.jsonl` —
+# agent 执行产物 (session transcript) 缺失, 后处理脚本读转录前的守卫 throw 直接终止
+# 步骤 (exit 1)。任何仓的 copilot agent-workspace workflow 均可出现, 工具签名非仓守卫;
+# 扩展 ` at ` 栈帧行 (定位抛出点)。与 copilot-cli-error (`Error: Model ...`/
+# `Error: No authentication ...` 前缀族) 和 copilot-harness-attempt-failed
+# (`[copilot-harness] attempt N failed`) 锚面均不相交。审计侧: 脚本源码回显中的
+# `throw new Error(`Copilot session transcript is missing: ...`)` 因词序为
+# "new Error(`Copilot" 不含 "Error: Copilot" 不会被误锚。
+id: copilot-session-transcript-missing
+title: 'copilot agent 会话转录缺失 (Error: Copilot session transcript is missing)'
+tool: copilot
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Error: Copilot session transcript is missing: '
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )? +at .+'
+    loop: true
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: { harness: dg-responder, model: glm-5.3 }
+  adapter-version: 0.1.0
