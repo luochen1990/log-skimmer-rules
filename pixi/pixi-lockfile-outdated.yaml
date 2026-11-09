@@ -10,7 +10,7 @@ category: deps
 intent: failure
 confidence: medium
 patterns:
-  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Error: +(?:\\x1b\\[[0-9;]*m)?×(?:\\x1b\\[[0-9;]*m)? lock file not up-to-date with the workspace'
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Error: +(?:\x1b\[[0-9;]*m)?×(?:\x1b\[[0-9;]*m)? lock file not up-to-date with the workspace'
 kind: signal
 context: {before: 5, after: 0}
 attribution:

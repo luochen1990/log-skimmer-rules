@@ -1,6 +1,6 @@
 # samples: github.com/uutils/coreutils/2026-11-08/42510008154-128820805224-Run-GNU-tests-(SELinux)-failure.log.gz
 # 锚: lima (limactl) 下载 VM 镜像失败的 logrus fatal 判词 `time=... level=fatal
-# msg="failed to download \<url>\: ...` — 反引号 URL 形态是 lima pkg/downloader 签名
+# msg="failed to download `<url>`: ..." — 反引号 URL 形态是 lima pkg/downloader 签名
 # (步骤上下文: limactl start template:fedora)。该行不含 lima 字样, 归属由反引号 URL +
 # logrus 外壳组合判定; level=fatal 保证成功侧恒无。全语料 1F/0S。
 id: lima-image-download-fatal
