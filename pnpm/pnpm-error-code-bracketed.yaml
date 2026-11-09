@@ -1,0 +1,21 @@
+# samples: github.com/withastro/astro/2026-11-09/42558780849-128970347351-Build:-ubuntu-latest-failure.log.gz, github.com/withastro/astro/2026-11-09/42558780878-128970346846-astro-check-failure.log.gz, github.com/withastro/astro/2026-11-09/42558780934-128970347487-codspeed-(2-4)-failure.log.gz
+# 锚: pnpm 错误码行彩色括号形 [ERR_PNPM_<CODE>] <message> — pnpm install 失败判词
+# (本批: ERR_PNPM_OUTDATED_LOCKFILE, frozen-lockfile 与 package.json 漂移)。CI 强彩
+# 输出下 ANSI 色码夹在 [/码/]/空格各 token 间, 逐位 (?:\x1b\[[0-9;]*m)* 容差
+# (同 pnpm-elifecycle-exit 手法)。与 pnpm-error-tree (Error: ERR_PNPM_X 纯文本树
+# 形) 互补, 本规则收括号消息形。after 7 带出 "Failure reason:" 与 mismatch 明细头。
+# 全语料扫描: ERR_PNPM_ 族 14 文件全 failure / 0 success — 错误码即失败证据。
+id: pnpm-error-code-bracketed
+title: 'pnpm 错误码行 ([ERR_PNPM_*] 消息形, 含 ANSI 色)'
+tool: pnpm
+category: deps
+intent: failure
+confidence: high
+context: {before: 0, after: 7}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*\[(?:\x1b\[[0-9;]*m)*ERR_PNPM_[A-Z_]+(?:\x1b\[[0-9;]*m)*\](?:\x1b\[[0-9;]*m)* '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

@@ -1,0 +1,24 @@
+# samples: github.com/redis/redis/2026-11-09/42551860747-128954772364-build-old-chain-jemalloc-failure.log.gz, github.com/swiftlang/swift-syntax/2026-11-09/42554794236-128958071788-Soundness---Shell-check-failure.log.gz
+# 锚: apt 依赖解析失败判词 E: Unable to correct problems, you have held broken packages.
+# — apt-get install 无法满足依赖树时的收尾错误行 (exit 100), 任何仓的 deb 系容器 CI
+# 均可出现, 非仓特有守卫文案。两样本同因链: archive.ubuntu.com 网络超时 → 索引过期 →
+# gnupg2/git 依赖不满足 → 判词行。before 6 带出 "The following packages have unmet
+# dependencies:" 与具体 Depends 列表 (真因定位)。
+# 取舍: 上游 W: Failed to fetch / Err:N ... InRelease 网络行刻意不锚 — apt-get
+# update 部分失败后 apt 用旧索引继续 (两样本 run 未死于此), W: 行在恢复场景 success
+# 侧同构出现, 锚它违 FP 免疫优先。
+# 全语料扫描: 判词行 2 文件 / 0 success。
+id: apt-held-broken-packages
+title: 'apt 依赖不可解 (E: Unable to correct problems, held broken packages)'
+tool: apt
+category: deps
+intent: failure
+confidence: high
+context: {before: 6, after: 0}
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?E: Unable to correct problems, you have held broken packages\.'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
