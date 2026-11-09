@@ -1,0 +1,19 @@
+# samples: github.com/pandas-dev/pandas/2026-11-08/42490186822-128760652849-Clang-(ASAN-UBSAN)-failure.log.gz
+# 锚: pixi `pixi install --locked` 失败判词 `Error: × lock file not up-to-date with the
+# workspace` (miette 样式 × 前缀, ANSI 可选) — 任何仓的 pixi --locked CI 锁过期均此形态;
+# context before:5 带出紧邻真因 INFO `lock_file::outdated: ... could not be satisfied`。
+# 全语料 1F/0S; category deps 同 nix-lockfile-missing-node (锁文件完整性域)。
+id: pixi-lockfile-outdated
+title: 'pixi 锁文件与 workspace 不同步 (Error: × lock file not up-to-date ...)'
+tool: pixi
+category: deps
+intent: failure
+confidence: medium
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Error: +(?:\x1b\[[0-9;]*m)?×(?:\x1b\[[0-9;]*m)? lock file not up-to-date with the workspace'
+kind: signal
+context: {before: 5, after: 0}
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

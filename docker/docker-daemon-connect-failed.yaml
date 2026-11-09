@@ -1,0 +1,18 @@
+# samples: github.com/openssl/openssl/2026-11-08/42492402881-128767429158-vs2013-(amd64,-VC-WIN64A-MSVC2-failure.log.gz, github.com/swiftlang/swift-syntax/2026-11-08/42440452601-128608363082-Run-tests-using-swift-syntax-d-failure.log.gz
+# 锚: docker CLI 在 daemon 层不可达时的判词 `failed to connect to the docker API at
+# <endpoint>;` — npipe (Windows) 与 unix socket 同前缀, 任何仓的 CI 里 docker 命令在
+# daemon 未运行时必打此行; 成功侧恒无 (可达才可能成功), 全语料 2F/0S。与 docker-build-failed
+# (buildkit 判词) / docker-registry-pull-failed (registry 交互) 互斥: 本形态到不了后两者。
+id: docker-daemon-connect-failed
+title: 'docker CLI 无法连接 daemon (failed to connect to the docker API at ...)'
+tool: docker
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?failed to connect to the docker API at '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
