@@ -1,0 +1,18 @@
+# samples: astral-sh/ruff 2026-11-10 42743916367-Generate-diagnostic-diff-repor, 42744625726-同
+# 形态: astral-sh/ecosystem-analyzer (公开工具, main.py:651) 诊断 diff 门禁的回归判词
+# 「Error: New project failures introduced in: <projects>」— ruff 对生态项目跑诊断
+# diff, 出现新增失败项目即退出非零。跨仓工具签名, 任何消费 ecosystem-analyzer 的仓
+# 同构 (非 ruff 仓特有守卫)。FP: 全语料 456 success 样本 0 命中。
+id: ecosystem-analyzer-new-project-failures
+title: 'ecosystem-analyzer 诊断回归 (Error: New project failures introduced in)'
+tool: ecosystem-analyzer
+category: test
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Error: New project failures introduced in: '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
