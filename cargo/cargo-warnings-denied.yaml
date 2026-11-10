@@ -1,0 +1,18 @@
+# samples: astral-sh/ruff/42656801320-129297925934, astral-sh/ruff/42708999565-129473505742 (同形第 3 例: 42645236356)
+# 形态: cargo/clippy 警告被构建配置拒绝 — 两行工具签名 (均为 cargo 自身输出, error: 前缀
+# 仅在 deny 失败时出现): `error: `<crate>` (<target>) generated N warnings` 汇总行 +
+# `error: warnings are denied by `build.warnings` configuration` 判决行。成功侧同构行为
+# `warning:` 前缀 (警告未被拒), 不在锚面; 语料 success 侧 "warnings are denied" 零命中。
+id: cargo-warnings-denied
+title: cargo 警告被拒失败 (generated N warnings / warnings are denied by build.warnings)
+tool: cargo
+category: lint
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*error(?:\x1b\[[0-9;]*m)*: (?:\x1b\[[0-9;]*m)*(`[^`]+` \([^)]*\) generated [0-9]+ warnings?|warnings are denied by `build\.warnings` configuration)'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: { harness: dg-responder, model: glm-5.3 }
+  adapter-version: 0.1.0

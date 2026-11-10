@@ -1,0 +1,19 @@
+# samples: curl/curl/42708661974-129472105637, dotnet/roslyn/42709486634-129474928130
+# 形态: GitHub Copilot PR reviewer (autofind.js harness) 创建 PR review 请求失败的根因行
+# `Error creating PR review request: HttpError: <理由> - https://docs.github.com/rest (…)`
+# — 跨仓同构 (curl 401 Bad credentials / roslyn 403 Resource not accessible by integration,
+# octokit HttpError dump 随后)。与既有 copilot-* 规则锚面不相交。
+id: copilot-pr-review-request-error
+title: 'copilot PR reviewer 请求创建失败 (Error creating PR review request: HttpError)'
+tool: copilot
+category: infra
+intent: failure
+confidence: high
+context: {before: 0, after: 3}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Error creating PR review request: HttpError: '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: { harness: dg-responder, model: glm-5.3 }
+  adapter-version: 0.1.0
