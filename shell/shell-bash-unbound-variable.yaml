@@ -1,0 +1,20 @@
+# samples: haskell/cabal 2026-11-10 42754045065-ghcup, 42758036909-ghcup
+# 形态: bash set -u 语义下引用未绑定变量的运行时错误「<script>: line N: $VAR:
+# unbound variable」— bash 自打签名, 任何仓的 shell 脚本同构 (cabal release 编排
+# ghcup_yaml.bash 的 $4 未传 — 位置参数也是合法形态, 首字符放开到字母/数字/下划线)。
+# 前置路径任意 (相对/绝对), 锚收尾段判词; 引擎候选 (digest-mismatch: error /
+# shell: 行) 为 download-artifact 配置回显, 是良性噪音。
+# FP: 全语料 456 success 样本 0 命中。
+id: shell-bash-unbound-variable
+title: 'bash 未绑定变量 (<script>: line N: $VAR: unbound variable)'
+tool: shell
+category: unknown
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\S+: line [0-9]+: \$[A-Za-z0-9_][A-Za-z0-9_]*: unbound variable'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

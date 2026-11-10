@@ -1,0 +1,19 @@
+# samples: haskell/cabal 2026-11-10 42811680135-Changelogs
+# 形态: changelog-d (GHC 生态 changelog 校验器) 解析层失败「error: Failed to parse
+# changelog.d/<file>: Failed reading: Error in $.prs[0]: ...」(aeson 路径判词)。
+# 与 cabal-changelog-validation-failed (锚 Validation error(s) in entry, 条目校验层)
+# 互补 — 那条规则不匹配本形态 (Failed to parse 前缀), 本规则收解析层。
+# FP: 全语料 456 success 样本 0 命中。
+id: cabal-changelog-parse-failed
+title: 'changelog-d 解析失败 (error: Failed to parse ... Failed reading: Error in $)'
+tool: cabal
+category: lint
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?error: Failed to parse \S+: Failed reading: Error in \$'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
