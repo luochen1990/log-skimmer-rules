@@ -1,0 +1,22 @@
+# samples: github.com/haskell/cabal/2026-11-09/42610427949-129137116511-Changelogs-failure.log.gz
+# 锚: changelog-d 条目解析失败 `error: Failed to parse <entry>: Failed reading: YAML parse exception
+#   at line L, column C:` — 条目 YAML 语法坏时 changelog-d 收尾必打; yaml 库错误细节伴生行 (如
+#   `mapping values are not allowed in this context`) 由 context.after 带出。`Failed reading: YAML
+#   parse exception` 是 Haskell libyaml 绑定的定型文案, 与 changelog-d 的 `error: Failed to parse `
+#   包装组合后跨仓特异 (changelog-d 用户生态同构)。既有 cabal-changelog-validation-failed 锚
+#   `Validation error(s) in entry` (语义校验族), 解析族不在射程 — 近失变体补充。成功侧无此行;
+#   全语料唯一命中本样本。
+id: cabal-changelog-parse-failed
+title: 'changelog-d 条目解析失败 (YAML parse exception)'
+tool: cabal
+category: lint
+intent: failure
+confidence: high
+context: {before: 0, after: 1}
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?error: Failed to parse \\S+: Failed reading: YAML parse exception at line [0-9]+, column [0-9]+:'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

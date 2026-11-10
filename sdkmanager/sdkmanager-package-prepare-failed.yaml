@@ -1,0 +1,21 @@
+# samples: github.com/libuv/libuv/2026-11-09/42635001276-129220715114-build-android-failure.log.gz
+# 锚: sdkmanager SDK 包准备失败 `Warning: An error occurred while preparing SDK package <包名>: <原因>`
+#   — 仓库下载损坏/5xx 时 sdkmanager (com.android.sdklib) 必打, 原因伴生 (`Premature EOF.` /
+#   java.io.IOException 栈) 紧随, context.after 带出首行。跨仓复现实证: mockito/mockito
+#   38290548304-114949316440 (Platform 33, HTTP 502) 同锚同形态。Warning 标签是 sdkmanager 自身
+#   版式 (其收尾另有 `"Install X (revision N)" failed.` 判决行), 失败 job 内恒随安装步骤失败;
+#   全语料仅 2 失败样本命中, 零成功样本 — FP 免疫。
+id: sdkmanager-package-prepare-failed
+title: 'sdkmanager SDK 包准备失败 (preparing SDK package ... failed)'
+tool: sdkmanager
+category: infra
+intent: failure
+confidence: medium
+context: {before: 0, after: 1}
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Warning: An error occurred while preparing SDK package [^:]+: '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
