@@ -1,0 +1,19 @@
+# samples: aquasecurity/trivy 2026-11-10 42790360280-Build-Test-(macos-latest)
+# 形态: goreleaser v2 build pipe 超时判词「⨯ build timed out after 1h30m1s ...
+# error=context deadline exceeded」(--timeout 预算耗尽, Go context 过期判词同行)。
+# 锚不带 ^: 行首 ANSI 彩码 + ⨯ 弹头, error= 前后均夹色码 — 双判词 (timeout 时长 +
+# context deadline exceeded) 同行共现是 goreleaser 超时 pipe 专属; 良性 • 行
+# (snapshot ignoring errors ... error=git doesn't contain any tags) 无 timed out 判词。
+id: goreleaser-pipe-timeout
+title: 'goreleaser pipe 超时 (build timed out after ... error=context deadline exceeded)'
+tool: goreleaser
+category: build
+intent: failure
+confidence: high
+patterns:
+  - regex: 'timed out after \S+.{0,60}context deadline exceeded'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
