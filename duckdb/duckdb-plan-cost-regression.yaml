@@ -1,0 +1,19 @@
+# samples: duckdb/duckdb/42648368431-129289697619, duckdb/duckdb/42672649977-129437395344
+# 形态: duckdb scripts/plan_cost_runner.py 基准回归门横幅
+# `===========     REGRESSIONS DETECTED     ===========` + 随后 Query/Old/New cost 对比块
+# (违规值: 哪个查询回归、代价变化 — context 带出)。成功侧同构横幅为
+# `NO DIFFERENCES DETECTED`, 不在锚面; 语料 success 侧零命中。
+id: duckdb-plan-cost-regression
+title: duckdb plan cost 基准回归 (REGRESSIONS DETECTED)
+tool: duckdb
+category: test
+intent: failure
+confidence: high
+context: {before: 1, after: 7}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?=+ +REGRESSIONS DETECTED +=+$'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: { harness: dg-responder, model: glm-5.3 }
+  adapter-version: 0.1.0
