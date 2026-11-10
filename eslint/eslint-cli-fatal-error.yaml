@@ -1,0 +1,20 @@
+# samples: eslint/eslint 2026-11-10 42781130886-Verify-Files, 42781951642-Verify-Files
+# 形态: eslint v9+ CLI 致命错误横幅「Oops! Something went wrong! :(」+「ESLint: <ver>」
+# + 解释段 (本批: lint 目标 glob 全被 ignore 的配置错误); 外层 shelljs「Error: exec:」
+# 回显同文 (重复命中, 呈现层合并)。既有 eslint 规则收 offense 行/stylish 摘要/生态联测,
+# fatal 横幅不在射程。横幅是 eslint fatal 退出专属, success 侧无此串 (全语料 0 命中)。
+# category: fatal 因跨 config 解析/glob 误配/内部错误多因 → unknown (宁缺勿错)。
+id: eslint-cli-fatal-error
+title: 'eslint CLI 致命错误 (Oops! Something went wrong!)'
+tool: eslint
+category: unknown
+intent: failure
+confidence: high
+context: {before: 0, after: 8}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Oops! Something went wrong!'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

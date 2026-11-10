@@ -1,0 +1,21 @@
+# samples: anomalyco/opencode 2026-11-10 42778991817-build-(linux), 42800286280-build-(windows), 42809055584-build-(windows)
+# 形态: node 运行时未捕获异常的 errno 括注形「TypeError [ERR_INVALID_ARG_TYPE]: ...」
+# (opencode build-node.ts 包装 vite build 后 node 崩溃)。node-uncaught-exception 的锚
+# (错误名直连冒号) 结构上不含 [ERR_*] 中缀; node-network-error 仅收 AggregateError
+# 同形 — 本规则补单错误名 + [ERR_*] 形态。AssertionError [ERR_ASSERTION] 归
+# node-test 族, 锚不含 AssertionError。FP: 全语料 456 success 样本 0 命中。
+id: node-error-errno-bracket
+title: 'node 未捕获异常 errno 括注形 (TypeError [ERR_*]: ...)'
+tool: node
+category: unknown
+intent: failure
+confidence: high
+context: {before: 0, after: 2}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(SyntaxError|TypeError|ReferenceError|RangeError|URIError|EvalError) \[ERR_[A-Z_]+\]: '
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?    at \S'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
