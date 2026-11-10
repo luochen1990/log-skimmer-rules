@@ -1,0 +1,22 @@
+# samples: github.com/gradle/gradle/2026-11-09/42590643781-129071141152-submit-gradle-failure.log.gz
+# 锚: gradle 多失败汇总横幅 `FAILURE: Build completed with N failures.` — 既有 gradle-build-failed
+#   锚 `FAILURE: Build failed with an exception.` (单失败形态) 的近失变体: 聚合/配置缓存失败时
+#   gradle 打多失败横幅 + `N: Task failed with an exception.` 编号分节。横幅仅在 ≥1 失败时打印,
+#   成功侧恒 `BUILD SUCCESSFUL`; 全语料唯一命中本样本 — FP 免疫。
+# 扩展 (loop): 编号分节头 / `-{5,}`|`={5,}` 分隔线 / `* Xxx` 节头 / `> ` 与 `- ` 条目 / 缩进行 /
+#   空行 / 失败主句 col-0 prose (本样本实测: 配置缓存问题与插件应用异常两分节族, 逐词枚举不放宽)。
+id: gradle-build-completed-failures
+title: 'gradle 多失败汇总横幅 (FAILURE: Build completed with N failures)'
+tool: gradle
+category: build
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?FAILURE: Build completed with [1-9][0-9]* failures?\.'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?([0-9]+: Task failed with an exception\.|[-=]{5,}|\* [A-Za-z].*|> .*|- .*|\s.*|\[Incubating\].*|BUILD FAILED in .*|[0-9]+ actionable tasks: .*|Deprecated Gradle features.*|You can use .--warning-mode all..*|Configuration cache problems found.*|[0-9]+ problems were found.*|plus [0-9]+ more problems.*|See the complete report at .*|For more on this, please refer to .*|An exception occurred .*|Build file .*)?$'
+    loop: true
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
