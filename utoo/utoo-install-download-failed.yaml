@@ -1,0 +1,19 @@
+# samples: ant-design/ant-design 2026-11-10 42774689442-test-coverage, 42774707851-test-coverage, 42774713210-test-coverage, 42774725331-test-react-latest-dist
+# 形态: utoo (ant 系 monorepo 工具链, CLI ut, utooland/setup-utoo) install 阶段下载
+# 失败判词「error: Failed to install packages: Download failed after retries: <url>:
+# HTTP <code>」+ 尾随「Full logs saved to: /tmp/utoo-*.log」。与 bun-install-download-fail
+# 的锚 (error: failed to download, 小写) 字符级不相交。FP: 全语料 456 success 样本 0 命中。
+id: utoo-install-download-failed
+title: 'utoo 包安装下载失败 (error: Failed to install packages: Download failed after retries)'
+tool: utoo
+category: deps
+intent: failure
+confidence: high
+context: {before: 0, after: 1}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?error: Failed to install packages: '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
