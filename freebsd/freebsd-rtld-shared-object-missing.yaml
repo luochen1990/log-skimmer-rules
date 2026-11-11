@@ -1,0 +1,20 @@
+# samples: curl/curl 43029014975-130550910044 (dragonflybsd CM), 43028809936-130550220258 (dragonflybsd AM, 语料佐证样本, 非本拍工作集)
+# 锚: FreeBSD 系 (FreeBSD/DragonFly) 运行时动态链接器 rtld 的标准报错
+# `Shared object "libX.so.N" not found, required by "prog"` — 目标二进制的共享库
+# 依赖在 VM 环境缺失 (本组为 dragonflybsd 镜像 cmake 依赖 libssl.so.17 版本错配)。
+# BSD 系 VM CI (dragonflybsd/freebsd matrix) 任何仓均可复现, OS 级工具签名非仓
+# 守卫文案。该错误出现即目标命令启动失败, 语料零 success 命中, FP 免疫。同族
+# Linux glibc 形态 `error while loading shared libraries:` 锚面不相交。
+id: freebsd-rtld-shared-object-missing
+title: 'FreeBSD rtld 共享库缺失 (Shared object "..." not found, required by "...")'
+tool: freebsd
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Shared object "[^"]+" not found, required by "[^"]+"'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
