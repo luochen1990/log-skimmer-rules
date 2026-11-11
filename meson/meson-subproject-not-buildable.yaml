@@ -1,0 +1,21 @@
+# samples: github.com/pandas-dev/pandas/2026-11-10/42921536022-130197330162-macos-15-py311-failure.log.gz
+# meson wrap 子项目不可构建结论行 `ERROR: Subproject <name> is buildable: NO`
+# — 任何 meson 项目 wrap 依赖获取失败 (本拍: HTTP 502 拉 tarball) 时同形态。
+# 锚取 Subproject 结论行而非其后 `<path>:<r>:<c>: ERROR: could not get <url>`
+# 定位行 (结论行是 meson 对外汇总形态, 定位行由 context.after=3 带出, 含
+# URL 根因); 2 空格缩进容忽视 (meson 输出嵌在 pip 构建子进程回显内)。
+# 成功 job 无该行 (全语料 459 成功样本 0 命中)。既有规则无 meson 目录。
+id: meson-subproject-not-buildable
+title: 'meson 子项目不可构建 (ERROR: Subproject ... is buildable: NO)'
+tool: meson
+category: deps
+intent: failure
+confidence: high
+context: {before: 0, after: 3}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )? {0,2}ERROR: Subproject \S+ is buildable: NO$'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
