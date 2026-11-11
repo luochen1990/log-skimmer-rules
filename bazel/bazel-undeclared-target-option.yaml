@@ -1,0 +1,24 @@
+# samples: github.com/protocolbuffers/protobuf/2026-11-11/42928587547-130221380151-Python---MacOS-Pure-3.12-failure.log.gz, github.com/protocolbuffers/protobuf/2026-11-11/42928620239-130221481603-Python---MacOS-Pure-3.12-failure.log.gz
+# bazel 命令行目标/选项未声明两形态: `ERROR: Skipping <label>: no such target
+# ... not declared in package ...` (target 过滤串解析失败) 与 `ERROR: <label> ::
+# Error loading option <label>: no such target ...` (--define/flag 加载失败) —
+# 目标改名/删除后 CI 引用悬空时任何 bazel 仓同构。既有 bazel-error 锚要求
+# no such 紧随 `ERROR: ` 前缀, 这两形态 (Skipping 前缀 / label :: 中缀) 在其
+# 射程外; 刻意锚 Skipping+no such 与 :: Error loading option 双特征短语而非
+# 裸 `ERROR: ` (与既有规则同 FP 纪律; 成功 job 无 ERROR: 前缀行, 全语料 459
+# 成功样本 0 命中)。context.before=1 回带 `WARNING: Target pattern parsing
+# failed.` (Skipping 形态前导)。
+id: bazel-undeclared-target-option
+title: 'bazel 目标/选项未声明 (ERROR: Skipping ... no such target / :: Error loading option)'
+tool: bazel
+category: build
+intent: failure
+confidence: high
+context: {before: 1, after: 0}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(ERROR: Skipping \S+: no such (target|package|rule|label)|ERROR: \S+ :: Error loading option)'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
