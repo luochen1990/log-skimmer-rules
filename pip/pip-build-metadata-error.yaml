@@ -1,0 +1,22 @@
+# samples: github.com/pandas-dev/pandas/2026-11-10/42921536022-130197330162-macos-15-py311-failure.log.gz
+# pip PEP 517 构建后端失败: 小写 `error: ` 前缀两判词 —
+# `error: subprocess-exited-with-error` (头) / `error: metadata-generation-failed`
+# (尾) — 任何 Python 项目构建后端 (meson/setuptools/...) 失败时同形态出现。
+# 既有 pip-install-error 锚 `ERROR: Could not (find|install)` 是大写前缀的依赖
+# 解析失败, 与本形态不相交。context.after=5 带出 `× Preparing editable metadata
+# ... did not run successfully` 树 (exit code / 根因指向); 2 空格缩进容忽视
+# (嵌在子进程回显内)。成功 job 零出现 (全语料 459 成功样本 0 命中)。
+id: pip-build-metadata-error
+title: 'pip 构建元数据失败 (error: subprocess-exited-with-error / metadata-generation-failed)'
+tool: pip
+category: build
+intent: failure
+confidence: high
+context: {before: 0, after: 5}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )? {0,2}error: (subprocess-exited-with-error|metadata-generation-failed)$'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
