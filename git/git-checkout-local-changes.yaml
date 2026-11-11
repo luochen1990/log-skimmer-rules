@@ -1,0 +1,26 @@
+# samples: astral-sh/ruff 42980039077-130388081345, 42980039122-130388081402, 42980039485-130390227608, 42981244357-130391926258, 42981244542-130391926626, 42981244832-130392079952
+# 锚: git checkout/switch 脏工作区拒绝切换的标准判词 `error: Your local changes
+# to the following files would be overwritten by checkout:` — git 自身签名, 任何仓
+# 的 CI 在脏工作区切分支时同形 (ruff diff 工作流 cargo build 改写 Cargo.lock 后
+# checkout old_commit 即触发)。语料 1593 样本中 6 命中全 failure、零 success 命中
+# (该错误出现即步骤失败, FP 免疫)。扩展: tab 缩进文件名列表 (loop), 收尾
+# `Please commit your changes or stash them before you switch branches.` 与
+# `Aborting`。merge 变体 (`by merge:`) 语料无证据暂不收录。与既有 git-* 七规则
+# 锚面不相交 (push/am/fetch/http/diff-drift 各族)。
+id: git-checkout-local-changes
+title: 'git checkout 脏工作区拒绝切换 (error: Your local changes ... would be overwritten by checkout)'
+tool: git
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?error: Your local changes to the following files would be overwritten by checkout:'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\t\S'
+    loop: true
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Please commit your changes or stash them before you switch branches\.'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Aborting'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

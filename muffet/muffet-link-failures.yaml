@@ -1,0 +1,24 @@
+# samples: phpstan/phpstan 43025695935-130539723489, 43028197408-130548154880, 43028779515-130550116407, 43033325601-130565663959, 43035075059-130571642927
+# 锚: muffet (raviqqe/muffet, Go fasthttp 链接检查器) 的断链报告行 — 页面 URL 行
+# 下的 `\t<状态码|错误>\t<链接>` 形态 (`--color=never` 时): `\t500\t<url>` 与
+# `\terror when dialing <ip>:443: fasthttp: dialing to the given tcp address timed
+# out\t<url>`。成功侧零断链时 muffet 无任何输出 (语料 1593 样本 `\t[0-9]{3}\thttp`
+# 形态仅本组 failure 样本命中, FP 免疫); 锚限两种已证实形态 (状态码行 / fasthttp
+# 拨号错误行), 其余 muffet 错误变体待证据。context.before=1 回带所属页面 URL 行。
+# 链接检查无独立 category 枚举, 沿 linkinator-broken-links 先例打 unknown。
+id: muffet-link-failures
+title: 'muffet 断链报告行 (tab 状态码/错误 + tab + URL)'
+tool: muffet
+category: unknown
+intent: failure
+confidence: high
+context: {before: 1, after: 0}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\t(?:error when dialing [^:\t]+:[0-9]+: fasthttp: [^\t]*|[0-9]{3})\thttp'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\t[^\t]+\thttp'
+    loop: true
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
