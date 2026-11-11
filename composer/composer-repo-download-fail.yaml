@@ -1,0 +1,22 @@
+# samples: github.com/protocolbuffers/protobuf/2026-11-11/42951435378-130296438068-PHP---Linux-aarch64-failure.log.gz
+# composer 仓库元数据下载失败: 锚 `<https-url> could not be fully loaded (The "<url>`
+# — composer update/install 拉取 packagist (或私有 repo) 元数据失败的第一判词,
+# 任何 PHP 项目 composer 网络故障同构 (本拍: Network is unreachable)。该判词
+# 降级 warning 后 composer 可继续走缓存, 理论上成功 job 可出现 — 本拍全语料
+# 459 成功样本 0 命中, confidence=medium 留观测余量; context.after=10 带出
+# `In RemoteFilesystem.php line N:` 异常块与 usage 尾巴 (异常中止 = 退出码 1
+# 的证据), 消费方可辨「warning 后继续」与「异常中止」两形态。
+id: composer-repo-download-fail
+title: 'composer 仓库元数据下载失败 (could not be fully loaded / RemoteFilesystem 异常)'
+tool: composer
+category: deps
+intent: failure
+confidence: medium
+context: {before: 0, after: 10}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?https?://\S+ could not be fully loaded \(The "'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
