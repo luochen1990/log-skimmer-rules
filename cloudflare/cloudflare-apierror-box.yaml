@@ -1,0 +1,22 @@
+# samples: anomalyco/opencode 42998691435-130449340316 (data-deploy)
+# 锚: Cloudflare CLI (cf/wrangler 系) API 错误框首行 `┌ APIError` — 与既有
+# cloudflare-wrangler-error-box 的 `┌ Error` (CLI 自身错误框) 互补: 本形态是后端
+# Cloudflare API 错误的框呈现, 框体带 API 错误码行 (`│ [10000] Authentication
+# error [code: 10000]` / `│ 401 Unauthorized`) 与修复指引 (`→ Try running: cf
+# auth login`)。API 错误码族 (10000 认证失败等) 任何仓的 Cloudflare 部署 CI 均可
+# 出现, 工具签名非仓守卫。成功部署不产此框 (语料框形态零 success 命中, FP 免疫)。
+# context.after=6 回带错误主体与指引行, 与 wrangler-error-box 同构。
+id: cloudflare-apierror-box
+title: 'Cloudflare CLI API 错误框 (┌ APIError)'
+tool: cloudflare
+category: infra
+intent: failure
+confidence: high
+context: {before: 0, after: 6}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?┌ APIError\r?$'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
