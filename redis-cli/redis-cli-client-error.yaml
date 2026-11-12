@@ -1,0 +1,20 @@
+# samples: laravel/framework 43276277477 (Redis-Cluster predis: [ERR] Node 未配置为 cluster node),
+#          redis/redis 43244603308 (test-external-cluster: addslots 前连接拒绝)
+# 锚: redis-cli 客户端两族错误行 — ① `Could not connect to Redis at <host:port>: <原因>`
+#   (连接失败: 服务未起/端口不对, redis-cli exit 1); ② cluster manager 判词
+#   `[ERR] Node <host:port> ...` (集群节点状态错误)。通过形态是静默/OK 输出, 不走错误打印路径。
+#   FP 扫描全语料: 两形态仅上述 2 failure 样本在场, 0 success。兄弟规则 redis-server-bugreport
+#   (服务端崩溃报告) / redis-test-* (Tcl 测试框架) 词法面不相交。
+id: redis-cli-client-error
+title: 'redis-cli 客户端错误 (Could not connect to Redis at / cluster manager [ERR] Node)'
+tool: redis-cli
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(Could not connect to Redis at \S+:[0-9]+: |\[ERR\] Node \S+:[0-9]+ )'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
