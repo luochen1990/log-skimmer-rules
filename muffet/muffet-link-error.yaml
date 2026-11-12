@@ -1,0 +1,24 @@
+# samples: phpstan/phpstan Check-for-broken-links ×5 (43246812565, 43249124392, 43268253514, 43270497480, 43276485410)
+# 锚: muffet (raviqqe/muffet, fasthttp 内核) 链接检查报告的 tab 缩进错误行
+#   "<ts> \terror when dialing <ip>:<port>: fasthttp: ... \t<url>" — 页 URL 行在行首、
+#   错误行 tab 缩进、错误与链接以 tab 分隔是 muffet 报告格式。扩展吞同报告后续页
+#   URL 行与 tab 缩进状态码行 (503 形态); before=1 带出所属页 URL 行。
+#   FP 扫描全语料: 'error when dialing' 仅上述 5 failure 样本在场, 0 success。
+id: muffet-link-error
+title: 'muffet 链接检查失败 (tab 缩进 error when dialing / 状态码报告)'
+tool: muffet
+category: infra
+intent: failure
+confidence: high
+context: {before: 1, after: 0}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\terror when dialing \S+:[0-9]+: '
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?https?://\S+$'
+    loop: true
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\t\S[^\t]*\t\S+$'
+    loop: true
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
