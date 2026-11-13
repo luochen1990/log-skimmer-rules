@@ -1,0 +1,19 @@
+# samples: curl/curl/43351637790-131643875640 (mingw gnutls: 603 upload / 3022 data 等 9 处逐用例 FAILED)
+# 锚: curl runtests.pl 逐用例失败行 ` <num>: <section> FAILED:` (section 实测 upload/data/stdout,
+# [a-z]+ 泛化) — 并行模式下 job 中途被 kill 时尾部 TESTFAIL 汇总行不可见 (兄弟规则
+# curl-runtests-testfail 的锚缺席), 该行是唯一在场证据; before 带出所属 `test NNNN` 行,
+# after 带出 check-expected/generated diff 头。FP 扫描全语料: 0 命中 (success 侧结果行恒为 OK)。
+id: curl-runtests-section-failed
+title: 'curl runtests 逐用例失败行 (<num>: <section> FAILED:)'
+tool: curl-runtests
+category: test
+intent: failure
+confidence: high
+context: {before: 2, after: 4}
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )? *[0-9]+: [a-z]+ FAILED:$'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: { harness: dg-responder, model: glm-5.3 }
+  adapter-version: 0.1.0
