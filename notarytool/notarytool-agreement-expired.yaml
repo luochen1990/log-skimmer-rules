@@ -1,0 +1,21 @@
+# samples: duckdb/duckdb/43412484109-131842445611, duckdb/duckdb/43412487819-131842444633, duckdb/duckdb/43429019605-131897915413 (osx OSX-Release), mitmproxy/mitmproxy/43413007531-131843847502, mitmproxy/mitmproxy/43422239217-131874802864 (build macos-15)
+# 锚: Apple notarytool (xcrun notarytool submit) 的 403 判词 `Error: HTTP status code:
+# 403. A required agreement is missing or has expired. ...` — 开发者协议 (Program License
+# Agreement) 未签/过期, 公证请求被拒, 步骤随即 exit 1。跨仓工具签名 (duckdb 与 mitmproxy
+# 的 macos 构建/发布 job 均出现, 语料 5 样本全 failure, 成功侧零命中); 锚定止于
+# "A required agreement is missing or has expired" — Apple 特异文案, 泛化 403 不进正则。
+# 守卫源码回显 `echo "Notarization failed!"` 在成功侧同样在场 (##[group] 脚本回显),
+# 刻意不锚。
+id: notarytool-agreement-expired
+title: 'Apple notarytool 公证被拒 (403 required agreement is missing or has expired)'
+tool: notarytool
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Error: HTTP status code: 403\. A required agreement is missing or has expired'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: { harness: dg-responder, model: glm-5.3 }
+  adapter-version: 0.1.0

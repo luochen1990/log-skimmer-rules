@@ -1,0 +1,22 @@
+# samples: curl/curl/43425745847-131886606581 (netbsd-10.2 gcc openssl)
+# 锚: NetBSD pkgin 安装收尾摘要 `pkg_install warnings: N, errors: M` 的 M>0 形态。
+# 本样本根因: cdn.NetBSD.org 三次拉包 Service Unavailable (`download error: <url>
+# Service Unavailable`, 带重试间隔散布在摘要前数十行, 状态机无法衔接), 12/15 包装上,
+# 缺包 (mit-krb5/perl/pkg-config) 致 configure 阶段 exit 1。与既有 pkgin-could-not-fetch
+# (`pkgin: Could not fetch <url>: ` 仓库摘要拉取失败) 锚面不相交; 成功侧摘要恒
+# `errors: 0` 不命中, errors>0 与失败共变 — 构造性免 FP。伴随行 `pkg_install error
+# log can be found in /var/db/pkgin/pkg_install-err.log` 由 context.after 带出。
+id: pkgin-install-errors
+title: 'pkgin 安装错误摘要 (pkg_install warnings: N, errors: M>0)'
+tool: pkgin
+category: deps
+intent: failure
+confidence: high
+context: { before: 0, after: 1 }
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?pkg_install warnings: [0-9]+, errors: [1-9][0-9]*'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: { harness: dg-responder, model: glm-5.3 }
+  adapter-version: 0.1.0
