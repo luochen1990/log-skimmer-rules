@@ -1,0 +1,21 @@
+# samples: flutter/flutter/43340517092-131608507910, flutter/flutter/43347097484-131629213214 (Mac_arm64_verify_binaries)
+# 锚: flutter dev/bots 框架 (dev/bots/test.dart) 的错误盒头 `╔═╡ERROR #N╞═══...` — 盒内 ║ 行
+# 携带真因 (Command exited with exit code 1 but expected zero exit code. / Exception: Did not
+# find all expected binaries! / dart 栈帧), loop 消费整盒。兄弟规则 flutter-bots-command-failed
+# 锚无前缀裸行 — 错误盒内 `║ ` 前缀形态不命中 (本批两样本仅盒形态在场), 本规则以盒头为锚补位,
+# 词法面不相交。盒头仅失败时出现, 全语料 2 failure 样本在场, 0 success。
+id: flutter-bots-error-box
+title: 'flutter bots 错误盒 (╔═╡ERROR #N╞═ 盒头)'
+tool: flutter-bots
+category: test
+intent: failure
+confidence: high
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?╔═╡ERROR #[0-9]+╞═+$'
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?║ '
+    loop: true
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: { harness: dg-responder, model: glm-5.3 }
+  adapter-version: 0.1.0
