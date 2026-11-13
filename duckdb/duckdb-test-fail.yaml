@@ -1,0 +1,19 @@
+# samples: duckdb/duckdb/43298220150-131462110099, duckdb/duckdb/43314756062-131519727533 (Compare-amd64)
+# 锚: duckdb test/run.py 测试框架的逐用例失败判词 `error: <红>FAIL</reset> <test>` — retry 耗尽后
+# 打印; before 带出 `====` 分隔行与 `not retrying failed test ... after reaching N retries`,
+# after 带出 SIGSEGV 信号与 reproduce 命令块 (真因定位)。兄弟规则 duckdb-plan-cost-regression
+# 锚基准回归横幅, 词法面不相交。FP 扫描全语料: 仅 4 个 duckdb failure 样本在场, 0 success。
+id: duckdb-test-fail
+title: 'duckdb 测试逐用例失败 (error: FAIL <test>)'
+tool: duckdb
+category: test
+intent: failure
+confidence: high
+context: {before: 2, after: 6}
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?error: (\x1b\[31m)?FAIL(?:\x1b\[0m)? \S'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: { harness: dg-responder, model: glm-5.3 }
+  adapter-version: 0.1.0
