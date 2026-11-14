@@ -1,0 +1,21 @@
+# samples: github.com/etcd-io/etcd/2026-11-14/43546951951-132300387566-Test-1-node-cluster-failure.log.gz
+# 锚: etcd 启动旗标校验失败 JSON 日志行 `"msg":"failed to verify flags"` (caller:
+# etcdmain/etcd.go) — 无效旗标值 (本样本: 未知 feature gate RaftAsyncStorageWrites)
+# 使 etcd 进程随即退出 (docker compose 形态下紧随 `etcd0 exited with code 1`, 由
+# context.after: 2 带出)。证据嵌在单行 JSON 中 (A2 锚定惯例的行中证据例外), 锚不带 ^。
+# level=warn 但恒致命 (校验失败必退出); 任何以 etcd 为测试依赖的仓 (compose 集群) 同构。
+# 全语料 1F/0S。confidence medium: 负向旗标测试 (预期失败的 etcd 启动) 理论上可出现该行。
+id: etcd-flags-verify-failed
+title: 'etcd 旗标校验失败 (failed to verify flags)'
+tool: etcd
+category: config
+confidence: medium
+intent: failure
+patterns:
+  - regex: '"msg":"failed to verify flags"'
+kind: signal
+context: { before: 0, after: 2 }
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
