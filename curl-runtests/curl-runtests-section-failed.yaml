@@ -1,0 +1,17 @@
+# samples: github.com/curl/curl/2026-11-13/43523942926-132224954464-msvc,-CM-arm64-windows-schanne-failure.log.gz
+# 锚: runtests.pl 逐用例节失败判定 ` <num>: <section> FAILED:` (data/upload/stdout 节, 后随 diff/文件 dump) —
+# 补 curl-runtests-testfail (TESTFAIL 汇总锚) 未覆盖的汇总缺席形态 (job 中途中止); 通过形态 `-- OK`, 0 success 命中。
+id: curl-runtests-section-failed
+title: 'curl runtests 节失败判定 ( <num>: <section> FAILED: )'
+tool: curl-runtests
+category: test
+intent: failure
+confidence: high
+context: {before: 2, after: 2}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )? ?[0-9]+: [a-z]+ FAILED:'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
