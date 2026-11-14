@@ -1,0 +1,18 @@
+# samples: sebastianbergmann/phpunit 2026-11-14 43590554834, 43590559069 (Unit-Tests, --compact --display-all-issues)
+# 锚: compact 模式逐条目头 `--- ERROR: <Class>::<method>` — 既有 phpunit 规则锚非 compact 形态
+# (清单头/横幅/断言措辞) 在本批全部未命中; SKIPPED/PASSED 变体不入锚 (成功侧可出现)。
+# context.after=6 带出异常消息与栈首 (本批: CannotDeriveGeneratorException: resource is not supported)。
+id: phpunit-compact-error-entry
+title: 'PHPUnit compact 错误条目 (--- ERROR: Class::method)'
+tool: phpunit
+category: test
+intent: failure
+confidence: high
+context: {before: 0, after: 6}
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?--- ERROR: '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
