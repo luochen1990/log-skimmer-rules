@@ -1,0 +1,18 @@
+# samples: github.com/pandas-dev/pandas/2026-11-13/43480051404-132073883061-Pyarrow-Nightly-failure.log.gz (同日 43480063521 / 43480102015 / 43480173673 同因)
+# 锚: pixi 环境求解失败头 `Error:   × failed to solve the pypi requirements of environment '<env>' for platform '<plat>'`
+# — miette 树形因果行 (`  ├─▶ ...` / `  ╰─▶ ...`) 由 loop 消费; 全语料 4 failure / 0 success 命中。
+id: pixi-pypi-solve-failed
+title: 'pixi pypi 依赖求解失败 (failed to solve the pypi requirements of environment)'
+tool: pixi
+category: deps
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Error: +× failed to solve the pypi requirements of environment'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\s*[├╰]─[▶>] '
+    loop: true
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
