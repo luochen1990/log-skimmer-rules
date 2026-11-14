@@ -1,0 +1,26 @@
+# samples: github.com/opencv/opencv/2026-11-12/43225434192-131640487556-Linux---Ubuntu-(22.04,-5.x)-failure.log.gz
+# 锚: GitHub Actions runner 文件命令写失败判词 `Error: EACCES: permission denied,
+# open '/__w/_temp/_runner_file_commands/<cmd>_<uuid>'` — runner 内部约定的文件命令
+# 落盘目录 (save_state/set_output 等经 issueFileCommand 写入 _temp/_runner_file_commands),
+# 写失败时 node 必打的判词行 (平台签名), 任何仓的 GH Actions 日志均可出现 (本样本:
+# 容器动作破坏 _temp 权限致 actions/checkout 主阶段与 post cleanup 两次崩溃), 非仓特有守卫文案。
+# FP 免疫: 该路径仅存在于 runner 内部机制, 成功日志不可能出现 (文件命令写失败 ⟹ job
+# 失败); 且本形态恰好逃逸 ##[error] annotation 安全网 (annotation 亦经文件命令机制下发,
+# 机制损坏时无 annotation 可锚) — 本规则是 runner 失败信号底座的必要补网。
+# 取舍: ① 单行锚不扩展 — 栈帧 (`at Object...`) 与 errno 对象 (errno:/code:/syscall:/path:)
+#   为同因重复, 遵 infra-disk-quota-exceeded 审计结论 (锚行即完整证据, 级联不重复呈现),
+#   本样本同型崩溃 ×2 (主阶段/post cleanup) 由呈现层 repeat-collapse 折叠; ② 仅锚 EACCES
+#   变体 — 证据唯一支持 EACCES, 其他 errno (ENOSPC/EROFS) 措辞不同, 留待后续 FN 环。
+id: infra-runner-file-command-eacces
+title: 'runner 文件命令 EACCES 写失败 (Error: EACCES ... open /__w/_temp/_runner_file_commands/)'
+tool: infra
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Error: EACCES: permission denied, open ''/__w/_temp/_runner_file_commands/'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, fn-responder/glm-5.3)'
+  generated-by: {harness: fn-responder, model: glm-5.3}
+  adapter-version: 0.1.0
