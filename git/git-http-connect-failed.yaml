@@ -1,0 +1,17 @@
+# samples: github.com/astral-sh/ruff/2026-11-13/43517683238-132203731332-Compute-diagnostic-diff-failure.log.gz
+# 锚: git HTTP 传输 TCP 连接失败 `fatal: unable to access '<url>': Failed to connect to <host> port <n> ...` —
+# 与 git-http-access-denied (服务端 40[34] 拒答) 正交的传输层形态; 全语料 1 failure / 0 success 命中。
+id: git-http-connect-failed
+title: 'git HTTP 连接失败 (fatal: unable to access + Failed to connect to ... port ...)'
+tool: git
+category: infra
+intent: failure
+confidence: high
+context: {before: 1, after: 1}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(##\[error\])?fatal: unable to access ''[^'']+'': Failed to connect to \S+ port [0-9]+'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

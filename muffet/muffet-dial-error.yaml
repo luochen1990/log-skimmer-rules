@@ -1,0 +1,16 @@
+# samples: github.com/phpstan/phpstan/2026-11-13/43487150351-132098500132-Check-for-broken-links-failure.log.gz (同日 43523691476 同因)
+# 锚: muffet (fasthttp) 链接检查拨号错误行 `\terror when dialing <host>:<port>: fasthttp: <原因>\t<URL>` —
+# tab 分隔自带目标 URL; 全语料 2 failure / 0 success 命中。
+id: muffet-dial-error
+title: 'muffet 链接拨号失败 (error when dialing ... fasthttp: ...)'
+tool: muffet
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\s*error when dialing [^:]+:[0-9]+: fasthttp: '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
