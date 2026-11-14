@@ -1,0 +1,508 @@
+{
+  "run_id": 43635052354,
+  "samples": [
+    {
+      "candidates": [
+        {
+          "line_no": 315,
+          "text": "2026-11-14T09:09:07.6574397Z \u001b[36;1m    if [ \"$mergeable_state\" = \"failure\" ] || [ \"$mergeable_state\" = \"error\" ]; then\u001b[0m"
+        },
+        {
+          "line_no": 317,
+          "text": "2026-11-14T09:09:07.6576136Z \u001b[36;1m        post_status failure \"$MERGEABLE_CHECK_STATUS_NAME\" \\\u001b[0m"
+        },
+        {
+          "line_no": 320,
+          "text": "2026-11-14T09:09:07.6578489Z \u001b[36;1m        echo \"'$MERGEABLE_CHECK_STATUS_NAME' already fails for another reason\" \\\u001b[0m"
+        },
+        {
+          "line_no": 324,
+          "text": "2026-11-14T09:09:07.6581734Z \u001b[36;1m      post_status failure \"$MERGEABLE_CHECK_STATUS_NAME\" \\\u001b[0m"
+        },
+        {
+          "line_no": 333,
+          "text": "2026-11-14T09:09:07.6589742Z \u001b[36;1m    # marker would stay red until a manual re-run. A foreign failure\u001b[0m"
+        },
+        {
+          "line_no": 345,
+          "text": "2026-11-14T09:09:07.6600224Z \u001b[36;1m    if [ \"$mergeable_state\" = \"failure\" ] && [ \"$gate_owned_mergeable\" = \"true\" ] \\\u001b[0m"
+        },
+        {
+          "line_no": 348,
+          "text": "2026-11-14T09:09:07.6603491Z \u001b[36;1m            || [ \"$mergeable_description\" = \"Failed: review threads only\" ]; }; then\u001b[0m"
+        },
+        {
+          "line_no": 376,
+          "text": "2026-11-14T09:09:07.6627314Z \u001b[36;1m  echo \"Failed to verify re-run of $run_id\" >&2\u001b[0m"
+        },
+        {
+          "line_no": 395,
+          "text": "2026-11-14T09:09:10.7831690Z PR #104424 (head 5218e9b467dc7822ca91ffd6cda176c458968c85): unresolved=0 override=false desired_blocked=false recorded=failure pipeline_limited=true"
+        },
+        {
+          "line_no": 397,
+          "text": "2026-11-14T09:09:14.1031948Z Failed to verify re-run of 43574366073"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/ClickHouse/ClickHouse",
+      "sample": "github.com/ClickHouse/ClickHouse/2026-11-14/43579166961-132399984255-reconcile-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 180,
+          "text": "`AttributeError: 'ForeignObject' object has no attribute 'db_constraint'`"
+        },
+        {
+          "line_no": 185,
+          "text": "- Returns early in `remove_field()` and `add_field()` when `field.db_parameters()[\"type\"] is None`, avoiding unnecessary table remakes and preventing `AttributeError`."
+        },
+        {
+          "line_no": 213,
+          "text": "2026-11-14T05:30:24.8146520Z ##[warning]PR #22288 has 1 failure(s) and 0 warning(s), adding comment with details."
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/django/django",
+      "sample": "github.com/django/django/2026-11-14/43561830310-132347026686-Run-Quality-Checks-on-a-PR-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 199,
+          "text": "2026-11-14T11:35:32.2109183Z   PR_TITLE: Fixed #36884 -- Translation of admin log messages fails due to case inconsistency in field names."
+        },
+        {
+          "line_no": 209,
+          "text": "2026-11-14T11:35:34.5948607Z ##[warning]PR #22290 has 2 failure(s) and 0 warning(s), adding comment with details."
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/django/django",
+      "sample": "github.com/django/django/2026-11-14/43590751486-132434731060-Run-Quality-Checks-on-a-PR-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 3143,
+          "text": "2026-11-14T08:27:50.0778930Z ##[group]Run SHARD=verify_binaries_pre_codesigned LUCI_CI=true dart --enable-asserts dev/bots/test.dart"
+        },
+        {
+          "line_no": 3144,
+          "text": "2026-11-14T08:27:50.0779730Z \u001b[36;1mSHARD=verify_binaries_pre_codesigned LUCI_CI=true dart --enable-asserts dev/bots/test.dart\u001b[0m"
+        },
+        {
+          "line_no": 3170,
+          "text": "2026-11-14T08:28:24.1839100Z Failed to download https://storage.googleapis.com/flutter_archives_v2/flutter_infra_release/flutter/85ffa6b6c2695895951c8830d1dd7852908b5f00/android-arm-profile/artifacts.…"
+        },
+        {
+          "line_no": 3171,
+          "text": "2026-11-14T08:28:24.1873570Z Exception: 404"
+        },
+        {
+          "line_no": 3172,
+          "text": "2026-11-14T08:28:24.2237740Z ╔═╡ERROR #1╞════════════════════════════════════════════════════════════════════"
+        },
+        {
+          "line_no": 3174,
+          "text": "2026-11-14T08:28:24.2292540Z ║ Command exited with exit code 1 but expected zero exit code."
+        },
+        {
+          "line_no": 3289,
+          "text": "2026-11-14T08:28:40.7958120Z ╔═╡ERROR #2╞════════════════════════════════════════════════════════════════════"
+        },
+        {
+          "line_no": 3290,
+          "text": "2026-11-14T08:28:40.7958730Z ║ UNEXPECTED ERROR!"
+        },
+        {
+          "line_no": 3291,
+          "text": "2026-11-14T08:28:40.7959320Z ║ Exception: Did not find all expected binaries!"
+        },
+        {
+          "line_no": 3301,
+          "text": "2026-11-14T08:28:40.7965660Z ║ The test.dart script should be corrected to catch this error and call foundError()."
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/flutter/flutter",
+      "sample": "github.com/flutter/flutter/2026-11-14/43574353461-132385414695-Mac_arm64_verify_binaries-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 253,
+          "text": "2026-11-14T06:40:33.0058874Z \u001b[36;1m        You can ignore this CI failure if you think the change won't\u001b[0m"
+        },
+        {
+          "line_no": 267,
+          "text": "2026-11-14T06:40:33.0302657Z         You can ignore this CI failure if you think the change won't"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/neovim/neovim",
+      "sample": "github.com/neovim/neovim/2026-11-14/43567455991-132364289325-check-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 31,
+          "text": "2026-11-14T08:49:31.0230532Z ##[group]Run set -euo pipefail"
+        },
+        {
+          "line_no": 32,
+          "text": "2026-11-14T08:49:31.0231570Z \u001b[36;1mset -euo pipefail\u001b[0m"
+        },
+        {
+          "line_no": 34,
+          "text": "2026-11-14T08:49:31.0234203Z \u001b[36;1m# Prefix each message line with its commit, so a failure names the offender.\u001b[0m"
+        },
+        {
+          "line_no": 64,
+          "text": "2026-11-14T08:49:31.1008407Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/neovim/neovim",
+      "sample": "github.com/neovim/neovim/2026-11-14/43577623870-132395231849-no-ai-advertisements-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 253,
+          "text": "2026-11-14T10:10:53.7540141Z \u001b[36;1m        You can ignore this CI failure if you think the change won't\u001b[0m"
+        },
+        {
+          "line_no": 267,
+          "text": "2026-11-14T10:10:53.7759070Z         You can ignore this CI failure if you think the change won't"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/neovim/neovim",
+      "sample": "github.com/neovim/neovim/2026-11-14/43584009535-132414527943-check-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 109,
+          "text": "2026-11-14T09:17:59.1778649Z \u001b[36;1mcheck_links || { echo \"Crawling again to rule out transient failures\"; check_links; }\u001b[0m"
+        },
+        {
+          "line_no": 113,
+          "text": "2026-11-14T09:18:04.2395069Z \terror when dialing 162.19.49.86:443: fasthttp: dialing to the given tcp address timed out\thttps://coders.thecodingmachine.com/phpstan"
+        },
+        {
+          "line_no": 119,
+          "text": "2026-11-14T09:18:12.3597453Z Crawling again to rule out transient failures"
+        },
+        {
+          "line_no": 126,
+          "text": "2026-11-14T09:18:17.3961670Z \terror when dialing 162.19.49.86:443: fasthttp: dialing to the given tcp address timed out\thttps://coders.thecodingmachine.com/phpstan"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/phpstan/phpstan",
+      "sample": "github.com/phpstan/phpstan/2026-11-14/43579874006-132402112068-Check-for-broken-links-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 109,
+          "text": "2026-11-14T09:19:24.1521017Z \u001b[36;1mcheck_links || { echo \"Crawling again to rule out transient failures\"; check_links; }\u001b[0m"
+        },
+        {
+          "line_no": 113,
+          "text": "2026-11-14T09:19:29.3504101Z \terror when dialing 162.19.49.86:443: fasthttp: dialing to the given tcp address timed out\thttps://coders.thecodingmachine.com/phpstan"
+        },
+        {
+          "line_no": 119,
+          "text": "2026-11-14T09:20:01.3222331Z Crawling again to rule out transient failures"
+        },
+        {
+          "line_no": 124,
+          "text": "2026-11-14T09:20:06.3902679Z \terror when dialing 162.19.49.86:443: fasthttp: dialing to the given tcp address timed out\thttps://coders.thecodingmachine.com/phpstan"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/phpstan/phpstan",
+      "sample": "github.com/phpstan/phpstan/2026-11-14/43579989093-132402450403-Check-for-broken-links-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 109,
+          "text": "2026-11-14T09:43:27.2871507Z \u001b[36;1mcheck_links || { echo \"Crawling again to rule out transient failures\"; check_links; }\u001b[0m"
+        },
+        {
+          "line_no": 116,
+          "text": "2026-11-14T09:43:32.3508463Z \terror when dialing 162.19.49.86:443: fasthttp: dialing to the given tcp address timed out\thttps://coders.thecodingmachine.com/phpstan"
+        },
+        {
+          "line_no": 119,
+          "text": "2026-11-14T09:43:39.9854812Z Crawling again to rule out transient failures"
+        },
+        {
+          "line_no": 126,
+          "text": "2026-11-14T09:43:45.0146950Z \terror when dialing 162.19.49.86:443: fasthttp: dialing to the given tcp address timed out\thttps://coders.thecodingmachine.com/phpstan"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/phpstan/phpstan",
+      "sample": "github.com/phpstan/phpstan/2026-11-14/43581884019-132408160985-Check-for-broken-links-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 109,
+          "text": "2026-11-14T11:51:04.7292144Z \u001b[36;1mcheck_links || { echo \"Crawling again to rule out transient failures\"; check_links; }\u001b[0m"
+        },
+        {
+          "line_no": 116,
+          "text": "2026-11-14T11:51:09.8770401Z \terror when dialing 162.19.49.86:443: fasthttp: dialing to the given tcp address timed out\thttps://coders.thecodingmachine.com/phpstan"
+        },
+        {
+          "line_no": 119,
+          "text": "2026-11-14T11:51:28.2430780Z Crawling again to rule out transient failures"
+        },
+        {
+          "line_no": 124,
+          "text": "2026-11-14T11:51:36.3478486Z \terror when dialing 162.19.49.86:443: fasthttp: dialing to the given tcp address timed out\thttps://coders.thecodingmachine.com/phpstan"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/phpstan/phpstan",
+      "sample": "github.com/phpstan/phpstan/2026-11-14/43591953225-132438368179-Check-for-broken-links-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 269,
+          "text": "2026-11-14T09:14:25.5717980Z  * [new branch]            copilot/root-cause-analysis-test-failure -> origin/copilot/root-cause-analysis-test-failure"
+        },
+        {
+          "line_no": 272,
+          "text": "2026-11-14T09:14:25.5721060Z  * [new branch]            copilot/update-lock-files-failure -> origin/copilot/update-lock-files-failure"
+        },
+        {
+          "line_no": 275,
+          "text": "2026-11-14T09:14:25.5723075Z  * [new branch]            debug-publish-failure -> origin/debug-publish-failure"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/scikit-learn/scikit-learn",
+      "sample": "github.com/scikit-learn/scikit-learn/2026-11-14/43579568974-132401191382-A-reviewer-will-let-you-know-i-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 236,
+          "text": "2026-11-14T11:34:03.0119314Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}"
+        },
+        {
+          "line_no": 241,
+          "text": "2026-11-14T11:34:03.0121347Z   PHP_INI_VALUES: memory_limit=-1, zend.assertions=1, error_reporting=-1, log_errors_max_len=0, display_errors=On, display_startup_errors=On"
+        },
+        {
+          "line_no": 249,
+          "text": "2026-11-14T11:34:03.9013865Z   fail-on-cache-miss: false"
+        },
+        {
+          "line_no": 256,
+          "text": "2026-11-14T11:34:03.9016125Z   PHP_INI_VALUES: memory_limit=-1, zend.assertions=1, error_reporting=-1, log_errors_max_len=0, display_errors=On, display_startup_errors=On"
+        },
+        {
+          "line_no": 272,
+          "text": "2026-11-14T11:34:06.6440672Z   PHP_INI_VALUES: memory_limit=-1, zend.assertions=1, error_reporting=-1, log_errors_max_len=0, display_errors=On, display_startup_errors=On"
+        },
+        {
+          "line_no": 312,
+          "text": "2026-11-14T11:34:07.4346558Z   PHP_INI_VALUES: memory_limit=-1, zend.assertions=1, error_reporting=-1, log_errors_max_len=0, display_errors=On, display_startup_errors=On"
+        },
+        {
+          "line_no": 321,
+          "text": "2026-11-14T11:34:08.2773790Z --- ERROR: PHPUnit\\Framework\\PropertyBased\\Derivation\\GeneratorDeriverTest::testANameThatIsAKeywordThatPhpDoesNotReserveRefersToTheClassOfThatNameWhenItExists@class named …"
+        },
+        {
+          "line_no": 322,
+          "text": "2026-11-14T11:34:08.2774942Z PHPUnit\\Framework\\PropertyBased\\CannotDeriveGeneratorException: resource is not supported"
+        },
+        {
+          "line_no": 324,
+          "text": "2026-11-14T11:34:08.2775626Z /home/runner/work/phpunit/phpunit/src/Framework/PropertyBased/Exception/CannotDeriveGeneratorException.php:31"
+        },
+        {
+          "line_no": 346,
+          "text": "2026-11-14T11:34:17.5874300Z ERRORS (7950 tests, 287194 assertions, 1 error)"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/sebastianbergmann/phpunit",
+      "sample": "github.com/sebastianbergmann/phpunit/2026-11-14/43590554834-132434235028-Unit-Tests-(ubuntu-latest,-8.5-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 435,
+          "text": "2026-11-14T11:34:47.8971264Z --- SKIPPED: PHPUnit\\Framework\\assertDirectoryIsNotReadableTest::testFailsWhenConstraintEvaluatesToFalse"
+        },
+        {
+          "line_no": 438,
+          "text": "2026-11-14T11:34:47.8972321Z --- SKIPPED: PHPUnit\\Framework\\assertDirectoryIsNotReadableTest::testSucceedsWhenConstraintEvaluatesToTrue"
+        },
+        {
+          "line_no": 441,
+          "text": "2026-11-14T11:34:47.8973361Z --- SKIPPED: PHPUnit\\Framework\\assertFileIsReadableTest::testFailsWhenConstraintEvaluatesToFalse"
+        },
+        {
+          "line_no": 447,
+          "text": "2026-11-14T11:34:47.8976038Z --- SKIPPED: PHPUnit\\Framework\\assertDirectoryIsNotWritableTest::testSucceedsWhenConstraintEvaluatesToTrue"
+        },
+        {
+          "line_no": 450,
+          "text": "2026-11-14T11:34:47.8977080Z --- SKIPPED: PHPUnit\\Framework\\assertDirectoryIsReadableTest::testFailsWhenConstraintEvaluatesToFalse"
+        },
+        {
+          "line_no": 453,
+          "text": "2026-11-14T11:34:47.8978098Z --- SKIPPED: PHPUnit\\Framework\\assertDirectoryIsWritableTest::testFailsWhenConstraintEvaluatesToFalse"
+        },
+        {
+          "line_no": 459,
+          "text": "2026-11-14T11:34:47.8980281Z --- SKIPPED: PHPUnit\\Framework\\assertIsNotWritableTest::testSucceedsWhenConstraintEvaluatesToTrue#0 with data ('directory', 'C:\\Users\\RUNNER~1\\AppData\\Loc...362278')"
+        },
+        {
+          "line_no": 462,
+          "text": "2026-11-14T11:34:47.8981716Z --- SKIPPED: PHPUnit\\Framework\\assertIsNotWritableTest::testSucceedsWhenConstraintEvaluatesToTrue#1 with data ('file', 'C:\\Users\\runneradmin\\AppData\\...E2.tmp')"
+        },
+        {
+          "line_no": 465,
+          "text": "2026-11-14T11:34:47.8983104Z --- SKIPPED: PHPUnit\\Framework\\assertIsReadableTest::testFailsWhenConstraintEvaluatesToFalse#1 with data ('file', 'C:\\Users\\runneradmin\\AppData\\...F3.tmp')"
+        },
+        {
+          "line_no": 468,
+          "text": "2026-11-14T11:34:47.8984465Z --- SKIPPED: PHPUnit\\Framework\\assertIsReadableTest::testFailsWhenConstraintEvaluatesToFalse#0 with data ('directory', 'C:\\Users\\RUNNER~1\\AppData\\Loc...964574')"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/sebastianbergmann/phpunit",
+      "sample": "github.com/sebastianbergmann/phpunit/2026-11-14/43590559069-132434241685-Unit-Tests-(windows-latest,-8.-failure.log.gz"
+    },
+    {
+      "candidates": [],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/sharkdp/bat",
+      "sample": "github.com/sharkdp/bat/2026-11-14/43593544773-132443152683-Check-for-changelog-entry-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 814,
+          "text": "2026-11-14T11:12:47.2345761Z WARNING      | Failed to create process resource for puid 8."
+        },
+        {
+          "line_no": 815,
+          "text": "2026-11-14T11:12:47.2353076Z WARNING      | Failed to create process resource for puid 9."
+        },
+        {
+          "line_no": 816,
+          "text": "2026-11-14T11:12:47.2363933Z WARNING      | Failed to create process resource for puid 10."
+        },
+        {
+          "line_no": 817,
+          "text": "2026-11-14T11:12:47.2364883Z WARNING      | Failed to create process resource for puid 16."
+        },
+        {
+          "line_no": 818,
+          "text": "2026-11-14T11:12:47.2368539Z WARNING      | Failed to create process resource for puid 11."
+        },
+        {
+          "line_no": 819,
+          "text": "2026-11-14T11:12:47.2372777Z WARNING      | Failed to create process resource for puid 12."
+        },
+        {
+          "line_no": 820,
+          "text": "2026-11-14T11:12:47.2376644Z WARNING      | Failed to create process resource for puid 13."
+        },
+        {
+          "line_no": 821,
+          "text": "2026-11-14T11:12:47.2392702Z WARNING      | Failed to create process resource for puid 17."
+        },
+        {
+          "line_no": 827,
+          "text": "2026-11-14T11:12:48.4071800Z The process '/usr/local/lib/android/sdk/platform-tools/adb' failed with exit code 1"
+        },
+        {
+          "line_no": 843,
+          "text": "2026-11-14T11:12:50.9526402Z ERROR        | stop: Not implemented"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/uutils/coreutils",
+      "sample": "github.com/uutils/coreutils/2026-11-14/43588697044-132428634651-Test-builds-(API-28,-x86_64)-failure.log.gz"
+    }
+  ]
+}
