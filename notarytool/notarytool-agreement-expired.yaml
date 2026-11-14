@@ -10,7 +10,7 @@ category: infra
 confidence: high
 intent: failure
 patterns:
-  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Error: HTTP status code: [0-9]+\\. A required agreement is missing or has expired'
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Error: HTTP status code: [0-9]+\. A required agreement is missing or has expired'
 kind: signal
 attribution:
   contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
