@@ -1,0 +1,21 @@
+# samples: github.com/astral-sh/ruff/2026-11-14/43561382884-132345706050-cargo-clippy-failure.log.gz
+#   (+ 同锚跨仓语料: starship/starship Compile ×6, 共 7F/0S)
+# 锚: cargo 构建门禁「警告即失败」签名 `error: warnings are denied by `build.warnings`
+# configuration` — [build] warnings / CARGO_BUILD_WARNINGS=deny 配置下, 编译/clippy 检查
+# 产生警告时 cargo 以 error 收尾并打印此行; 无警告或未 deny 的成功侧无此行。
+# context.before: 1 回带 `error: `<crate>` (lib) generated N warnings` 汇总行 (点名触警 crate),
+# 警告明细 (warning: ... 及代码摘录) 在其上方, 消费方按坐标 read_around 展开。
+id: cargo-build-warnings-denied
+title: 'cargo 警告即失败门禁 (build.warnings deny)'
+tool: cargo
+category: lint
+confidence: high
+intent: failure
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*error(?:\x1b\[[0-9;]*m)*:(?:\x1b\[[0-9;]*m)* warnings are denied by `build\.warnings` configuration'
+kind: signal
+context: { before: 1, after: 0 }
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

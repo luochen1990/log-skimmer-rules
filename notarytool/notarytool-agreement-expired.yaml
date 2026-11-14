@@ -1,0 +1,18 @@
+# samples: github.com/duckdb/duckdb/2026-11-14/43543344103-132288987592-osx---OSX-Release-failure.log.gz, github.com/duckdb/duckdb/2026-11-14/43543348007-132288991562-osx---OSX-Release-failure.log.gz
+# 锚: xcrun notarytool (Apple 公证服务) 403 协议错误 — `Error: HTTP status code: 403. A
+# required agreement is missing or has expired. ...` 公证账号对应的法律协议未签/过期时
+# notarytool submit 直接拒绝, 任何 macOS 发布 CI 的公证步骤即失败; 公证成功侧无此行。
+# 全语料 2F/0S (恰为本批两样本)。
+id: notarytool-agreement-expired
+title: 'Apple notarytool 公证被拒 (required agreement 缺失/过期)'
+tool: notarytool
+category: infra
+confidence: high
+intent: failure
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Error: HTTP status code: [0-9]+\. A required agreement is missing or has expired'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
