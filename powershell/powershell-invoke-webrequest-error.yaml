@@ -1,0 +1,17 @@
+# samples: github.com/openssl/openssl/2026-11-13/43520913409-132214631894-minimal-failure.log.gz
+# 锚: PowerShell cmdlet 错误记录头 `Invoke-WebRequest: <script>.ps1:<N>` (ANSI 红渲染) — 同仓 error-record
+# 三族 / method-invocation 之外的第 5 族, Windows CI 下载失败通用; Line/gutter 渲染后续行由 context 带出; 1 failure / 0 success。
+id: powershell-invoke-webrequest-error
+title: 'PowerShell Invoke-WebRequest 失败 (Invoke-WebRequest: script.ps1:N)'
+tool: powershell
+category: infra
+intent: failure
+confidence: medium
+context: {before: 0, after: 4}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*Invoke-WebRequest: (?:\x1b\[[0-9;]*m)*\S+\.ps1:[0-9]+'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
