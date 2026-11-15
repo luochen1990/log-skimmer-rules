@@ -1,0 +1,19 @@
+# samples: curl/curl/2026-11-15/43670114835-132678076751-misc-checks, curl/curl/2026-11-15/43672844775-132686481808-misc-checks
+# 锚: curl 仓 spacecheck.pl (scripts/spacecheck.pl, misc-checks job 的空白/空行检查步) 的
+# 发现行 'file: duplicate empty line @ line N' — 后台步并行输出中成簇出现 (本拍 4 行,
+# 与 zizmor INFO 交错), 步结论 spacecheck: Failed 退出码 1。
+# checksrc / curl-runtests 同为 curl 仓脚本族工具且各自成 tool 目录 (中央仓先例);
+# 该文案为 spacecheck 特有格式, 全语料仅本拍 2 样本命中且皆 failure, success 侧 0 命中。
+id: spacecheck-duplicate-empty-line
+title: 'curl spacecheck 发现行 (f: duplicate empty line @ line N)'
+tool: spacecheck
+category: lint
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\S+: duplicate empty line @ line [0-9]+'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

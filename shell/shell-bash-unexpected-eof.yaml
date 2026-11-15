@@ -1,0 +1,20 @@
+# samples: uutils/coreutils/2026-11-15/43674894495-132692765528-Style-lint
+# 锚: bash 解析错误 'prog: line N: unexpected EOF while looking for matching X' —
+# Windows runner 生成的临时 .sh 脚本引号截断 (uutils Style-lint, exit code 2)。
+# bash 解释器级签名, 任何仓的 shell 步骤可复现; 出现即脚本解析失败,
+# 全语料仅 1 样本命中且为 failure, success 侧 0 命中, FP 免疫。
+# 单行块; 'syntax error near unexpected token' 同族形态语料未现 (不写, 沿窄锚惯例)。
+# 注意: 该签名不含内置失败关键词 (DG candidates 扫描漏过, 经证据窗口人工定位) — 本规则补其证据面。
+id: shell-bash-unexpected-eof
+title: 'bash 解析错误 (unexpected EOF while looking for matching)'
+tool: shell
+category: unknown
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\S+: line [0-9]+: unexpected EOF while looking for matching'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
