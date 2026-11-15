@@ -1,0 +1,22 @@
+# samples: pytest-dev/pytest/2026-11-15/43658061995-132640961258-doc-check-links
+# 锚: tox 4 失败汇总行 'env: FAIL code N (...seconds)' — tox run 任何 env 命令失败时打印的
+# 标准尾块; 语料 16 个 failure 样本同签名跨仓 (pytest build x5 / pallets flask x7 /
+# mitmproxy x3), 皆为 failure, success 侧不打印 FAIL code, 全语料 0 命中, FP 免疫。
+# context before=1 收上一行 'env: exit N (seconds) cwd> cmd pid=' (失败命令本体),
+# after=1 收 'evaluation failed :(' 终判行。
+# category unknown: tox 是命令运行器, 失败 env 横跨 test/build/typecheck/docs 多类
+# (打标纪律: 多因混合打 unknown, 宁缺勿错)。
+id: tox-cmd-fail
+title: 'tox 失败汇总 (env: FAIL code N + evaluation failed)'
+tool: tox
+category: unknown
+intent: failure
+confidence: high
+context: {before: 1, after: 1}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )? *\S+: FAIL code [0-9]+ \('
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

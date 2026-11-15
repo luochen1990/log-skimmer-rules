@@ -1,0 +1,20 @@
+# samples: laravel/framework/2026-11-14/43652657876-132624323164-Split-master, laravel/framework/2026-11-15/43659480069-132645344988-Split-master, laravel/framework/2026-11-15/43662550388-132654824507-Split-master, laravel/framework/2026-11-15/43667592150-132670327279-Split-12.x, laravel/framework/2026-11-15/43672035747-132683983709-Split-master, laravel/framework/2026-11-15/43676380174-132697330468-Split-12.x
+# 锚: Linux glibc 运行时动态链接器 (ld-linux.so) 的标准报错
+# 'prog: error while loading shared libraries: libX.so.N: cannot open shared object file'
+# — 目标二进制启动即失败 (splitsh-lite 依赖 libssl.so.1.1 而 runner 镜像已无 OpenSSL 1.1;
+# 语料内 zigtools/zls coverage 4 样本同签名, 跨仓佐证为 OS 级工具签名非仓守卫文案)。
+# 出现即启动失败, 全语料 12 个命中样本皆 failure, success 侧 0 命中, FP 免疫。
+# 与 freebsd/freebsd-rtld-shared-object-missing (BSD rtld 形态) 锚面不相交, 本规则补 Linux 对偶。
+id: ld-linux-shared-object-missing
+title: 'Linux ld.so 共享库缺失 (error while loading shared libraries + cannot open shared object file)'
+tool: ld-linux
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\S+: error while loading shared libraries: \S+: cannot open shared object file'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

@@ -1,0 +1,24 @@
+# samples: nlohmann/json/2026-11-14/43640260210-132586064388-ci_test_standards_clang
+# 锚: cmake generate 期错误头两种形态 — 裸 'CMake Error:' (Cannot find source file) 与
+# 'CMake Error in <file>:' (No SOURCES given to target); 既有 cmake-configure-error 只锚
+# configure 期 'CMake Error at f:l (cmd):' 形态, generate 期两形态与其锚面不相交。
+# 扩展沿用 configure 规则同款 (缩进续行/空行/'-- ' 状态行 loop); 'CMake Generate step failed.'
+# 收尾行经透传 (非 loop) 入块, 其后 col-0 行 (gmake 级联) 闭块 — gmake 前缀形态语料仅此
+# 一簇, 不动既有 make-target-error (其头注声明窄锚惯例)。
+# generate 错误仅在配置/生成失败时出现, 全语料 success 侧 0 命中。
+id: cmake-generate-error
+title: 'cmake generate 期错误块 (CMake Error: / CMake Error in f: + Generate step failed)'
+tool: cmake
+category: build
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?CMake Error( in [^:]+)?: ?$'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(-- .*|\s+\S.*| *)$'
+    loop: true
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?CMake Generate step failed'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
