@@ -1,0 +1,19 @@
+# samples: openssl/openssl 2026-11-15 43709877719 (vs2013 x86) — submodule 内容未就位, bash 执行
+#   'bash .github/retry docker pull ...' 报目标文件缺失, exit 127。
+# 锚: bash 找不到路径形目标 'bash: <path>: No such file or directory' — 目标段要求含 '/' (脚本/
+#   工件路径形态), 区别于 command-not-found 族的裸命令名; 与 shell-command-not-found 的
+#   '.sh: line N:' 扩展锚面不相交 (本形态无 line 段; 该规则头注释记录泛化 ': line N:' 曾有
+#   success benign 命中, 故本锚不放松路径约束)。Windows Git-bash 同文案。
+id: shell-bash-file-not-found
+title: 'bash 脚本文件缺失 (bash: <path>: No such file or directory)'
+tool: shell
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?bash: [^: ]*/[^: ]*: No such file or directory$'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
