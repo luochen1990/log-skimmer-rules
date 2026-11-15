@@ -1,0 +1,18 @@
+# samples: spring-projects/spring-boot 43196103943 (docs 部署 rsync-over-ssh 超时, exit 255)
+# 锚: OpenSSH 客户端连接错误行 `ssh: connect to host <host> port <N>: Connection timed out`
+#   — ssh/scp/rsync-over-ssh 网络层失败的根因行 (host 被 GHA 掩码为 *** 亦匹配)。
+#   全语料 FP 扫描: 5 failure (spring-boot ×2 + spring-framework ×3) / 0 success —
+#   其余 4 个同签名 failure 样本为文档部署同族, 一并覆盖。
+id: ssh-connect-error
+title: 'ssh 连接失败 (ssh: connect to host H port N: ...)'
+tool: ssh
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?ssh: connect to host \S+ port [0-9]+: '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
