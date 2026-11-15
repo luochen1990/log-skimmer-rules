@@ -1,0 +1,21 @@
+# samples: github.com/nlohmann/json/2026-11-13/43435616156-131919807863-ci_infer-failure.log.gz
+# 锚: Facebook Infer 静态分析报告行 `<file>:<line>: error: <Check Name>(<CHECK_CODE>)`
+# (本样本: Null Dereference(NULLPTR_DEREFERENCE)) — infer 检出问题并以非零码退出,
+# 构建级联 (gmake[N]: *** Error 2) 随后; make-target-error 锚 `make` 前缀未覆盖 `gmake`
+# 变体, 本规则锚根因行不受影响。检查名为首字母大写词组 + 括号内全大写下划线 CODE +
+# 行尾即止, 是 infer 特异签名; 全语料宽形态扫描 1F/0S。context.after: 4 回带根因描述
+# 与源码摘录行 (含 `^` 指示列)。
+id: infer-check-error
+title: 'Infer 静态分析检出 (error: Check Name(CHECK_CODE))'
+tool: infer
+category: lint
+confidence: high
+intent: failure
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\S+:[0-9]+: error: [A-Z][A-Za-z ]+\([A-Z][A-Z0-9_]*\)$'
+kind: signal
+context: { before: 0, after: 4 }
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
