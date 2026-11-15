@@ -1,0 +1,18 @@
+# samples: pnpm/pnpm 43277719169 (Triage issue), 43284977744 (Triage issue)
+# 形态: Warp Oz (AI agent runner) 配额耗尽新文案 `[WARN] You're out of AI usage. Buy more usage or upgrade your plan at https://app.warp.dev/upgrade` — 兄弟规则
+#   warp-out-of-credits 锚旧文案 `Error: You're out of AI credits`; Warp 计费文案改版
+#   (credits→usage) 后词法面不相交, 本规则补位新形态 (QuotaLimit 重试耗尽的终态判词)。
+#   FP 扫描全语料: 2 failure / 0 success。
+id: warp-out-of-usage
+title: 'Warp AI 配额耗尽 (You are out of AI usage 新文案)'
+tool: warp
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: 'out of AI usage\. Buy more usage or upgrade your plan'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
