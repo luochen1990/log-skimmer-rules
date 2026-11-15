@@ -1,0 +1,20 @@
+# samples: openssl/openssl/43315933942-131523820678 (cygwin: Invalid CodeSign signature on downloaded setup)
+# 锚: PowerShell 错误记录尾行 `+ FullyQualifiedErrorId : <id>` — throw/终止性错误渲染三件套
+# (At <file>.ps1:N char:N / "+ throw" 源行回显 / "+ CategoryInfo") 的收尾行, before=5 带出
+# 裸消息行与位置行 (id 与消息同文, FP 免疫)。兄弟规则 powershell-error-record 三族
+# (Exception: ps1 / Program failed to run / term not recognized) 与 powershell-method-invocation-
+# exception (MethodException) 均不锚此形态。全语料仅本样本在场, 0 success。
+id: powershell-fully-qualified-error-id
+title: 'PowerShell 错误记录尾行 (+ FullyQualifiedErrorId :)'
+tool: powershell
+category: unknown
+intent: failure
+confidence: high
+context: {before: 5, after: 0}
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )? *\+ FullyQualifiedErrorId : \S'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: { harness: dg-responder, model: glm-5.3 }
+  adapter-version: 0.1.0

@@ -1,0 +1,18 @@
+# samples: microsoft/playwright/43340593454-131607628565 (docs & lint: lint_tests 重复 test id)
+# 锚: playwright utils/lint_tests.js (自研测试元数据 lint, `npm run lint-tests` 调用) 的违规行
+# `<path>:<line>:<col>: identifier <id> is already used by the test at <path>:<line>:<col>` —
+# 双端 file:line:col 定位 + 固定判词, 词面特异 (ER-xxx test id 约定仅此仓在用)。与 eslint 既有
+# 规则 (stylish 缩进族 / offense-line 双空格族) 词法面不相交。全语料仅本样本在场, 0 success。
+id: playwright-lint-tests-duplicate-test-id
+title: 'playwright lint_tests 重复 test 标识 (identifier ... is already used by the test at)'
+tool: playwright
+category: lint
+intent: failure
+confidence: high
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\S+\.(?:ts|js|tsx):[0-9]+:[0-9]+: identifier \S+ is already used by the test at \S+:[0-9]+:[0-9]+'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: { harness: dg-responder, model: glm-5.3 }
+  adapter-version: 0.1.0
