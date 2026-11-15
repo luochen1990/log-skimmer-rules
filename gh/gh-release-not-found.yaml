@@ -1,0 +1,21 @@
+# samples: fmtlib/fmt/2026-11-07/42392116917-128462389012
+# gh CLI 裸 stderr 形态: `gh release upload` 在目标 release 不存在时输出单行
+# `release not found` (无 `gh: ` 前缀, 既有 gh-cli-error 锚 `^gh: .+` 不覆盖;
+# 经 bash set -e 直转 exit 1, 除平台退出码注解外常无其他上下文)。
+# 锚 = 整行精确匹配 (行首时间戳前缀可选 + 行尾 $), 全语料 1 命中 (本样本) /
+# success 侧 0 命中; 语义即失败 (release 资产挂载失败), 跨仓通用 — 任意仓的
+# `gh release upload/view/download` 打到不存在的 release 同词。category 与
+# gh 族既有规则一致取 infra (release 管道/环境态, 非质量门)。
+id: gh-release-not-found
+title: 'gh release 资产操作失败 (release not found)'
+tool: gh
+category: infra
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?release not found$'
+kind: signal
+intent: failure
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

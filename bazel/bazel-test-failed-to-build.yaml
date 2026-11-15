@@ -1,0 +1,27 @@
+# samples: google/googletest/2026-11-07/42319505426-128240345868, google/googletest/2026-11-07/42319548567-128240493019
+# bazel test「编译失败」族: 既有 bazel-test-target-failed 锚 `//label  FAILED in X.Xs`
+# 只覆盖运行期失败 (带时长); 本规则补 `FAILED TO BUILD` 形态 — target 编译失败
+# 无时长尾, 与成功侧 PASSED/FLAKY 字符级不相交。
+# 锚 = `INFO: Build completed, N tests FAILED, M total actions` 汇总头 (N≥1 才命中;
+# 成功侧同构行是 `Build completed successfully`, 全语料 19 文件实测不相交)。
+# ext1 loop = 逐 target `//label  FAILED TO BUILD` 行; ext2 = `(Skipping other
+# failed to build tests)` 收尾行 (可缺, 缺则直接闭块)。尾部 `Executed N out of M
+# tests: X pass and Y fail to build.` 是结论复述, 刻意不锚 (平台注解兜退出码,
+# 本规则提供的是哪些 target 编不出来)。时间戳容忍与既有 bazel 规则一致:
+# CI 平台前缀与 bazel --show_timestamps 前缀均可选、可叠加。
+id: bazel-test-failed-to-build
+title: 'bazel test 编译失败 (Build completed, N tests FAILED + //label FAILED TO BUILD 列表)'
+tool: bazel
+category: test
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(\([0-9]{2}:[0-9]{2}:[0-9]{2}\) )?INFO: Build completed, [1-9][0-9]* tests FAILED, [0-9]+ total actions'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(\([0-9]{2}:[0-9]{2}:[0-9]{2}\) )?//[^ ]+ +FAILED TO BUILD$'
+    loop: true
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\(Skipping other failed to build tests\)$'
+kind: signal
+intent: failure
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
