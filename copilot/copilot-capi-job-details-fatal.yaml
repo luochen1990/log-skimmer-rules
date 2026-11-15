@@ -1,0 +1,20 @@
+# samples: curl/curl/42710904475-129479870941
+# 形态: copilot autofind harness 取 CCA job details 阶段致命失败
+# `Fatal error fetching CCA job details: Error: CAPI proxy request failed with status 401 [...]`
+# — 随后为 4 空格缩进的 ` at ` 栈帧与 status/body dump (扩展消费)。与
+# copilot-pr-review-request-error (review 请求创建阶段) 失败阶段不同, 锚面不相交。
+id: copilot-capi-job-details-fatal
+title: 'copilot CCA job details 获取致命失败 (Fatal error fetching CCA job details)'
+tool: copilot
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Fatal error fetching CCA job details: '
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )? {4}at .+'
+    loop: true
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: { harness: dg-responder, model: glm-5.3 }
+  adapter-version: 0.1.0
