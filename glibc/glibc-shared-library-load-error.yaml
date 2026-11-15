@@ -1,0 +1,20 @@
+# samples: laravel/framework 2026-11-15 Split ×8 (43685434647, 43689443488, 43694149203, 43698732779,
+#   43703518654, 43708373991, 43713560585, 43718424758) — splitsh-lite 预编译二进制依赖
+#   libssl.so.1.1, ubuntu-22.04 runner 缺库, 启动即败 (exit 127)。
+# 锚: glibc ld.so 标准报错 '<prog>: error while loading shared libraries: <lib>: <reason>' — 骨架
+#   glibc 固定, 三段运行时填充 (reason 含 cannot open shared object file / wrong ELF class 等变体),
+#   任何 Linux CI 跑预编译二进制的仓同构。与 freebsd-rtld-shared-object-missing 同族对偶 (BSD
+#   rtld 文案, 锚面不相交 — 该规则头注释已声明本形态缺口)。
+id: glibc-shared-library-load-error
+title: 'glibc ld.so 共享库加载失败 (error while loading shared libraries)'
+tool: glibc
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\S+: error while loading shared libraries: \S+: '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

@@ -1,0 +1,18 @@
+# samples: neovim/neovim 2026-11-15 43711600222 (ubuntu-tsan-clang-functionalte) — wget 拉
+#   apt.llvm.org/llvm.sh 时 IPv6 网络不可达, exit 4。
+# 锚: wget 连接失败行 'Connecting to <host> (<host>)|<ip>|:<port>... failed: <reason>' — '(<host>)|<ip>|'
+#   三段结构是 wget 独有标记; success 侧同构行收尾是 'connected.', 锚面含 '... failed: ' 判词段,
+#   FP 免疫。reason 段不限定 (Network is unreachable / Connection timed out 等变体)。
+id: wget-connect-failed
+title: 'wget 连接失败 (Connecting to ... failed:)'
+tool: wget
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Connecting to \S+( \([^)]*\))?\|\S+\|:[0-9]+\.\.\. failed: '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
