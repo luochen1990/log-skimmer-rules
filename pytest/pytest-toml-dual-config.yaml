@@ -1,0 +1,17 @@
+# samples: github.com/mitmproxy/mitmproxy/2026-11-13/43508073387-132170828244-test-(ubuntu-latest,-3.13)-failure.log.gz (同日 43511624854 / 43512433510 同因)
+# 锚: pytest 配置装载冲突 `ERROR: <path>: Cannot use both [tool.pytest] (native TOML types) and [tool.pytest.ini_options] ...`
+# — 原生 TOML 与 ini_options 并存, usage error 退出码 4; 全语料 3 failure / 0 success 命中。
+id: pytest-toml-dual-config
+title: 'pytest 双 TOML 配置冲突 (Cannot use both [tool.pytest] and [tool.pytest.ini_options])'
+tool: pytest
+category: config
+intent: failure
+confidence: high
+context: {before: 2, after: 2}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?ERROR: \S+: Cannot use both \[tool\.pytest\] \(native TOML types\) and \[tool\.pytest\.ini_options\]'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
