@@ -1,0 +1,21 @@
+# samples: github.com/haskell/cabal/2026-11-16/43799842757-133079459555-release-workflow---Test-ARM-bi-failure.log.gz, github.com/haskell/cabal/2026-11-16/43801185306-133083868984-release-workflow---Test-ARM-bi-failure.log.gz
+# 锚: GHC 运行时 (GHC.IO.Handle commitBuffer) 编码崩溃行 — `<prog>: fd:N: commitBuffer: invalid
+# argument (cannot encode character '...')`。RTS 在 locale 编码无法表示输出字符时抛出未捕获异常,
+# 进程随之死亡 — 两样本 (L3716/L3715) 该行后日志即转入 Post job cleanup, 全日志唯一失败证据行
+# (L3600 的 `FLAKY (FAIL, ...)` 是重跑通过的测试, 非失败证据, 不作锚)。跨仓签名: 消息文案出自 GHC
+# base 库, 任何 Haskell 程序崩溃时都可能打印; `<prog>`/`fd:N` 段做成可选/通配以覆盖无前缀形态。
+# FP 免疫: 崩溃性异常, 成功侧同构行不存在 (程序打印此行即已死)。单行块无扩展 — 崩溃行自身即完整
+# 根因, 后续行是 runner cleanup 噪音。category: infra (工具链崩溃)。
+id: ghc-commit-buffer-encoding-error
+title: 'GHC 运行时编码崩溃行 (commitBuffer: invalid argument (cannot encode character ...))'
+tool: ghc
+category: infra
+intent: failure
+confidence: medium
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?([^:]+: )?fd:[0-9]+: commitBuffer: invalid argument \(cannot encode character'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, fn-responder/glm-5.3)'
+  generated-by: { harness: fn-responder, model: glm-5.3 }
+  adapter-version: v2
