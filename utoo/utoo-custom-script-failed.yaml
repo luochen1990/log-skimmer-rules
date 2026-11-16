@@ -1,0 +1,22 @@
+# samples: ant-design/ant-design 2026-11-16 43801989294-build, 43802050529-size, 43802050569-build
+# 形态: utoo (ant 系 monorepo 工具链, CLI ut) 自定义脚本执行失败判词「error: Failed to
+# execute <target>: Custom script execution failed with exit code: N」+ 尾随「Full logs
+# saved to: /tmp/utoo-*.log」(after 1 呈现层带出)。本样本族根因是 webpack
+# circular-dependency-plugin 抛错 (240+ 行 console.dir 形错误对象 dump, 仓配置特有,
+# 不锚), 判词行给出失败 target 与退出码。与 utoo-dependency-resolution-failed /
+# utoo-install-download-failed 的锚 (error: Dependency resolution failed: /
+# error: Failed to install packages:) 字符级不相交。FP: 全语料 success 0 命中。
+id: utoo-custom-script-failed
+title: 'utoo 自定义脚本执行失败 (error: Failed to execute <target>: Custom script execution failed)'
+tool: utoo
+category: build
+intent: failure
+confidence: high
+context: {before: 0, after: 1}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?error: Failed to execute [a-z0-9-]+: Custom script execution failed with exit code: [0-9]+$'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

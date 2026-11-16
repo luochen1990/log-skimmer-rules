@@ -1,0 +1,22 @@
+# samples: anomalyco/opencode 2026-11-16 43801314416-docs-build (EEXIST mkdir),
+#          anomalyco/opencode 2026-11-15 43687854524-unit (EACCES rm, 同锚佐证)
+# 形态: bun 运行时未捕获异常报告 — 源码片段窗 + errno 判词行「<ERRNO>: <message>,
+# <syscall> '<path>'」(如 EEXIST: file already exists, mkdir '...') + path/syscall/
+# errno/code 属性四行 + at 栈帧 + 「Bun v<ver> (<os> <arch>)」尾 banner。锚 = errno
+# 判词行 — node-uncaught-exception 的 ErrorName: 头在 bun 此形态是无 Error: 前缀的
+# errno 码, 两条规则字符级不相交; after 6 呈现层带出属性行/首栈帧/banner。
+# FP: 全语料 success 0 命中 (行首全大写 errno 码 + ', <syscall> '\'' 组合签名)。
+id: bun-uncaught-error
+title: 'bun 未捕获异常 (errno 判词行 EEXIST/EACCES: ... + 属性 + at 栈 + Bun v 尾)'
+tool: bun
+category: unknown
+intent: failure
+confidence: high
+context: {before: 0, after: 6}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*[A-Z][A-Z0-9_]{1,15}: [^:]{2,100}, (?:mkdir|rm|open|read|write|stat|lstat|unlink|rename|rmdir|scandir|access|readdir|copyfile|link|symlink) '''
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

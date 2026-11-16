@@ -1,0 +1,18 @@
+# samples: uutils/coreutils 2026-11-16 43778986540-Style-lint (windows)
+# 形态: workflow 生成的临时脚本引号未闭合, bash 解析判词「<script>: line N:
+# unexpected EOF while looking for matching `"'」exit 2 — job 唯一真因行 (clippy
+# 尚未运行)。锚 = bash 自有判词, 与 shell-bash-unbound-variable 的
+# <script>: line N: 版式同族。FP: 全语料 success 0 命中 (唯一命中即本失败样本)。
+id: shell-bash-unexpected-eof
+title: 'bash 脚本解析错误 (<script>: line N: unexpected EOF while looking for matching)'
+tool: shell
+category: unknown
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\S+: line [0-9]+: unexpected EOF while looking for matching'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
