@@ -1,0 +1,23 @@
+# samples: github.com/pydantic/pydantic/2026-11-16/43835123023-133189727921-core---Build-on-linux-(i686----failure.log.gz
+#   同锚 TP 佐证: github.com/pydantic/pydantic/2026-11-15 同仓前日复发 (manylinux2014_i686 容器 yum 源解析失败)
+# 锚: yum 仓库元数据获取失败判词 `failure: repodata/repomd.xml from <repo>: [Errno 256] No more mirrors to try.`
+# — yum 在全部镜像尝试耗尽后必打的收尾行 (工具签名), 任何仓的 CentOS/RH 系容器构建 CI 均可出现
+# (本样本根因: CentOS-7 EOL 后 vault.centos.org DNS 解析失败)。镜像逐次尝试行
+# (`<url>/repodata/repomd.xml: [Errno 14] curl#6 - "Could not resolve host..."` / `Trying other mirror.`)
+# 刻意不锚 — 判词行即完整证据 (仓库呍 + 原因), 多行吞入增压缩率负担 (apt-fetch-failed 同款取舍);
+# 上方 `One of the configured repositories failed (...)` 说明块 (~30 行) 由消费方 read_around 按坐标展开。
+# FP 扫描全语料: 2 failure / 0 success。
+id: yum-repo-metadata-failure
+title: 'yum 仓库元数据获取失败判词 (failure: repodata/repomd.xml from repo:)'
+tool: yum
+category: deps
+intent: failure
+confidence: high
+context: {before: 0, after: 2}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?failure: repodata/repomd\.xml from \S+: '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
