@@ -17,5 +17,5 @@ patterns:
 kind: signal
 attribution:
   contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
-  generated-by:{harness: dg-responder, model: glm-5.3}
+  generated-by: {harness: dg-responder, model: glm-5.3}
   adapter-version: 0.1.0
