@@ -1,0 +1,19 @@
+# samples: curl/curl/44115074121-134150999860 (netbsd) — 语料全量 rg 恰 1 命中
+# 锚: NetBSD pkgin 的包下载失败行 `download error: <url> <理由>` (实测 Service
+# Unavailable) — 该包 ([1/15] autoconf 下载进度缺位佐证) 拉取失败后 pkgin 继续装其余
+# 包但整体 exit 1, VM 环境准备的网络根因行。URL 形态 (https?://) 收窄 FP 面 — rustup 的
+# `error downloading file:` 词形不相交; 与 pkgin-could-not-fetch (`pkgin: Could not
+# fetch`) 锚面不相交。单样本 + 归因靠上下文推断 → confidence medium。
+id: pkgin-download-error
+title: 'pkgin 包下载失败 (download error: <url> Service Unavailable)'
+tool: pkgin
+category: infra
+intent: failure
+confidence: medium
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?download error: https?://\S+ '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: { harness: dg-responder, model: glm-5.3 }
+  adapter-version: 0.1.0

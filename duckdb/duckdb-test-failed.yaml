@@ -1,0 +1,20 @@
+# samples: duckdb/duckdb 44103142514-134124736171 (Windows 64-Bit), 44093955048-134079849508,
+#          44094960890-134084991622, 44096646213-134090318596, 44098060813-134090822689 —
+#          语料全量 rg 恰 5 命中, 均 failure 且 failed 计数 ≥1
+# 锚: duckdb 自有测试驱动 (test/run.py) 的失败汇总判词 `❌ ran tests: N passed, M failed,
+# K skipped ...` — 成功侧为 ✅ 词符, emoji 二值分流, FP 免疫; M 强制 [1-9][0-9]* 双保险。
+# context after=3 带出 `reproduce all failed tests:` 复现命令块 (逐测试定位线索)。
+id: duckdb-test-failed
+title: 'duckdb 测试失败汇总 (❌ ran tests: N passed, M failed)'
+tool: duckdb
+category: test
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?❌ ran tests: [0-9]+ passed, [1-9][0-9]* failed'
+context: { before: 0, after: 3 }
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: { harness: dg-responder, model: glm-5.3 }
+  adapter-version: 0.1.0
