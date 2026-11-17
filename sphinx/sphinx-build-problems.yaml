@@ -1,0 +1,18 @@
+# samples: pandas-dev/pandas/44008195959-133788531918 (Doc Build and Upload ubuntu),
+#          libuv/libuv/43655576666-132633225174 (docs-src) — 语料全量 rg 恰 2 命中, 均 failure
+# 锚: Sphinx 构建收尾状态判词 `build finished with problems[, N warning(s) (with warnings
+# treated as errors)]` — 失败侧收尾行 (成功侧恒为 `build succeeded`, 词法二值分流, FP 免疫);
+# pandas/libuv 双仓实证跨仓稳态; 行内 ANSI SGR 色码由 (\x1b\[[0-9;]*m)* 容忍。
+id: sphinx-build-problems
+title: 'Sphinx 构建失败判词 (build finished with problems)'
+tool: sphinx
+category: build
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(\x1b\[[0-9;]*m)*build finished with problems'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: { harness: dg-responder, model: glm-5.3 }
+  adapter-version: 0.1.0

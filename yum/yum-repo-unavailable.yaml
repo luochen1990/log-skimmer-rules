@@ -1,0 +1,22 @@
+# samples: pydantic/pydantic/44042770224-133901096955, 43835123023-133189727921 (Build on
+#          linux i686, docker 容器内 yum) — 语料全量 rg 恰 2 命中, 均 failure
+# 锚: yum 仓库元数据不可达判词块首行 ` One of the configured repositories failed (<repo>),`
+# (行首单空格, yum 失败时必打; CentOS 7 EOL 镜像失联的高频形态, 任何仓的容器内 yum 均可
+# 出现)。扩展: ① 缩进建议/空行贪心消费 (loop) ② 收尾镜像失败行 `failure: repodata/
+# repomd.xml from <repo>:` (块内 [Errno 256] No more mirrors to try. 即根因句)。
+id: yum-repo-unavailable
+title: 'yum 仓库不可用 (One of the configured repositories failed)'
+tool: yum
+category: deps
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )? One of the configured repositories failed \('
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?( .*)?$'
+    loop: true
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?failure: repodata/repomd\.xml from \S+: '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: { harness: dg-responder, model: glm-5.3 }
+  adapter-version: 0.1.0
