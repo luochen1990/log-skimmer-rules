@@ -1,0 +1,21 @@
+# samples: github.com/laravel/framework/2026-11-16/43861670040-133279768019-Redis-Cluster-(phpredis)-Drive-failure.log.gz
+# 锚: redis-cli 集群管理器判错行 `[ERR] Node <ip>:<port> is not configured as a cluster node.`
+# — `redis-cli --cluster create/check` 对未进集群模式的节点操作时的错误签名 (clusterManagerLogErr,
+# redis-cli 机器输出非仓特有文案), 任何仓的 Redis Cluster CI 编排 (服务容器/测试矩阵) 均可出现;
+# 本样本根因: 端口 7001 节点未配置为集群节点 → phpredis driver 测试进程退出 1, 该行是日志中唯一真因。
+# 与 redis-server-bugreport (崩溃报告头) / redis-test-* (redis 仓测试套件) 锚面不相交。
+# FP 扫描全语料: 1 failure / 0 success。语料覆盖薄 (单仓单样本), 锚文案跨仓泛化、置信 medium。
+id: redis-cli-cluster-node-error
+title: 'redis-cli 集群管理器节点判错 ([ERR] Node ip:port is not configured as a cluster node)'
+tool: redis-cli
+category: infra
+intent: failure
+confidence: medium
+context: {before: 0, after: 0}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\[ERR\] Node [0-9.]+:[0-9]+ is not configured as a cluster node\.'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by:{harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
