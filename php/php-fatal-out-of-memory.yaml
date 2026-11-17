@@ -1,0 +1,22 @@
+# samples: github.com/symfony/symfony/2026-11-16/43863071988-133284566971-x86---all-extensions---lowest--failure.log.gz
+# 锚: PHP 运行时内存耗尽致命错误 `Fatal error: Out of memory (allocated N bytes) (tried to allocate N bytes)`
+# — memory_limit 耗尽时解释器必打的进程级致命, 成功 job 不可能出现; 双前缀形态兼容: 裸 `Fatal error:`
+# 与 CLI 重复报告的 `PHP Fatal error:` (实测 `PHP Fatal error:` 后双空格, `\s+` 兼容)。
+# 与 phpunit-fatal-error-during-test (`Fatal error: ... when running ` 判词形态) 词法面不相交。
+# Windows 伴随行 `VirtualAlloc() failed: [0x00000008] Not enough memory resources...` (分配器内存不足)
+# 刻意不锚 — 症状行, 锚致命行本身; context.after 带出即够。
+# FP 扫描全语料: 1 failure / 0 success。OOM 归环境根因 → category infra。
+id: php-fatal-out-of-memory
+title: 'PHP 内存耗尽致命错误 (Fatal error: Out of memory (allocated ...))'
+tool: php
+category: infra
+intent: failure
+confidence: high
+context: {before: 0, after: 2}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(PHP )?Fatal error:\s+Out of memory \(allocated [0-9]+ bytes\) \(tried to allocate [0-9]+ bytes\)'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
