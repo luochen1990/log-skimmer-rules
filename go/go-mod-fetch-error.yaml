@@ -18,7 +18,7 @@ tool: go
 category: deps
 confidence: high
 patterns:
-  - regex: '^([0-9]{4}-\[0-9]{2}-\[0-9]{2}T[0-9:.]+Z )?\t?\S+: (?:\S+@\S+: )+(?:(?:read|dial) |verifying module: \S+@\S+: Get "https?://)'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\t?\S+: (?:\S+@\S+: )+(?:(?:read|dial) |verifying module: \S+@\S+: Get "https?://)'
 kind: signal
 attribution:
   contributor: luochen1990
