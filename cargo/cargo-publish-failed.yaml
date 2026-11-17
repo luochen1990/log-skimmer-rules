@@ -1,0 +1,22 @@
+# samples: github.com/rust-analyzer/rust-analyzer/2026-11-16/43808545830-133104794010-publish-failure.log.gz
+# 锚: cargo 发布失败判词 `error: failed to publish <crate> v<ver> to registry at <url>` —
+# cargo publish 在 registry 交互失败时的收尾错误行 (工具签名, 与根因无关: 403 Trusted Publishing
+# 拒绝新建 crate / 网络失败 / 版本冲突均以此收尾), 任何仓的 cargo 发布 CI 均可出现。
+# `Caused by:` 原因块 (registry 响应原文 = 定位关键) 由 context.after 带出, 不走状态机扩展
+# (防贪心吞段, python-traceback 同款取舍); 包装层 `error: unable to publish package <crate>`
+# (cargo-workspaces) 同因重复, 刻意不锚。
+# FP 扫描全语料: `error: failed to publish ` 仅 1 failure 样本命中, success 侧 0。
+id: cargo-publish-failed
+title: 'cargo 发布失败判词 (error: failed to publish ... to registry at)'
+tool: cargo
+category: build
+intent: failure
+confidence: high
+context: {before: 0, after: 4}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?error: failed to publish \S+ v\S+ to registry at \S+'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
