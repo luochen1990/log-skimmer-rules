@@ -1,0 +1,20 @@
+# samples: github.com/fastlane/fastlane/2026-11-16/43896333550-133410905276-release_rubygems-failure.log.gz
+# 锚: rubygems.org 推送拒绝判词 `Repushing of gem versions is not allowed.` —
+# gem push 对已发布版本重复推送的拒绝文案 (RubyGems 服务端响应, gem push / rake release
+# 原样回显), 任何仓的 gem 发布 CI 均可出现; context.after 带出补救指引两行
+# (bump version / gem yank)。通过侧无同构行 (成功推送回显 Pushed)。
+# FP 扫描全语料: 该串仅 1 failure 样本命中, success 侧 0。
+id: rubygems-repush-not-allowed
+title: 'rubygems 重复推送拒绝 (Repushing of gem versions is not allowed)'
+tool: rubygems
+category: build
+intent: failure
+confidence: high
+context: {before: 0, after: 2}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Repushing of gem versions is not allowed\\.$'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

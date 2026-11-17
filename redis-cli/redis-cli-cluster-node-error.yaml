@@ -1,0 +1,21 @@
+# samples: github.com/laravel/framework/2026-11-16/43897507114-133404944764-Redis-Cluster-(predis)-Driver-failure.log.gz, github.com/laravel/framework/2026-11-16/43898870558-133409743445-Redis-Cluster-(phpredis)-Drive-failure.log.gz
+# 锚: redis-cli 集群管理器错误 `[ERR] Node <addr> is not configured as a cluster node.` —
+# `redis-cli --cluster` 系命令在目标节点未进集群模式时的报错 (redis-tools 自带工具签名,
+# 任何仓用 redis-cli 搭测试集群的 CI 均可出现; 本样本族: laravel Redis Cluster 驱动测试
+# 的集群搭建步骤)。单行即完整诊断 (哪个地址未配置); 与 redis-test (Tcl 测试框架
+# `[err]: `) 锚字符级不相交。
+# FP 扫描全语料: 该串仅 2 failure 样本命中, success 侧 0。
+id: redis-cli-cluster-node-error
+title: 'redis-cli 集群管理错误 ([ERR] Node ... is not configured as a cluster node)'
+tool: redis-cli
+category: infra
+intent: failure
+confidence: high
+context: {before: 0, after: 0}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\\[ERR\\] Node \\S+ is not configured as a cluster node\\.'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
