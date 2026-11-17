@@ -1,0 +1,23 @@
+# samples: github.com/rust-analyzer/rust-analyzer/2026-11-16/43808545830-133434677079-publish-failure.log.gz
+# 锚: cargo publish 打包阶段失败判词 `error: failed to prepare local package for uploading` —
+# cargo 在 package 校验/依赖解析失败时的收尾错误行 (工具签名, 与根因无关: 版本选择不匹配/
+# 清单错误均以此收尾), 任何仓的 cargo 发布 CI 均可出现。与既有 cargo-publish-failed
+# (registry 交互阶段 `failed to publish ... to registry at`) 互补 — 两锚覆盖发布流水线的
+# 不同阶段, 字符级不相交。`Caused by:` 原因块 (解析失败原文 = 定位关键) 由 context.after
+# 带出 (cargo-publish-failed 同款取舍); 包装层 `error: unable to publish package <crate>`
+# (cargo-workspaces) 同因重复, 刻意不锚。
+# FP 扫描全语料: `failed to prepare local package for uploading` 仅 1 failure 样本命中, success 侧 0。
+id: cargo-publish-prepare-failed
+title: 'cargo publish 打包阶段失败 (error: failed to prepare local package for uploading)'
+tool: cargo
+category: build
+intent: failure
+confidence: high
+context: {before: 0, after: 8}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*error:(?:\x1b\[[0-9;]*m)* failed to prepare local package for uploading$'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
