@@ -1,0 +1,18 @@
+# samples: pnpm/pnpm/44115564220-134152560453 (Upload CI performance results) — 语料恰 1 命中
+# 锚: Blacksmith runner 缓存代理的下载失败行 `error downloading <cache-key>: HTTP 5xx:
+# <vendor 文案>` (实测 `503 Egress is over the account limit.` — Blacksmith 账户出口流量
+# 配额耗尽, vendor 固定文案) — 真因行, 步骤随即 exit 1。限定 4xx/5xx; rustup 的
+# `error downloading file: error sending request` 词形 (语料 rollup 样本) 不相交。
+id: blacksmith-cache-download-error
+title: 'Blacksmith 缓存下载失败 (error downloading <key>: HTTP 5xx ...)'
+tool: blacksmith
+category: infra
+intent: failure
+confidence: medium
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?error downloading \S+: HTTP [45][0-9]{2}: '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: { harness: dg-responder, model: glm-5.3 }
+  adapter-version: 0.1.0

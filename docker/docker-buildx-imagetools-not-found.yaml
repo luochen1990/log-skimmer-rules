@@ -1,0 +1,19 @@
+# samples: phpstan/phpstan/44068986932-134001299417 (Merge php8.2) — 语料全量 rg 恰 1 命中
+# 锚: docker buildx imagetools inspect 的 registry 检索失败判词 `ERROR: <image-ref>:
+# not found` — 推送 (DONE 1.4s) 后紧邻 inspect 报 not found (registry 传播延迟/竞态),
+# 步骤 exit 1。image-ref 强制 registry 通路形态 (host/path:tag) 收窄 FP 面; 与
+# docker-build-failed (`ERROR: failed to (build|solve)`) / docker-registry-pull-failed
+# 锚面均不相交。单样本证据 → confidence medium。
+id: docker-buildx-imagetools-not-found
+title: 'buildx imagetools 检索失败 (ERROR: <image-ref>: not found)'
+tool: docker
+category: infra
+intent: failure
+confidence: medium
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?ERROR: [a-z0-9.]+(:[0-9]+)?/[a-zA-Z0-9._/-]+:\S* not found$'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: { harness: dg-responder, model: glm-5.3 }
+  adapter-version: 0.1.0
