@@ -1,0 +1,18 @@
+# samples: denoland/deno/44099804347-134097348674, 44099850689-134097170133 (lint debug)
+#          — 语料全量 rg `not formatted file` 恰 2 命中, 均 failure
+# 锚: deno fmt --check (deno 内置 formatter, deno 仓 tools/format.js --check 内部调用) 的
+# 失败汇总判词 `Found <N> not formatted file[s].` — N 带 ANSI 加粗色码 (由 \x1b 组容忍),
+# 计数强制 [1-9][0-9]* (0 时不打印/不计), exit code 20 前最后判词, 成功侧零命中。
+id: deno-fmt-not-formatted
+title: 'deno fmt --check 未格式化文件 (Found N not formatted file)'
+tool: deno
+category: fmt
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Found (\x1b\[[0-9;]*m)*[1-9][0-9]*(\x1b\[[0-9;]*m)* not formatted file'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: { harness: dg-responder, model: glm-5.3 }
+  adapter-version: 0.1.0
