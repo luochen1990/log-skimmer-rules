@@ -1,0 +1,23 @@
+# samples: github.com/dotnet/runtime/2026-11-18/44318903510-134852296367-copilot-pull-request-reviewer-failure.log.gz
+# 锚: dpkg 安装处理失败判词「dpkg: error processing archive <file> (--install):」— dpkg
+# 工具签名, deb 包安装失败的通用收尾形态。本样本: copilot setup 步骤下载的 libmsquic
+# .deb 非法 (前置「dpkg-deb: error: '...' is not a Debian format archive」, before 2
+# 带出), loop 收吞缩进细节行与「Errors were encountered while processing:」收尾行。
+# 新 tool 目录 dpkg (apt 是高层前端, 错误词法面不同)。confidence medium: 语料内形状尚少
+# (failure 1 / success 0), 锚为 dpkg 标准输出形态。
+id: dpkg-error-processing
+title: 'dpkg 处理失败 (dpkg: error processing archive/package + 级联)'
+tool: dpkg
+category: deps
+intent: failure
+confidence: medium
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?dpkg: error processing (archive|package) '
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(\s.*|Errors were encountered while processing:)'
+    loop: true
+context: { before: 2, after: 0 }
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: { harness: dg-responder, model: glm-5.3 }
+  adapter-version: 0.1.0

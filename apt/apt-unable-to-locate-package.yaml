@@ -1,0 +1,20 @@
+# samples: github.com/fmtlib/fmt/2026-11-18/44330835082-134894460667-g++-16-c++26-Debug-----freflec-failure.log.gz
+#   (+语料 6: erlang/otp ×3, gohugoio/hugo ×3 — 4 仓共 7 failure 样本)
+# 锚: apt 包索引定位失败判词「E: Unable to locate package <name>」— apt-get install 因
+# 包名不在当前索引 (源未配置/镜像缺包) 时必打的 E: 级错误行 (退出码 100), deb 系容器
+# CI 通用 (本样本: ppa 源 503 后 g++-16 不在可用索引)。与 apt-package-unavailable
+# (has no installation candidate, 索引知晓包但无候选 — 兄弟家族) / apt-fetch-failed
+# (获取/锁失败) 词法面不相交。FP 扫描: success 侧 0 命中。
+id: apt-unable-to-locate-package
+title: 'apt 包名无法定位 (E: Unable to locate package <name>)'
+tool: apt
+category: deps
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?E: Unable to locate package '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: { harness: dg-responder, model: glm-5.3 }
+  adapter-version: 0.1.0
