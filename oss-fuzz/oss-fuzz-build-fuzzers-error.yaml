@@ -1,0 +1,24 @@
+# samples: github.com/fmtlib/fmt/2026-11-18/44330834938-134894457719-fuzz-failure.log.gz, github.com/fmtlib/fmt/2026-11-18/44331864414-134898105866-fuzz-failure.log.gz
+# 锚: OSS-Fuzz CIFuzz (google/oss-fuzz infra/cifuzz, GHA `google/oss-fuzz/infra/cifuzz/actions/*')
+# build_fuzzers 入口异常 handler 的 python-logging 根记录器错误文案:
+#   `HH:MM:SS,mmm - root - ERROR - Build check failed.'
+#   `HH:MM:SS,mmm - root - ERROR - Error building fuzzers for (commit: <sha>, pr_ref: <ref>).'
+# 上游异常路径专属, 任何接入 CIFuzz 的仓 (fmt/protobuf/json 等 OSS-Fuzz 项目 PR CI) 构建检查
+# 失败时同构出现 — 跨仓工具签名, 非仓守卫。成功路径零打印 — FP 免疫。
+# 锚行中位匹配 (容忍 GHA 时间戳前缀); 扩展链经 A3 透传收中间的 `Build check: std(out|err): ...'
+# 回显行与次行 Error building fuzzers (该行缺席时透传跳过, 块仍闭于锚)。
+id: oss-fuzz-build-fuzzers-error
+title: 'OSS-Fuzz CIFuzz 构建检查失败 (- root - ERROR - Build check failed. / Error building fuzzers for)'
+tool: oss-fuzz
+category: build
+intent: failure
+confidence: high
+patterns:
+  - regex: '- root - ERROR - Build check failed\.'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Build check: std(out|err): '
+  - regex: '- root - ERROR - Error building fuzzers for \(commit: '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, fn-responder/glm-5.3)'
+  generated-by: {harness: fn-responder, model: glm-5.3}
+  adapter-version: 0.1.0

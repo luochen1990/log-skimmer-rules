@@ -1,0 +1,24 @@
+# samples: github.com/fmtlib/fmt/2026-11-18/44330834938-134894457719-fuzz-failure.log.gz, github.com/fmtlib/fmt/2026-11-18/44331864414-134898105866-fuzz-failure.log.gz
+# 锚: Linux glibc 动态链接器 ld.so 的符号版本解析失败签名 — 与 ld-so-shared-object-load-error
+# 同工具不同消息族 (彼规则锚 `error while loading shared libraries:`, 本规则锚 version 族):
+#   `<prog>: <lib>: version `VER' not found (required by <prog>)'
+# 实测形态 (OSS-Fuzz CIFuzz bad-build-check 逐目标输出, fmt 每目标 3-4 行成簇, libc/libm 皆见):
+#   `/tmp/.../two-args-fuzzer: /lib/x86_64-linux-gnu/libc.so.6: version `GLIBC_2.38' not found (required by ...)'
+# OS 级工具签名: 二进制按新版 glibc 符号版本链接、在旧 runner libc 上启动即失败 — 任何仓的 CI
+# 都可出现 (laravel/framework 的 shared-libraries 族同因: 预编译产物与 runner 镜像错配)。
+# 行首锚 + GHA 时间戳容忍; 版本 token 不限定 GLIBC_ 前缀 (CXXABI_/GLIBCXX_ 等同族措辞同构);
+# ^ 锚使 python CompletedProcess 转储行 (b'...' 内嵌同文案) 不命中, 只收独立证据行。
+# 成功侧二进制能启动, 该消息零出现 — FP 免疫。单行块: 相邻同族行 A5 自然合并。
+id: ld-so-version-not-found
+title: 'Linux ld.so 符号版本缺失 (version `X'' not found (required by ...))'
+tool: ld-so
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?[^:]+: [^:]+: version `[^'']{1,64}'' not found \(required by '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, fn-responder/glm-5.3)'
+  generated-by: {harness: fn-responder, model: glm-5.3}
+  adapter-version: 0.1.0
