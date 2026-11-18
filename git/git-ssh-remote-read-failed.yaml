@@ -1,0 +1,21 @@
+# samples: github.com/laravel/framework/2026-11-18/44275123993-134701180302-Split-master-failure.log.gz (+2 同日同族; 语料共 8 个 laravel split failure 样本同形)
+# 锚: git SSH 远端读取失败判词「fatal: Could not read from remote repository.」— git 经 ssh
+# remote 拉取/推送时密钥被拒 (前置「git@github.com: Permission denied (publickey).」,
+# before 1 带出) 或远端不存在的标准收尾 fatal 行, git 自身签名, 任何仓的 ssh remote CI
+# 操作均可出现。after 2 带出 access rights 提示双行。与 git-push-auth-failed
+# (https 无凭据) / git-http-access-denied (HTTP 403/404 拒答) / git-fetch-ref-not-found
+# 词法面正交。FP 扫描: 全语料 success 侧 0 命中; failure 侧 8 样本。
+id: git-ssh-remote-read-failed
+title: 'git SSH 远端读取失败 (fatal: Could not read from remote repository)'
+tool: git
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?fatal: Could not read from remote repository\.'
+context: { before: 1, after: 2 }
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: { harness: dg-responder, model: glm-5.3 }
+  adapter-version: 0.1.0
