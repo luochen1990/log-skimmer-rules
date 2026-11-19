@@ -1,0 +1,20 @@
+# samples: anomalyco/opencode 2026-11-19/44540354277-135616696011-docs-build
+# 锚: bun 进程未捕获 fs 系统错误判词 `EEXIST: file already exists, mkdir '<path>'` — col-0 无
+# Error: 前缀, 后随 path:/syscall:/errno:/code: 详情与 `Bun vX` 尾注 (bun 崩溃打印形态)。
+# 既有 node-error-errno-bracket 锚 `Name [ERR_*]:` 与 infra-runner-file-command-eacces 锚
+# `Error: EACCES: ... open '/__w/...'` 均不含本裸 errno/mkdir 形态。仅锚 EEXIST 变体
+# (措辞专属), 其他 errno 留待后续。after=6 带出 errno 详情与 Bun 尾注 (仅扩输出)。
+id: bun-errno-fatal
+title: 'bun 进程未捕获 errno 崩溃 (EEXIST: file already exists, mkdir ...)'
+tool: bun
+category: infra
+intent: failure
+confidence: high
+context: {before: 0, after: 6}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?EEXIST: file already exists, mkdir '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
