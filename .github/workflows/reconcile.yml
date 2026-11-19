@@ -1,0 +1,65 @@
+# reconcile — Tier A reconcile 循环: 全量 open agent/* PR 定期分类处置 (漏触发重验/僵尸 GC/skip 聚合 + re-drive)
+#
+# 与 auto-merge.yml 的分工 (边沿 vs 电平):
+#   auto-merge = 事件驱动单 PR 断言/合并 (ready_for_review/synchronize 边沿, 运转健康);
+#   reconcile  = 周期驱动全量 PR 盘点 (电平), 补事件驱动的三个结构性缺口:
+#   1. 漏触发: 早期 PR 分支名不合规 (裸 agent/gap 无数字后缀) → 门禁 if 过滤永不命中,
+#      PR 永远无人处理 (如 #85);
+#   2. 无 GC: 门禁 skip (label auto-merge-skipped) 的 PR / 动机样本已随语料旋转出窗的
+#      僵尸 draft (如 #149) / 规则已被 master 合入的 superseded PR, 永不关闭;
+#   3. 无 re-drive: draft 因「语料演进 FN 基线缺口」CI 红搁置后, 红即使几天后随语料
+#      旋转自然消失, 也无机制重推一把。
+#
+# 分类/处置/安全约束 SSOT = .github/scripts/reconcile.sh (本文件只编排: 触发/权限/并发)。
+#
+# 设计要点:
+#   - schedule 每 6h 的 :47 (错峰: 语料刷新 :00/:06/:12/:18, sweep 跟拍 :30 — 避开两者,
+#     盘点到的是 sweep 之后稳定的语料快照); workflow_dispatch 供人工即时盘点。
+#   - APPLY 判定 (fail-closed, 实现在脚本内): dispatch 路径以 input 直传 (env APPLY);
+#     schedule 路径 env APPLY 留空 → 脚本查 actions variable RECONCILE_APPLY, 值恰为
+#     字符串 "true" 才 APPLY — 变量不存在 (404) / 其他值 / 查询失败一律 dry。
+#     渐进上线路径: 先默认 dry 跑数拍核对报告 → 设变量 "true" 放开副作用。
+#   - checkout master 最新 (与 auto-merge.yml 同理: PR 内容零参与处置逻辑, 防自改);
+#   - 报告落盘 = 专属单写者分支 reconcile-reports (追加提交, raw URL 形如
+#     .../<slug>/reconcile-reports/reconcile/<ts>.md) — 不用 reports 分支: 那是 sweep
+#     publish-report.sh 的孤儿单提交强推写面, 每 6h 整树重写会清掉外来文件 (单写者
+#     纪律对齐 dg-wake.yml 先例, 详见脚本头注「报告」);
+#   - concurrency 不取消进行中拍 (盘点幂等无副作用竞争, 重叠则排队);
+#   - GITHUB_TOKEN 边界 (平台防递归, 详见脚本头注): gh pr ready / 空提交 push 触发的
+#     事件可能不起跑下游 workflow — flip 后的合并由下一拍 P4 通道兜底; re-drive 的
+#     CI 重跑需 PAT 时经仓库 secret 注入 REDRIVE_PUSH_TOKEN。
+name: reconcile
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "APPLY 模式 (false = dry, 只报告不动作)"
+        type: boolean
+        default: false
+  schedule: [{cron: "47 */6 * * *"}]
+permissions:
+  contents: write # reconcile-reports 专属报告分支追加提交 + agent 分支空提交 (re-drive)
+  pull-requests: write # close / ready / 审计 comment
+  actions: read # 查 actions variable RECONCILE_APPLY (schedule 路径 APPLY 判定)
+concurrency:
+  group: tier-a-reconcile
+  cancel-in-progress: false # 盘点不抢跑: 重叠则排队 (后到的扫到更新状态)
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120 # 存量 34+ PR 全量盘点: 每门禁 dry 评估 CI 等待上限 90s + T4 逐样本探测 + 实跑重评, 余量充分
+    steps:
+      - uses: actions/checkout@v4
+        # 从默认分支最新运行 (PR 内容零参与处置逻辑 — 见文件头「设计要点」; P2 的
+        # master 树判定 / re-drive 的分支 fetch+push 以此检出为对象)
+        with:
+          ref: refs/heads/master
+      - name: Tier A reconcile (全量分类处置 + 报告)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          # dispatch: input 直传 '1'/'0'; schedule: 留空 → 脚本内查 RECONCILE_APPLY
+          # 变量 (fail-closed)。仅 "1" 会 APPLY — 表达式畸形时回落空 = dry, 方向安全。
+          APPLY: "${{ github.event_name == 'workflow_dispatch' && (inputs.apply && '1' || '0') || '' }}"
+          REDRIVE_PUSH_TOKEN: "${{ secrets.REDRIVE_PUSH_TOKEN }}" # 可选 PAT: re-drive 的 CI 重跑触发面
+        run: bash .github/scripts/reconcile.sh

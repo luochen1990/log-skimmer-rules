@@ -62,6 +62,7 @@ intent 三值与 category 十值的详细判定基准不在本文重复 — 见 
 | [lint](.github/workflows/lint.yml) | PR / master push | **时点回归**: merge 前校验 — 规则加载 + 全语料断言 + master-vs-PR 压缩率双测 (同引擎同语料, 纯规则变量归因), 回答「这个 PR 是否让现状变差」。规则 PR 的质量门禁由它承担。 |
 | [sweep](.github/workflows/sweep.yml) | 周二 03:00 UTC / 手动 | **时点间漂移防腐**: master 规则集 × 最新语料 (周一语料仓刷新后) 全量报告 (job summary: gated/exempt 双组 + 逐仓分解 + 规则×仓矩阵, artifact 存完整 JSON), 并与上次成功 run 对比 (引擎 `--base` 内置口径, 逐仓压缩率相对退化 >2% 判红), 回答「两次 PR 的间隙里, 世界演化是否让 master 悄悄退化」。 |
 | [auto-merge](.github/workflows/auto-merge.yml) | PR ready/同步 (`agent/fn-*` / `agent/gap-*`) | **Tier A 自动合并**: 机械断言链 (CI 全绿 / 加性-only / 动机样本在场 / 规模上限) 全过的 ready PR 自动 squash 合并, 未过打标交人工 — 断言链与安全论证见 §6 与 `.github/scripts/auto-merge.sh` 头注释。 |
+| [reconcile](.github/workflows/reconcile.yml) | 每 6h / 手动 | **Tier A reconcile 循环**: 定期盘点全部 open `agent/*` PR, 补事件驱动门禁的漏网 — 关闭 legacy 分支 (门禁触发过滤永不命中) / superseded / 样本出窗僵尸, 漏触发 ready PR 经同一门禁重验 (合并权仍在 auto-merge), 静置 draft re-drive; 全量分类报告追加在 `reconcile-reports` 分支 — 分类处置 SSOT: `.github/scripts/reconcile.sh` 头注释。 |
 
 sweep 首跑无上次 artifact 属合法首态 (跳过对比只出报告与断言); 其红是「上周→本周的退化信号」, 归因面为 规则集/引擎/语料 三者时点差的聚合, 需人工分诊。
 

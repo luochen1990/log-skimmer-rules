@@ -33,6 +33,13 @@
 # DRY_RUN=1: 完整评估断言链并打印判定 (非 open / draft PR 也评估 — 事后诊断形态), 但不
 #   执行任何副作用 (merge/label/comment 一律打印 would-run)。
 #
+# 机器消费契约 (reconcile.sh 依赖, 格式变更须同步 reconcile): 实跑终态行 "GATE-RESULT:
+#   MERGED|REJECTED|ABANDONED" — MERGED=已执行合并 (含清理步非致命报错形态); REJECTED=
+#   断言未全过 (skip label + 原因 comment 已留); ABANDONED=非对象形态静默退出 (非 open /
+#   draft / TOCTOU 头移动)。merge 命令失败 (exit 1) 不发该行 — 消费方走 pulls API 事实
+#   核验兜底。DRY_RUN 不发 GATE-RESULT (评估结论走既有 "VERDICT: ALL PASS|REJECTED" 行
+#   + "❌ T<n>" 审计行, 语义不变)。
+#
 # 环境变量: PR_NUMBER GH_TOKEN 必填; REPO / SELF_CHECK_NAME / CORPUS_RAW_BASE / GATE_REF /
 #   WAIT_TIMEOUT_SEC / EMPTY_GRACE_SEC / POLL_INTERVAL_SEC / DRY_RUN 选填 (默认值见下)。
 # shellcheck disable=SC2016 # 审计 comment 文本含 markdown 反引号, 单引号防展开是有意的
@@ -89,14 +96,14 @@ if [[ "$pr_state" != "open" ]]; then
   if [[ "$DRY_RUN" == "1" ]]; then
     log "DRY-RUN: PR 非 open ($pr_state) — 实跑将静默退出, 以下为假想评估"
   else
-    log "PR not open ($pr_state) — nothing to do"; exit 0
+    log "PR not open ($pr_state) — nothing to do"; log "GATE-RESULT: ABANDONED"; exit 0
   fi
 fi
 if [[ "$pr_draft" == "true" ]]; then
   if [[ "$DRY_RUN" == "1" ]]; then
     log "DRY-RUN: PR 为 draft — 实跑将静默退出 (等 ready_for_review), 以下为假想评估"
   else
-    log "PR is draft — waiting for ready_for_review"; exit 0
+    log "PR is draft — waiting for ready_for_review"; log "GATE-RESULT: ABANDONED"; exit 0
   fi
 fi
 
@@ -188,28 +195,10 @@ fi
 # ---------- T4 动机样本在场 ----------
 # 提取双格式 (并集去重): ① 规范格式 dedup-sample: <path> 行 (前向兼容 — responder 若采纳即机读);
 # ② 现行 responder body 形态 — 样本以语料路径形态出现在表格/行文中 (剧本 5a: body 含逐样本路径)。
-# body 经参数传入 (各 grep 独立 herestring 供给 — 若共用 stdin, 前一 grep 会把流读光致后者空转);
-# grep 无匹配 exit 1, set -e 下逐个 || true 兜住。
-extract_samples() { # <body> → stdout: 样本路径每行一条 (去重)
-  local body=$1
-  {
-    { grep -E '^dedup-sample:[[:space:]]*[^[:space:]]+' <<<"$body" || true; } \
-      | sed -E 's/^dedup-sample:[[:space:]]*//' | tr -d '`'
-    { grep -oE '[A-Za-z0-9][A-Za-z0-9._+~:@-]*/[A-Za-z0-9][A-Za-z0-9._+~:@-]*/[A-Za-z0-9][A-Za-z0-9._+~:@-]*/[0-9]{4}-[0-9]{2}-[0-9]{2}/[A-Za-z0-9][A-Za-z0-9._+~:@-]*\.log(\.gz)?' <<<"$body" || true; } \
-      | tr -d '`'
-  } | awk '!seen[$0]++'
-}
-
-head_code() { # <path> → HTTP code; 2xx/404 即定论, 5xx/网络失败重试 2 次 (防语料端瞬态误拒)
-  local url="$CORPUS_RAW_BASE/$1" code=000 _
-  for _ in 1 2 3; do
-    # curl 失败时 -w 可能仍打印 000, || 赋值兜住 (避免两行 000 拼接)
-    code=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 30 --head "$url" 2>/dev/null) || code=000
-    case "$code" in 2?? | 404) echo "$code"; return ;; esac
-    sleep 3
-  done
-  echo "$code"
-}
+# extract_samples / head_code 实现 SSOT = corpus-probe.sh (与 reconcile.sh P3/P6 共用 —
+# 门禁与 reconcile 的提取/探测语义必须同源, 分叉 = 分类与门禁判定漂移)。
+# shellcheck disable=SC1090,SC1091 # 按脚本自身位置锚定 (CWD 无关); 共享库随本仓分发, shellcheck 需 -x/显式输入才跟随
+source "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/corpus-probe.sh"
 
 mapfile -t samples < <(extract_samples "$pr_body")
 if (( ${#samples[@]} == 0 )); then
@@ -272,6 +261,7 @@ if [[ "$FAILED" == "1" ]]; then
     comment '🚫 断言链未全过 — 跳过自动合并 (label `auto-merge-skipped`), 交人工处理。'
   fi
   # 「评估后决定不合并」是门禁的正常结论, 不算 CI 错误 (label+comment 即信号)
+  if [[ "$DRY_RUN" != "1" ]]; then log "GATE-RESULT: REJECTED"; fi
   exit 0
 fi
 
@@ -280,6 +270,7 @@ if [[ "$DRY_RUN" != "1" ]]; then
   pr_now=$(gh api "repos/$REPO/pulls/$PR_NUMBER")
   if [[ "$(jq -r '.head.sha' <<<"$pr_now")" != "$head_sha" || "$(jq -r '.state' <<<"$pr_now")" != "open" ]]; then
     log "评估后 PR 头已移动或已关闭 — 放弃合并 (后续事件会重跑)"
+    log "GATE-RESULT: ABANDONED"
     exit 0
   fi
 else
@@ -297,6 +288,7 @@ if gh pr merge "$PR_NUMBER" --repo "$REPO" --squash --delete-branch >/dev/null; 
   gh pr comment "$PR_NUMBER" --repo "$REPO" --body "$(comment '✅ 断言链全过 — 已执行 squash 合并并删除分支。机械合并理由即上表; 语义正确性由 lint CI 全语料断言背书 (FN=0 / FP率≤2% / 零块=0 / 边界违例=0), 加性-only 保证无删改面。')" \
     || log "WARN: 合并后审计 comment 失败 (合并已完成, 本 job log 为审计后备)"
   log "MERGED ✅ (squash, branch deleted)"
+  log "GATE-RESULT: MERGED"
 else
   # 合并命令失败 — 区分「命令整体失败」与「merge 已发生但删分支失败」
   merged_now=$(gh api "repos/$REPO/pulls/$PR_NUMBER" | jq -r '.merged')
@@ -304,6 +296,7 @@ else
     gh pr comment "$PR_NUMBER" --repo "$REPO" --body "$(comment '✅ 断言链全过 — squash 合并已发生 (清理步有非致命报错, 分支可能残留, 可忽略或手删)。')" \
       || true
     log "MERGED ✅ (清理步非致命报错)"
+    log "GATE-RESULT: MERGED"
   else
     gh pr comment "$PR_NUMBER" --repo "$REPO" --body "$(comment '⚠️ 断言链全过但 merge 命令失败 — 需人工检查 (分支保护 / 权限 / 合并方法设置)。本评论为审计记录。')" \
       || true
