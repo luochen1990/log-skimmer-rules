@@ -1,0 +1,19 @@
+# samples: microsoft/playwright 2026-11-19 ×4 (44500290226/44500312345/44502184704/44503718994, Roll-Chromium*)
+# 锚: playwright 启动器缺系统依赖盒内文 `║ Host system is missing dependencies to run browsers`
+# (browserType.launch 失败时 stderr 打印的方框报告; 任何仓的 playwright 进程缺 OS deps 同构,
+# 上游工具文案非仓守卫)。before=2 带 browserType.launch 头与 ╔ 边框, after=6 带
+# install-deps/apt 修复指引 (仅扩输出)。
+id: playwright-missing-browser-deps
+title: 'playwright 浏览器缺系统依赖 (Host system is missing dependencies)'
+tool: playwright
+category: infra
+intent: failure
+confidence: high
+context: {before: 2, after: 6}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?║ Host system is missing dependencies to run browsers'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

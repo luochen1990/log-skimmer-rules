@@ -1,0 +1,18 @@
+# samples: grafana/loki 2026-11-19 44511490603-135516588217-main, 44514218358-135525905761-main
+# 锚: grafana backport action 失败判词 `time=... level=ERROR msg="backport failed"` — Go slog
+# 行首 time= 形态, cherry-pick 冲突细节在同行 error= 字段 (repo=/pull_request=/target=)。
+# 任何仓使用 grafana backport action 失败同构。既有 git-am-apply-failed 锚行首 `error:`,
+# 本形态冲突文本内嵌 slog msg 中段, 不命中。单行块 — 锚行即完整证据, 级联不重复呈现。
+id: grafana-backport-failed
+title: 'grafana backport action 失败 (level=ERROR msg="backport failed")'
+tool: grafana-backport
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?time=\S+ level=ERROR msg="backport failed"'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
