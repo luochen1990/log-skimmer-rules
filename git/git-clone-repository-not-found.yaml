@@ -1,0 +1,19 @@
+# samples: github.com/opencv/opencv/2026-11-19/44516452970-135533706829-Windows---Windows-(x64,-base,--failure.log.gz
+# git clone/ls-remote 目标仓库不存在: 锚 `fatal: repository '<url>' not found` (git 自身标准
+# fatal 签名, fork 仓被删/改名后 CI 拉取失败的高频形态, 任何仓的 clone 均可出现)。before 1
+# 收服务端前置判词 `remote: Repository not found.`。与 git-http-access-denied (403/404 显式
+# 拒答) / git-fetch-ref-not-found (couldn't find remote ref) 正交 — 本规则收仓库级缺失。
+id: git-clone-repository-not-found
+title: 'git 克隆目标仓库不存在 (fatal: repository ... not found)'
+tool: git
+category: infra
+confidence: high
+intent: failure
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(##\[error\])?fatal: repository ''[^'']+'' not found'
+kind: signal
+context: { before: 1, after: 0 }
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
