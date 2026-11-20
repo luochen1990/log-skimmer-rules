@@ -1,0 +1,6 @@
+{
+  "schemaVersion": 1,
+  "label": "quality",
+  "message": "FN 2 · FP 0.08% · diag 87.41%",
+  "color": "red"
+}
