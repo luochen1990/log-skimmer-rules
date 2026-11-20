@@ -1,0 +1,581 @@
+{
+  "run_id": 44827623318,
+  "samples": [
+    {
+      "candidates": [
+        {
+          "line_no": 100,
+          "text": "2026-11-20T08:09:18.4516899Z   fail-on-cache-miss: false"
+        },
+        {
+          "line_no": 122,
+          "text": "2026-11-20T08:09:20.8021076Z shell: /usr/bin/bash -xeuo pipefail {0}"
+        },
+        {
+          "line_no": 153,
+          "text": "2026-11-20T08:09:24.7223349Z shell: /usr/bin/bash -xeuo pipefail {0}"
+        },
+        {
+          "line_no": 165,
+          "text": "2026-11-20T08:09:24.8978617Z /home/linuxbrew/.linuxbrew/Homebrew/Library/Homebrew/vendor/portable-ruby/4.0.10/lib/ruby/gems/4.0.0/gems/bootsnap-1.26.1/lib/bootsnap/load_path_cache/core_ext/kernel_requ…"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/Homebrew/brew",
+      "sample": "github.com/Homebrew/brew/2026-11-20/44700251098-136166598886-syntax-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 348,
+          "text": "2026-11-20T08:09:45.8128245Z \u001b[36;1m  echo \"::error::Homebrew is required. Use Homebrew/actions/setup-homebrew before this action, or set setup-homebrew: true.\"\u001b[0m"
+        },
+        {
+          "line_no": 372,
+          "text": "2026-11-20T08:09:45.8137062Z \u001b[36;1m  echo \"::error::Unable to locate executable Ruby at ${ruby_path}!\"\u001b[0m"
+        },
+        {
+          "line_no": 386,
+          "text": "2026-11-20T08:09:45.8142805Z shell: /bin/bash -euo pipefail {0}"
+        },
+        {
+          "line_no": 405,
+          "text": "2026-11-20T08:09:46.3060537Z \u001b[36;1m  echo \"::error::bundler-cache requires a Gemfile in the current working directory.\"\u001b[0m"
+        },
+        {
+          "line_no": 428,
+          "text": "2026-11-20T08:09:46.3069278Z shell: /bin/bash -euo pipefail {0}"
+        },
+        {
+          "line_no": 448,
+          "text": "2026-11-20T08:09:46.3223830Z   fail-on-cache-miss: false"
+        },
+        {
+          "line_no": 479,
+          "text": "2026-11-20T08:09:47.2759592Z shell: /bin/bash -euo pipefail {0}"
+        },
+        {
+          "line_no": 509,
+          "text": "2026-11-20T08:09:49.6101700Z shell: /usr/bin/bash -xeuo pipefail {0}"
+        },
+        {
+          "line_no": 526,
+          "text": "2026-11-20T08:09:51.2614482Z shell: /usr/bin/bash -xeuo pipefail {0}"
+        },
+        {
+          "line_no": 536,
+          "text": "2026-11-20T08:09:51.4335934Z /home/linuxbrew/.linuxbrew/Homebrew/Library/Homebrew/vendor/portable-ruby/4.0.10/lib/ruby/gems/4.0.0/gems/bootsnap-1.26.1/lib/bootsnap/load_path_cache/core_ext/kernel_requ…"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/Homebrew/brew",
+      "sample": "github.com/Homebrew/brew/2026-11-20/44700251134-136166598913-docs-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 48,
+          "text": "2026-11-20T15:29:27.0441059Z ##[group]Run set -euo pipefail"
+        },
+        {
+          "line_no": 49,
+          "text": "2026-11-20T15:29:27.0441929Z \u001b[36;1mset -euo pipefail\u001b[0m"
+        },
+        {
+          "line_no": 58,
+          "text": "2026-11-20T15:29:27.0450850Z \u001b[36;1m  echo \"Error: Invalid PR title format\"\u001b[0m"
+        },
+        {
+          "line_no": 74,
+          "text": "2026-11-20T15:29:27.0463995Z \u001b[36;1m  echo \"Error: Invalid type '${TYPE}'\"\u001b[0m"
+        },
+        {
+          "line_no": 84,
+          "text": "2026-11-20T15:29:27.0471264Z \u001b[36;1m    echo \"Error: Invalid scope '${SCOPE}'\"\u001b[0m"
+        },
+        {
+          "line_no": 94,
+          "text": "2026-11-20T15:29:27.1229766Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}"
+        },
+        {
+          "line_no": 206,
+          "text": "2026-11-20T15:29:27.1527604Z Error: Invalid PR title format"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/aquasecurity/trivy",
+      "sample": "github.com/aquasecurity/trivy/2026-11-20/44763760760-136382844232-Validate-PR-title-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 12631,
+          "text": "2026-11-20T14:37:57.6673147Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}"
+        },
+        {
+          "line_no": 12647,
+          "text": "2026-11-20T14:37:57.6677039Z   CACHE_ON_FAILURE: false"
+        },
+        {
+          "line_no": 12654,
+          "text": "2026-11-20T14:38:39.9992604Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}"
+        },
+        {
+          "line_no": 12670,
+          "text": "2026-11-20T14:38:39.9996712Z   CACHE_ON_FAILURE: false"
+        },
+        {
+          "line_no": 12674,
+          "text": "2026-11-20T14:40:21.8071042Z error: Failed to download `attrs==26.1.0`"
+        },
+        {
+          "line_no": 12675,
+          "text": "2026-11-20T14:40:21.8072808Z   cause: Request failed after 3 retries in 101.8s"
+        },
+        {
+          "line_no": 12676,
+          "text": "2026-11-20T14:40:21.8073670Z   cause: Failed to fetch: https://files.pythonhosted.org/packages/64/b4/17d4b0b2a2dc85a6df63d1157e028ed19f90d4cd97c36717afef2bc2f395/attrs-26.1.0-py3-none-any.whl"
+        },
+        {
+          "line_no": 12677,
+          "text": "2026-11-20T14:40:21.8074549Z   cause: error sending request for url (https://files.pythonhosted.org/packages/64/b4/17d4b0b2a2dc85a6df63d1157e028ed19f90d4cd97c36717afef2bc2f395/attrs-26.1.0-py3-none-an…"
+        },
+        {
+          "line_no": 12678,
+          "text": "2026-11-20T14:40:21.8075156Z   cause: client error (SendRequest)"
+        },
+        {
+          "line_no": 12679,
+          "text": "2026-11-20T14:40:21.8075416Z   cause: connection error"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/astral-sh/ruff",
+      "sample": "github.com/astral-sh/ruff/2026-11-20/44754165756-136349845848-cargo-test-(linux)-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 165,
+          "text": "2026-11-20T15:12:00.1448908Z   digest-mismatch: error"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/curl/curl",
+      "sample": "github.com/curl/curl/2026-11-20/44760208863-136372610381-missing-files-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 212,
+          "text": "2026-11-20T01:50:21.4414259Z ##[warning]PR #22313 has 1 failure(s) and 0 warning(s), adding comment with details."
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/django/django",
+      "sample": "github.com/django/django/2026-11-20/44656479273-136023838623-Run-Quality-Checks-on-a-PR-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 186,
+          "text": "2026-11-20T06:20:47.6887977Z ##[warning]PR #22315 has 4 failure(s) and 0 warning(s), adding comment with details."
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/django/django",
+      "sample": "github.com/django/django/2026-11-20/44687118641-136123979376-Run-Quality-Checks-on-a-PR-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 186,
+          "text": "2026-11-20T06:21:05.2417212Z ##[warning]PR #22315 has 4 failure(s) and 0 warning(s), adding comment with details."
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/django/django",
+      "sample": "github.com/django/django/2026-11-20/44687149941-136124079380-Run-Quality-Checks-on-a-PR-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 181,
+          "text": "`makemigrations` wrote `IntegerField(default=)` for a zero-valued flag, so `migrate --plan` failed with a `SyntaxError`. An `IntFlag` default of `5` (named bit `1` plus unnamed bit `4`) reloaded as `1…"
+        },
+        {
+          "line_no": 185,
+          "text": "On CPython 3.12.15 with SQLite, the standalone reproduction failed to import the zero default before the fix, preserved `1`, and reloaded `5` as `1`. At `1b5d05f44b61`, `migrate --plan` completed for …"
+        },
+        {
+          "line_no": 187,
+          "text": "The focused writer regressions failed on the base and passed on this commit. They check the generated expressions and the round-tripped types and values for zeros, unnamed bits, and composite-only bit…"
+        },
+        {
+          "line_no": 194,
+          "text": "OpenCode (GPT-6.2 Sol) wrote the serializer change and drafted the description. OpenCode (GPT-6.2 Astra) wrote and ran regression tests and ran standalone checks. Claude Code (Opus 5.5) investigated t…"
+        },
+        {
+          "line_no": 217,
+          "text": "2026-11-20T14:28:05.0847160Z ##[warning]PR #22318 has 2 failure(s) and 0 warning(s), adding comment with details."
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/django/django",
+      "sample": "github.com/django/django/2026-11-20/44753694058-136347794232-Run-Quality-Checks-on-a-PR-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 181,
+          "text": "`makemigrations` wrote `IntegerField(default=)` for a zero-valued flag, so `migrate --plan` failed with a `SyntaxError`. An `IntFlag` default of `5` (named bit `1` plus unnamed bit `4`) reloaded as `1…"
+        },
+        {
+          "line_no": 185,
+          "text": "On CPython 3.12.15 with SQLite, the standalone reproduction failed to import the zero default before the fix, preserved `1`, and reloaded `5` as `1`. At `1b5d05f44b61`, `migrate --plan` completed for …"
+        },
+        {
+          "line_no": 187,
+          "text": "The focused writer regressions failed on the base and passed on this commit. They check the generated expressions and the round-tripped types and values for zeros, unnamed bits, and composite-only bit…"
+        },
+        {
+          "line_no": 194,
+          "text": "OpenCode (GPT-6.2 Sol) wrote the serializer change and drafted the description. OpenCode (GPT-6.2 Astra) wrote and ran regression tests and ran standalone checks. Claude Code (Opus 5.5) investigated t…"
+        },
+        {
+          "line_no": 217,
+          "text": "2026-11-20T14:31:19.2171533Z ##[warning]PR #22318 has 2 failure(s) and 0 warning(s), adding comment with details."
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/django/django",
+      "sample": "github.com/django/django/2026-11-20/44754216576-136349583173-Run-Quality-Checks-on-a-PR-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 179,
+          "text": "`makemigrations` wrote `IntegerField(default=)` for a zero-valued flag, so `migrate --plan` failed with a `SyntaxError`. An `IntFlag` default of `5` (named bit `1` plus unnamed bit `4`) reloaded as `1…"
+        },
+        {
+          "line_no": 183,
+          "text": "On CPython 3.12.15 with SQLite, the standalone reproduction failed to import the zero default before the fix, preserved `1`, and reloaded `5` as `1`. At `1b5d05f44b61`, `migrate --plan` completed for …"
+        },
+        {
+          "line_no": 185,
+          "text": "The focused writer regressions failed on the base and passed on this commit. They check the generated expressions and the round-tripped types and values for zeros, unnamed bits, and composite-only bit…"
+        },
+        {
+          "line_no": 192,
+          "text": "OpenCode (GPT-6.2 Sol) wrote the serializer change and drafted the description. OpenCode (GPT-6.2 Astra) wrote and ran regression tests and ran standalone checks. Claude Code (Opus 5.5) investigated t…"
+        },
+        {
+          "line_no": 215,
+          "text": "2026-11-20T14:36:35.5809497Z ##[warning]PR #22318 has 2 failure(s) and 0 warning(s), adding comment with details."
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/django/django",
+      "sample": "github.com/django/django/2026-11-20/44755071122-136352526314-Run-Quality-Checks-on-a-PR-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 179,
+          "text": "`makemigrations` wrote `IntegerField(default=)` for a zero-valued flag, so `migrate --plan` failed with a `SyntaxError`. An `IntFlag` default of `5` (named bit `1` plus unnamed bit `4`) reloaded as `1…"
+        },
+        {
+          "line_no": 183,
+          "text": "On CPython 3.12.15 with SQLite, the standalone reproduction failed to import the zero default before the fix, preserved `1`, and reloaded `5` as `1`. At `1b5d05f44b61`, `migrate --plan` completed for …"
+        },
+        {
+          "line_no": 185,
+          "text": "The focused writer regressions failed on the base and passed on this commit. They check the generated expressions and the round-tripped types and values for zeros, unnamed bits, and composite-only bit…"
+        },
+        {
+          "line_no": 192,
+          "text": "OpenCode (GPT-6.2 Sol) wrote the serializer change and drafted the description. OpenCode (GPT-6.2 Astra) wrote and ran regression tests and ran standalone checks. Claude Code (Opus 5.5) investigated t…"
+        },
+        {
+          "line_no": 215,
+          "text": "2026-11-20T14:37:43.9291516Z ##[warning]PR #22318 has 2 failure(s) and 0 warning(s), adding comment with details."
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/django/django",
+      "sample": "github.com/django/django/2026-11-20/44755245905-136353161285-Run-Quality-Checks-on-a-PR-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 256,
+          "text": "2026-11-20T01:03:23.3121252Z \u001b[36;1m     --fail_if_cve true\u001b[0m"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/erlang/otp",
+      "sample": "github.com/erlang/otp/2026-11-20/44650658463-136004423371-Vulnerability-Scanning-of-Vend-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 534,
+          "text": "2026-11-20T07:23:32.3630263Z [added] engine/src/flutter/testing/smoke_test_failure/BUILD.bazel"
+        },
+        {
+          "line_no": 763,
+          "text": "2026-11-20T07:23:34.4171898Z   if-no-files-found: error"
+        },
+        {
+          "line_no": 781,
+          "text": "2026-11-20T07:23:35.4690321Z ##[group]Run echo \"Error: Code changes detected during the current code freeze.\""
+        },
+        {
+          "line_no": 782,
+          "text": "2026-11-20T07:23:35.4690638Z \u001b[36;1mecho \"Error: Code changes detected during the current code freeze.\"\u001b[0m"
+        },
+        {
+          "line_no": 788,
+          "text": "2026-11-20T07:23:35.4756919Z Error: Code changes detected during the current code freeze."
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/flutter/flutter",
+      "sample": "github.com/flutter/flutter/2026-11-20/44694602683-136148230623-Check-Code-Freeze-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 534,
+          "text": "2026-11-20T08:16:56.2494493Z [added] engine/src/flutter/testing/smoke_test_failure/BUILD.bazel"
+        },
+        {
+          "line_no": 765,
+          "text": "2026-11-20T08:16:58.8058880Z   if-no-files-found: error"
+        },
+        {
+          "line_no": 783,
+          "text": "2026-11-20T08:16:59.7430396Z ##[group]Run echo \"Error: Code changes detected during the current code freeze.\""
+        },
+        {
+          "line_no": 784,
+          "text": "2026-11-20T08:16:59.7430856Z \u001b[36;1mecho \"Error: Code changes detected during the current code freeze.\"\u001b[0m"
+        },
+        {
+          "line_no": 790,
+          "text": "2026-11-20T08:16:59.7871123Z Error: Code changes detected during the current code freeze."
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/flutter/flutter",
+      "sample": "github.com/flutter/flutter/2026-11-20/44701270603-136169971810-Check-Code-Freeze-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 629,
+          "text": "2026-11-20T12:38:08.4748106Z + fail_on_output"
+        },
+        {
+          "line_no": 676,
+          "text": "2026-11-20T12:38:10.0116639Z + not grep -Fv $'XXXXX PleaseIgnoreUnused\\nXXXXX Protobuf related deprecation errors:\\n\"github.com/golang/protobuf\\n.pb.go:\\ngrpc_testing_not_regenerated\\n: ptypes.\\nproto…"
+        },
+        {
+          "line_no": 677,
+          "text": "2026-11-20T12:38:10.0128239Z + grep -Fv $'XXXXX PleaseIgnoreUnused\\nXXXXX Protobuf related deprecation errors:\\n\"github.com/golang/protobuf\\n.pb.go:\\ngrpc_testing_not_regenerated\\n: ptypes.\\nproto.Reg…"
+        },
+        {
+          "line_no": 686,
+          "text": "2026-11-20T12:38:10.0161425Z + fail_on_output"
+        },
+        {
+          "line_no": 691,
+          "text": "2026-11-20T12:38:10.1834361Z + fail_on_output"
+        },
+        {
+          "line_no": 700,
+          "text": "2026-11-20T12:38:10.2322031Z + fail_on_output"
+        },
+        {
+          "line_no": 752,
+          "text": "2026-11-20T12:38:10.7351909Z + not grep -Fv $'XXXXX PleaseIgnoreUnused\\nXXXXX Protobuf related deprecation errors:\\n\"github.com/golang/protobuf\\n.pb.go:\\ngrpc_testing_not_regenerated\\n: ptypes.\\nproto…"
+        },
+        {
+          "line_no": 753,
+          "text": "2026-11-20T12:38:10.7362707Z + grep -Fv $'XXXXX PleaseIgnoreUnused\\nXXXXX Protobuf related deprecation errors:\\n\"github.com/golang/protobuf\\n.pb.go:\\ngrpc_testing_not_regenerated\\n: ptypes.\\nproto.Reg…"
+        },
+        {
+          "line_no": 763,
+          "text": "2026-11-20T12:38:10.7390468Z + fail_on_output"
+        },
+        {
+          "line_no": 768,
+          "text": "2026-11-20T12:38:33.8821327Z + fail_on_output"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/grpc/grpc-go",
+      "sample": "github.com/grpc/grpc-go/2026-11-20/44737221888-136291533338-static-checks-(latest-1)-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 169,
+          "text": "2026-11-20T13:29:06.8045447Z \u001b[1m\u001b[91m[ Error ]\u001b[0m\u001b[0m [\u001b]8;;https://errors.haskell.org/messages/GHCup-00130\u001b\\GHCup-00130\u001b]8;;\u001b\\] The version '3.11.1' of the tool stack is not installed."
+        },
+        {
+          "line_no": 183,
+          "text": "2026-11-20T13:29:07.8346180Z   fail-on-cache-miss: false"
+        },
+        {
+          "line_no": 193,
+          "text": "2026-11-20T13:29:08.0235567Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/haskell/haskell-language-server",
+      "sample": "github.com/haskell/haskell-language-server/2026-11-20/44744643648-136316841667-stackage-lts24-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 31,
+          "text": "2026-11-20T14:33:27.8565612Z ##[group]Run set -euo pipefail"
+        },
+        {
+          "line_no": 32,
+          "text": "2026-11-20T14:33:27.8566078Z \u001b[36;1mset -euo pipefail\u001b[0m"
+        },
+        {
+          "line_no": 34,
+          "text": "2026-11-20T14:33:27.8566834Z \u001b[36;1m# Prefix each message line with its commit, so a failure names the offender.\u001b[0m"
+        },
+        {
+          "line_no": 64,
+          "text": "2026-11-20T14:33:27.9330967Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/neovim/neovim",
+      "sample": "github.com/neovim/neovim/2026-11-20/44753172715-136345986365-no-ai-advertisements-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 253,
+          "text": "2026-11-20T14:33:21.4802980Z \u001b[36;1m        You can ignore this CI failure if you think the change won't\u001b[0m"
+        },
+        {
+          "line_no": 267,
+          "text": "2026-11-20T14:33:21.4982867Z         You can ignore this CI failure if you think the change won't"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/neovim/neovim",
+      "sample": "github.com/neovim/neovim/2026-11-20/44753178172-136345999620-check-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 31,
+          "text": "2026-11-20T14:37:20.0011347Z ##[group]Run set -euo pipefail"
+        },
+        {
+          "line_no": 32,
+          "text": "2026-11-20T14:37:20.0012094Z \u001b[36;1mset -euo pipefail\u001b[0m"
+        },
+        {
+          "line_no": 34,
+          "text": "2026-11-20T14:37:20.0013362Z \u001b[36;1m# Prefix each message line with its commit, so a failure names the offender.\u001b[0m"
+        },
+        {
+          "line_no": 64,
+          "text": "2026-11-20T14:37:20.6483342Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/neovim/neovim",
+      "sample": "github.com/neovim/neovim/2026-11-20/44754661864-136351135275-no-ai-advertisements-failure.log.gz"
+    }
+  ]
+}
