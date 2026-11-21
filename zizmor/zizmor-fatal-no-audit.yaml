@@ -1,0 +1,22 @@
+# samples: github.com/django/django/2026-11-21/44900216494-136834344550-zizmor-failure.log.gz
+# 追认同形 (语料在库): github.com/google/guava/2026-10-30/41083000169-124157268984-zizmor-scan-failure.log.gz
+# 锚: zizmor 审计崩溃判词 "fatal: no audit was performed" — 工具自身运行失败 (网络/API 错误),
+# 非审计发现; 与 zizmor-audit-error (error[audit-id]: 发现形态) 互补。django 样本 ANSI 加粗红、
+# guava 样本纯文本, 逐位 (?:\x1b\[..m)* 容差; ext 贪心消费审计失败定位行 / error: 链 /
+# Caused by: 链 / 缩进明细 (含 guava "= help:" 形) / 空行, 首个非匹配行闭块。
+# 全语料: "no audit was performed" 仅 2 文件、全 failure, 0 success — FP 干净。
+id: zizmor-fatal-no-audit
+title: 'zizmor 审计崩溃 (fatal: no audit was performed + Caused by 链)'
+tool: zizmor
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*fatal(?:\x1b\[[0-9;]*m)*: no audit was performed'
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*(?:''[a-z0-9-]+'' audit failed on \S+|error: \S.*|Caused by:|[ \t]+\S.*)?$'
+    loop: true
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
