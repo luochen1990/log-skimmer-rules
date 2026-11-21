@@ -1,0 +1,23 @@
+# samples: github.com/Homebrew/brew/2026-11-20/44700251098-136166598886-syntax, github.com/Homebrew/brew/2026-11-20/44700251134-136166598913-docs
+# 形态: brew 子命令启动即崩 — vendored portable-ruby 的 bootsnap Kernel#require
+#   LoadError: `<...>/Homebrew/Library/Homebrew/vendor/portable-ruby/<ver>/.../
+#   bootsnap-.../kernel_require.rb:17:in 'Kernel#require': cannot load such file --
+#   sorbet-runtime (LoadError)` + 9 层 `from .../Homebrew/...` 回溯帧 (经 startup.rb
+#   → brew.rb)。gem 缓存与 vendored bundle 失配 (install-bundler-gems 后 sorbet
+#   运行时未装载)。锚绑定 Homebrew vendored-ruby 路径 + LoadError 判词 — 成功侧
+#   brew 正常启动零出现; from 帧 loop 消费限定 Homebrew 路径, 不吞无关回溯。
+id: homebrew-vendored-ruby-load-error
+title: 'brew vendored Ruby 启动 LoadError (cannot load such file)'
+tool: homebrew
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\S+/Homebrew/Library/Homebrew/vendor/portable-ruby/\S+kernel_require\.rb:[0-9]+:in \'Kernel#require\': cannot load such file -- \S+ \(LoadError\)$'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\s+from \S+/Homebrew/'
+    loop: true
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
