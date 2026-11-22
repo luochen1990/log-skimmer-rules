@@ -1,0 +1,21 @@
+# samples: github.com/pytest-dev/pytest/2026-11-22 44966485686-137036569804 (L591)
+# 全语料佐证: `: FAIL code [1-9]` 形在 1588 样本中恰 15 个 failure 文件命中 (pytest-dev x8,
+# pallets x7 — Development-Versions/typing/windows build 等), success 侧 0 命中 (`PASS code 0`
+# 形全语料亦 0 在场) — 双状态判词, FP 免疫。
+# 形态: tox4 收尾环境汇总行 `  <env>: FAIL code N (M seconds)` — tox 自身判词。DG 样本中
+# sphinx linkcheck 断链 WARNING 与 job 级判词均未被诊断规则消费 (failure-intent 仅剩平台注解
+# 安全网); 本规则承担 failure intent, 断链明细由姊妹规则 sphinx-linkcheck-broken-link (warning) 提供。
+id: tox-env-fail
+title: 'tox 环境失败判词 (<env>: FAIL code N)'
+tool: tox
+category: build
+intent: failure
+confidence: high
+context: {before: 0, after: 1}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )? *[^ :\t]+: FAIL code [1-9][0-9]* \('
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
