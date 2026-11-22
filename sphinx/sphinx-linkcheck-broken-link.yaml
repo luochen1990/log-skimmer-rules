@@ -1,0 +1,23 @@
+# samples: github.com/pytest-dev/pytest/2026-11-22 44966485686-137036569804 (L563-589 区段 10+ 行)
+# 全语料佐证: `: WARNING: broken link:` 形在 1588 样本中恰 2 文件命中 (pytest-dev doc-check-links
+# failure x2, 断链 46-47 行/文件), success 侧 0 命中。
+# 形态: Sphinx linkcheck builder 断链警告 `<file>:<line>: WARNING: broken link: <url> (404/403/429/
+# Anchor ... not found)` — sphinx/builders/linkcheck.py 的 logger.warning(location) 输出, 任何运行
+# linkcheck builder 的项目同形 (跨仓工具签名, 非仓守卫文案)。
+# 锚选择: `WARNING: broken link: https?://` + 文件坐标前缀为硬约束; `WARNING: timeout` 等同族
+# 弱形态不锚 (FP 免疫优先)。intent 降级 warning — 断链行是原因明细, job 级判词由 tox-env-fail
+# (failure) 承担; 行首/行内 ANSI SGR 色码容忍 (\x1b[91m 等)。
+id: sphinx-linkcheck-broken-link
+title: 'Sphinx linkcheck 断链警告 (file:line: WARNING: broken link: url)'
+tool: sphinx
+category: build
+intent: warning
+confidence: high
+context: {before: 0, after: 0}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(\x1b\[[0-9;]*m)*[^:\s]+:[0-9]+: WARNING: broken link: https?://'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
