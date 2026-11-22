@@ -1,0 +1,21 @@
+# samples: github.com/prettier/prettier/2026-11-22/45006529578-137159259789 (Lint)
+# 形态: cspell 拼写检查失败判词 `CSpell: Files checked: N, Issues found: M in K
+# files.` — M>0 时 cspell 以 exit 1 收尾 (本样本 M=1, 直接致 job 红)。前置逐词行
+# `<file>:<line>:<col> - Unknown word (<word>)` 是真因载荷, before=2 带出。锚以
+# `Issues found: [1-9]` 数字位约束实现成功侧免疫 (成功时 M=0 不命中)。DG 侧候选
+# 为空系内置失败关键词未覆盖 "Issues found"/"Unknown word" (关键词表盲区), 非无
+# 文本显著性; cspell 为跨仓通用拼写检查器。
+id: cspell-issues-found
+title: 'cspell 拼写检查失败判词 (Issues found: N>0)'
+tool: cspell
+category: lint
+intent: failure
+confidence: high
+context: {before: 2, after: 1}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?CSpell: Files checked: [0-9]+, Issues found: [1-9]'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
