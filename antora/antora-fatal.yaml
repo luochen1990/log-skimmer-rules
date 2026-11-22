@@ -1,0 +1,21 @@
+# samples: github.com/spring-projects/spring-boot/2026-11-22 44972251971-137054376473 (L627)
+# 形态: Antora (docs 站点生成器, npx antora) 的 FATAL 判词 `[HH:MM:SS.mmm] FATAL (antora): <msg>`
+# (样本: Request timed out — ui-bundle 下载超时, `Cause: Error` + node stacktrace 紧随)。
+# antora 自身 logger 的级别+组件签名, 任何 antora 用户同形 (spring 全系 docs、fedora docs 等)。
+# 全语料佐证: antora 相关 3 文件均 failure, `(antora):` 判词形 1 命中 0 FP; 成功侧无 FATAL 级输出
+# (词法二值: 成功构建不产 FATAL 行)。context.after: 6 回带 Cause 行与 stacktrace 首帧 — 真因定位。
+# 锚选择: `[ts]` 方括号时间戳 + `FATAL (antora):` 组件判词双硬约束, ANSI SGR 色码容忍。
+id: antora-fatal
+title: 'Antora 文档构建致命错误 ([ts] FATAL (antora): msg)'
+tool: antora
+category: build
+intent: failure
+confidence: high
+context: {before: 0, after: 6}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\[[^]]*\] *(\x1b\[[0-9;]*m)* *FATAL *(\x1b\[[0-9;]*m)* *\(antora\): '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
