@@ -1,0 +1,23 @@
+# samples: github.com/uutils/coreutils/2026-11-21 44962797649-137032388787 (L14565) / 2026-11-22 44967509800-137039763381 (L15553) / 44972541282-137055243780 (L15332) / 44978581430-137073887036 (L13871) (Test builds (API 28, x86_64) x4)
+# 形态: Rust 运行时 panic 头经 CI 时间戳包装器改写 — `[YYYY-MM-DD HH:MM:SS]` 前缀
+# + 空格 + ANSI 色码后接 thread '<name>' (<id>)? panicked at <loc>: (uutils Android
+# 模拟器测试作业, termux/adb 输出经时间戳 logger)。既有 rust-test-panic 锚 (行首
+# 裸 thread, 仅容忍 GHA 时间戳前缀) 不含包装前缀, 4 样本全部漏检。
+# 前置: PR #203 同因样本已出语料窗被 Tier A T4 close, 本 PR 以同因新样本重报 (规则原样, lint 曾绿)。
+# 锚选择: 包装时间戳前缀为硬约束, 与裸形规则零重叠; intent 降级 warning 同
+# rust-test-panic — #[should_panic] 预期 panic 行级不可分 (niri success 样本实测
+# 同签名裸形), 失败判词由 rust-error-timestamped 以 failure intent 兜底。
+id: rust-test-panic-timestamped
+title: Rust 运行时 panic — CI 时间戳包装前缀形 (thread panicked at)
+tool: rust
+category: test
+intent: warning
+confidence: high
+context: {before: 0, after: 2}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\[[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}\] *(\x1b\[[0-9;]*m)* *thread ''[^'']+''( \([0-9]+\))? panicked at '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
