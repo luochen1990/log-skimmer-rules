@@ -1,0 +1,20 @@
+# samples: github.com/sharkdp/fd/2026-11-22/45000069909-137139468706 (x86_64-apple-darwin (macos 26))
+# 形态: rustup 工具链下载失败判词 `error: could not download file from '<url>' to
+# '<tmp>': error downloading file: <错误链>` — rustup 自有错误格式, 本样本根因 DNS
+# 解析失败 (dns error: failed to lookup address information: nodename nor servname
+# provided, or not known)。dtolnay/rust-toolchain 等安装步骤网络故障的固定收尾,
+# 任何仓的 Rust CI 通用; 成功侧无此行, 无 FP 面。
+id: rustup-download-failed
+title: 'rustup 工具链下载失败 (error: could not download file from)'
+tool: rustup
+category: infra
+intent: failure
+confidence: high
+context: {before: 0, after: 2}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?error: could not download file from '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
