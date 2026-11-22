@@ -1,0 +1,21 @@
+# samples: github.com/duckdb/duckdb/2026-11-22 44973589542-137058460092 (L1054)
+# 形态: util-linux fallocate 的 ENOSPC 判词 `fallocate: fallocate failed: No space left on device`
+# — runner 磁盘耗尽的工具级证据 (样本: pierotofy/set-swap-space action 建 8G swap 失败, 是本 job
+# 唯一非 trivial 失败证据 — set-swap-space / free-disk-space 前置链全部 success, 主 build 未启动)。
+# 全语料佐证: 1588 样本恰 1 命中 0 FP。与 infra-disk-quota-exceeded (go 工具链 `disk quota exceeded`
+# 形) 互补: 本规则锚 util-linux 工具前缀判词, 不锚裸 ENOSPC errno 文本 (裸形在其他工具输出中
+# 可与结论不共变, FP 面大)。
+id: infra-fallocate-enospc
+title: 'fallocate 磁盘空间耗尽判词 (No space left on device)'
+tool: infra
+category: infra
+intent: failure
+confidence: high
+context: {before: 0, after: 0}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?fallocate: fallocate failed: No space left on device$'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
