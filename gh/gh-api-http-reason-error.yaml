@@ -1,0 +1,22 @@
+# samples: github.com/elixir-lang/elixir/2026-11-21/44928829940-136926125144 (Upload release, L124)
+# 形态: gh CLI 对 GitHub REST API 的 HTTP 错误行带原因短语形 `HTTP <code>:
+# <Reason phrase> (<api url>)` (样本: `HTTP 404: Not Found (https://api.github.com/
+# repos/elixir-lang/elixir/releases/assets/775401831)` — gh release upload 目标
+# asset 不存在)。既有 gh 族不收此形: gh-api-http-error 锚 `HTTP [45]xx (url)`
+# (code 后直连 URL, 无原因短语), integration/validation 两规则仅收特定短语。
+# 锚选择: `HTTP [45]xx: ` + 大写开头原因短语 + 括注 URL 结构约束 — 全语料
+# success 样本扫描 0 命中; 该形为 gh CLI 通用失败签名, 非仓特有。
+id: gh-api-http-reason-error
+title: 'gh CLI HTTP API 错误 — 原因短语形 (HTTP <code>: <Reason> (url))'
+tool: gh
+category: infra
+intent: failure
+confidence: high
+context: {before: 0, after: 2}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?HTTP [45][0-9]{2}: [A-Z][a-zA-Z ]+ \(https?://'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

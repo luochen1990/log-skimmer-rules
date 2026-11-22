@@ -1,0 +1,21 @@
+# samples: github.com/anomalyco/opencode/2026-11-21/44935087327-136943155131 (sign-macos, L427)
+# 形态: macOS hdiutil 工具自身失败行 `hdiutil: <verb> failed - <errno 短语>`
+# (样本: `hdiutil: create failed - Resource busy` — dmg 打包步骤 exit 1 前唯一
+# 非平凡工具签名, 步骤内其余输出为 notarytool/stapler 成功侧文案)。
+# 锚选择: hdiutil 仅在自身命令失败时打印该形 (全语料 success 样本扫描 0 命中);
+# <verb> 泛化小写词覆盖 create/attach/convert/detach 同构失败。跨仓通用: 任何
+# macOS 打包 CI 的 hdiutil 失败都打印此签名, 非仓特有文案。
+id: hdiutil-cmd-failed
+title: 'hdiutil 命令失败 (hdiutil: <verb> failed - ...)'
+tool: hdiutil
+category: build
+intent: failure
+confidence: high
+context: {before: 0, after: 1}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?hdiutil: [a-z]+ failed - '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
