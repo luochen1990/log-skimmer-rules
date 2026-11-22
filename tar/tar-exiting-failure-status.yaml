@@ -1,0 +1,21 @@
+# samples: github.com/pnpm/pnpm/2026-11-22/45016903299-137191977027 (Verify TypeScript pnpm executable)
+# 形态: GNU tar 非致命失败收尾判词 `tar: Exiting with failure status due to
+# previous errors` — tar 遇错继续、退出时汇总的固定判词, 与既有
+# tar-unrecoverable-error 的致命收尾 (`Error is not recoverable: exiting now`)
+# 互补不重叠。本样本根因: Windows runner 解包含符号链接的 artifact, 5×
+# `Cannot create symlink to '../..': Too many levels of symbolic links` —
+# before=5 带出根因行。成功侧 tar 静默, 无 FP 面; 任何仓的 tar 解包 CI 通用。
+id: tar-exiting-failure-status
+title: 'tar 非致命失败收尾 (Exiting with failure status due to previous errors)'
+tool: tar
+category: unknown
+intent: failure
+confidence: high
+context: {before: 5, after: 1}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?g?tar: Exiting with failure status due to previous errors'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
