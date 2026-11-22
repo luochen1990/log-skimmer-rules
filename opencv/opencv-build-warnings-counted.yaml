@@ -1,0 +1,23 @@
+# samples: github.com/opencv/opencv/2026-11-20/44727239573-136257644599-Ubuntu2404-ARM64-Debug---Build-failure.log.gz (L4783)
+# 形态: opencv CI 构建判词计数变体 `Build has <N> warnings.` (L4783 'Build has 9
+# warnings.' 紧邻 L4784 ##[error] exit 1 — opencv CI 将构建警告升级为失败)。
+# 既有 opencv-dnn-test-error ② 锚 `Build has warnings\.` 为零计数精确匹配, 计数
+# 形态漏检 (本样本无 [ERROR:N@T] 形, 仅判词臂可见)。
+# 加性重报: 原 PR #201 以修改既有锚方式泛化, 被 Tier A T3 加性-only 断言拒绝;
+# 本规则为新增文件, 只收带计数形态, 与既有零计数锚不重叠 (两锚合一泛化留人类
+# 合并时定夺)。
+# FP: 全语料 'Build has' 仅失败样本命中, 0 success。
+id: opencv-build-warnings-counted
+title: OpenCV 构建判词 — 计数形态 (Build has N warnings.)
+tool: opencv
+category: build
+intent: failure
+confidence: high
+context: {before: 0, after: 1}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Build has [0-9]+ warnings\.'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
