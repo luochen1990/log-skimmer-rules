@@ -1,0 +1,23 @@
+# samples: github.com/uutils/coreutils/2026-11-22 45017849433-137205243804 (L14209) / 45019931677-137209186101 (L14742) / 45020167457-137209201333 (L14839) / 45020195713-137201153734 (L15240) / 45024707516-137226146736 (L14157) / 45027617270-137223976863 (L14643) (Test builds (API 28, x86_64) ×6)
+# 形态: Rust 工具链 (cargo/libtest) error 判词行经 CI 时间戳包装器改写 —
+# `[YYYY-MM-DD HH:MM:SS]` + ANSI 色码 + `error: <...>` (样本判词: error: test run
+# failed, libtest 运行失败)。无包装形的 cargo/rustc error 判词族已有覆盖
+# (rustc-error-tree / cargo-nextest-run-failed), 包装前缀形全部漏检。
+# 前置: PR #203/#215 同因重报 (样本出语料窗/门禁 T4 零提取被 close), lint 曾绿。
+# 锚选择: 包装时间戳前缀为硬约束 — error 判词仅出现在失败侧, cargo 成功运行
+# 不打印 error: (全语料 success 样本扫描 0 命中); intent=failure 承担本簇样本的
+# job 级失败证据, panic 精确定位由 rust-test-panic-timestamped (warning) 补充。
+id: rust-error-timestamped
+title: Rust 工具链 error 判词 — CI 时间戳包装前缀形
+tool: rust
+category: unknown
+intent: failure
+confidence: high
+context: {before: 0, after: 2}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\[[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}\] *(\x1b\[[0-9;]*m)*error(\x1b\[[0-9;]*m)*: '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
