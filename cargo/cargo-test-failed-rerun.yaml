@@ -1,0 +1,20 @@
+# samples: github.com/tokio-rs/tokio/2026-11-22/45058434072-137318755703 / 45059167142-137320989970 (loom-tokio-util)
+# 锚: cargo 测试失败判词 `error: test failed, to rerun pass <target>` — error 词与
+# 冒号间夹 ANSI 色码 (bold/red)。cargo-nextest-run-failed 只锚 nextest 判词
+# "test run failed", rustc-error-tree 只锚 error[Exxxx], 本族 (语料 30 文件: loom/
+# Unit-tests/coverage/Test-suite 等, 全 failure 0 success) 此前整体漏检。
+# context.after=3 带出空行后的 Caused by: 链 (signal: 6, SIGABRT 等)。
+id: cargo-test-failed-rerun
+title: 'cargo 测试失败判词 (error: test failed, to rerun pass ...)'
+tool: cargo
+category: test
+intent: failure
+confidence: high
+context: { before: 0, after: 3 }
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*error(?:\x1b\[[0-9;]*m)*: test failed, to rerun'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
