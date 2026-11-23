@@ -1,0 +1,20 @@
+# samples: github.com/tokio-rs/tokio/2026-11-22/45058434072-137318755703-loom-tokio-util-failure.log.gz / 45059167142-137320989970-loom-tokio-util-failure.log.gz
+# 语料同族 (全 failure): tokio loom-tokio-util 44838781778 / 44898731164 / 44899554835。
+# 锚: Rust std 运行时终止判词 "thread caused non-unwinding panic. aborting." —
+# 析构期 panic 触发 abort (panic=unwind 下的 corner case), 进程随即死亡, job 恒失败
+# (语料 5 文件全 failure, 0 success)。panic 头行已由 rust-test-panic (warning intent)
+# 覆盖, 本规则补 failure-intent 判定面; context.before=2 带出 panic 头与
+# "panic in a destructor during cleanup" 行 (仅扩输出, 不扩状态机)。
+id: rust-panic-abort-nonunwinding
+title: Rust 非回卷 panic 终止 (thread caused non-unwinding panic. aborting.)
+tool: rust
+category: test
+confidence: high
+context: { before: 2, after: 0 }
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?thread caused non-unwinding panic\. aborting\.'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
