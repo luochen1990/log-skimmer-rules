@@ -1,0 +1,20 @@
+# samples: github.com/BurntSushi/ripgrep/2026-11-22/45031663727-137236424660 / 45032744553-137239767184 / 45033041258-137240673011 / 45034108013-137243956128 (build-release-deb ×4)
+# 锚: 校验和工具缺文件判词 `<shasum|sha256sum|sha512sum|sha1sum|md5sum>: <file>: No
+# such file or directory` — 前置构建产物缺失的直接症状 (本簇: release 注入
+# VERSION=16.0.0 与 Cargo.toml 15.2.0 错位, 产出 deb 文件名不带期望版本, shasum
+# 找不到目标)。shell-command-not-found 的 `.sh: line N:` 前缀形与本行首 `tool:`
+# 形不交; 语料 4 文件全 failure, 0 success。sha/md5 兄弟工具同构判词一并覆盖
+# (语料零额外命中, 泛化面记于此)。
+id: fileutils-checksum-no-such-file
+title: '校验和工具缺文件 (shasum/sha256sum: <file>: No such file or directory)'
+tool: fileutils
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(shasum|sha256sum|sha512sum|sha1sum|md5sum): \S.*: No such file or directory$'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
