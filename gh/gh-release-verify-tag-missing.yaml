@@ -1,0 +1,18 @@
+# samples: github.com/BurntSushi/ripgrep/2026-11-22/45031543139-137236013727-create-release-failure.log.gz (L136)
+# 锚: gh release create --verify-tag 的中止判词 `tag <tag> doesn't exist in the repo
+# <owner/repo>, aborting due to --verify-tag flag` — gh 原生输出, 任何仓的 release
+# 编排先于打 tag 跑 --verify-tag 即触发 (发版脚本版本号与仓库 tag 状态错位)。
+# gh-cli-error 只锚 `gh: ` 前缀形, 本裸判词形不交; 语料 1 文件 failure, 0 success。
+id: gh-release-verify-tag-missing
+title: 'gh release --verify-tag 标签缺失判词 (tag X doesn''t exist ..., aborting)'
+tool: gh
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?tag \S+ doesn\x27t exist in the repo \S+, aborting due to --verify-tag flag$'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

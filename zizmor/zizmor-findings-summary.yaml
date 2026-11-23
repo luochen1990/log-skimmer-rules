@@ -1,0 +1,23 @@
+# samples: github.com/curl/curl/2026-11-22/45075802943-137372618747 / 45076212095-137373964103 / 45077035255-137376464206 / 45077469458-137377802149 (misc-checks ×4)
+# 锚: zizmor plain 模式汇总判词 `N findings (M safe fixes): a informational, b low,
+# c medium, d high` — 数字与括号均被 ANSI 色码包裹, 逐位 (?:\x1b\[..m)* 容差;
+# N≥1 硬约束 (零发现汇总不锚)。门禁阈值模式下该汇总即失败判据 (curl 门禁
+# medium+ fail, 包装脚本 exit 123)。刻意不锚 warning[audit-id] 行本身 — ty 等
+# 工具同形 warning[rule-id]: 语料实测碰撞 (openai-python 44269868106); 亦不锚
+# docs.zizmor.sh help 行 — advisory 模式 success 样本 (podman/pandas/vite) 有同构
+# 行。语料 4 文件全 failure, 0 success。context.before=10 带出上方 finding 块
+# (audit id/位置/help)。
+id: zizmor-findings-summary
+title: 'zizmor 审计汇总判词 (N findings (M safe fixes): ... medium/high 计数)'
+tool: zizmor
+category: security
+intent: failure
+confidence: high
+context: { before: 10, after: 0 }
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*[1-9][0-9]*(?:\x1b\[[0-9;]*m)* findings \((?:\x1b\[[0-9;]*m)*[0-9]+(?:\x1b\[[0-9;]*m)* safe fixes(?:\x1b\[[0-9;]*m)*\): '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
