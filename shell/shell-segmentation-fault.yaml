@@ -1,0 +1,20 @@
+# samples: github.com/opencv/opencv/2026-11-21/44949300805-137223739618-Windows---Windows-(x64,-base,--failure.log.gz (L12357)
+# 语料同族 (全 failure): erlang/otp 44711623924 Build-Erlang-OTP-(macOS) — macOS 形
+# "Segmentation fault: 11" (带 signal 编号后缀)。
+# 锚: bash 前台作业致命信号通知 `<script>: line N: <PID> Segmentation fault` —
+# bash job control 判词, 跨仓通形 (Windows Git-bash / macOS / Linux 同构), 前台进程
+# 段错误即 job 失败 (语料 2 文件全 failure, 0 success)。行内匹配 (无 ^) 容忍
+# Windows 盘符路径 (C:\...) 与 GHA 时间戳前缀; nim-segv 只锚 nim 栈回溯形, 不交。
+id: shell-segmentation-fault
+title: 'bash 作业段错误通知 (script: line N: PID Segmentation fault)'
+tool: shell
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: ': line [0-9]+: +[0-9]+ Segmentation fault'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
