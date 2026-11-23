@@ -1,0 +1,26 @@
+# samples: github.com/astral-sh/ruff/2026-11-23/45102123222-137455273747-crates-cooldowns-failure.log.gz (L303-304 连续两判词行)
+# 锚: astral-sh/github-actions cargo-cooldowns 动作 (check_cargo_cooldowns.py, 供给链新鲜度门禁:
+# Cargo.lock 内依赖须过 N 天冷却期才准入) 的违例判词行 `'crate@ver' in 'Cargo.lock' was published
+# at <RFC3339>; its <N>-day cooldown ends at <RFC3339>.`。源码级 FP 免疫: 判词仅在
+# `if now < eligible:` 违例分支打印并置 failed=True (脚本 return int(failed), exit 1), 成功侧
+# 结构性不出现; 同 run 的 `Excluded '<crate>@<ver>': '<reason>'` 豁免回显与收尾 `Checked N locked
+# registry versions (M cached publication times).` 成功侧恒在, 均不作锚。签名串 `was published
+# at ...; its N-day cooldown ends at ...` 为该 checker 特异且跨仓同形 (任何采用此 action 的仓
+# 一致), 判词走 stderr 与 GH 日志无 ANSI 污染; 宿主时间戳前缀容忍与 trivy 族同款。category 取
+# security: 供给链危险模式门禁 (依赖过新 = 投毒窗口风险), 非依赖获取失败 (deps 域)。patterns[1]
+# 同锚 loop 贪心消费连续多枚违例行 (多依赖同拍到期是常态), Excluded 行天然断块。
+id: cargo-cooldowns-violation
+title: "cargo 依赖冷却期违例 (crate@ver was published at ...; its N-day cooldown ends at ...)"
+tool: cargo-cooldowns
+category: security
+intent: failure
+confidence: high
+patterns:
+  - regex: "^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?'[^']+' in [^;]+ was published at [^;]+; its [0-9]+-day cooldown ends at [0-9]{4}-[0-9]{2}-[0-9]{2}T"
+  - regex: "^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?'[^']+' in [^;]+ was published at [^;]+; its [0-9]+-day cooldown ends at [0-9]{4}-[0-9]{2}-[0-9]{2}T"
+    loop: true
+kind: signal
+attribution:
+  contributor: "LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)"
+  generated-by: { harness: dg-responder, model: glm-5.3 }
+  adapter-version: dg-responder-v2
