@@ -1,0 +1,18 @@
+# samples: github.com/swiftlang/swift-syntax/2026-11-08/42440452601-128608363082-Run-tests-using-swift-syntax-d-failure.log.gz
+#   (原 DG 样本 github.com/openssl/openssl/.../45227687305-...-failure.log.gz 已出语料窗)
+# 锚: docker CLI 连不上 daemon 的自打判词 `failed to connect to the docker API at
+# <endpoint>; check if the path is correct and if the daemon is running` — npipe/unix
+# 双形态同构; 语料 2 命中全 failure (openssl 已出窗 + swift-syntax 在库), 0 success。
+id: docker-daemon-connect-failed
+title: docker daemon 连接失败 (failed to connect to the docker API at ...)
+tool: docker
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?failed to connect to the docker API at '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

@@ -1,0 +1,18 @@
+# samples: github.com/starship/starship/2026-11-23/45189792535-137744786741-Rustfmt-[Formatter]-failure.log.gz
+# 锚: rustfmt 撞上未解决 merge 冲突标记的自打判词 `error: encountered diff marker`
+# (任何仓的 fmt CI 源码含冲突标记同构); 扩展吞 rustfmt 诊断块 (缩进 / ... / N | 行)。
+id: rustfmt-conflict-marker
+title: 'rustfmt 冲突标记解析失败 (error: encountered diff marker)'
+tool: rustfmt
+category: fmt
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?error: encountered diff marker$'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(\s|\.\.\.|[0-9]+ \| )'
+    loop: true
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
