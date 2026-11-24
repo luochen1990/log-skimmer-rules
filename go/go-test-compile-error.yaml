@@ -1,9 +1,9 @@
 # samples: github.com/grafana/loki/2026-11-23/45185982933-137731578741-check---faillint-failure.log.gz
-# é: go test ç¼è¯å¤±è´¥åè¯æ­å¤´ `-: # <pkg> [<pkg>.test]` â docker exec ååµ go test
-# å½¢æ (go-compile-error ç `# pkg` å¤´è¢«å®¹å¨ `-: ` åç¼é®è½, è¿å¤±åä½è¡¥å£);
-# æ©å±å file.go:l:c è¯æ­è¡ä¸ \thave/\twant ç­¾åè¡ã
+# 锚: go test 编译失败包诊断头 `-: # <pkg> [<pkg>.test]` — docker exec 内嵌 go test
+# 形态 (go-compile-error 的 `# pkg` 头被容器 `-: ` 前缀遮蔽, 近失变体补口);
+# 扩展吞 file.go:l:c 诊断行与 \thave/\twant 签名行。
 id: go-test-compile-error
-title: 'go æµè¯ç¼è¯è¯æ­å (-: # pkg [pkg.test] å¤´ + file.go:l:c è¯æ­)'
+title: 'go 测试编译诊断块 (-: # pkg [pkg.test] 头 + file.go:l:c 诊断)'
 tool: go
 category: typecheck
 intent: failure

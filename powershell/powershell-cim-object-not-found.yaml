@@ -1,9 +1,9 @@
 # samples: github.com/gradle/gradle/2026-11-23/45157975228-137635694623-Smoke-test-on-ImDisk-exFAT-failure.log.gz
-# é: PowerShell CIM æ¥è¯¢æ æéè¯¯ `No MSFT_<class> objects found with property '<p>'
-# equal to '<v>'` (Get-Volume ç­ cmdlet æ¸²æ); è¡ä¸­åµ ANSI/gutter, ä¾
-# powershell-error-record åä¾å»è¡é¦éååç¼ãsuccess ä¾§é¶å½ä¸­ã
+# 锚: PowerShell CIM 查询无果错误 `No MSFT_<class> objects found with property '<p>'
+# equal to '<v>'` (Get-Volume 等 cmdlet 渲染); 行中嵌 ANSI/gutter, 依
+# powershell-error-record 先例去行首锚吃前缀。success 侧零命中。
 id: powershell-cim-object-not-found
-title: PowerShell CIM å¯¹è±¡æ¥è¯¢æ æ (No MSFT_* objects found with property ...)
+title: PowerShell CIM 对象查询无果 (No MSFT_* objects found with property ...)
 tool: powershell
 category: infra
 intent: failure
