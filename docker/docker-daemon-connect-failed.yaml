@@ -1,9 +1,9 @@
 # samples: github.com/openssl/openssl/2026-11-23/45227687305-137878484262-vs2013-(x86,-VC-WIN32-MSVC2013-failure.log.gz
-# é: docker CLI è¿ä¸ä¸ daemon çèªæå¤è¯ `failed to connect to the docker API at
-# <endpoint>; check if the path is correct and if the daemon is running` â npipe/unix
-# åå½¢æåæ; è¯­æå¦å½ä¸­ apple/swift-syntax åæ¬¾ (è·¨ä»ä½è¯), success ä¾§é¶å½ä¸­ã
+# 锚: docker CLI 连不上 daemon 的自打判词 `failed to connect to the docker API at
+# <endpoint>; check if the path is correct and if the daemon is running` — npipe/unix
+# 双形态同构; 语料另命中 apple/swift-syntax 同款 (跨仓佐证), success 侧零命中。
 id: docker-daemon-connect-failed
-title: docker daemon è¿æ¥å¤±è´¥ (failed to connect to the docker API at ...)
+title: docker daemon 连接失败 (failed to connect to the docker API at ...)
 tool: docker
 category: infra
 intent: failure

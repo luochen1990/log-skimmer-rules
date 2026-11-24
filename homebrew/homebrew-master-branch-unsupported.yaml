@@ -1,8 +1,8 @@
 # samples: github.com/haskell/haskell-language-server/2026-11-23/45098766442-137444481014-build-aarch64-mac-9141-(Build--failure.log.gz
-# é: brew æç»å¨ä»æå master çåéä¸è¿è¡ â `Error: Homebrew's master branch is no
-# longer supported.` (+ è¿ç§»æç¤ºè¡); ä»»ä½ä» macOS CI è£ä¾èµææªè¿ç§»åéåæã
+# 锚: brew 拒绝在仍指向 master 的克隆上运行 — `error: Homebrew's master branch is no
+# longer supported.` (+ 迁移提示行); 任何仓 macOS CI 装依赖撞未迁移克隆同构。
 id: homebrew-master-branch-unsupported
-title: 'Homebrew master åæ¯å·²å¼ç¨ (Error: Homebrew''s master branch is no longer supported)'
+title: 'Homebrew master 分支已弃用 (Error: Homebrew''s master branch is no longer supported)'
 tool: homebrew
 category: infra
 intent: failure
