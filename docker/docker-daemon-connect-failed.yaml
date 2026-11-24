@@ -1,0 +1,17 @@
+# samples: github.com/openssl/openssl/2026-11-23/45227687305-137878484262-vs2013-(x86,-VC-WIN32-MSVC2013-failure.log.gz
+# é: docker CLI è¿ä¸ä¸ daemon çèªæå¤è¯ `failed to connect to the docker API at
+# <endpoint>; check if the path is correct and if the daemon is running` â npipe/unix
+# åå½¢æåæ; è¯­æå¦å½ä¸­ apple/swift-syntax åæ¬¾ (è·¨ä»ä½è¯), success ä¾§é¶å½ä¸­ã
+id: docker-daemon-connect-failed
+title: docker daemon è¿æ¥å¤±è´¥ (failed to connect to the docker API at ...)
+tool: docker
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?failed to connect to the docker API at '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

@@ -1,0 +1,18 @@
+# samples: github.com/starship/starship/2026-11-23/45189792535-137744786741-Rustfmt-[Formatter]-failure.log.gz
+# é: rustfmt æä¸æªè§£å³ merge å²çªæ è®°çèªæå¤è¯ `error: encountered diff marker`
+# (ä»»ä½ä»ç fmt CI æºç å«å²çªæ è®°åæ); æ©å±å rustfmt è¯æ­å (ç¼©è¿ / ... / N | è¡)ã
+id: rustfmt-conflict-marker
+title: 'rustfmt å²çªæ è®°è§£æå¤±è´¥ (error: encountered diff marker)'
+tool: rustfmt
+category: fmt
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?error: encountered diff marker$'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(\s|\.\.\.|[0-9]+ \| )'
+    loop: true
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
