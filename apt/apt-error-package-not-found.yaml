@@ -1,0 +1,19 @@
+# samples: github.com/django/django/2026-11-24/45314527667-138178055568-Byte-compiled-Django-with-no-s-failure.log.gz
+# 锚: apt ≥3.0 (Ubuntu 26.04 runner) 全词前缀形态 `Error: Package '<n>' has no installation
+# candidate` / `Error: Unable to locate package <n>` — 语义与 E: 前缀两兄弟规则 (apt-package-
+# unavailable / apt-unable-to-locate-package) 同族, apt 3.x 把 E:/W: 换成全词前缀后旧锚不命中;
+# before 2 带出 "Package X is not available..." 提示行。成功侧装包正常不出现 — FP 免疫。
+id: apt-error-package-not-found
+title: 'apt 3.x 包解析失败 (Error: Package ... has no installation candidate / Unable to locate package)'
+tool: apt
+category: deps
+intent: failure
+confidence: high
+context: {before: 2, after: 0}
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Error: (?:Package .+ has no installation candidate|Unable to locate package )'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
