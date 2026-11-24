@@ -1,0 +1,20 @@
+# samples: github.com/rust-analyzer/rust-analyzer/2026-11-23/45232526258-137895563497-Rust-(macos-latest)-failure.log.gz
+# 锚: cargo-machete 判词 `cargo-machete found the following unused dependencies in this
+# directory:` — 工具自打判词, 任何仓 CI 跑 cargo machete 撞未用依赖即失败同构; 扩展吞依赖
+# 清单行 (crate -- Cargo.toml 路径行 + 缩进依赖名), 空行闭块 (提示段落不吞)。
+# 成功侧无未用依赖不出判词 (全语料 1 命中, 0 success) — FP 免疫。
+id: cargo-machete-unused-deps
+title: 'cargo-machete 发现未用依赖 (found the following unused dependencies)'
+tool: cargo-machete
+category: lint
+intent: failure
+confidence: high
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?cargo-machete found the following unused dependencies'
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\S+ -- \S+|\s+\S+)'
+    loop: true
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
