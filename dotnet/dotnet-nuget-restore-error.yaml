@@ -1,8 +1,8 @@
 # samples: github.com/dotnet/runtime/2026-11-23/45203025972-137791228671-Format-jit-codebase-windows-failure.log.gz
-# é: NuGet è¿åéè¯¯ `<proj> : error NU1301: ...` (MSBuild error çº§ + NU å·¥å·ç ,
-# ä»»ä½ .NET CI æä¸ feed 5xx/ä¸å¯è¾¾åæ); æ©å±åè¿ç»­ NU éè¯¯è¡ + Failed to restore æ±æ»ã
+# 锚: NuGet 还原错误 `<proj> : error NU1301: ...` (MSBuild error 级 + NU 工具码,
+# 任何 .NET CI 撞上 feed 5xx/不可达同构); 扩展吞连续 NU 错误行 + Failed to restore 汇总。
 id: dotnet-nuget-restore-error
-title: 'NuGet è¿åå¤±è´¥ (: error NU1301: ... / Failed to restore ...)'
+title: 'NuGet 还原失败 (: error NU1301: ... / Failed to restore ...)'
 tool: dotnet
 category: deps
 intent: failure

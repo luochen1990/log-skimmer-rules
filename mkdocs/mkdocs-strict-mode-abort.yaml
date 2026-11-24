@@ -1,8 +1,8 @@
 # samples: github.com/pydantic/pydantic/2026-11-23/45184534263-137726595371-docs-build-failure.log.gz
-# é: mkdocs --strict æè­¦ååçº§ä¸ºå¤±è´¥çæ»å¤è¯ `Aborted with N warnings/errors in
-# strict mode!`; context.before 6 å¸¦åè§¦åä¸­æ­¢ç WARNING è¡ (çå è¯æ®)ã
+# 锚: mkdocs --strict 把警告升级为失败的总判词 `Aborted with N warnings/errors in
+# strict mode!`; context.before 6 带回触发中止的 WARNING 行 (真因证据)。
 id: mkdocs-strict-mode-abort
-title: mkdocs strict æ¨¡å¼ä¸­æ­¢ (Aborted with N warnings in strict mode!)
+title: mkdocs strict 模式中止 (Aborted with N warnings in strict mode!)
 tool: mkdocs
 category: build
 intent: failure

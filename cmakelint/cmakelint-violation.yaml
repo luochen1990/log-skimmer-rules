@@ -1,8 +1,8 @@
 # samples: github.com/curl/curl/2026-11-23/45210024677-137816004753-spellcheck,-linters,-REUSE-failure.log.gz
-# é: cmakelint è¿ä¾è¡ `<file>:<line>,<col>: [Cxxxx] <msg>` â å·¥å·èªææ ¼å¼
-# (éå·åéè¡å + æ¹æ¬å·æ£æ¥ç ), ä»»ä½ä»ç cmakelint é¨ç¦åæã
+# 锚: cmakelint 违例行 `<file>:<line>,<col>: [Cxxxx] <msg>` — 工具自打格式
+# (逗号分隔行列 + 方括号检查码), 任何仓的 cmakelint 门禁同构。
 id: cmakelint-violation
-title: 'cmakelint è¿è§ (<file>:<line>,<col>: [Cxxxx] ...)'
+title: 'cmakelint 违规 (<file>:<line>,<col>: [Cxxxx] ...)'
 tool: cmakelint
 category: lint
 intent: failure
