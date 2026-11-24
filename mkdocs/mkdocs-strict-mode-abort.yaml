@@ -1,0 +1,17 @@
+# samples: github.com/pydantic/pydantic/2026-11-23/45184534263-137726595371-docs-build-failure.log.gz
+# 锚: mkdocs --strict 把警告升级为失败的总判词 `Aborted with N warnings/errors in
+# strict mode!`; context.before 6 带回触发中止的 WARNING 行 (真因证据)。
+id: mkdocs-strict-mode-abort
+title: mkdocs strict 模式中止 (Aborted with N warnings in strict mode!)
+tool: mkdocs
+category: build
+intent: failure
+confidence: high
+context: {before: 6, after: 0}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Aborted with [0-9]+ (warnings?|errors?) in strict mode!$'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
