@@ -1,0 +1,21 @@
+# samples: github.com/uutils/coreutils/2026-11-24/45296559442-138118331049-Style-and-Lint-failure.log.gz,
+#   45296664566-138118690075-Style-and-Lint-failure.log.gz (+语料 6: uutils ×5 / googletest ×1, 全 failure)
+# 锚: sccache 服务启动超时判词 `sccache: error: Timed out waiting for server startup. Maybe the
+# remote service is unreachable?` — 远端缓存服务不可达时 sccache 自打判词, 跨仓同构; before 2
+# 带出 rustup 连坐判词 `error: process didn't exit successfully: ...`, 扩展吞 SCCACHE_LOG 提示行。
+# 成功侧 sccache 启动正常不出判词 (全语料扫描 0 success 命中) — FP 免疫。
+id: sccache-server-startup-timeout
+title: 'sccache 服务启动超时 (Timed out waiting for server startup)'
+tool: sccache
+category: infra
+intent: failure
+confidence: high
+context: {before: 2, after: 0}
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?sccache: error: Timed out waiting for server startup'
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Run with SCCACHE_LOG='
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
