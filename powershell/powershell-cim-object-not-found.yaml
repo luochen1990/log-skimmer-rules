@@ -1,0 +1,17 @@
+# samples: github.com/gradle/gradle/2026-11-23/45157975228-137635694623-Smoke-test-on-ImDisk-exFAT-failure.log.gz
+# é: PowerShell CIM æ¥è¯¢æ æéè¯¯ `No MSFT_<class> objects found with property '<p>'
+# equal to '<v>'` (Get-Volume ç­ cmdlet æ¸²æ); è¡ä¸­åµ ANSI/gutter, ä¾
+# powershell-error-record åä¾å»è¡é¦éååç¼ãsuccess ä¾§é¶å½ä¸­ã
+id: powershell-cim-object-not-found
+title: PowerShell CIM å¯¹è±¡æ¥è¯¢æ æ (No MSFT_* objects found with property ...)
+tool: powershell
+category: infra
+intent: failure
+confidence: medium
+patterns:
+  - regex: 'No MSFT_[A-Za-z_]+ objects found with property ''[^'']+'' equal to ''[^'']+'''
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

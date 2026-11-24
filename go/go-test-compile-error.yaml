@@ -1,0 +1,19 @@
+# samples: github.com/grafana/loki/2026-11-23/45185982933-137731578741-check---faillint-failure.log.gz
+# é: go test ç¼è¯å¤±è´¥åè¯æ­å¤´ `-: # <pkg> [<pkg>.test]` â docker exec ååµ go test
+# å½¢æ (go-compile-error ç `# pkg` å¤´è¢«å®¹å¨ `-: ` åç¼é®è½, è¿å¤±åä½è¡¥å£);
+# æ©å±å file.go:l:c è¯æ­è¡ä¸ \thave/\twant ç­¾åè¡ã
+id: go-test-compile-error
+title: 'go æµè¯ç¼è¯è¯æ­å (-: # pkg [pkg.test] å¤´ + file.go:l:c è¯æ­)'
+tool: go
+category: typecheck
+intent: failure
+confidence: medium
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?-: # [a-z0-9._/-]+ \[[a-z0-9._/-]+\.test\]$'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(\S+\.(go|s|c):[0-9]+:[0-9]+: |\t)'
+    loop: true
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
