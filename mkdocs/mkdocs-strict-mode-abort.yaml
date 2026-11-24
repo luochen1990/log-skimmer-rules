@@ -1,0 +1,17 @@
+# samples: github.com/pydantic/pydantic/2026-11-23/45184534263-137726595371-docs-build-failure.log.gz
+# é: mkdocs --strict æè­¦ååçº§ä¸ºå¤±è´¥çæ»å¤è¯ `Aborted with N warnings/errors in
+# strict mode!`; context.before 6 å¸¦åè§¦åä¸­æ­¢ç WARNING è¡ (çå è¯æ®)ã
+id: mkdocs-strict-mode-abort
+title: mkdocs strict æ¨¡å¼ä¸­æ­¢ (Aborted with N warnings in strict mode!)
+tool: mkdocs
+category: build
+intent: failure
+confidence: high
+context: {before: 6, after: 0}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Aborted with [0-9]+ (warnings?|errors?) in strict mode!$'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

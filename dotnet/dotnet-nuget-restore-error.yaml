@@ -1,0 +1,18 @@
+# samples: github.com/dotnet/runtime/2026-11-23/45203025972-137791228671-Format-jit-codebase-windows-failure.log.gz
+# é: NuGet è¿åéè¯¯ `<proj> : error NU1301: ...` (MSBuild error çº§ + NU å·¥å·ç ,
+# ä»»ä½ .NET CI æä¸ feed 5xx/ä¸å¯è¾¾åæ); æ©å±åè¿ç»­ NU éè¯¯è¡ + Failed to restore æ±æ»ã
+id: dotnet-nuget-restore-error
+title: 'NuGet è¿åå¤±è´¥ (: error NU1301: ... / Failed to restore ...)'
+tool: dotnet
+category: deps
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?.*: error NU[0-9]{4}: '
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(.*: error NU[0-9]{4}: |  Failed to restore \S+ \(in [0-9.]+ sec\)\.)'
+    loop: true
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
