@@ -1,0 +1,22 @@
+# samples: github.com/astral-sh/ruff/2026-11-24/45402306936-138475933102-publish-report---publish-failure.log.gz
+# 形态: Python traceback 尾行的点分全限定形态 — 模块路径点 + 大写类名段 + 非空消息
+# (http.client.RemoteDisconnected / requests.exceptions.ConnectTimeout /
+# requests_mock.exceptions.NoMockAddress), 既有 python-traceback-uncaught-exception
+# 的锚 (类名以 Error|Exception 结尾) 不覆盖此形态。同构 TP: pandas-dev/pandas
+# 45107114422, semgrep/semgrep 45268881540 / 45269808555 (NoMockAddress x6)。
+# context.before 7 带出 traceback 主体 (File/源码行)。全语料 success 侧 0 命中
+# (含不限后缀的放宽形态扫描, 456 success 样本)。
+id: python-traceback-qualified-tail
+title: 'Python 未捕获异常 traceback 尾行 (点分全限定类名)'
+tool: python-traceback
+category: unknown
+intent: failure
+confidence: medium
+context: {before: 7, after: 0}
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?[a-z][A-Za-z0-9_]*(?:\.[A-Za-z0-9_]+)+\.[A-Z][A-Za-z0-9_]*: \S.+$'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

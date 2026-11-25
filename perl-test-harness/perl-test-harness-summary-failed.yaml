@@ -1,0 +1,20 @@
+# samples: github.com/openssl/openssl/2026-11-24/45444687047-138625075065-shared-(amd64,-windows-2022,-e-failure.log.gz
+# 形态: Perl Test::Harness (prove / openssl test 套壳) 测试失败双联 — 锚 Test
+# Summary Report 的 '<file>.t  (Wstat: N Tests: N Failed: M)' (M>=1 排除全过) 与
+# 流式 'Failed N/M subtests' 行; context.before 2 带出 'Test Summary Report' 头,
+# after 3 带出 'Failed test:' / 'Non-zero exit status' 明细。TAP/harness 格式跨仓
+# 同构 (任何 perl prove CI); 全语料 success 侧 0 命中。
+id: perl-test-harness-summary-failed
+title: 'Perl Test::Harness 测试失败 (Wstat / Failed subtests)'
+tool: perl-test-harness
+category: test
+intent: failure
+confidence: high
+context: {before: 2, after: 3}
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\S+\.t\s+\(Wstat: [0-9]+ Tests: [0-9]+ Failed: [1-9][0-9]*\)|Failed [0-9]+/[0-9]+ subtests)'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
