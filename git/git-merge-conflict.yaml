@@ -1,0 +1,19 @@
+# samples: github.com/bitcoin/bitcoin/2026-11-24/45320721261-138198318791-test-ancestor-commits-failure.log.gz
+# 形态: git merge 冲突 — 锚 'CONFLICT (content): Merge conflict in <path>' (git 标准
+# stderr, 指名冲突文件), 后随 'Automatic merge failed; fix conflicts ...'。同构 TP:
+# pandas-dev/pandas 45218549118 (数十行级联, repeat-collapse 呈现), withastro/astro
+# 44360389964。子类型泛化为 'CONFLICT ([a-z/]+):' (content/rename/delete 家族同前缀);
+# CONFLICT 行仅在冲突时打印, 全语料 success 侧 0 命中。
+id: git-merge-conflict
+title: 'git merge 冲突 (CONFLICT (content): Merge conflict in)'
+tool: git
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?CONFLICT \([a-z/]+\): '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
