@@ -1,0 +1,24 @@
+# samples: github.com/laravel/framework/2026-11-24/45433896646-138587492493-Update-changelog---update-failure.log.gz, github.com/laravel/framework/2026-11-24/45435626631-138595291262-Update-changelog---update-failure.log.gz
+# Box (humbug/box) 编译 PHAR 的运行前需求检查 (Box Requirements Checker) 失败:
+# 锚 `[ERROR] Your system is not ready to run the application` — 逐项检查 PHAR 打包应用的
+# 环境需求 (PHP 扩展/版本), 任一强制项不满足时打出的终判行。成功侧同构行是
+# `[OK] Your system is ready to run the application`, 锚只认 ERROR 变体 — FP 免疫。
+# 任何 Box 编译 PHAR 的 CI 容器 (本拍: stefanzweifel/changelog-updater-action, 缺 mbstring)
+# 同构出现, 跨仓工具签名非守卫文案; 与 symfony/requirements-checker 的 "...not ready to
+# run Symfony applications" 措辞不同, 不误撞。context.after=8 带出
+# `Fix the following mandatory requirements:` 块与 ` * The package "..." requires the
+# extension "..."` 根因明细, before=3 带出检查进度行 (`...E.` 的 E 即失败项)。
+id: box-requirements-not-ready
+title: 'Box PHAR 需求检查失败 (Your system is not ready to run the application)'
+tool: box
+category: deps
+intent: failure
+confidence: high
+context: {before: 3, after: 8}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )? ?\[ERROR\] Your system is not ready to run the application'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, fn-responder/glm-5.3)'
+  generated-by: {harness: fn-responder, model: glm-5.3}
+  adapter-version: 0.1.0
