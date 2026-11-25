@@ -1,0 +1,19 @@
+# samples: github.com/openssl/openssl/2026-11-25/45525077183-138906282247 (shared-x86-windows-2022)
+# 锚: MSVC 链接器诊断 '<target> : (fatal )?error LNK<code>: ' — LNK 码族 (LNK2019 未解析
+#   外部符号 / LNK1120 计数 / LNK1561 入口点 / LNK1181 输入文件缺失)。与既有
+#   msvc-compiler-error 的 'error C<code>:' 码段字符级不相交; 佐证: luarocks×2 failure
+#   同签名 ('LINK : fatal error LNK1561/LNK1181'), 全语料扫描 3 failure / 0 success。
+#   单行即完整定位 (目标/码/消息); LNK2019 与其 LNK1120 汇总行各自开块、相邻合并。
+id: msvc-linker-error
+title: 'MSVC 链接器诊断行 (target : error LNKxxxx:)'
+tool: msvc
+category: build
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\S+ : (fatal )?error LNK[0-9]+: '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

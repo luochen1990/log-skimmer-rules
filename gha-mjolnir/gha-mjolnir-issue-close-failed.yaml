@@ -1,0 +1,18 @@
+# samples: github.com/gradle/gradle/2026-11-24/45464580991-138695949606 (closeIssueOnPrMerge)
+# 锚: gha-mjolnir (ldez/gha-mjolnir, PR 合并自动关 issue) 的 gh API 失败文案
+#   'unable to close issue #N: PATCH <api-url>: 403 Resource not accessible by
+#   integration' — Go 标准 log 格式 (无 Actions 时间戳前缀), 既有 gh-api-integration-error
+#   锚不命中此形态; lint FN 残留修复 (语料窗移动新样本)。全语料扫描 1 failure / 0 success。
+id: gha-mjolnir-issue-close-failed
+title: 'gha-mjolnir issue 关闭失败 (gh API 40x)'
+tool: gha-mjolnir
+category: infra
+intent: failure
+confidence: medium
+patterns:
+  - regex: 'unable to close issue #[0-9]+: PATCH https://api\.github\.com/'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
