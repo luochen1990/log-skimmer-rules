@@ -1,0 +1,20 @@
+# samples: github.com/grpc/grpc-go/2026-11-24/45382489105-138404814934-vet-proto-failure.log.gz
+# 形态: go 工具链缺 go.sum 条目 — 锚 '<tab><mod>@<ver>: missing go.sum entry for go.mod
+# file; to add it:' (tab 前缀容忍), context.before 1 带出 'go: <mod>@<ver> requires',
+# after 1 带出修复提示 'go mod download <mod>'。rebase/generate 后 go.sum 未同步时
+# 出现。全语料 success 侧 0 命中; 既有 go-mod-fetch-error (下载失败) /
+# go-mod-parse-error (解析失败) 不覆盖此形态。
+id: go-mod-gosum-missing
+title: 'go.sum 缺条目 (missing go.sum entry for go.mod file)'
+tool: go
+category: deps
+intent: failure
+confidence: high
+context: {before: 1, after: 1}
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\t?\S+@\S+: missing go\.sum entry for '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
