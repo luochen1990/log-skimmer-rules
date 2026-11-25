@@ -1,0 +1,19 @@
+# samples: github.com/microsoft/playwright/2026-11-25/45520088213 (Android-ubuntu-large)
+# 锚: Android sdkmanager (cmdline-tools) 包安装失败 'Warning: An error occurred while
+#   preparing SDK package <name>: <reason>' — 本样本 reason 为 'Error on ZipFile unknown
+#   archive' (system image 下载损坏, job 失败根因)。前置的 'Error: There is no Android
+#   Virtual Device named X.' 是 avd_recreate 脚本删除旧 AVD 的预期噪音, 刻意不锚。
+#   全语料扫描 1 failure / 0 success。
+id: sdkmanager-package-prepare-failed
+title: 'Android sdkmanager 包安装失败 (preparing SDK package)'
+tool: sdkmanager
+category: deps
+intent: failure
+confidence: medium
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Warning: An error occurred while preparing SDK package '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
