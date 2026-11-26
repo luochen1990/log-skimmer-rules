@@ -1,0 +1,17 @@
+# samples: github.com/laravel/framework/2026-11-13/43452977746-131979730883-Redis-Cluster-(predis)-Driver-failure.log.gz
+# 锚: redis-cli 连接失败 `Could not connect to Redis at <host>:<port>: <原因>` — cluster create 前置 redis-server
+# 未就绪 (Connection refused) 或网络不通两用; 全语料 2 failure / 0 success 命中 (另命中 redis/redis 43244603308)。
+id: redis-cli-connect-refused
+title: 'redis-cli 连接失败 (Could not connect to Redis at host:port)'
+tool: redis-cli
+category: infra
+intent: failure
+confidence: high
+context: {before: 1, after: 1}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Could not connect to Redis at [^:\s]+:[0-9]+: '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
