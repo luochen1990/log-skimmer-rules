@@ -1,0 +1,19 @@
+# samples: curl/curl 45639962467-139295560262-spellcheck,-linters,-REUSE
+# 锚: ruff check 失败汇总行 `Found N errors.` (N>=1, 0.12/0.17 全格式恒打) —
+# before 10 带回诊断块尾部 (help/note/代码槽)。语料另 5 命中: scikit-learn ruff
+# + astro-check ×4 (同文案, 失败侧兼收); success 侧 0 命中。
+id: ruff-found-errors
+title: 'ruff 检查失败汇总 (Found N errors.)'
+tool: ruff
+category: lint
+intent: failure
+confidence: medium
+context: {before: 10, after: 0}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Found [1-9][0-9]* errors?\.'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(\[\*\] [0-9]+ fixable with the `--fix` option\.|[0-9]+ unsafe fix(?:es)? available with `--fix --unsafe-fixes`\.)'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

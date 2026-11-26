@@ -1,0 +1,21 @@
+# samples: astral-sh/ruff 45581964869-139093987537-Compute-diagnostic-diff (+同簇 ×5: 45581964909 / 45581965348 / 45582437948 / 45582438259 / 45582438561)
+# 锚: git 脏树切换判词 `error: Your local changes to the following files would be
+# overwritten by checkout:` — diff/benchmark workflow 回基线 checkout 撞脏树根因;
+# 扩展吞 tab 缩进文件清单 + Please commit/Aborting 收尾。语料 6 命中全失败。
+id: git-checkout-local-changes
+title: 'git 脏树切换失败 (local changes would be overwritten by checkout)'
+tool: git
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?error: Your local changes to the following files would be overwritten by (?:checkout|merge):'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\t\S'
+    loop: true
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(Please commit your changes or stash them before you switch branches\.|Aborting)$'
+    loop: true
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
