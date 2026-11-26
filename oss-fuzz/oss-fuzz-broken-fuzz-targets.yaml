@@ -1,0 +1,20 @@
+# samples: github.com/fmtlib/fmt/2026-11-18/44330834938-134894457719-fuzz-failure.log.gz, github.com/fmtlib/fmt/2026-11-18/44331864414-134898105866-fuzz-failure.log.gz
+# 锚: OSS-Fuzz CIFuzz run_fuzzers 的 bad-build-check 汇总行 (ClusterFuzz 措辞, cifuzz 容器内):
+#   `ERROR: 100.0% of fuzz targets seem to be broken. See the list above for a detailed information.'
+# fuzz 目标 bad-build-check 失败时的 ERROR 级汇总, "the list above" 即上方逐目标 BAD BUILD /
+# GLIBC 转储 (由 ld-so 族规则捕获, 相邻块 A5 自然衔接)。任何接入 CIFuzz 的仓同构出现。
+# 要求 `ERROR: ' 前缀 — 即便上游在成功侧以 INFO 级打印低比例汇总也不命中 (FP 免疫优先于召回);
+# 百分比通配 (部分目标损坏 <100% 形态)。行中位匹配容忍 GHA 时间戳前缀。单行块。
+id: oss-fuzz-broken-fuzz-targets
+title: 'OSS-Fuzz CIFuzz fuzz 目标损坏汇总 (ERROR: N% of fuzz targets seem to be broken)'
+tool: oss-fuzz
+category: test
+intent: failure
+confidence: high
+patterns:
+  - regex: 'ERROR: [0-9]+(\.[0-9]+)?% of fuzz targets seem to be broken'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, fn-responder/glm-5.3)'
+  generated-by: {harness: fn-responder, model: glm-5.3}
+  adapter-version: 0.1.0
