@@ -1,0 +1,17 @@
+# samples: duckdb/duckdb 2026-11-19 44440329014 (Linux Memory Leaks, pierotofy/set-swap-space; dg-wake run 44519465232)
+# 锚: util-linux fallocate 的 ENOSPC 判词 `fallocate: fallocate failed: No space left on device`
+# — swap 预分配遇 runner 磁盘满, 步骤随即 exit 1; 程序名双写词形特异, success 侧零命中;
+# 任何仓在 CI 里做文件预分配/swap 设置均同构 (跨仓工具签名, 非仓守卫文案)。
+id: fallocate-no-space-left
+title: 'fallocate 磁盘满 (fallocate: fallocate failed: No space left on device)'
+tool: fallocate
+category: infra
+intent: failure
+confidence: medium
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?fallocate: fallocate failed: '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: { harness: dg-responder, model: glm-5.3 }
+  adapter-version: 0.1.0
