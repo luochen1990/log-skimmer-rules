@@ -1,0 +1,20 @@
+# samples: dotnet/roslyn/45710068425-139541887669-poll-pull-requests
+# 锚: gh CLI 子命令错误包装行 `<wrap msg>: HTTP <code>: <Reason> (<api url>)` (样本:
+# `failed to get runs: HTTP 502: Server Error (https://api.github.com/repos/dotnet/
+# roslyn/actions/workflows/.../runs?...)` — gh run list 撞 API 502 后 exit 1)。
+# 既有族: gh-api-http-reason-error 锚 ^行首同核心 (无消息前缀), 本规则补前缀包装形,
+# 以 `: HTTP` 中缀判别与 ^ 形词法不相交; URL 限定 api\.github\.com 收紧 FP 面。任何
+# 仓的 gh api/run/pr list 调用撞 4xx/5xx 均可出现; 单行即完整证据 (端点+原因短语)。
+id: gh-api-http-reason-error-wrapped
+title: 'gh CLI HTTP API 错误 — 消息前缀包装形 (<msg>: HTTP <code>: <Reason> (url))'
+tool: gh
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: ': HTTP [45][0-9]{2}: [A-Z][a-zA-Z ]+ \(https?://api\.github\.com/'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: { harness: dg-responder, model: glm-5.3 }
+  adapter-version: 0.1.0

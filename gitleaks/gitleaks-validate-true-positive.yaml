@@ -1,0 +1,20 @@
+# samples: gitleaks/gitleaks/45545358718-138973550402-test-(ubuntu-latest)
+# 锚: gitleaks (zerolog) 配置校验致命判词 `FTL Failed to Validate. True positive was
+# not detected by regex.` — go generate 驱动的规则自校验中正则未命中真阳性 fixture 的
+# 根因行, 后随 `exit status 1` 与 cmd/generate 定位行。前缀容忍: GHA 时间戳 + kitchen
+# 时间 + ANSI 色码 (与 gitleaks-leaks-found 的 WRN 汇总行同款 zerolog console 形态);
+# FTL 级别仅致命路径打印, 成功侧 (同仓 test/Dependabot success 抽查) 零命中。任何运行
+# gitleaks 规则校验的 CI (gitleaks 自身或 vendoring 其配置仓) 同构。
+id: gitleaks-validate-true-positive
+title: 'gitleaks 配置校验失败 (FTL Failed to Validate. True positive not detected)'
+tool: gitleaks
+category: test
+intent: failure
+confidence: high
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)?(?:[0-9]{1,2}:[0-9]{2}[AP]M)?(?:\x1b\[[0-9;]*m)? ?(?:\x1b\[[0-9;]*m)?FTL(?:\x1b\[[0-9;]*m)? ?(?:\x1b\[[0-9;]*m)?Failed to Validate\. True positive was not detected by regex'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: { harness: dg-responder, model: glm-5.3 }
+  adapter-version: 0.1.0
