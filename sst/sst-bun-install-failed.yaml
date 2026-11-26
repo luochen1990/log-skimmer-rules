@@ -1,0 +1,19 @@
+# samples: github.com/anomalyco/opencode/2026-11-09/42569901590-129004624322-deploy-failure.log.gz
+# 锚: SST CLI bun 运行时安装失败横幅 `✕  Could not install bun` — sst deploy 自举 bun 失败的收尾
+#   签名, 缩进伴生行 ` bad status: 504 Gateway Timeout` 给出网络层原因 (context.after 带出)。
+#   既有 sst-unexpected-error 锚 `✕  Unexpected error occurred` (内部错误族), 运行时安装失败族
+#   不在射程 — 本规则是其近失变体补充。成功侧 deploy 无 ✕ 横幅; 全语料唯一命中本样本。
+id: sst-bun-install-failed
+title: 'SST bun 运行时安装失败 (✕ Could not install bun)'
+tool: sst
+category: infra
+intent: failure
+confidence: high
+context: {before: 0, after: 1}
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\\x1b\\[[0-9;]*[mK])*✕ +Could not install bun$'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

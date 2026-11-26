@@ -1,0 +1,20 @@
+# samples: github.com/haskell/haskell-language-server/2026-11-09/42549475794-128941597955-build-aarch64-mac-9103-(Build--failure.log.gz
+# 锚: Homebrew 弃用错误 `Error: Homebrew's master branch is no longer supported.` — brew 仓库停留
+#   在 master 分支时任何 brew install 直接失败退出, 伴生指引 `Run `brew update` to migrate to the
+#   main branch.` 由 context.after 带出。跨仓签名: 任何在 macOS runner 上 brew install 的项目同
+#   形态 (自维护 brew 的 runner 镜像未迁移即触发); 既有 homebrew 规则 (portable-ruby / update-locked)
+#   不在射程。成功侧无此行; 全语料唯一命中本样本。
+id: homebrew-master-branch-unsupported
+title: "Homebrew master 分支弃用错误 (brew install 直接失败)"
+tool: homebrew
+category: infra
+intent: failure
+confidence: high
+context: {before: 0, after: 1}
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\\x1b\\[[0-9;]*[mK])*Error(?:\\x1b\\[[0-9;]*[mK])*: Homebrew.s master branch is no longer supported\\.'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
