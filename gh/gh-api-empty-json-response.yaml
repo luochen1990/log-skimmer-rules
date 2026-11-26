@@ -1,0 +1,18 @@
+# samples: apache/kafka 45653480370-139343955591-upload-build-scan-(build-scan-
+# 锚: gh CLI (go-gh) 空响应体 JSON 解析判词 `unexpected end of JSON input` —
+# gh api 撞空 body 的裸错误行; 语料 2 命中均失败 (kafka gh api POST statuses
+# / pnpm act — Node JSON.parse 同文案兼收)。与 gh-api-non-json-response
+# (invalid character '<') 同族不同文案, 锚面不相交。
+id: gh-api-empty-json-response
+title: 'gh api 空响应体解析失败 (unexpected end of JSON input)'
+tool: gh
+category: infra
+intent: failure
+confidence: medium
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?unexpected end of JSON input$'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

@@ -1,0 +1,18 @@
+# samples: cli/cli 45656298506-139353795115-copilot-pull-request-reviewer
+# 锚: Copilot 评审 agent (autofind runtime) 模型限流判词 `SessionModelError:
+# You've hit the rate limit for this model.` (429) — agent exit 1 根因; 语料
+# 3 仓同构 (cli/cli·eslint·aspnetcore copilot-pull-request-reviewer)。行首
+# 前缀多形态 (Error creating PR review request: / Po / 裸) → 行中锚定。
+id: copilot-session-model-rate-limit
+title: 'Copilot agent 模型限流 (SessionModelError rate limit)'
+tool: copilot
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '(?:\x1b\[[0-9;]*m)*\[?SessionModelError\]?: You\x27ve hit the rate limit for this model\.'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
