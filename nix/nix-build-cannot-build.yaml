@@ -1,0 +1,23 @@
+# samples: LnL7/nix-darwin/45676030451-139423684976-test-stable
+# 锚: nix 构建失败 `Cannot build` 变体 — `error: build of '<installable>.drv^*' failed:
+# Cannot build '<drv>'.` (输出选择 realisation 失败, 后随 7 缩进 `Reason: builder
+# failed with exit code N.` + `Last N log lines:` 构建器摘录 + `For full logs, run:`
+# 收尾)。既有 nix-build-failed ③ 形锚 `build of '...' failed$` (行尾即止) 不容后续
+# `: Cannot build '<drv>'` 续文 — 本规则补该近失变体 (词法面不相交: `failed:` 续文
+# vs `failed$` 收尾)。loop 沿用 ③ 形同款 ≥7 空格缩进续行。任何仓的
+# nix build / nix-build 构建失败同构, 语料同仓失败侧 2 命中 (vim-full 构建器退出码 2)。
+id: nix-build-cannot-build
+title: "nix 构建失败 Cannot build 变体 (build of 'drv^*' failed: Cannot build)"
+tool: nix
+category: build
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?error: build of ''/nix/store/\S+'' failed: Cannot build ''/nix/store/\S+'''
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(\s{7,}\S.*)?$'
+    loop: true
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: { harness: dg-responder, model: glm-5.3 }
+  adapter-version: 0.1.0
