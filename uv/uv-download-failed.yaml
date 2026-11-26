@@ -1,0 +1,21 @@
+# samples: github.com/astral-sh/ruff/2026-11-20/44754165756-136349845848-cargo-test-(linux)
+# 形态: uv 依赖下载失败 `error: Failed to download \`<pkg>==<ver>\` + `  cause: ` 链
+#   (Request failed after N retries / Failed to fetch: <url> / connection error) —
+#   files.pythonhosted.org 网络失败族。锚取反引号包裹的规格形态 (uv 独有; 与 bun/
+#   utoo 的小写 `error: failed to download`、vite-plus 的 `... \S+ runtime` 字符级
+#   不相交); 成功侧 uv 不打印 error 判词行。cause 缩进行 loop 消费。
+id: uv-download-failed
+title: 'uv 依赖下载失败 (error: Failed to download `<spec>` + cause 链)'
+tool: uv
+category: deps
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?error: Failed to download `[^`]+`$'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?  cause: '
+    loop: true
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
