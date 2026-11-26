@@ -1,0 +1,31 @@
+# samples: github.com/neovim/neovim/2026-11-25/45650718118-139334148680-Run-zizmor-failure.log.gz,
+#          github.com/neovim/neovim/2026-11-25/45651286979-139336158019-Run-zizmor-failure.log.gz,
+#          github.com/pnpm/pnpm/2026-11-25/45650868274-139334677354-zizmor-latest-via-PyPI-failure.log.gz,
+#          github.com/vitejs/vite/2026-11-25/45650334065-139332793705-Run-zizmor-failure.log.gz
+# 锚: GH Actions runner 步骤终局注解 ##[end-action id=<id>;outcome=failure;conclusion=failure;duration_ms=N]
+# — action 步骤 (顶层 uses: 或复合 action 子步骤) 失败时 runner 落盘的平台级判词; 3 仓 4 样本逐字节同构
+# (id 兼容复合嵌缀 __zizmorcore_zizmor-action.__github_codeql-action 与 uuid 前缀两形态)。
+# 填补失败侧安全网结构缺口: 4 样本全日志零 ##[error]/::error::/exit-code 行 (vite 410 行、pnpm 347
+# 行全文核验, 日志以 Cleaning up orphan processes 自然收尾) — 失败步骤 (codeql-action upload-sarif,
+# wait-for-processing 等待期) 静默失败, 无任何错误文本落日志, 既有 ##[error]/::error:: 安全网对此类
+# 失明; end-action 判词是日志内唯一失败证据 (与 codeql-action-job-status-failure 同物种: 确定性
+# 失败判决行, 独立自足)。
+# FP 免疫: 成功侧同构行恒为 outcome=success;conclusion=success (状态词字符级不相交); 步骤级
+# continue-on-error 形态为 outcome=failure;conclusion=success, 同不在锚面。id 段 [^;]* 容忍任意
+# action id; duration_ms 尾字段按 3 仓观察值锚定 (全行锚)。
+# 单行块; 注解本身即完整证据行。context before=5 回收 action 失败前最后输出
+# (Uploading results / Validating / Post-processing sarif files 等邻接细节行, 词法弱不独立作锚)。
+id: github-actions-end-action-failure
+title: 'GH Actions action 步骤失败终局注解 (##[end-action] outcome=failure;conclusion=failure)'
+tool: github-actions
+category: infra
+intent: failure
+confidence: high
+context: { before: 5, after: 0 }
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?##\[end-action id=[^;]*;outcome=failure;conclusion=failure;duration_ms=[0-9]+\]$'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, fn-responder/glm-5.3)'
+  generated-by: { harness: fn-responder, model: glm-5.3 }
+  adapter-version: fn-responder-v2
