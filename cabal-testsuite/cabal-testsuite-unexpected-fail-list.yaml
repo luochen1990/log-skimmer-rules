@@ -1,0 +1,18 @@
+# samples: github.com/haskell/cabal/2026-11-20/44711744521-136208274146-release-workflow---Test-ARM-bi-failure.log.gz, github.com/haskell/cabal/2026-11-20/44713525371-136214517537-release-workflow---Test-ARM-bi-failure.log.gz
+# 锚: testlib 失败测试清单行 `UNEXPECTED FAIL: <路径...>' (两样本 L7472 同构) — runner 对全部
+# unexpected fail 测试的单行长清单 (53 个 .test.hs 路径连排)。失败路径专属文案: 成功侧逐测试
+# 打印 `OK' / `EXPECTED FAIL' (预期失败标记, 措辞不含 UNEXPECTED 前缀不误撞), 本行零出现 —
+# FP 免疫。行首锚 + GHA 时间戳容忍; 单行块自携带完整失败测试清单。
+id: cabal-testsuite-unexpected-fail-list
+title: 'cabal-testsuite (testlib) UNEXPECTED FAIL 测试清单行'
+tool: cabal-testsuite
+category: test
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?UNEXPECTED FAIL: '
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, fn-responder/glm-5.3)'
+  generated-by: {harness: fn-responder, model: glm-5.3}
+  adapter-version: 0.1.0
