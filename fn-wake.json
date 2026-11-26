@@ -1,0 +1,7 @@
+{
+  "run_id": 45824537539,
+  "samples": [
+    "github.com/astral-sh/ruff/2026-11-25/45684514318-139453787520-cargo-publish-dry-run-failure.log.gz",
+    "github.com/duckdb/duckdb/2026-11-25/45684203732-139453016612-Tidy-Check-failure.log.gz"
+  ]
+}
