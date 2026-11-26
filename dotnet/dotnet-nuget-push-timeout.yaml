@@ -1,0 +1,18 @@
+# samples: AvaloniaUI/Avalonia 45659374359-139378280905-Publish-Nightly-NuGet-Packages
+# 锚: dotnet nuget push 推包超时判词 `error: Pushing took too long. You can
+# change the default timeout ... with the push command.` — feed 5xx 慢响应致
+# 推包 300s 超时的根因; before 3 带出 transport cancel 级联行。
+id: dotnet-nuget-push-timeout
+title: 'dotnet nuget push 推包超时 (Pushing took too long)'
+tool: dotnet
+category: infra
+intent: failure
+confidence: high
+context: {before: 3, after: 0}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?error: +Pushing took too long\.'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
