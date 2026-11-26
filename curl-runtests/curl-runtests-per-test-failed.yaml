@@ -1,0 +1,22 @@
+# samples: curl/curl/45689848307-139472149162-msvc,-CM-arm64-windows-schanne
+# 锚: curl runtests.pl 每用例失败行 ` <num>: <check> FAILED` (本样本观察 data/upload/
+# stdout/exit 四形, 编号+冒号+大写 FAILED 为 runtests.pl 专属签名) — 单行即失败用例
+# 定位; after: 3 带出 data 形后随的 check-expected/check-generated diff 头。本 Windows
+# 形测试运行被截断, 既有 curl-runtests-testfail 锚的终局汇总 `TESTFAIL: These test
+# cases failed:` 未打印 (exit 2304 = 9×256 印证 9 处失败行无汇总) — 本规则补每用例层
+# 近失, 锚面与 TESTFAIL 汇总行词法不相交。成功侧恒为 `--pd---em-- OK (N out of M...)`
+# 行; 同仓 success 样本抽查 (valgrind/split) 零命中。
+id: curl-runtests-per-test-failed
+title: 'curl runtests 每用例失败行 (<num>: <check> FAILED)'
+tool: curl-runtests
+category: test
+intent: failure
+confidence: high
+context: { before: 0, after: 3 }
+patterns:
+  - regex: '^(?:[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )? ?[0-9]+: [a-z]+ FAILED'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: { harness: dg-responder, model: glm-5.3 }
+  adapter-version: 0.1.0
