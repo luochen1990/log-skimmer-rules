@@ -1,0 +1,22 @@
+# samples: oven-sh/bun 43296064831 (Format: canary zip 下载得到 215B 错误页)
+# 锚: unzip 解包致命错误收尾 `unzip:  cannot find zipfile directory in one of <file> or`
+#   (双空格为 Info-ZIP 实测格式) — 下载产物非 zip (错误页/截断) 时的判词, exit 9。
+#   before=4 带出 EOCD 诊断块 (End-of-central-directory signature not found ...);
+#   扩展吞缩进续行。兄弟规则 fileutils-cannot-access 锚 `unzip: +cannot find or open`
+#   (文件不存在族), 词法面不相交。FP 扫描全语料: 仅本 1 failure 样本, 0 success。
+id: fileutils-unzip-bad-archive
+title: 'unzip 坏归档致命错误 (cannot find zipfile directory + EOCD 诊断块)'
+tool: fileutils
+category: infra
+intent: failure
+confidence: high
+context: {before: 4, after: 0}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?unzip: +cannot find zipfile directory in one of '
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\s+\S'
+    loop: true
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
