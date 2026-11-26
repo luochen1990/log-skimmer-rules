@@ -1,0 +1,19 @@
+# samples: astral-sh/ruff 45581931694-139094183138-cargo-hawk
+# 锚: cargo --locked 锁文件漂移判词 `error: cannot update the lock file <path>
+# because --locked was passed to prevent this` — 任何仓以 --locked 跑 cargo
+# (含 cargo-hawk 等包装器透传) 撞锁文件过期的根因行; 扩展吞 help 提示行。
+id: cargo-locked-lockfile-drift
+title: 'cargo 锁文件漂移 (--locked 拒绝更新 Cargo.lock)'
+tool: cargo
+category: deps
+intent: failure
+confidence: high
+context: {before: 1, after: 0}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(?:\x1b\[[0-9;]*m)*error(?:\x1b\[[0-9;]*m)*: cannot update the lock file \S+ because --locked was passed to prevent this$'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?help: to generate the lock file without accessing the network'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
