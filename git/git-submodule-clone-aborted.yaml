@@ -1,0 +1,19 @@
+# samples: github.com/openssl/openssl/2026-11-27/45918271057-140242613422-cross-compilation-(armhf)-failure.log.gz
+# git submodule 更新时 clone 两次均失败后的终局判词 (git 自身签名, 任何仓的 submodule 拉取均可出现)。
+# 锚取 `a second time, aborting` 而非前置 `fatal: unable to access … Failed to connect` — 后者属可重试瞬态, 成功侧
+# 重试翻绿的日志同样会出现 (git-http-access-denied 头注同口径: 5xx/超时族不收); abort 行只在 git 放弃时打印, 确定性
+# 终局。context.before 2 带出第二次尝试的 fatal 根因 (unable to access / clone of … failed)。
+id: git-submodule-clone-aborted
+title: 'git submodule clone 二次失败中止 (Failed to clone … a second time, aborting)'
+tool: git
+category: infra
+confidence: high
+intent: failure
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Failed to clone ''[^'']+'' a second time, aborting'
+context: { before: 2, after: 0 }
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.4)'
+  generated-by: { harness: dg-responder, model: glm-5.4 }
+  adapter-version: 0.1.0
