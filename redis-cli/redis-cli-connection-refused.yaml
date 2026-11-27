@@ -1,0 +1,19 @@
+# samples: github.com/laravel/framework/2026-11-25/45632873805-139270475913-Redis-Cluster-(phpredis)-Drive-failure.log.gz
+# 锚: redis-cli 连接失败行 `Could not connect to Redis at <host>:<port>: Connection refused`
+# — redis-tools 自带工具签名 (集群创建前目标端口未监听), 任何仓用 redis-cli 搭测试
+# 集群的 CI 均可出现; 与既有 redis-cli-cluster-node-error ([ERR] Node ...) 锚不相交 —
+# 同族不同失败形态 (TCP 连接层 vs 集群配置层)。全语料该串仅本样本命中 (0 success)。
+id: redis-cli-connection-refused
+title: 'redis-cli 连接被拒 (Could not connect to Redis at ...: Connection refused)'
+tool: redis-cli
+category: infra
+intent: failure
+confidence: high
+context: {before: 0, after: 0}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Could not connect to Redis at [^:\s]+:[0-9]+: Connection refused'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0

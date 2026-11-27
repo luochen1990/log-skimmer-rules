@@ -1,0 +1,20 @@
+# samples: github.com/erlang/otp/2026-11-26/45785401587-139795955754-Build-Erlang-OTP-(Solaris)---B-failure.log.gz
+# 锚: anyvm.py (vmactions solaris-vm/freebsd-vm 家族共用的 VM 启动 harness, 语料 4 仓
+# 在用: erlang/otp, libuv, niri-wm, uutils) guest 两次启动超时后的终局放弃判词 —
+# `Error: Boot timed out after retry. Giving up.` 仅失败侧出现 (成功侧 VM 正常启动,
+# 语料 2 个 anyvm success 样本零命中); context.before 带出 slirp 无流量诊断与 QEMU
+# 保守 CPU 重试线。
+id: anyvm-boot-timeout
+title: 'anyvm VM 启动超时放弃 (Error: Boot timed out after retry. Giving up.)'
+tool: anyvm
+category: infra
+intent: failure
+confidence: high
+context: {before: 10, after: 0}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Error: Boot timed out after retry\. Giving up\.'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
