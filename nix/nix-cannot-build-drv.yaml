@@ -1,0 +1,21 @@
+# samples: github.com/grafana/loki/2026-11-27/46024496065-140592261313-packages-failure.log.gz, github.com/jgm/pandoc/2026-11-15/43685219190-132958075004-nix-build-(ubuntu-latest)-failure.log.gz
+# 锚: 新版 nix (`nix build`, 2.2x+/Lix) 构建失败判词 `error: Cannot build '/nix/store/<hash>-<name>.drv'.` —
+# 既有 nix-build-failed 锚的是 `builder for '...drv' failed with exit code N;` / `build of '...' failed` 旧形态,
+# 本形态是其近失变体 (加性-only 纪律下独立成规则, 不改既有锚)。扩展贪心吞 7 缩进明细: `Reason: builder failed
+# with exit code N.` / `Output paths:` / `Last N log lines:` (`> ` 前缀构建器日志摘录, 常含真因) / `For full logs,
+# run: nix log ...`; 遇非缩进行 (##[error] / error: 求值树) 闭块。构建失败恒致 job 失败, 成功样本零命中。
+id: nix-cannot-build-drv
+title: 'nix 构建失败 (新版 error: Cannot build ...drv 判词 + Reason/Last N log lines 明细)'
+tool: nix
+category: build
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\s*error: Cannot build ''/nix/store/\S+\.drv''\.$'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(\s{7,}\S.*)?$'
+    loop: true
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.4)'
+  generated-by: {harness: dg-responder, model: glm-5.4}
+  adapter-version: 0.1.0

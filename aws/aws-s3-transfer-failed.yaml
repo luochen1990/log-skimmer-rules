@@ -1,0 +1,19 @@
+# samples: github.com/denoland/deno/2026-11-27/45977124148-140431584549-build-release-linux-x86_64-failure.log.gz
+# 锚: AWS CLI `aws s3 cp/sync` 传输失败单行判词 `upload failed: <local> to s3://<key> An error occurred
+# (<Code>) when calling the <Op> operation: <msg>` (本样本: InvalidPart / CompleteMultipartUpload — 对象存储
+# 端 multipart 分片丢失)。成功侧同构行是 `upload: <local> to s3://<key>` (无 failed + 无 boto 错误尾), 由
+# `failed:` 与 `An error occurred (...) when calling the ... operation:` 双签名免疫 FP; download failed: 是同一
+# 代码路径的对称形态一并收口。任何仓的 aws-cli 对象存储上传/下载步骤通用 (endpoint 可为 S3 兼容服务)。
+id: aws-s3-transfer-failed
+title: 'AWS CLI s3 传输失败 (upload/download failed: ... An error occurred (Code) when calling the X operation)'
+tool: aws
+category: infra
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(upload|download) failed: \S+ to \S+ An error occurred \([A-Za-z0-9_]+\) when calling the \S+ operation: .+$'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.4)'
+  generated-by: {harness: dg-responder, model: glm-5.4}
+  adapter-version: 0.1.0

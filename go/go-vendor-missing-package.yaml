@@ -1,0 +1,19 @@
+# samples: github.com/grafana/loki/2026-11-27/46024496065-140592261313-packages-failure.log.gz (同仓三 job 同签名: Test-Build-logcli 46024496062 / govulncheck 46024496006)
+# 锚: go vendor 模式缺包诊断 `<file>.go:<l>:<c>: cannot find module providing package <pkg>: import lookup
+# disabled by -mod=vendor` — 源码 import 了 vendor/ 与 go.mod 都不提供的包 (新增依赖未 go get / go mod vendor),
+# -mod=vendor 禁止联网查找时 go build/test 自打判词, 任何 vendoring 仓通用。既有 go-compile-error 以 `# <pkg>`
+# 包诊断头为锚, 该形态不带头 (loki 三样本均无), 近失变体独立成规则; 容忍 `##[error]` 注解前缀 (action 重注解)
+# 与单个 builder 名前缀 (nix 构建 `logcli> `)。判词恒致非零退出, 成功侧不出现。
+id: go-vendor-missing-package
+title: 'go vendor 模式缺包 (cannot find module providing package ... import lookup disabled by -mod=vendor)'
+tool: go
+category: deps
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(##\[error\])?(?:\S+ )?\S+\.go:[0-9]+:[0-9]+: cannot find module providing package \S+: import lookup disabled by -mod=vendor$'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.4)'
+  generated-by: {harness: dg-responder, model: glm-5.4}
+  adapter-version: 0.1.0
