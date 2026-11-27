@@ -1,0 +1,19 @@
+# samples: github.com/duckdb/duckdb/2026-11-26/45856492835-140043975935-regression---Regression-Tests-failure.log.gz
+# 形态: duckdb scripts/regression_test_extension_size.py 扩展体积回归门判词 + 违规明细 (哪个扩展超预期、old/new size);
+# 成功侧无此判词 (逐扩展 `- checking` 行在锚前, 不入块)。同工具既有 duckdb-plan-cost-regression 的姊妹门, 锚选择同理。
+id: duckdb-extension-size-regression
+title: duckdb 扩展体积回归门 (Binary size regression check failed)
+tool: duckdb
+category: test
+intent: failure
+confidence: high
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Binary size regression check failed:$'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\s*$'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?\s+- (Artifact ''[^'']+'' was bigger than expected [0-9]+|old size: [0-9]+|new size: [0-9]+)'
+    loop: true
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.4)'
+  generated-by: { harness: dg-responder, model: glm-5.4 }
+  adapter-version: 0.1.0

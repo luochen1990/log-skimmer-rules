@@ -1,0 +1,17 @@
+# samples: github.com/Homebrew/brew/2026-11-26/45889696511-140148999651-verify-(brew)-failure.log.gz
+# oras 向 OCI registry 推送/拉取时 registry 返回鉴权类错误响应的判词行 (oras 自身签名, 推 ghcr.io/docker.io 的
+# 任何仓均可出现; `denied: permission_denied: write_package` = ghcr 令牌缺 write:packages 权限)。
+# 锚限定 denied/unauthorized 确定性拒答, 不收 5xx/限流瞬态 (重试翻绿的成功侧日志会残留首试错误行)。
+id: oras-registry-denied
+title: 'oras registry 拒答 (Error response from registry: denied|unauthorized)'
+tool: oras
+category: infra
+confidence: high
+intent: failure
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?Error response from registry: (denied|unauthorized)'
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.4)'
+  generated-by: { harness: dg-responder, model: glm-5.4 }
+  adapter-version: 0.1.0
