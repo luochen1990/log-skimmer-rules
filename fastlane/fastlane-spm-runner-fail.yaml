@@ -1,0 +1,21 @@
+# samples: github.com/fastlane/fastlane/2026-11-26/45818303609-139903652540-Validate-Fastlane.swift-genera-failure.log.gz
+# 锚: fastlane spec/swift/spm-runner/run.sh 测试装置断言行 `FAIL  <case>: exit N, expected M`
+# — 装置以 PASS/FAIL 双空格前缀报告各用例, FAIL 行 = 期望退出码断言失败 (真实 exit 码
+# 在行内; 本样本: perl 告警包装 SIGTRAP → 133 而非期望的 1); context.before 带出 trap 行。
+# 成功侧仅 PASS 行; 全语料该形态仅本样本命中; 与既有 fastlane-exit-status 锚不相交。
+id: fastlane-spm-runner-fail
+title: 'fastlane spm-runner 测试断言失败 (FAIL  <case>: exit N, expected M)'
+tool: fastlane
+category: test
+intent: failure
+confidence: high
+context: {before: 2, after: 0}
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?FAIL  .+: exit [0-9]+, expected [0-9]+$'
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?FAIL  .+: exit [0-9]+, expected [0-9]+$'
+    loop: true
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.3)'
+  generated-by: {harness: dg-responder, model: glm-5.3}
+  adapter-version: 0.1.0
