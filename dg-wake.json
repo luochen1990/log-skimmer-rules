@@ -1,0 +1,528 @@
+{
+  "run_id": 46142979903,
+  "samples": [
+    {
+      "candidates": [
+        {
+          "line_no": 177,
+          "text": "In `django/http/request.py`, `HttpRequest.accepted_types` parses the `Accept` header into `MediaType` instances. When a client sends an `Accept` header containing tokens that trigger a `ValueError` du…"
+        },
+        {
+          "line_no": 179,
+          "text": "Currently, this `ValueError` is uncaught in `HttpRequest.accepted_types`, causing requests with malformed tokens to fail with an unhandled exception (HTTP 500 error) rather than safely discarding the …"
+        },
+        {
+          "line_no": 182,
+          "text": "1. Catches `ValueError` during token parsing in `HttpRequest.accepted_types` and safely skips invalid tokens, allowing valid media types in the header to be processed normally."
+        },
+        {
+          "line_no": 183,
+          "text": "2. Catches `ValueError` in `HttpRequest.accepted_type` and `MediaType.match` when matching against malformed input strings, returning `None` and `False` respectively."
+        },
+        {
+          "line_no": 205,
+          "text": "2026-11-27T07:41:47.4399058Z   PR_TITLE: Fixed #37542 -- Fixed unhandled ValueError from malformed tokens in HttpRequest.accepted_types."
+        },
+        {
+          "line_no": 214,
+          "text": "2026-11-27T07:41:51.2492464Z ##[warning]PR #22342 has 1 failure(s) and 0 warning(s), adding comment with details."
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/django/django",
+      "sample": "github.com/django/django/2026-11-27/45960221736-140376035878-Run-Quality-Checks-on-a-PR-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 180,
+          "text": "Both guards now require at least two characters. A lone quote is no longer treated as a quoted literal: the helper raises `ValueError`, and the admin searches for the quote character itself."
+        },
+        {
+          "line_no": 197,
+          "text": "2026-11-27T11:37:53.4736850Z ##[warning]PR #22346 has 3 failure(s) and 0 warning(s), adding comment with details."
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/django/django",
+      "sample": "github.com/django/django/2026-11-27/45992030812-140481976746-Run-Quality-Checks-on-a-PR-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 212,
+          "text": "2026-11-27T16:35:21.5000242Z ##[warning]PR #22348 has 4 failure(s) and 0 warning(s), adding comment with details."
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/django/django",
+      "sample": "github.com/django/django/2026-11-27/46034853975-140627557325-Run-Quality-Checks-on-a-PR-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 180,
+          "text": "Since 2f7f30c320 (#36496), `DatabaseWrapper.get_new_connection()` auto-creates parent directories using `Path(database).parent.mkdir(parents=True)`. However, when using SQLite URI database names (star…"
+        },
+        {
+          "line_no": 209,
+          "text": "2026-11-27T16:42:34.0012032Z ##[warning]PR #22348 has 1 failure(s) and 0 warning(s), adding comment with details."
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/django/django",
+      "sample": "github.com/django/django/2026-11-27/46035850966-140630935884-Run-Quality-Checks-on-a-PR-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 180,
+          "text": "Since 2f7f30c320 (#36496), `DatabaseWrapper.get_new_connection()` auto-creates parent directories using `Path(database).parent.mkdir(parents=True)`. However, when using SQLite URI database names (star…"
+        },
+        {
+          "line_no": 209,
+          "text": "2026-11-27T16:42:57.1436430Z ##[warning]PR #22348 has 1 failure(s) and 0 warning(s), adding comment with details."
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/django/django",
+      "sample": "github.com/django/django/2026-11-27/46035901570-140631109075-Run-Quality-Checks-on-a-PR-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 180,
+          "text": "Since 2f7f30c320 (#36496), `DatabaseWrapper.get_new_connection()` auto-creates parent directories using `Path(database).parent.mkdir(parents=True)`. However, when using SQLite URI database names (star…"
+        },
+        {
+          "line_no": 209,
+          "text": "2026-11-27T16:43:52.5582310Z ##[warning]PR #22348 has 1 failure(s) and 0 warning(s), adding comment with details."
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/django/django",
+      "sample": "github.com/django/django/2026-11-27/46036023209-140631520657-Run-Quality-Checks-on-a-PR-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 180,
+          "text": "Since 2f7f30c320 (#36496), `DatabaseWrapper.get_new_connection()` auto-creates parent directories using `Path(database).parent.mkdir(parents=True)`. However, when using SQLite URI database names (star…"
+        },
+        {
+          "line_no": 209,
+          "text": "2026-11-27T16:44:41.9993821Z ##[warning]PR #22348 has 1 failure(s) and 0 warning(s), adding comment with details."
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/django/django",
+      "sample": "github.com/django/django/2026-11-27/46036139364-140631916857-Run-Quality-Checks-on-a-PR-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 59,
+          "text": "2026-11-25T02:17:52.4404560Z   ALLOW_FAILURE: false"
+        },
+        {
+          "line_no": 64,
+          "text": "2026-11-25T02:18:03.1192582Z couldn't fetch workflows for dotnet/roslyn: HTTP 502: Server Error (https://api.github.com/repos/dotnet/roslyn/actions/workflows?page=1&per_page=100)"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/dotnet/roslyn",
+      "sample": "github.com/dotnet/roslyn/2026-11-25/45531920780-138929076930-poll-pull-requests-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 32,
+          "text": "2026-11-25T19:52:56.9161055Z ##[group]Run failed=false"
+        },
+        {
+          "line_no": 33,
+          "text": "2026-11-25T19:52:56.9161725Z \u001b[36;1mfailed=false\u001b[0m"
+        },
+        {
+          "line_no": 37,
+          "text": "2026-11-25T19:52:56.9164825Z \u001b[36;1m  if [[ \"$result\" == \"failure\" || \"$result\" == \"cancelled\" ]]; then\u001b[0m"
+        },
+        {
+          "line_no": 38,
+          "text": "2026-11-25T19:52:56.9165602Z \u001b[36;1m    echo \"❌ Job '$name' was: $result\"\u001b[0m"
+        },
+        {
+          "line_no": 39,
+          "text": "2026-11-25T19:52:56.9166238Z \u001b[36;1m    failed=true\u001b[0m"
+        },
+        {
+          "line_no": 44,
+          "text": "2026-11-25T19:52:56.9169314Z \u001b[36;1mif [[ \"$failed\" == \"true\" ]]; then\u001b[0m"
+        },
+        {
+          "line_no": 47,
+          "text": "2026-11-25T19:52:56.9807704Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}"
+        },
+        {
+          "line_no": 113,
+          "text": "    \"result\": \"failure\","
+        },
+        {
+          "line_no": 144,
+          "text": "2026-11-25T19:52:57.0908441Z ❌ Job 'test' was: failure"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/erlang/otp",
+      "sample": "github.com/erlang/otp/2026-11-25/45674937802-139470927690-Ruleset-Checker-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 256,
+          "text": "2026-11-26T01:03:36.3956159Z \u001b[36;1m     --fail_if_cve true\u001b[0m"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/erlang/otp",
+      "sample": "github.com/erlang/otp/2026-11-26/45733072830-139619598722-Vulnerability-Scanning-of-Vend-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 256,
+          "text": "2026-11-27T01:03:38.8147687Z \u001b[36;1m     --fail_if_cve true\u001b[0m"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/erlang/otp",
+      "sample": "github.com/erlang/otp/2026-11-27/45920327462-140249254965-Vulnerability-Scanning-of-Vend-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 256,
+          "text": "2026-11-28T01:03:30.5012069Z \u001b[36;1m     --fail_if_cve true\u001b[0m"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/erlang/otp",
+      "sample": "github.com/erlang/otp/2026-11-28/46091124679-140812006718-Vulnerability-Scanning-of-Vend-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 3180,
+          "text": "2026-11-25T05:54:43.2019218Z etcd0   | {\"level\":\"warn\",\"ts\":\"2026-11-25T05:54:43.200210Z\",\"caller\":\"etcdmain/etcd.go:65\",\"msg\":\"failed to verify flags\",\"error\":\"invalid value \\\"RaftAsyncStorageWrites=…"
+        },
+        {
+          "line_no": 3196,
+          "text": "2026-11-25T05:54:43.2427384Z etcd2   | {\"level\":\"warn\",\"ts\":\"2026-11-25T05:54:43.237778Z\",\"caller\":\"etcdmain/etcd.go:65\",\"msg\":\"failed to verify flags\",\"error\":\"invalid value \\\"RaftAsyncStorageWrites=…"
+        },
+        {
+          "line_no": 3213,
+          "text": "2026-11-25T05:54:43.2887681Z etcd1   | {\"level\":\"warn\",\"ts\":\"2026-11-25T05:54:43.282332Z\",\"caller\":\"etcdmain/etcd.go:65\",\"msg\":\"failed to verify flags\",\"error\":\"invalid value \\\"RaftAsyncStorageWrites=…"
+        },
+        {
+          "line_no": 3215,
+          "text": "2026-11-25T05:54:43.3462100Z \u001b[Ketcd0 exited with code 1"
+        },
+        {
+          "line_no": 3217,
+          "text": "2026-11-25T05:54:43.4048701Z \u001b[Ketcd2 exited with code 1"
+        },
+        {
+          "line_no": 3219,
+          "text": "2026-11-25T05:54:43.4296949Z \u001b[Ketcd1 exited with code 1"
+        },
+        {
+          "line_no": 3229,
+          "text": "2026-11-25T05:54:44.9714071Z \u001b[36;1m  # The client container might not be running yet, so ignore errors from docker compose logs\u001b[0m"
+        },
+        {
+          "line_no": 3270,
+          "text": "2026-11-25T05:56:45.9678702Z etcd0  | {\"level\":\"warn\",\"ts\":\"2026-11-25T05:54:43.200210Z\",\"caller\":\"etcdmain/etcd.go:65\",\"msg\":\"failed to verify flags\",\"error\":\"invalid value \\\"RaftAsyncStorageWrites=t…"
+        },
+        {
+          "line_no": 3287,
+          "text": "2026-11-25T05:56:45.9709149Z etcd1   | {\"level\":\"warn\",\"ts\":\"2026-11-25T05:54:43.282332Z\",\"caller\":\"etcdmain/etcd.go:65\",\"msg\":\"failed to verify flags\",\"error\":\"invalid value \\\"RaftAsyncStorageWrites=…"
+        },
+        {
+          "line_no": 3302,
+          "text": "2026-11-25T05:56:45.9730360Z etcd2   | {\"level\":\"warn\",\"ts\":\"2026-11-25T05:54:43.237778Z\",\"caller\":\"etcdmain/etcd.go:65\",\"msg\":\"failed to verify flags\",\"error\":\"invalid value \\\"RaftAsyncStorageWrites=…"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/etcd-io/etcd",
+      "sample": "github.com/etcd-io/etcd/2026-11-25/45556363198-139009256131-Test-3-node-cluster-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 2839,
+          "text": "2026-11-25T05:56:01.3398642Z #13 3.162 go: downloading go.etcd.io/gofail v0.2.0"
+        },
+        {
+          "line_no": 2935,
+          "text": "2026-11-25T05:56:04.5149543Z #13 6.338 go: downloading codeberg.org/polyfloyd/go-errorlint v1.9.0"
+        },
+        {
+          "line_no": 2943,
+          "text": "2026-11-25T05:56:04.6203365Z #13 6.398 go: downloading github.com/gostaticanalysis/forcetypeassert v0.2.0"
+        },
+        {
+          "line_no": 3046,
+          "text": "2026-11-25T05:56:05.9170058Z #13 7.674 go: downloading go-simpler.org/assert v0.9.0"
+        },
+        {
+          "line_no": 3054,
+          "text": "2026-11-25T05:56:05.9174702Z #13 7.744 go: downloading github.com/alecthomas/assert/v2 v2.11.0"
+        },
+        {
+          "line_no": 3172,
+          "text": "2026-11-25T05:57:02.8754760Z \u001b[Kinit-1 exited with code 0"
+        },
+        {
+          "line_no": 3185,
+          "text": "2026-11-25T05:57:03.3256697Z \u001b[36;1m  # The client container might not be running yet, so ignore errors from docker compose logs\u001b[0m"
+        },
+        {
+          "line_no": 3226,
+          "text": "2026-11-25T05:59:04.0357515Z etcd2  | {\"level\":\"warn\",\"ts\":\"2026-11-25T05:57:03.645807Z\",\"caller\":\"etcdmain/etcd.go:65\",\"msg\":\"failed to verify flags\",\"error\":\"invalid value \\\"RaftAsyncStorageWrites=t…"
+        },
+        {
+          "line_no": 3241,
+          "text": "2026-11-25T05:59:04.0369559Z etcd1  | {\"level\":\"warn\",\"ts\":\"2026-11-25T05:57:03.673634Z\",\"caller\":\"etcdmain/etcd.go:65\",\"msg\":\"failed to verify flags\",\"error\":\"invalid value \\\"RaftAsyncStorageWrites=t…"
+        },
+        {
+          "line_no": 3256,
+          "text": "2026-11-25T05:59:04.0381383Z etcd0  | {\"level\":\"warn\",\"ts\":\"2026-11-25T05:57:03.613002Z\",\"caller\":\"etcdmain/etcd.go:65\",\"msg\":\"failed to verify flags\",\"error\":\"invalid value \\\"RaftAsyncStorageWrites=t…"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/etcd-io/etcd",
+      "sample": "github.com/etcd-io/etcd/2026-11-25/45556677292-139010290257-Test-3-node-cluster-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 146,
+          "text": "2026-11-26T11:15:24.9653461Z (node:2905) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. C…"
+        },
+        {
+          "line_no": 213,
+          "text": "2026-11-26T11:15:35.0310140Z + set -o pipefail"
+        },
+        {
+          "line_no": 217,
+          "text": "2026-11-26T11:15:35.0776837Z + fail_on_output"
+        },
+        {
+          "line_no": 236,
+          "text": "2026-11-26T11:15:41.4277822Z + set -o pipefail"
+        },
+        {
+          "line_no": 240,
+          "text": "2026-11-26T11:15:41.4311060Z + fail_on_output"
+        },
+        {
+          "line_no": 251,
+          "text": "2026-11-26T11:15:41.4447934Z + fail_on_output"
+        },
+        {
+          "line_no": 285,
+          "text": "2026-11-26T11:15:41.8703248Z + fail_on_output"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/grpc/grpc-go",
+      "sample": "github.com/grpc/grpc-go/2026-11-26/45808897048-139871263528-static-checks-(latest-1)-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 253,
+          "text": "2026-11-26T21:07:18.2789051Z \u001b[36;1m        You can ignore this CI failure if you think the change won't\u001b[0m"
+        },
+        {
+          "line_no": 267,
+          "text": "2026-11-26T21:07:18.3000753Z         You can ignore this CI failure if you think the change won't"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/neovim/neovim",
+      "sample": "github.com/neovim/neovim/2026-11-26/45895837015-140169370940-check-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 31,
+          "text": "2026-11-27T20:43:09.1916348Z ##[group]Run set -euo pipefail"
+        },
+        {
+          "line_no": 32,
+          "text": "2026-11-27T20:43:09.1917049Z \u001b[36;1mset -euo pipefail\u001b[0m"
+        },
+        {
+          "line_no": 34,
+          "text": "2026-11-27T20:43:09.1918356Z \u001b[36;1m# Prefix each message line with its commit, so a failure names the offender.\u001b[0m"
+        },
+        {
+          "line_no": 64,
+          "text": "2026-11-27T20:43:09.2256570Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/neovim/neovim",
+      "sample": "github.com/neovim/neovim/2026-11-27/46065515650-140729755433-no-ai-advertisements-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 9870,
+          "text": "2026-11-26T20:18:12.7931492Z Cache errors                          0"
+        },
+        {
+          "line_no": 9872,
+          "text": "2026-11-26T20:18:12.7931950Z Compilation failures                  0"
+        },
+        {
+          "line_no": 9880,
+          "text": "2026-11-26T20:18:12.7934427Z Failed distributed compilations       0"
+        },
+        {
+          "line_no": 9890,
+          "text": "2026-11-26T20:18:12.8163310Z {\"stats\":{\"compile_requests\":5061,\"requests_unsupported_compiler\":0,\"requests_not_compile\":0,\"requests_not_cacheable\":0,\"requests_executed\":5061,\"cache_errors\":{\"counts\":{…"
+        },
+        {
+          "line_no": 9892,
+          "text": "2026-11-26T20:18:12.8167043Z ##[notice]100% - 5055 hits, 6 misses, 0 errors"
+        },
+        {
+          "line_no": 9904,
+          "text": "2026-11-26T20:18:12.8171260Z Cache read errors                     0"
+        },
+        {
+          "line_no": 9906,
+          "text": "2026-11-26T20:18:12.8171790Z Cache write errors                    0"
+        },
+        {
+          "line_no": 9907,
+          "text": "2026-11-26T20:18:12.8172183Z Cache errors                          0"
+        },
+        {
+          "line_no": 9909,
+          "text": "2026-11-26T20:18:12.8172632Z Compilation failures                  0"
+        },
+        {
+          "line_no": 9917,
+          "text": "2026-11-26T20:18:12.8174531Z Failed distributed compilations       0"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/opencv/opencv",
+      "sample": "github.com/opencv/opencv/2026-11-26/45870497822-140095281668-Windows---Windows-(x86,-base,--failure.log.gz"
+    },
+    {
+      "candidates": [],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/openssl/openssl",
+      "sample": "github.com/openssl/openssl/2026-11-27/46054978493-140695944603-scan_for_news_changes-failure.log.gz"
+    },
+    {
+      "candidates": [
+        {
+          "line_no": 205,
+          "text": "2026-11-27T13:27:42.7717527Z shell: bash -euox pipefail {0}"
+        },
+        {
+          "line_no": 211,
+          "text": "2026-11-27T13:29:57.4392146Z fatal: unable to access 'https://github.com/pandas-dev/pandas.git/': Failed to connect to github.com port 443 after 134615 ms: Could not connect to server"
+        }
+      ],
+      "conclusion": "failure",
+      "hit_rules": [
+        "github-actions-error-annotation",
+        "github-actions-runner-version-info"
+      ],
+      "repo": "github.com/pandas-dev/pandas",
+      "sample": "github.com/pandas-dev/pandas/2026-11-27/46007214661-140533294407-Linux-Musl-failure.log.gz"
+    }
+  ]
+}
