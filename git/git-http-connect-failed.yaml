@@ -1,0 +1,22 @@
+# samples: github.com/pandas-dev/pandas/2026-11-27/46007214661-140533294407-Linux-Musl-failure.log.gz
+# git HTTP 传输在连接层失败 (curl 连不上 / DNS 解析不到): 锚 `fatal: unable to access '<url>': Failed to connect to <host> port <N>`
+# 或 `Could not resolve host` — git 自身标准 fatal 签名, 任何仓的 https remote clone/fetch/push 均可出现
+# (本拍: pandas musl 容器内 `git clone --recursive` 对 github.com 443 连接超时 134s; before 2 带出触发的
+# git 命令行与 `Cloning into '<dir>'...`)。语料普查 (2026-11-28): `unable to access` 尾部仅三族 —
+# 40[34] 拒答 (git-http-access-denied 已收) / Could not resolve host ×6 (delta / nlohmann-json / cabal 失败样本,
+# 已由他规则覆盖) / Failed to connect ×1 (本样本); 三族全部落在 failure 侧, success 侧 0 命中。
+# 与 git-http-access-denied (服务端确定性拒答) 正交: 本规则是传输层网络失败 (环境根因, 重试可恢复)。
+id: git-http-connect-failed
+title: 'git HTTP 连接失败 (fatal: unable to access + Failed to connect / Could not resolve host)'
+tool: git
+category: infra
+confidence: high
+intent: failure
+patterns:
+  - regex: '^([0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9:.]+Z )?(##\[error\])?fatal: unable to access ''[^'']+'': (Failed to connect to \S+ port [0-9]+|Could not resolve host(: \S+)?)'
+context: { before: 2, after: 0 }
+kind: signal
+attribution:
+  contributor: 'LuoChen <2309868+luochen1990@users.noreply.github.com> (agent-drafted, dg-responder/glm-5.4)'
+  generated-by: { harness: dg-responder, model: glm-5.4 }
+  adapter-version: 0.1.0
